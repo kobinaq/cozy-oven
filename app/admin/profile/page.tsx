@@ -115,7 +115,7 @@ export default function ProfilePage() {
         {/* Profile Card */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           {/* Banner */}
-          <div className="h-32 bg-gradient-to-r from-[#2A2C22] to-[#3a3c32]"></div>
+          <div className="h-32"></div>
 
           {/* Profile Content */}
           <div className="px-6 pb-6">

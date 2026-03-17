@@ -8,7 +8,7 @@ import {
   TrendingUp,
   Award,
   ArrowRight,
-  Download,
+
   Package,
   Loader2,
 } from "lucide-react";
@@ -21,7 +21,7 @@ export default function AdminDashboardPage() {
   const [chartFilter, setChartFilter] = useState<"daily" | "monthly" | "overview">("monthly");
 
   // Constants
-  const PRODUCT_ID_DISPLAY_LENGTH = 8;
+  // const PRODUCT_ID_DISPLAY_LENGTH = 8;
 
   // Fetch real dashboard data
   const { data: dashboardData, loading: dashboardLoading } = useDashboardOverview();
@@ -299,84 +299,6 @@ export default function AdminDashboardPage() {
           </>
         )}
 
-        {/* Overview Chart Section */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-            <h2 className="text-xl font-bold text-gray-900">Sales Overview</h2>
-            <div className="flex items-center gap-3">
-              {/* Filter Buttons */}
-              <div className="flex bg-gray-100 rounded-lg p-1">
-                <button
-                  onClick={() => setChartFilter("daily")}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    chartFilter === "daily"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  Daily
-                </button>
-                <button
-                  onClick={() => setChartFilter("monthly")}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    chartFilter === "monthly"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  Monthly
-                </button>
-                <button
-                  onClick={() => setChartFilter("overview")}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    chartFilter === "overview"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-600 hover:text-gray-900"
-                  }`}
-                >
-                  Overview
-                </button>
-              </div>
-              {/* Export Button */}
-              <button className="flex items-center gap-2 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors">
-                <Download className="w-4 h-4" />
-                Export
-              </button>
-            </div>
-          </div>
-
-          {/* Bar Chart */}
-          <div className="h-80">
-            {(chartFilter === "daily" && dailySalesLoading) || 
-             (chartFilter === "monthly" && monthlySalesLoading) ? (
-              <div className="h-full flex items-center justify-center">
-                <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin" />
-              </div>
-            ) : chartData.length === 0 || chartData.every(point => point.value === 0) ? (
-              <div className="h-full flex items-center justify-center">
-                <p className="text-gray-500">No sales data available</p>
-              </div>
-            ) : (
-              <div className="h-full flex items-end justify-between gap-4 px-4">
-                {chartData.map((dataPoint, index) => (
-                  <div key={index} className="flex-1 flex flex-col items-center gap-2">
-                    <div className="w-full bg-gray-100 rounded-t-lg relative group">
-                      <div
-                        className="w-full bg-[#2A2C22] rounded-t-lg transition-all duration-500 hover:bg-[#3a3c32]"
-                        style={{ height: `${maxValue > 0 ? (dataPoint?.value / maxValue) * 280 : 0}px` }}
-                      >
-                        <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-gray-900 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                          GHS {dataPoint?.value?.toLocaleString()}
-                        </div>
-                      </div>
-                    </div>
-                    <span className="text-xs font-medium text-gray-600">{dataPoint?.label}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
       </div>
     </AdminLayout>
   );

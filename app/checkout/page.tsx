@@ -159,12 +159,11 @@ export default function CheckoutPage() {
 
 
   const handlePlaceOrder = async () => {
-      // Allow both regular users and admins to checkout
-    // Admins are authenticated, so if not authenticated, show auth modal
-    if (!isAuthenticated) {
-      setAuthModalOpen(true);
-      return;
-    }
+    // Authentication requirement disabled to allow guest checkout during testing
+    // if (!isAuthenticated) {
+    //   setAuthModalOpen(true);
+    //   return;
+    // }
 
     // Validate customer information
     if (!customerInfo.name.trim() || !customerInfo.email.trim() || !customerInfo.phone.trim()) {
@@ -199,11 +198,11 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Validate minimum order amount (40 cedis)
-    if (total < 40) {
-      setError("Minimum order amount is GHS 40.00. Please add more items to your cart.");
-      return;
-    }
+    // Validate minimum order amount (40 cedis) - disabled for testing
+    // if (total < 40) {
+    //   setError("Minimum order amount is GHS 40.00. Please add more items to your cart.");
+    //   return;
+    // }
 
     setIsProcessing(true);
     setError(null);

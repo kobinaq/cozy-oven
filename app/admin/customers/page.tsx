@@ -42,12 +42,20 @@ export default function CustomersPage() {
         search: searchQuery || undefined,
         status: statusFilter !== "all" ? statusFilter : undefined,
       })
-      if (response.success) {
-        setCustomers(response.data)
-        setTotalPages(response.pagination.pages)
+
+      if (!response?.success || !Array.isArray(response.data)) {
+        console.error("Unexpected customers response format:", response)
+        setCustomers([])
+        setTotalPages(1)
+        return
       }
+
+      setCustomers(response.data)
+      setTotalPages(response.pagination?.pages ?? 1)
     } catch (error) {
       console.error("Error fetching customers:", error)
+      setCustomers([])
+      setTotalPages(1)
     } finally {
       setLoading(false)
     }
@@ -182,7 +190,7 @@ export default function CustomersPage() {
 
             {/* Status Filter */}
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              <Filter className="w-4 sm:w-5 h-4 sm:h-5 text-gray-400 flex-shrink-0" />
+              <Filter className="w-4 sm:w-5 h-4 sm:h-5 text-gray-400 shrink-0" />
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as "all" | "active" | "inactive")}
@@ -213,7 +221,7 @@ export default function CustomersPage() {
                 <div key={customer._id} className="bg-white rounded-lg shadow-sm p-4 border border-gray-100">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3 flex-1">
-                      <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold flex-shrink-0">
+                      <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold shrink-0">
                         {customer.fullName.charAt(0)}
                       </div>
                       <div className="min-w-0 flex-1">
@@ -223,7 +231,7 @@ export default function CustomersPage() {
                     </div>
                     <button
                       onClick={() => setSelectedCustomer(selectedCustomer === customer._id ? null : customer._id)}
-                      className="p-1.5 hover:bg-gray-100 rounded-lg flex-shrink-0"
+                      className="p-1.5 hover:bg-gray-100 rounded-lg shrink-0"
                     >
                       <MoreVertical className="w-4 h-4 text-gray-400" />
                     </button>

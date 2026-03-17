@@ -60,6 +60,35 @@ export interface ApiResponse {
   message: string;
 }
 
+// Raw API response shapes from backend
+interface RawCustomer {
+  id: string;
+  customer: string;
+  contact: {
+    email: string;
+    phone: string;
+  };
+  orders: number;
+  totalSpent: string; // e.g. "GHS 65.00"
+  status: "active" | "inactive";
+  joined: string; // e.g. "11/03/2026"
+}
+
+interface RawGetCustomersResponse {
+  success: boolean;
+  message: string;
+  data: {
+    customers: RawCustomer[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalCustomers: number;
+      hasNext: boolean;
+      hasPrev: boolean;
+    };
+  };
+}
+
 export const customerService = {
   // GET /api/v1/dashboard/admin/customers/overview - Get customer overview statistics
   getCustomerOverview: async (): Promise<GetCustomerOverviewResponse> => {
@@ -85,7 +114,61 @@ export const customerService = {
     const response = await apiClient.get(
       `/api/v1/dashboard/admin/customers${queryParams.toString() ? `?${queryParams.toString()}` : ""}`
     );
-    return response.data;
+
+    const raw: RawGetCustomersResponse = response.data;
+
+    const rawCustomers = raw?.data?.customers ?? [];
+
+    const customers: Customer[] = rawCustomers.map((c) => {
+      // Parse "GHS 65.00" into a number
+      let totalSpent = 0;
+      if (typeof c.totalSpent === "string") {
+        const numeric = c.totalSpent
+          .replace("GHS", "")
+          .replace(",", "")
+          .trim();
+        const parsed = parseFloat(numeric);
+        if (!Number.isNaN(parsed)) {
+          totalSpent = parsed;
+        }
+      }
+
+      // Convert joined "DD/MM/YYYY" to ISO string for consistent Date parsing
+      let createdAt = c.joined;
+      const parts = c.joined?.split("/") ?? [];
+      if (parts.length === 3) {
+        const [dayStr, monthStr, yearStr] = parts;
+        const day = Number(dayStr);
+        const month = Number(monthStr);
+        const year = Number(yearStr);
+        if (!Number.isNaN(day) && !Number.isNaN(month) && !Number.isNaN(year)) {
+          createdAt = new Date(year, month - 1, day).toISOString();
+        }
+      }
+
+      return {
+        _id: c.id,
+        fullName: c.customer,
+        email: c.contact?.email ?? "",
+        phoneNumber: c.contact?.phone ?? "",
+        isActive: c.status === "active",
+        totalOrders: c.orders ?? 0,
+        totalSpent,
+        createdAt,
+      };
+    });
+
+    const pagination = raw?.data?.pagination;
+
+    return {
+      success: raw.success,
+      data: customers,
+      pagination: {
+        total: pagination?.totalCustomers ?? customers.length,
+        page: pagination?.currentPage ?? (params?.page ?? 1),
+        pages: pagination?.totalPages ?? 1,
+      },
+    };
   },
 
   // GET /api/v1/dashboard/admin/customers/{id} - Get customer details

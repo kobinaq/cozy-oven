@@ -34,13 +34,24 @@ export default function SubscribersPage() {
       setLoading(true);
       setError(null);
       const response = await subscriberService.getAllSubscribers();
-      if (response.success) {
-        setSubscribers(response.data || []);
-      } else {
-        setError(response.message || "Failed to fetch subscribers");
+
+      if (!response?.success) {
+        setSubscribers([]);
+        setError(response?.message || "Failed to fetch subscribers");
+        return;
       }
+
+      if (!Array.isArray(response.data)) {
+        console.error("Unexpected subscribers response format:", response);
+        setSubscribers([]);
+        setError("Unexpected subscribers data format from server.");
+        return;
+      }
+
+      setSubscribers(response.data);
     } catch (err) {
       console.error("Error fetching subscribers:", err);
+      setSubscribers([]);
       setError("Failed to fetch subscribers. Please try again.");
     } finally {
       setLoading(false);
@@ -182,7 +193,7 @@ export default function SubscribersPage() {
           </div>
         )}
 
-        {/* Subscribers Table */}
+        {/* Subscribers List - Card view on mobile, table on larger screens */}
         {!loading && (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
             {filteredSubscribers.length === 0 ? (
@@ -195,70 +206,114 @@ export default function SubscribersPage() {
                 </p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                        Name
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                        Email
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                        Subscribed Date
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredSubscribers.map((subscriber) => (
-                      <tr
-                        key={subscriber._id}
-                        className="hover:bg-gray-50 transition-colors"
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-[#bd6325]/10 rounded-full flex items-center justify-center">
-                              <UserPlus className="w-5 h-5 text-[#bd6325]" />
-                            </div>
-                            <span className="text-sm font-medium text-gray-900">
-                              {subscriber.fullName}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <a
-                            href={`mailto:${subscriber.email}`}
-                            className="text-sm text-[#bd6325] hover:underline flex items-center gap-2"
-                          >
-                            <Mail className="w-4 h-4" />
-                            {subscriber.email}
-                          </a>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                          {new Date(subscriber.createdAt).toLocaleDateString("en-US", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
+              <>
+                {/* Mobile Card View */}
+                <div className="md:hidden p-4 space-y-3">
+                  {filteredSubscribers.map((subscriber) => (
+                    <div
+                      key={subscriber._id}
+                      className="bg-white rounded-lg shadow-sm border border-gray-100 p-4"
+                    >
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className="w-10 h-10 bg-[#bd6325]/10 rounded-full flex items-center justify-center">
+                          <UserPlus className="w-5 h-5 text-[#bd6325]" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold text-gray-900 truncate">
+                            {subscriber.fullName}
+                          </p>
                           <button
                             onClick={() =>
-                              (window.location.href = `mailto:${subscriber.email}?subject=Cozy Oven VIP Newsletter`)}
-                            className="text-sm text-[#bd6325] hover:text-[#a8551f] font-medium"
+                              (window.location.href = `mailto:${subscriber.email}?subject=Cozy Oven VIP Newsletter`)
+                            }
+                            className="mt-1 text-xs text-[#bd6325] hover:text-[#a8551f] flex items-center gap-1"
                           >
-                            Send Email
+                            <Mail className="w-3 h-3" />
+                            <span className="truncate">{subscriber.email}</span>
                           </button>
-                        </td>
+                        </div>
+                      </div>
+                      <div className="text-xs text-gray-600">
+                        <p className="font-medium">
+                          Subscribed on{" "}
+                          {new Date(subscriber.createdAt).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Desktop Table View */}
+                <div className="hidden md:block overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50 border-b border-gray-200">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                          Name
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                          Email
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                          Subscribed Date
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                          Actions
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {filteredSubscribers.map((subscriber) => (
+                        <tr
+                          key={subscriber._id}
+                          className="hover:bg-gray-50 transition-colors"
+                        >
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-[#bd6325]/10 rounded-full flex items-center justify-center">
+                                <UserPlus className="w-5 h-5 text-[#bd6325]" />
+                              </div>
+                              <span className="text-sm font-medium text-gray-900">
+                                {subscriber.fullName}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <a
+                              href={`mailto:${subscriber.email}`}
+                              className="text-sm text-[#bd6325] hover:underline flex items-center gap-2"
+                            >
+                              <Mail className="w-4 h-4" />
+                              {subscriber.email}
+                            </a>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                            {new Date(subscriber.createdAt).toLocaleDateString("en-US", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            })}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <button
+                              onClick={() =>
+                                (window.location.href = `mailto:${subscriber.email}?subject=Cozy Oven VIP Newsletter`)
+                              }
+                              className="text-sm text-[#bd6325] hover:text-[#a8551f] font-medium"
+                            >
+                              Send Email
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
           </div>
         )}

@@ -79,12 +79,105 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
       const response = await orderService.getOrderById(orderId);
 
       console.log("Order Details:", response);
-      
-      if (response.success && response.data) {
-        setOrderDetails(response.data as OrderDetails);
-      } else {
-        setError("Failed to fetch order details");
+
+      if (!response?.success) {
+        setError(response?.message || "Failed to fetch order details");
+        return;
       }
+
+      const raw = (response as any).data || (response as any).order;
+      if (!raw) {
+        setError("No order data returned from server");
+        return;
+      }
+
+      // Normalise backend response into OrderDetails shape
+      const pricingSubtotal =
+        typeof raw.totalAmount === "number"
+          ? raw.totalAmount
+          : typeof raw.subtotal === "number"
+          ? raw.subtotal
+          : raw.amount && typeof raw.amount === "string" && raw.amount.startsWith("GHS")
+          ? parseFloat(raw.amount.replace("GHS", "").trim())
+          : 0;
+
+      const deliveryFee =
+        typeof raw.deliveryFee === "number"
+          ? raw.deliveryFee
+          : 0;
+
+      const normalized: OrderDetails = {
+        orderId: raw.orderId || raw._id || orderId,
+        customer: {
+          name: raw.customer?.name || raw.customerName || raw.customer || "N/A",
+          email: raw.customer?.email || raw.email || "",
+          contactNumber: raw.customer?.contactNumber || raw.contactNumber || "",
+          deliveryAddress:
+            raw.customer?.deliveryAddress ||
+            raw.deliveryAddress ||
+            (raw.deliveryMethod === "pickup" || raw.deliveryType === "pickup"
+              ? "Pickup from store"
+              : ""),
+          city: raw.customer?.city || raw.city,
+          specialInstructions:
+            raw.customer?.specialInstructions ||
+            raw.specialInstructions ||
+            raw.specialInstruction,
+        },
+        items: Array.isArray(raw.items)
+          ? raw.items.map((item: any) => ({
+              productId: item.productId || item._id || "",
+              name: item.name || item.productName || "Item",
+              thumbnail: item.thumbnail || item.productThumbnail || "",
+              unitPrice:
+                typeof item.unitPrice === "number"
+                  ? item.unitPrice
+                  : typeof item.price === "number"
+                  ? item.price
+                  : 0,
+              quantity: item.quantity || 1,
+              total:
+                typeof item.total === "number"
+                  ? item.total
+                  : (typeof item.unitPrice === "number"
+                      ? item.unitPrice
+                      : typeof item.price === "number"
+                      ? item.price
+                      : 0) * (item.quantity || 1),
+              size: item.size,
+            }))
+          : [],
+        orderDetails: raw.orderDetails
+          ? {
+              orderItems: (raw.orderDetails as any).orderItems,
+              pickUpDetails: (raw.orderDetails as any).pickUpDetails,
+            }
+          : {
+              orderItems: Array.isArray(raw.orderItems) ? raw.orderItems : undefined,
+              pickUpDetails: raw.pickUpDetails,
+            },
+        pricing: {
+          subtotal: pricingSubtotal,
+          deliveryFee,
+          totalAmount:
+            typeof raw.totalAmount === "number"
+              ? raw.totalAmount
+              : pricingSubtotal + deliveryFee,
+        },
+        payment: {
+          status: raw.payment?.status || raw.paymentStatus || "pending",
+          method: raw.payment?.method || raw.paymentMethod || "hubtel",
+          transactionRef:
+            raw.payment?.transactionRef ||
+            raw.transactionRef ||
+            raw.reference,
+          paidAt: raw.payment?.paidAt || raw.paidAt,
+        },
+        orderStatus: raw.orderStatus || raw.status || "pending",
+        createdAt: raw.createdAt || raw.date || new Date().toISOString(),
+      };
+
+      setOrderDetails(normalized);
     } catch (err) {
       console.error("Error fetching order details:", err);
       setError("Failed to fetch order details");
