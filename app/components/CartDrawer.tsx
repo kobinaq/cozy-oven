@@ -124,11 +124,17 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           <Link href="/cart">
             <button
               onClick={onClose}
-              className="w-full bg-[#bd6325] hover:bg-[#bd6325] text-white font-semibold py-3 rounded-full transition-colors hover:cursor-pointer"
+              className="w-full bg-[#bd6325] hover:bg-[#a8551f] text-white font-semibold py-3 rounded-full transition-colors hover:cursor-pointer mb-3"
             >
               View Cart
             </button>
           </Link>
+          <button
+            onClick={onClose}
+            className="w-full border-2 border-gray-300 text-gray-700 font-semibold py-3 rounded-full hover:bg-gray-50 transition-colors hover:cursor-pointer"
+          >
+            Continue Shopping
+          </button>
         </div>
       </div>
 

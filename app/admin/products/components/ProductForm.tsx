@@ -18,6 +18,7 @@ interface ProductFormProps {
   onPriceChange: (value: number) => void;
   onProductDetailsChange: (value: string) => void;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemoveImage?: (index: number) => void;
   onSelectOptionInputChange: (field: "label" | "additionalPrice", value: string | number) => void;
   onAddSelectOption: () => void;
   onRemoveSelectOption: (index: number) => void;
@@ -44,6 +45,7 @@ export default function ProductForm({
   onPriceChange,
   onProductDetailsChange,
   onImageChange,
+  onRemoveImage,
   onSelectOptionInputChange,
   onAddSelectOption,
   onRemoveSelectOption,
@@ -126,29 +128,48 @@ export default function ProductForm({
       {/* Image Upload */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Product Image
+          Product Images (Select multiple)
         </label>
         <div className="flex items-center gap-4">
           <label className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
             <Upload className="w-4 h-4" />
-            {isEdit ? "Change Image" : "Choose Image"}
+            {isEdit ? "Add/Change Images" : "Choose Images"}
             <input
               type="file"
               accept="image/*"
+              multiple
               onChange={onImageChange}
               className="hidden"
             />
           </label>
-          {imageFile && <span className="text-sm text-gray-600">{imageFile.name}</span>}
         </div>
+        
+        {/* Image Previews */}
         {imagePreview && (
-          <div className="mt-2 w-32 h-32 relative rounded-lg overflow-hidden">
-            <Image
-              src={imagePreview}
-              alt="Preview"
-              fill
-              className="object-cover"
-            />
+          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {(Array.isArray(imagePreview) ? imagePreview : [imagePreview]).map((preview, index) => (
+              <div key={index} className="relative group aspect-square rounded-lg overflow-hidden border border-gray-200">
+                <Image
+                  src={preview}
+                  alt={`Preview ${index + 1}`}
+                  fill
+                  className="object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => onRemoveImage && onRemoveImage(index)}
+                  className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                  aria-label="Remove image"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+                {index === 0 && (
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] py-1 text-center font-bold">
+                    MAIN THUMBNAIL
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>

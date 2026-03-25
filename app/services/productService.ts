@@ -21,6 +21,7 @@ export interface Product {
   rating?: number;
   createdAt?: string;
   updatedAt?: string;
+  productImages?: string[];
   pagination?: number;
 }
 

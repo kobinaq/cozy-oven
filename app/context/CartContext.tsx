@@ -14,6 +14,7 @@ export interface Product {
   details?: string;
   isAvailable?: boolean;
   category?: string;
+  productImages?: string[];
 }
 
 export interface CartItem extends Product {

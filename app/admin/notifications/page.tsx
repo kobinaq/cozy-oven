@@ -25,6 +25,8 @@ export default function NotificationsPage() {
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     if (!isAuthenticated || user?.role !== "Admin") {
@@ -37,7 +39,7 @@ export default function NotificationsPage() {
       fetchNotifications();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, user, filter]);
+  }, [isAuthenticated, user, filter, currentPage]);
 
   const fetchNotifications = async () => {
     try {
@@ -47,13 +49,26 @@ export default function NotificationsPage() {
         if (response.success) {
           setNotifications(response.data);
           setUnreadCount(response.unread);
+          // When viewing unread only, treat it as a single "page"
+          setTotalCount(response.data.length);
+          setCurrentPage(1);
+          setTotalPages(1);
         }
       } else {
-        const response = await notificationService.getAllNotifications();
+        const response = await notificationService.getAllNotifications({
+          page: currentPage,
+          limit: 10,
+        });
         if (response.success) {
           setNotifications(response.data.notifications);
           setTotalCount(response.data.total);
           setUnreadCount(response.data.unread);
+          if (response.data.pagination) {
+            setTotalPages(response.data.pagination.totalPages || 1);
+          } else {
+            // Fallback if backend doesn't send pagination meta
+            setTotalPages(1);
+          }
         }
       }
     } catch (error) {
@@ -242,7 +257,7 @@ export default function NotificationsPage() {
                   >
                     <div className="flex items-start gap-4">
                       {/* Icon */}
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${color}`}>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${color}`}>
                         <Icon className="w-5 h-5" />
                       </div>
 
@@ -252,7 +267,7 @@ export default function NotificationsPage() {
                           <h3 className="font-semibold text-gray-900">
                             {notification.type ? notification.type.charAt(0).toUpperCase() + notification.type.slice(1) + " Notification" : "Notification"}
                           </h3>
-                          <div className="flex items-center gap-2 flex-shrink-0">
+                          <div className="flex items-center gap-2 shrink-0">
                             <span className="text-xs text-gray-500 flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               {getTimeAgo(notification.createdAt)}
@@ -302,6 +317,29 @@ export default function NotificationsPage() {
             </div>
           )}
         </div>
+
+        {/* Pagination (only for "all" filter) */}
+        {filter === "all" && !loading && totalPages > 1 && (
+          <div className="flex justify-center gap-2 mt-6">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            <span className="px-4 py-2 text-gray-700">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </AdminLayout>
   );

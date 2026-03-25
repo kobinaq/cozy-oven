@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef } from "react";
 import { Search } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import ProductQuickView from "./ProductQuickView";
 import type { Product } from "../context/CartContext";
 import useCustomerProducts from "../hooks/useCustomerProducts";
@@ -85,6 +86,40 @@ export default function Categories() {
     },
   };
 
+  const CyclingImage = ({ images, defaultImage }: { images?: string[], defaultImage: string }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const allImages = useMemo(() => {
+      if (!images || images.length === 0) return [defaultImage];
+      // Filter out duplicate of defaultImage if it's already in the list
+      const filtered = images.filter(img => img !== defaultImage);
+      return [defaultImage, ...filtered];
+    }, [images, defaultImage]);
+
+    useEffect(() => {
+      if (allImages.length <= 1) return;
+      
+      const interval = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % allImages.length);
+      }, 4000); // Change every 4 seconds
+      
+      return () => clearInterval(interval);
+    }, [allImages]);
+
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+          className="absolute inset-0 bg-cover bg-center z-0"
+          style={{ backgroundImage: `url(${allImages[currentIndex]})` }}
+        />
+      </AnimatePresence>
+    );
+  };
+
   return (
     <>
       <div
@@ -151,10 +186,9 @@ export default function Categories() {
                     className="relative overflow-hidden rounded-4xl text-white h-[400px] sm:h-[450px] md:h-[500px] w-[300px] shrink-0 group snap-start"
                     onClick={() => handleCardClick(product._id)}
                   >
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 ease-in-out group-hover:scale-110 z-0"
-                    style={{ backgroundImage: `url(${product.productThumbnail})` }}
-                  />
+                  <div className="absolute inset-0 transition-transform duration-500 ease-in-out group-hover:scale-110 z-0">
+                    <CyclingImage images={product.productImages} defaultImage={product.productThumbnail} />
+                  </div>
                   <div className={`absolute inset-0 z-10 ${((product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter(opt => opt.isAvailable !== false)?.length ?? 0) === 0) ? "bg-black/60" : "bg-black/30"}`} />
                   
                   {/* Sold Out Badge - shown when product has variants and all are unavailable */}

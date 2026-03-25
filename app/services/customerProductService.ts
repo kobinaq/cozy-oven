@@ -50,6 +50,12 @@ export const customerProductService = {
     const response = await apiClient.get(`/api/v1/search/products?query=${encodeURIComponent(query)}`);
     return response.data;
   },
+
+  // GET /api/v1/store/products/best-sellers - Get top 5 best sellers
+  getBestSellers: async (): Promise<{ success: boolean; message: string; data: any[] }> => {
+    const response = await apiClient.get("/api/v1/store/products/best-sellers");
+    return response.data;
+  },
 };
 
 export default customerProductService;

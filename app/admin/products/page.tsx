@@ -36,8 +36,8 @@ export default function ProductManagementPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   // const [showComboModal, setShowComboModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>("");
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [newProduct, setNewProduct] = useState({
     productName: "",
     productCategory: "",
@@ -115,15 +115,40 @@ export default function ProductManagementPage() {
   );
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      const newFiles = Array.from(files);
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+
+      // Filter valid files
+      const validFiles = newFiles.filter(file => {
+        if (!allowedTypes.includes(file.type)) {
+          console.error(`Invalid image type for ${file.name}. Only JPEG, PNG, and WebP are allowed`);
+          return false;
+        }
+        if (file.size > maxSize) {
+          console.error(`Image ${file.name} is too large. Max size is 5MB`);
+          return false;
+        }
+        return true;
+      });
+
+      setImageFiles(prev => [...prev, ...validFiles]);
+
+      validFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreviews(prev => [...prev, reader.result as string]);
+        };
+        reader.readAsDataURL(file);
+      });
     }
+  };
+
+  const removeImage = (index: number) => {
+    setImageFiles(prev => prev.filter((_, i) => i !== index));
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
 
   const addSelectOption = () => {
@@ -156,8 +181,8 @@ export default function ProductManagementPage() {
       productDetails: "",
     });
     setSelectOptions([]);
-    setImageFile(null);
-    setImagePreview("");
+    setImageFiles([]);
+    setImagePreviews([]);
     setSelectOptionInput({ label: "", additionalPrice: 0 });
   };
 
@@ -185,23 +210,12 @@ export default function ProductManagementPage() {
         return;
       }
       
-      if (!imageFile) {
+      if (imageFiles.length === 0) {
         console.error("Product image is required");
         return;
       }
 
-      // Validate image file type and size
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-      if (!allowedTypes.includes(imageFile.type)) {
-        console.error("Invalid image type. Only JPEG, PNG, and WebP are allowed");
-        return;
-      }
-      
-      const maxSize = 5 * 1024 * 1024; // 5MB
-      if (imageFile.size > maxSize) {
-        console.error("Image size must be less than 5MB");
-        return;
-      }
+      // Validations already handled in handleImageChange
 
       const formData = new FormData();
       formData.append("productName", newProduct.productName.trim());
@@ -209,8 +223,16 @@ export default function ProductManagementPage() {
       formData.append("productDetails", newProduct.productDetails.trim());
       formData.append("price", newProduct.price.toString());
       formData.append("selectOptions", JSON.stringify(selectOptions));
-      // Backend expects 'thumbnail' field name for multer file upload
-      formData.append("thumbnail", imageFile);
+      
+      // Backend expects 'thumbnail' for the first image
+      if (imageFiles.length > 0) {
+        formData.append("thumbnail", imageFiles[0]);
+      }
+      
+      // Additional images
+      imageFiles.forEach(file => {
+        formData.append("productImages", file);
+      });
 
       await createProductWithImage(formData);
       setShowAddModal(false);
@@ -232,7 +254,8 @@ export default function ProductManagementPage() {
         newProduct.price !== selectedProduct.price ||
         newProduct.productCategory !== selectedProduct.productCategory ||
         newProduct.productDetails !== selectedProduct.productDetails ||
-        imageFile !== null ||
+        newProduct.productDetails !== selectedProduct.productDetails ||
+        imageFiles.length > 0 ||
         JSON.stringify(selectOptions) !== JSON.stringify(selectedProduct.selectOptions);
       
       if (!hasChanges) {
@@ -248,19 +271,7 @@ export default function ProductManagementPage() {
         return;
       }
 
-      if (imageFile) {
-        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-        if (!allowedTypes.includes(imageFile.type)) {
-          console.error("Invalid image type. Only JPEG, PNG, and WebP are allowed");
-          return;
-        }
-        
-        const maxSize = 5 * 1024 * 1024;
-        if (imageFile.size > maxSize) {
-          console.error("Image size must be less than 5MB");
-          return;
-        }
-      }
+      // Validations already handled in handleImageChange
 
       const formData = new FormData();
       if (newProduct.productName && newProduct.productName.trim())
@@ -271,8 +282,13 @@ export default function ProductManagementPage() {
         formData.append("productDetails", newProduct.productDetails.trim());
       if (newProduct.price) formData.append("price", newProduct.price.toString());
       formData.append("selectOptions", JSON.stringify(selectOptions));
-      // Backend expects 'thumbnail' field name for multer file upload
-      if (imageFile) formData.append("thumbnail", imageFile);
+      
+      if (imageFiles.length > 0) {
+        formData.append("thumbnail", imageFiles[0]);
+        imageFiles.forEach(file => {
+          formData.append("productImages", file);
+        });
+      }
 
       await updateProductWithImage(selectedProduct._id, formData);
 
@@ -294,7 +310,12 @@ export default function ProductManagementPage() {
       productDetails: product.productDetails,
     });
     setSelectOptions(product.selectOptions || []);
-    setImagePreview(product.productThumbnail);
+    // For editing, we show existing images as previews
+    // If it's a URL (string), we keep it as a preview
+    // If the user adds new images, they get added to imageFiles
+    setImagePreviews(product.productImages && product.productImages.length > 0 
+      ? product.productImages 
+      : [product.productThumbnail]);
     setShowEditModal(true);
   };
 
@@ -532,8 +553,8 @@ export default function ProductManagementPage() {
         productCategory={newProduct.productCategory}
         price={newProduct.price}
         productDetails={newProduct.productDetails}
-        imageFile={imageFile}
-        imagePreview={imagePreview}
+        imageFile={imageFiles.length > 0 ? imageFiles[0] : null}
+        imagePreview={imagePreviews as any}
         selectOptions={selectOptions}
         selectOptionInput={selectOptionInput}
         loading={actionLoading}
@@ -543,6 +564,7 @@ export default function ProductManagementPage() {
         onPriceChange={(value) => setNewProduct({ ...newProduct, price: value })}
         onProductDetailsChange={(value) => setNewProduct({ ...newProduct, productDetails: value })}
         onImageChange={handleImageChange}
+        onRemoveImage={removeImage}
         onSelectOptionInputChange={(field, value) =>
           setSelectOptionInput({ ...selectOptionInput, [field]: value })
         }
@@ -561,8 +583,8 @@ export default function ProductManagementPage() {
         productCategory={newProduct.productCategory}
         price={newProduct.price}
         productDetails={newProduct.productDetails}
-        imageFile={imageFile}
-        imagePreview={imagePreview}
+        imageFile={imageFiles.length > 0 ? imageFiles[0] : null}
+        imagePreview={imagePreviews as any}
         selectOptions={selectOptions}
         selectOptionInput={selectOptionInput}
         loading={actionLoading}
@@ -572,6 +594,7 @@ export default function ProductManagementPage() {
         onPriceChange={(value) => setNewProduct({ ...newProduct, price: value })}
         onProductDetailsChange={(value) => setNewProduct({ ...newProduct, productDetails: value })}
         onImageChange={handleImageChange}
+        onRemoveImage={removeImage}
         onSelectOptionInputChange={(field, value) =>
           setSelectOptionInput({ ...selectOptionInput, [field]: value })
         }

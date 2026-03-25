@@ -12,7 +12,8 @@ interface EditProductModalProps {
   price: number;
   productDetails: string;
   imageFile: File | null;
-  imagePreview: string;
+  imagePreview: string[];
+  onRemoveImage?: (index: number) => void;
   selectOptions: SelectOption[];
   selectOptionInput: { label: string; additionalPrice: number };
   loading: boolean;
@@ -39,6 +40,7 @@ export default function EditProductModal({
   productDetails,
   imageFile,
   imagePreview,
+  onRemoveImage,
   selectOptions,
   selectOptionInput,
   loading,
@@ -74,7 +76,8 @@ export default function EditProductModal({
           price={price}
           productDetails={productDetails}
           imageFile={imageFile}
-          imagePreview={imagePreview}
+          imagePreview={imagePreview as any}
+          onRemoveImage={onRemoveImage}
           selectOptions={selectOptions}
           selectOptionInput={selectOptionInput}
           loading={loading}

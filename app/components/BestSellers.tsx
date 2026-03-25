@@ -5,12 +5,72 @@ import Link from "next/link";
 import { ArrowRight } from 'lucide-react';
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import useCustomerProducts from "../hooks/useCustomerProducts";
+import { useState, useEffect, useMemo } from "react";
+import { AnimatePresence } from "framer-motion";
+import customerProductService from "../services/customerProductService";
 
 export default function BestSellers() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
-  const { products, loading } = useCustomerProducts({ limit: 6 });
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBestSellers = async () => {
+      try {
+        setLoading(true);
+        const response = await customerProductService.getBestSellers();
+        if (response.success) {
+          setProducts(response.data);
+        }
+      } catch (error) {
+        console.error("Error fetching best sellers:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBestSellers();
+  }, []);
+
+  const CyclingImage = ({ images, defaultImage, alt }: { images?: string[], defaultImage: string, alt: string }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const allImages = useMemo(() => {
+      // Logic: productImages || [productThumbnail]
+      if (images && images.length > 0) return images;
+      return [defaultImage || "/placeholder.svg"];
+    }, [images, defaultImage]);
+
+    useEffect(() => {
+      if (allImages.length <= 1) return;
+      
+      const interval = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % allImages.length);
+      }, 4000);
+      
+      return () => clearInterval(interval);
+    }, [allImages]);
+
+    return (
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.5, ease: "easeInOut" }}
+          className="absolute inset-0"
+        >
+          <Image
+            src={allImages[currentIndex] || "/placeholder.svg"}
+            alt={alt}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+        </motion.div>
+      </AnimatePresence>
+    );
+  };
 
   return (
     <section ref={sectionRef} className="py-20 bg-[#faf9f5]">
@@ -52,23 +112,18 @@ export default function BestSellers() {
                       className="relative flex-shrink-0 w-72 h-80 rounded-3xl overflow-hidden cursor-pointer group snap-start block"
                     >
                       {/* Product Image */}
-                      <div className="absolute inset-0 overflow-hidden">
-                        <Image
-                          src={product.productThumbnail || "/placeholder.svg"}
-                          alt={product.productName}
-                          fill
-                          className="object-cover transition-transform duration-500 group-hover:scale-110"
-                        />
+                      <div className="absolute inset-0 overflow-hidden transition-transform duration-500 group-hover:scale-110">
+                        <CyclingImage images={product.productImages} defaultImage={product.productThumbnail} alt={product.productName} />
                       </div>
 
                       {/* Sold Out Badge - shown when product has variants and all are unavailable */}
-                      {(product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter(opt => opt.isAvailable !== false)?.length ?? 0) === 0 && (
+                      {(product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter((opt: any) => opt.isAvailable !== false)?.length ?? 0) === 0 && (
                         <div className="absolute top-4 right-4 z-20 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
                           Sold Out
                         </div>
                       )}
 
-                      <div className={`absolute inset-0 bg-gradient-to-t ${((product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter(opt => opt.isAvailable !== false)?.length ?? 0) === 0) ? "from-black/70" : "from-black/60"} via-transparent to-transparent flex flex-col justify-end p-6`}>
+                      <div className={`absolute inset-0 bg-gradient-to-t ${((product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter((opt: any) => opt.isAvailable !== false)?.length ?? 0) === 0) ? "from-black/70" : "from-black/60"} via-transparent to-transparent flex flex-col justify-end p-6`}>
                         <div className="flex items-end justify-between">
                           <div>
                             <h3 className="text-white text-xl sm:text-2xl font-bold mb-2">

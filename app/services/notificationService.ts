@@ -16,6 +16,12 @@ export interface GetAllNotificationsResponse {
     total: number;
     unread: number;
     notifications: Notification[];
+    pagination?: {
+      currentPage: number;
+      totalPages: number;
+      hasNext: boolean;
+      hasPrev: boolean;
+    };
   };
 }
 
@@ -33,8 +39,18 @@ export interface ApiResponse {
 
 export const notificationService = {
   // GET /api/v1/dashboard/admin/notifications - Get all notifications
-  getAllNotifications: async (): Promise<GetAllNotificationsResponse> => {
-    const response = await apiClient.get("/api/v1/dashboard/admin/notifications");
+  getAllNotifications: async (params?: {
+    page?: number;
+    limit?: number;
+  }): Promise<GetAllNotificationsResponse> => {
+    const queryParams = new URLSearchParams();
+
+    if (params?.page) queryParams.append("page", params.page.toString());
+    if (params?.limit) queryParams.append("limit", params.limit.toString());
+
+    const response = await apiClient.get(
+      `/api/v1/dashboard/admin/notifications${queryParams.toString() ? `?${queryParams.toString()}` : ""}`
+    );
     return response.data;
   },
 
