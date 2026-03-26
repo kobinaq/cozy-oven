@@ -102,18 +102,18 @@ export default function BestSellers() {
               <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
                 {products.map((product, index) => (
                   <motion.div
-                    key={product._id}
+                    key={product.id}
                     initial={{ opacity: 0, x: 50 }}
                     animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <Link
-                      href={`/product/${product._id}`}
+                      href={`/product/${product.id}`}
                       className="relative flex-shrink-0 w-72 h-80 rounded-3xl overflow-hidden cursor-pointer group snap-start block"
                     >
                       {/* Product Image */}
                       <div className="absolute inset-0 overflow-hidden transition-transform duration-500 group-hover:scale-110">
-                        <CyclingImage images={product.productImages} defaultImage={product.productThumbnail} alt={product.productName} />
+                        <CyclingImage images={product.images} defaultImage={product.thumbnail} alt={product.productName} />
                       </div>
 
                       {/* Sold Out Badge - shown when product has variants and all are unavailable */}

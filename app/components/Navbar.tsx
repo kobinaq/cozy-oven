@@ -186,14 +186,14 @@ export default function Navbar() {
                   <div className="max-h-96 overflow-y-auto">
                     {searchResults.map((product) => (
                       <button
-                        key={product._id}
-                        onClick={() => handleSearchResultClick(product._id)}
+                        key={product.id}
+                        onClick={() => handleSearchResultClick(product.id)}
                         className="w-full p-3 hover:bg-gray-50 text-left flex items-center gap-3 border-b border-gray-200 last:border-b-0"
                       >
                         <div className="w-12 h-12 bg-gray-200 rounded-lg relative overflow-hidden flex-shrink-0">
-                          {product.productThumbnail && (
+                          {product.thumbnail && (
                             <Image
-                              src={product.productThumbnail}
+                              src={product.thumbnail}
                               alt={product.productName}
                               fill
                               className="object-cover"

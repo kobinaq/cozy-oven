@@ -1,6 +1,8 @@
 import { Edit2, Trash2, Package } from "lucide-react";
 import Image from "next/image";
 import { Product } from "../../../services/productService";
+import { useState, useEffect, useMemo } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface ProductGridProps {
   products: Product[];
@@ -9,26 +11,55 @@ interface ProductGridProps {
   onToggleAvailable?: (product: Product) => void;
 }
 
+const CyclingImage = ({ images, defaultImage, alt }: { images?: string[], defaultImage: string, alt: string }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const allImages = useMemo(() => {
+    if (images && images.length > 0) return images;
+    return [defaultImage || "/placeholder.svg"];
+  }, [images, defaultImage]);
+
+  useEffect(() => {
+    if (allImages.length <= 1) return;
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % allImages.length);
+    }, 4000);
+    
+    return () => clearInterval(interval);
+  }, [allImages]);
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={currentIndex}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+        className="absolute inset-0"
+      >
+        <Image
+          src={allImages[currentIndex] || "/placeholder.svg"}
+          alt={alt}
+          fill
+          className="object-cover"
+        />
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
 export default function ProductGrid({ products, onEdit, onDelete, onToggleAvailable }: ProductGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {products.map((product) => (
         <div
-          key={product._id}
+          key={product.id}
           className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
         >
           {/* Product Image */}
           <div className="w-full h-48 bg-gray-200 flex items-center justify-center overflow-hidden relative">
-            {product.productThumbnail ? (
-              <Image
-                src={product.productThumbnail}
-                alt={product.productName}
-                fill
-                className="object-cover"
-              />
-            ) : (
-              <Package className="w-16 h-16 text-gray-400" />
-            )}
+            <CyclingImage images={product.images} defaultImage={product.thumbnail} alt={product.productName} />
           </div>
 
           {/* Product Info */}

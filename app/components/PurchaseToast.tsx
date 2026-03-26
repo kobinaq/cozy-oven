@@ -113,7 +113,7 @@ export default function PurchaseToast() {
         notification = {
           name: randomUser,
           productName: randomProduct.productName,
-          productImage: randomProduct.productThumbnail,
+          productImage: randomProduct.thumbnail,
           timeAgo,
         };
       }

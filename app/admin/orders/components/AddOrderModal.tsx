@@ -34,7 +34,7 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const selectedProduct = products.find(p => p._id === selectedProductId);
+  const selectedProduct = products.find(p => p.id === selectedProductId);
   const availableSizes = selectedProduct?.selectOptions?.filter(opt => opt.isAvailable !== false) || [];
 
   const handleAddItem = () => {
@@ -43,7 +43,7 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
       return;
     }
 
-    const product = products.find(p => p._id === selectedProductId);
+    const product = products.find(p => p.id === selectedProductId);
     if (!product) return;
 
     const sizeOption = selectedSize 
@@ -248,7 +248,7 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
                         >
                           <option value="">Select product</option>
                           {products.map((product) => (
-                            <option key={product._id} value={product._id}>
+                            <option key={product.id} value={product.id}>
                               {product.productName}
                             </option>
                           ))}

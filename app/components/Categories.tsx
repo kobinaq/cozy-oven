@@ -52,10 +52,10 @@ export default function Categories() {
     const soldOut = hasVariants && availableVariants.length === 0;
 
     const productData: Product = {
-      id: product._id,
+      id: product.id,
       name: product.productName,
       price: `GHS ${product.price}`,
-      image: product.productThumbnail,
+      image: product.thumbnail,
       description: product.productDetails,
       sizes: availableVariants.map(opt => opt.label),
       isAvailable: !soldOut,
@@ -181,13 +181,13 @@ export default function Categories() {
               >
                 {currentProducts.map((product) => (
                   <motion.div
-                    key={product._id}
+                    key={product.id}
                     variants={cardVariants}
                     className="relative overflow-hidden rounded-4xl text-white h-[400px] sm:h-[450px] md:h-[500px] w-[300px] shrink-0 group snap-start"
-                    onClick={() => handleCardClick(product._id)}
+                    onClick={() => handleCardClick(product.id)}
                   >
                   <div className="absolute inset-0 transition-transform duration-500 ease-in-out group-hover:scale-110 z-0">
-                    <CyclingImage images={product.productImages} defaultImage={product.productThumbnail} />
+                    <CyclingImage images={product.images} defaultImage={product.thumbnail} />
                   </div>
                   <div className={`absolute inset-0 z-10 ${((product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter(opt => opt.isAvailable !== false)?.length ?? 0) === 0) ? "bg-black/60" : "bg-black/30"}`} />
                   
@@ -214,7 +214,7 @@ export default function Categories() {
                           className="font-medium py-3 px-7 rounded-full bg-black shadow-sm w-full"
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleCardClick(product._id);
+                            handleCardClick(product.id);
                           }}
                         >
                           Shop

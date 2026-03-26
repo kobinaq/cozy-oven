@@ -8,7 +8,7 @@ interface ProductFormProps {
   price: number;
   productDetails: string;
   imageFile: File | null;
-  imagePreview: string;
+  imagePreview: string | string[];
   selectOptions: SelectOption[];
   selectOptionInput: { label: string; additionalPrice: number };
   loading: boolean;
@@ -19,6 +19,7 @@ interface ProductFormProps {
   onProductDetailsChange: (value: string) => void;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemoveImage?: (index: number) => void;
+  existingImageCount?: number;
   onSelectOptionInputChange: (field: "label" | "additionalPrice", value: string | number) => void;
   onAddSelectOption: () => void;
   onRemoveSelectOption: (index: number) => void;
@@ -46,6 +47,7 @@ export default function ProductForm({
   onProductDetailsChange,
   onImageChange,
   onRemoveImage,
+  existingImageCount = 0,
   onSelectOptionInputChange,
   onAddSelectOption,
   onRemoveSelectOption,
@@ -133,7 +135,7 @@ export default function ProductForm({
         <div className="flex items-center gap-4">
           <label className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
             <Upload className="w-4 h-4" />
-            {isEdit ? "Add/Change Images" : "Choose Images"}
+            {isEdit ? "Add More Images" : "Choose Images"}
             <input
               type="file"
               accept="image/*"
@@ -146,30 +148,82 @@ export default function ProductForm({
         
         {/* Image Previews */}
         {imagePreview && (
-          <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {(Array.isArray(imagePreview) ? imagePreview : [imagePreview]).map((preview, index) => (
-              <div key={index} className="relative group aspect-square rounded-lg overflow-hidden border border-gray-200">
-                <Image
-                  src={preview}
-                  alt={`Preview ${index + 1}`}
-                  fill
-                  className="object-cover"
-                />
-                <button
-                  type="button"
-                  onClick={() => onRemoveImage && onRemoveImage(index)}
-                  className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
-                  aria-label="Remove image"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-                {index === 0 && (
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] py-1 text-center font-bold">
-                    MAIN THUMBNAIL
+          <div className="mt-4">
+            {/* Existing server images */}
+            {isEdit && existingImageCount > 0 && (
+              <>
+                <p className="text-xs font-medium text-gray-500 mb-2">Current Images</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
+                  {(Array.isArray(imagePreview) ? imagePreview : [imagePreview])
+                    .slice(0, existingImageCount)
+                    .filter(p => p && typeof p === 'string' && p.trim() !== '')
+                    .map((preview, index) => (
+                      <div key={`existing-${index}`} className="relative group aspect-square rounded-lg overflow-hidden border border-gray-200">
+                        <Image
+                          src={preview}
+                          alt={`Current ${index + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => onRemoveImage && onRemoveImage(index)}
+                          className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                          aria-label="Remove image"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                        {index === 0 && (
+                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] py-1 text-center font-bold">
+                            MAIN THUMBNAIL
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              </>
+            )}
+
+            {/* Newly added images */}
+            {(() => {
+              const newPreviews = (Array.isArray(imagePreview) ? imagePreview : [imagePreview])
+                .slice(isEdit ? existingImageCount : 0)
+                .filter(p => p && typeof p === 'string' && p.trim() !== '');
+              if (newPreviews.length === 0) return null;
+              return (
+                <>
+                  {isEdit && <p className="text-xs font-medium text-green-600 mb-2">New Images to Upload</p>}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    {newPreviews.map((preview, index) => {
+                      const actualIndex = isEdit ? existingImageCount + index : index;
+                      return (
+                        <div key={`new-${index}`} className="relative group aspect-square rounded-lg overflow-hidden border-2 border-green-300">
+                          <Image
+                            src={preview}
+                            alt={`New ${index + 1}`}
+                            fill
+                            className="object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => onRemoveImage && onRemoveImage(actualIndex)}
+                            className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                            aria-label="Remove image"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                          {!isEdit && index === 0 && (
+                            <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] py-1 text-center font-bold">
+                              MAIN THUMBNAIL
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
-                )}
-              </div>
-            ))}
+                </>
+              );
+            })()}
           </div>
         )}
       </div>

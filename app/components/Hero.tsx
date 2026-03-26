@@ -68,7 +68,7 @@ export default function Hero() {
     e.preventDefault();
     if (searchQuery.trim() && searchResults?.length > 0) {
       // Navigate to first result or search results page
-      router.push(`/product/${searchResults[0]._id}`);
+      router.push(`/product/${searchResults[0].id}`);
       setShowResults(false);
       setSearchQuery("");
     }
@@ -140,14 +140,14 @@ export default function Hero() {
                 <div className="max-h-96 overflow-y-auto">
                   {searchResults.map((product) => (
                     <button
-                      key={product._id}
-                      onClick={() => handleSearchResultClick(product._id)}
+                      key={product.id}
+                      onClick={() => handleSearchResultClick(product.id)}
                       className="w-full p-3 hover:bg-gray-50 text-left flex items-center gap-3 border-b last:border-b-0"
                     >
                       <div className="w-12 h-12 bg-gray-200 rounded-lg relative overflow-hidden flex-shrink-0">
-                        {product.productThumbnail && (
+                        {product.thumbnail && (
                           <Image
-                            src={product.productThumbnail}
+                            src={product.thumbnail}
                             alt={product.productName}
                             fill
                             className="object-cover"

@@ -7,11 +7,11 @@ export interface SelectOption {
 }
 
 export interface Product {
-  _id: string;
+  id: string;
   productName: string;
   price: number;
   productCategory: string;
-  productThumbnail: string;
+  thumbnail: string;
   productDetails: string;
   selectOptions: SelectOption[];
   sku?: string;
@@ -21,7 +21,8 @@ export interface Product {
   rating?: number;
   createdAt?: string;
   updatedAt?: string;
-  productImages?: string[];
+  images?: string[];
+  imageCount?: number;
   pagination?: number;
 }
 
@@ -80,6 +81,23 @@ export interface ProductsQueryParams {
   order?: "asc" | "desc";
 }
 
+// Normalizes product data from either API format to a consistent Product shape
+// Admin API returns: id, thumbnail, images
+// Customer API returns: _id, productThumbnail, productImages
+export function normalizeProduct(raw: any): Product {
+  return {
+    ...raw,
+    id: raw.id || raw._id,
+    thumbnail: raw.thumbnail || raw.productThumbnail,
+    images: raw.images || raw.productImages || [],
+    imageCount: raw.imageCount ?? (raw.images || raw.productImages || []).length,
+  };
+}
+
+export function normalizeProductList(rawList: any[]): Product[] {
+  return rawList.map(normalizeProduct);
+}
+
 export const productService = {
   // GET /api/v1/dashboard/admin/products - Get all products with filtering, sorting, pagination
   getProducts: async (params?: ProductsQueryParams): Promise<ProductListResponse> => {
@@ -94,7 +112,11 @@ export const productService = {
     const response = await apiClient.get(
       `/api/v1/dashboard/admin/products${queryParams.toString() ? `?${queryParams.toString()}` : ""}`
     );
-    return response.data;
+    const data = response.data;
+    return {
+      ...data,
+      data: normalizeProductList(data.data),
+    };
   },
 
   // GET /api/v1/dashboard/admin/products/{productId} - Get product by ID

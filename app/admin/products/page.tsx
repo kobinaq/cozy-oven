@@ -38,6 +38,7 @@ export default function ProductManagementPage() {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
   const [newProduct, setNewProduct] = useState({
     productName: "",
     productCategory: "",
@@ -147,8 +148,16 @@ export default function ProductManagementPage() {
   };
 
   const removeImage = (index: number) => {
-    setImageFiles(prev => prev.filter((_, i) => i !== index));
-    setImagePreviews(prev => prev.filter((_, i) => i !== index));
+    const existingCount = existingImages.length;
+    if (index < existingCount) {
+      // Removing an existing server image — just hide it from previews
+      setExistingImages(prev => prev.filter((_, i) => i !== index));
+    } else {
+      // Removing a newly added file
+      const fileIndex = index - existingCount;
+      setImageFiles(prev => prev.filter((_, i) => i !== fileIndex));
+      setImagePreviews(prev => prev.filter((_, i) => i !== fileIndex));
+    }
   };
 
   const addSelectOption = () => {
@@ -183,6 +192,7 @@ export default function ProductManagementPage() {
     setSelectOptions([]);
     setImageFiles([]);
     setImagePreviews([]);
+    setExistingImages([]);
     setSelectOptionInput({ label: "", additionalPrice: 0 });
   };
 
@@ -224,14 +234,9 @@ export default function ProductManagementPage() {
       formData.append("price", newProduct.price.toString());
       formData.append("selectOptions", JSON.stringify(selectOptions));
       
-      // Backend expects 'thumbnail' for the first image
-      if (imageFiles.length > 0) {
-        formData.append("thumbnail", imageFiles[0]);
-      }
-      
-      // Additional images
+      // Backend expects 'thumbnail' for all images (array of 1-5)
       imageFiles.forEach(file => {
-        formData.append("productImages", file);
+        formData.append("thumbnail", file);
       });
 
       await createProductWithImage(formData);
@@ -248,12 +253,16 @@ export default function ProductManagementPage() {
     if (!selectedProduct) return;
 
     try {
-      // Validate if there are any changes
+      if (!selectedProduct.id) {
+        console.error("Product ID is missing. selectedProduct object:", selectedProduct);
+        return;
+      }
+
+      // Check for changes (optional optimization, but good for UX)
       const hasChanges = 
         newProduct.productName !== selectedProduct.productName ||
         newProduct.price !== selectedProduct.price ||
         newProduct.productCategory !== selectedProduct.productCategory ||
-        newProduct.productDetails !== selectedProduct.productDetails ||
         newProduct.productDetails !== selectedProduct.productDetails ||
         imageFiles.length > 0 ||
         JSON.stringify(selectOptions) !== JSON.stringify(selectedProduct.selectOptions);
@@ -271,26 +280,26 @@ export default function ProductManagementPage() {
         return;
       }
 
-      // Validations already handled in handleImageChange
-
       const formData = new FormData();
-      if (newProduct.productName && newProduct.productName.trim())
-        formData.append("productName", newProduct.productName.trim());
-      if (newProduct.productCategory)
-        formData.append("productCategory", newProduct.productCategory);
-      if (newProduct.productDetails && newProduct.productDetails.trim())
-        formData.append("productDetails", newProduct.productDetails.trim());
-      if (newProduct.price) formData.append("price", newProduct.price.toString());
+      
+      // Append basic fields
+      formData.append("productName", newProduct.productName.trim());
+      formData.append("productCategory", newProduct.productCategory);
+      formData.append("productDetails", newProduct.productDetails.trim());
+      formData.append("price", newProduct.price.toString());
+      
+      // selectOptions MUST be a JSON string
       formData.append("selectOptions", JSON.stringify(selectOptions));
       
+      // Only send new image files as 'thumbnail' — these ADD to existing images
       if (imageFiles.length > 0) {
-        formData.append("thumbnail", imageFiles[0]);
         imageFiles.forEach(file => {
-          formData.append("productImages", file);
+          formData.append("thumbnail", file);
         });
       }
 
-      await updateProductWithImage(selectedProduct._id, formData);
+      console.log("handleEditProduct: Updating product", selectedProduct.id);
+      await updateProductWithImage(selectedProduct.id, formData);
 
       setShowEditModal(false);
       setSelectedProduct(null);
@@ -302,6 +311,7 @@ export default function ProductManagementPage() {
   };
 
   const openEditModal = (product: Product) => {
+    console.log("Opening edit modal for product:", product);
     setSelectedProduct(product);
     setNewProduct({
       productName: product.productName,
@@ -310,18 +320,20 @@ export default function ProductManagementPage() {
       productDetails: product.productDetails,
     });
     setSelectOptions(product.selectOptions || []);
-    // For editing, we show existing images as previews
-    // If it's a URL (string), we keep it as a preview
-    // If the user adds new images, they get added to imageFiles
-    setImagePreviews(product.productImages && product.productImages.length > 0 
-      ? product.productImages 
-      : [product.productThumbnail]);
+    // Store existing server images separately from new uploads
+    const serverImages = product.images && product.images.length > 0
+      ? product.images
+      : [product.thumbnail];
+    setExistingImages(serverImages);
+    // Clear new file uploads
+    setImageFiles([]);
+    setImagePreviews([]);
     setShowEditModal(true);
   };
 
   const handleDelete = async (product: Product) => {
     try {
-      await deleteProduct(product._id);
+      await deleteProduct(product.id);
       await refetch();
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -333,7 +345,7 @@ export default function ProductManagementPage() {
       // Toggle: if currently true/undefined, set to false; if false, set to true
       const newValue = product.isAvailable !== false ? false : true;
       const newStatus = newValue ? "in stock" : "out of stock";
-      await updateProduct(product._id, { 
+      await updateProduct(product.id, { 
         isAvailable: newValue,
         productStatus: newStatus
       });
@@ -584,7 +596,8 @@ export default function ProductManagementPage() {
         price={newProduct.price}
         productDetails={newProduct.productDetails}
         imageFile={imageFiles.length > 0 ? imageFiles[0] : null}
-        imagePreview={imagePreviews as any}
+        imagePreview={[...existingImages, ...imagePreviews]}
+        existingImageCount={existingImages.length}
         selectOptions={selectOptions}
         selectOptionInput={selectOptionInput}
         loading={actionLoading}

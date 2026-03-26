@@ -16,7 +16,8 @@ export interface PopularProduct {
   productId: string;
   quantitySold: number;
   revenue: number;
-  productThumbnail: string;
+  productThumbnail?: string;
+  thumbnail?: string;
 }
 
 export interface DashboardOverview {
@@ -34,9 +35,11 @@ export interface DashboardOverviewResponse {
 
 // Popular products interfaces
 export interface PopularProductItem {
-  _id: string;
+  _id?: string;
+  id?: string;
   productName: string;
-  productThumbnail: string;
+  productThumbnail?: string;
+  thumbnail?: string;
   price: number;
   totalQuantitySold: number;
   totalRevenue: number;

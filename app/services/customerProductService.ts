@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import { Product, PaginationInfo } from "./productService";
+import { Product, PaginationInfo, normalizeProduct, normalizeProductList } from "./productService";
 
 export interface CustomerProductListResponse {
   success: boolean;
@@ -36,25 +36,41 @@ export const customerProductService = {
     const response = await apiClient.get(
       `/api/v1/store/customer/products${queryParams.toString() ? `?${queryParams.toString()}` : ""}`
     );
-    return response.data;
+    const data = response.data;
+    return {
+      ...data,
+      data: normalizeProductList(data.data),
+    };
   },
 
   // GET /api/v1/store/customer/products/{productId} - Get single product by ID
   getProductById: async (productId: string): Promise<CustomerProductResponse> => {
     const response = await apiClient.get(`/api/v1/store/customer/products/${productId}`);
-    return response.data;
+    const data = response.data;
+    return {
+      ...data,
+      data: normalizeProduct(data.data),
+    };
   },
 
   // GET /api/v1/search/products - Search products by keyword
   searchProducts: async (query: string): Promise<SearchProductsResponse> => {
     const response = await apiClient.get(`/api/v1/search/products?query=${encodeURIComponent(query)}`);
-    return response.data;
+    const data = response.data;
+    return {
+      ...data,
+      data: normalizeProductList(data.data),
+    };
   },
 
   // GET /api/v1/store/products/best-sellers - Get top 5 best sellers
   getBestSellers: async (): Promise<{ success: boolean; message: string; data: any[] }> => {
     const response = await apiClient.get("/api/v1/store/products/best-sellers");
-    return response.data;
+    const data = response.data;
+    return {
+      ...data,
+      data: normalizeProductList(data.data),
+    };
   },
 };
 

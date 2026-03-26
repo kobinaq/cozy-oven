@@ -199,9 +199,9 @@ export default function AdminDashboardPage() {
                 <div className="flex flex-col md:flex-row items-center gap-6">
                   {/* Product Image */}
                   <div className="w-full md:w-48 h-48 bg-gray-200 rounded-xl relative overflow-hidden flex-shrink-0">
-                    {dashboardData.bestSellerThisMonth.productThumbnail ? (
+                    {(dashboardData.bestSellerThisMonth.thumbnail || dashboardData.bestSellerThisMonth.productThumbnail) ? (
                       <Image
-                        src={dashboardData.bestSellerThisMonth.productThumbnail}
+                        src={dashboardData.bestSellerThisMonth.thumbnail || dashboardData.bestSellerThisMonth.productThumbnail || ''}
                         alt={dashboardData.bestSellerThisMonth.name}
                         fill
                         className="object-cover"
@@ -264,12 +264,12 @@ export default function AdminDashboardPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {popularProducts.map((product) => (
                   <div
-                    key={product._id}
+                    key={product.id || product._id}
                     className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow"
                   >
                     <div className="w-full h-32 bg-gray-200 rounded-lg mb-3 relative overflow-hidden">
                       <Image
-                        src={product.productThumbnail || "/placeholder.png"}
+                        src={product.thumbnail || product.productThumbnail || "/placeholder.png"}
                         alt={product.productName}
                         fill
                         className="object-cover"

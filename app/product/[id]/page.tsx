@@ -105,10 +105,10 @@ export default function ProductDetails() {
   const handleAddToCart = () => {
     addToCart(
       {
-        id: product._id,
+        id: product.id,
         name: product.productName,
         price: `GHS ${currentPrice.toFixed(2)}`,
-        image: product.productThumbnail,
+        image: product.thumbnail,
         description: product.productDetails,
         rating: product.rating || 4.5,
         reviews: 0,
@@ -138,7 +138,7 @@ export default function ProductDetails() {
 
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100">
               <Image
-                src={product.productThumbnail}
+                src={product.thumbnail}
                 alt={product.productName}
                 fill
                 className="object-cover"

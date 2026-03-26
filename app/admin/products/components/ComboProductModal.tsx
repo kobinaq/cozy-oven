@@ -273,7 +273,7 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
             >
               <option value="">Select product…</option>
               {products.map((p) => (
-                <option key={p._id} value={p._id}>
+                <option key={p.id} value={p.id}>
                   {p.productName} — GHS {p.price.toFixed(2)}
                 </option>
               ))}
