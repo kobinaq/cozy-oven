@@ -77,7 +77,7 @@ export default function OrderCards({ orders, onViewOrder }: OrderCardsProps) {
               )}`}
             >
               {getStatusIcon(order.status)}
-              {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+              {(order.status?.charAt(0) || "").toUpperCase() + (order.status?.slice(1) || "")}
             </span>
           </div>
 

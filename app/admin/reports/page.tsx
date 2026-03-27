@@ -393,7 +393,7 @@ export default function ReportsPage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold">
-                              {customer.fullName.charAt(0)}
+                              {customer.fullName?.charAt(0) || "?"}
                             </div>
                             <span className="ml-3 text-sm font-semibold text-gray-900">
                               {customer.fullName}
@@ -424,7 +424,7 @@ export default function ReportsPage() {
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold">
-                          {customer.fullName.charAt(0)}
+                          {customer.fullName?.charAt(0) || "?"}
                         </div>
                         <div>
                           <h3 className="font-semibold text-gray-900">{customer.fullName}</h3>

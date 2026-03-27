@@ -222,10 +222,10 @@ export default function CustomersPage() {
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3 flex-1">
                       <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold shrink-0">
-                        {customer.fullName.charAt(0)}
+                        {customer.fullName?.charAt(0) || "?"}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="font-semibold text-gray-900 text-sm truncate">{customer.fullName}</p>
+                        <p className="font-semibold text-gray-900 text-sm truncate">{customer.fullName || "N/A"}</p>
                         <p className="text-xs text-gray-500 truncate">{customer.email}</p>
                       </div>
                     </div>
@@ -277,21 +277,21 @@ export default function CustomersPage() {
                   {selectedCustomer === customer._id && (
                     <div className="border-t border-gray-100 pt-3 space-y-2">
                       <button 
-                        onClick={() => handleViewDetails(customer._id)}
+                        onClick={() => customer._id && handleViewDetails(customer._id)}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
                       >
                         <Eye className="w-4 h-4" />
                         View Details
                       </button>
                       <button 
-                        onClick={() => handleSendEmail(customer.email)}
+                        onClick={() => { if (customer.email) handleSendEmail(customer.email); }}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
                       >
                         <Mail className="w-4 h-4" />
                         Send Email
                       </button>
                       <button 
-                        onClick={() => handleDeactivate(customer._id, customer.fullName)}
+                        onClick={() => customer._id && handleDeactivate(customer._id, customer.fullName || "this customer")}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg"
                       >
                         <Ban className="w-4 h-4" />
@@ -352,10 +352,10 @@ export default function CustomersPage() {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold">
-                              {customer.fullName.charAt(0)}
+                              {customer.fullName?.charAt(0) || "?"}
                             </div>
                             <div className="ml-3">
-                              <p className="text-sm font-semibold text-gray-900">{customer.fullName}</p>
+                              <p className="text-sm font-semibold text-gray-900">{customer.fullName || "N/A"}</p>
                             </div>
                           </div>
                         </td>
@@ -408,21 +408,21 @@ export default function CustomersPage() {
                             {selectedCustomer === customer._id && (
                               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
                                 <button 
-                                  onClick={() => handleViewDetails(customer._id)}
+                                  onClick={() => { if (customer._id) handleViewDetails(customer._id); }}
                                   className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg"
                                 >
                                   <Eye className="w-4 h-4" />
                                   View Details
                                 </button>
                                 <button 
-                                  onClick={() => handleSendEmail(customer.email)}
+                                  onClick={() => { if (customer.email) handleSendEmail(customer.email); }}
                                   className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                                 >
                                   <Mail className="w-4 h-4" />
                                   Send Email
                                 </button>
                                 <button 
-                                  onClick={() => handleDeactivate(customer._id, customer.fullName)}
+                                  onClick={() => { if (customer._id) handleDeactivate(customer._id, customer.fullName || "this customer"); }}
                                   className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 rounded-b-lg"
                                 >
                                   <Ban className="w-4 h-4" />

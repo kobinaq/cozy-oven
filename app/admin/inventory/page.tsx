@@ -434,7 +434,7 @@ export default function InventoryPage() {
                           )}`}
                         >
                           {getStockIcon(item.itemStatus)}
-                          {item.itemStatus.charAt(0).toUpperCase() + item.itemStatus.slice(1)}
+                          {(item.itemStatus?.charAt(0) || "").toUpperCase() + (item.itemStatus?.slice(1) || "")}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -488,7 +488,7 @@ export default function InventoryPage() {
                     </div>
                     <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(item.itemStatus)}`}>
                       {getStockIcon(item.itemStatus)}
-                      {item.itemStatus.charAt(0).toUpperCase() + item.itemStatus.slice(1)}
+                           {(item.itemStatus?.charAt(0) || "").toUpperCase() + (item.itemStatus?.slice(1) || "")}
                     </span>
                   </div>
                   <div className="grid grid-cols-2 gap-3 mb-3">

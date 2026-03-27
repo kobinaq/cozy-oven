@@ -2,10 +2,10 @@ import apiClient from "./apiClient";
 
 // Customer interfaces
 export interface Customer {
-  _id: string;
-  fullName: string;
-  email: string;
-  phoneNumber: string;
+  _id: string | null;
+  fullName: string | null;
+  email: string | null;
+  phoneNumber: string | null;
   isActive: boolean;
   totalOrders: number;
   totalSpent: number;
@@ -62,16 +62,16 @@ export interface ApiResponse {
 
 // Raw API response shapes from backend
 interface RawCustomer {
-  id: string;
-  customer: string;
+  id: string | null;
+  customer: string | null;
   contact: {
-    email: string;
-    phone: string;
+    email: string | null;
+    phone: string | null;
   };
-  orders: number;
-  totalSpent: string; // e.g. "GHS 65.00"
-  status: "active" | "inactive";
-  joined: string; // e.g. "11/03/2026"
+  orders: number | null;
+  totalSpent: string | null; // e.g. "GHS 65.00"
+  status: "active" | "inactive" | null;
+  joined: string | null; // e.g. "11/03/2026"
 }
 
 interface RawGetCustomersResponse {
@@ -119,7 +119,7 @@ export const customerService = {
 
     const rawCustomers = raw?.data?.customers ?? [];
 
-    const customers: Customer[] = rawCustomers.map((c) => {
+    const customers: Customer[] = rawCustomers.map((c, index) => {
       // Parse "GHS 65.00" into a number
       let totalSpent = 0;
       if (typeof c.totalSpent === "string") {
@@ -134,7 +134,7 @@ export const customerService = {
       }
 
       // Convert joined "DD/MM/YYYY" to ISO string for consistent Date parsing
-      let createdAt = c.joined;
+      let createdAt = c.joined || new Date().toISOString();
       const parts = c.joined?.split("/") ?? [];
       if (parts.length === 3) {
         const [dayStr, monthStr, yearStr] = parts;
@@ -147,10 +147,10 @@ export const customerService = {
       }
 
       return {
-        _id: c.id,
-        fullName: c.customer,
-        email: c.contact?.email ?? "",
-        phoneNumber: c.contact?.phone ?? "",
+        _id: c.id || `anon-${index}`, // Fallback for React keys if ID is null
+        fullName: c.customer || "Unknown Customer",
+        email: c.contact?.email ?? null,
+        phoneNumber: c.contact?.phone ?? null,
         isActive: c.status === "active",
         totalOrders: c.orders ?? 0,
         totalSpent,

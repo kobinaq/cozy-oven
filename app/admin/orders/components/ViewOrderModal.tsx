@@ -251,7 +251,7 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                         ? 'bg-blue-100 text-blue-700'
                         : 'bg-gray-100 text-gray-700'
                     }`}>
-                      {orderDetails.orderStatus.charAt(0).toUpperCase() + orderDetails.orderStatus.slice(1)}
+                      {(orderDetails.orderStatus?.charAt(0) || "").toUpperCase() + (orderDetails.orderStatus?.slice(1) || "")}
                     </span>
                   </div>
                 </div>

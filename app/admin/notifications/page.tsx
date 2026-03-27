@@ -45,14 +45,22 @@ export default function NotificationsPage() {
     try {
       setLoading(true);
       if (filter === "unread") {
-        const response = await notificationService.getUnreadNotifications();
+        const response = await notificationService.getUnreadNotifications({
+          page: currentPage,
+          limit: 10,
+        });
         if (response.success) {
           setNotifications(response.data);
           setUnreadCount(response.unread);
-          // When viewing unread only, treat it as a single "page"
-          setTotalCount(response.data.length);
-          setCurrentPage(1);
-          setTotalPages(1);
+          // Now unread also supports pagination if backend provides it
+          if (response.pagination) {
+            setTotalCount(response.unread); // Total unread
+            setTotalPages(response.pagination.totalPages || 1);
+          } else {
+            // Fallback for backward compatibility
+            setTotalCount(response.data.length);
+            setTotalPages(1);
+          }
         }
       } else {
         const response = await notificationService.getAllNotifications({
@@ -215,7 +223,10 @@ export default function NotificationsPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
           <div className="flex gap-2">
             <button
-              onClick={() => setFilter("all")}
+              onClick={() => {
+                setFilter("all");
+                setCurrentPage(1);
+              }}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 filter === "all"
                   ? "bg-[#2A2C22] text-white"
@@ -225,7 +236,10 @@ export default function NotificationsPage() {
               All ({totalCount})
             </button>
             <button
-              onClick={() => setFilter("unread")}
+              onClick={() => {
+                setFilter("unread");
+                setCurrentPage(1);
+              }}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 filter === "unread"
                   ? "bg-[#2A2C22] text-white"
@@ -318,8 +332,8 @@ export default function NotificationsPage() {
           )}
         </div>
 
-        {/* Pagination (only for "all" filter) */}
-        {filter === "all" && !loading && totalPages > 1 && (
+        {/* Pagination */}
+        {!loading && totalPages > 1 && (
           <div className="flex justify-center gap-2 mt-6">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}

@@ -60,6 +60,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           }
         } catch (error) {
           console.error("Error fetching notification count:", error);
+          setNotificationCount(0); // Graceful fallback
         }
       }
     };
