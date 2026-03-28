@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import AdminLayout from "../components/AdminLayout";
 import { useAuth } from "../../context/AuthContext";
@@ -20,13 +20,12 @@ import notificationService, { type Notification } from "../../services/notificat
 export default function NotificationsPage() {
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [allNotifications, setAllNotifications] = useState<Notification[]>([]);
   const [filter, setFilter] = useState<"all" | "unread">("all");
   const [loading, setLoading] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
   const [unreadCount, setUnreadCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     if (!isAuthenticated || user?.role !== "Admin") {
@@ -38,53 +37,49 @@ export default function NotificationsPage() {
     if (isAuthenticated && user?.role === "Admin") {
       fetchNotifications();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, user, filter, currentPage]);
+  }, [isAuthenticated, user]);
 
   const fetchNotifications = async () => {
     try {
       setLoading(true);
-      if (filter === "unread") {
-        const response = await notificationService.getUnreadNotifications({
-          page: currentPage,
-          limit: 10,
-        });
-        if (response.success) {
-          setNotifications(response.data);
-          setUnreadCount(response.unread);
-          // Now unread also supports pagination if backend provides it
-          if (response.pagination) {
-            setTotalCount(response.unread); // Total unread
-            setTotalPages(response.pagination.totalPages || 1);
-          } else {
-            // Fallback for backward compatibility
-            setTotalCount(response.data.length);
-            setTotalPages(1);
-          }
-        }
-      } else {
-        const response = await notificationService.getAllNotifications({
-          page: currentPage,
-          limit: 10,
-        });
-        if (response.success) {
-          setNotifications(response.data.notifications);
-          setTotalCount(response.data.total);
-          setUnreadCount(response.data.unread);
-          if (response.data.pagination) {
-            setTotalPages(response.data.pagination.totalPages || 1);
-          } else {
-            // Fallback if backend doesn't send pagination meta
-            setTotalPages(1);
-          }
-        }
+      // notificationService only exposes no-arg GETs — paginate client-side
+      const response = await notificationService.getAllNotifications();
+      if (response.success && response.data) {
+        const list = (response.data.notifications ?? []).filter(
+          (n): n is Notification => n != null && typeof n === "object"
+        );
+        setAllNotifications(list);
+        setTotalCount(response.data.total ?? list.length);
+        setUnreadCount(response.data.unread ?? list.filter((n) => !n.isRead).length);
       }
     } catch (error) {
       console.error("Error fetching notifications:", error);
+      setAllNotifications([]);
+      setTotalCount(0);
+      setUnreadCount(0);
     } finally {
       setLoading(false);
     }
   };
+
+  const PAGE_SIZE = 10;
+
+  const filteredSource = useMemo(() => {
+    if (filter === "unread") {
+      return allNotifications.filter((n) => !n.isRead);
+    }
+    return allNotifications;
+  }, [filter, allNotifications]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredSource.length / PAGE_SIZE) || 1);
+
+  const safePage = Math.min(currentPage, totalPages);
+
+  const displayedNotifications = useMemo(
+    () =>
+      filteredSource.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE),
+    [filteredSource, safePage]
+  );
 
   const markAsRead = async (id: string) => {
     try {
@@ -120,8 +115,9 @@ export default function NotificationsPage() {
   };
 
   const getTimeAgo = (timestamp: string) => {
-    const now = new Date();
     const time = new Date(timestamp);
+    if (Number.isNaN(time.getTime())) return "";
+    const now = new Date();
     const diffInMinutes = Math.floor((now.getTime() - time.getTime()) / (1000 * 60));
 
     if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
@@ -129,8 +125,15 @@ export default function NotificationsPage() {
     return `${Math.floor(diffInMinutes / 1440)}d ago`;
   };
 
+  const formatNotificationTitle = (type: string | undefined) => {
+    const t = String(type ?? "").trim();
+    if (!t) return "Notification";
+    const first = t.charAt(0);
+    return `${first ? first.toUpperCase() : ""}${t.slice(1)} Notification`;
+  };
+
   const getNotificationIcon = (type?: string) => {
-    switch (type) {
+    switch (type != null ? String(type) : "") {
       case "order":
         return ShoppingCart;
       case "inventory":
@@ -145,7 +148,7 @@ export default function NotificationsPage() {
   };
 
   const getNotificationColor = (type?: string) => {
-    switch (type) {
+    switch (type != null ? String(type) : "") {
       case "order":
         return "bg-blue-100 text-blue-600";
       case "inventory":
@@ -162,8 +165,6 @@ export default function NotificationsPage() {
   if (!isAuthenticated || user?.role !== "Admin") {
     return null;
   }
-
-  const filteredNotifications = notifications;
 
   return (
     <AdminLayout>
@@ -257,14 +258,14 @@ export default function NotificationsPage() {
             <div className="p-12 text-center">
               <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin mx-auto" />
             </div>
-          ) : filteredNotifications.length > 0 ? (
+          ) : displayedNotifications.length > 0 ? (
             <div className="divide-y divide-gray-100">
-              {filteredNotifications.map((notification) => {
+              {displayedNotifications.map((notification, idx) => {
                 const Icon = getNotificationIcon(notification.type);
                 const color = getNotificationColor(notification.type);
                 return (
                   <div
-                    key={notification._id}
+                    key={notification._id || `n-${idx}`}
                     className={`p-4 hover:bg-gray-50 transition-colors ${
                       !notification.isRead ? "bg-blue-50/50" : ""
                     }`}
@@ -279,7 +280,7 @@ export default function NotificationsPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
                           <h3 className="font-semibold text-gray-900">
-                            {notification.type ? notification.type.charAt(0).toUpperCase() + notification.type.slice(1) + " Notification" : "Notification"}
+                            {formatNotificationTitle(notification.type)}
                           </h3>
                           <div className="flex items-center gap-2 shrink-0">
                             <span className="text-xs text-gray-500 flex items-center gap-1">
@@ -291,7 +292,7 @@ export default function NotificationsPage() {
                             )}
                           </div>
                         </div>
-                        <p className="text-sm text-gray-600 mt-1">{notification.message}</p>
+                        <p className="text-sm text-gray-600 mt-1">{notification.message ?? ""}</p>
 
                         {/* Actions */}
                         <div className="flex items-center gap-3 mt-3">
@@ -337,17 +338,17 @@ export default function NotificationsPage() {
           <div className="flex justify-center gap-2 mt-6">
             <button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
-              disabled={currentPage === 1}
+              disabled={safePage === 1}
               className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </button>
             <span className="px-4 py-2 text-gray-700">
-              Page {currentPage} of {totalPages}
+              Page {safePage} of {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
-              disabled={currentPage === totalPages}
+              disabled={safePage === totalPages}
               className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
