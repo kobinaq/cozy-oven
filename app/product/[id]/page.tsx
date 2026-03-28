@@ -1,11 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { Star, ArrowLeft, ShoppingCart } from "lucide-react";
-import { motion } from "framer-motion";
-
+import { Star, ArrowLeft, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import QuantitySelector from "../../components/QuantitySelector";
@@ -43,6 +41,34 @@ export default function ProductDetails() {
   const [selectedSize, setSelectedSize] = useState<string | null>(
     availableOptions?.[0]?.label ?? null
   );
+
+  const galleryImages = useMemo(() => {
+    if (!product) return [] as string[];
+    const seen = new Set<string>();
+    const out: string[] = [];
+    const push = (url?: string | null) => {
+      const u = typeof url === "string" ? url.trim() : "";
+      if (!u) return;
+      if (seen.has(u)) return;
+      seen.add(u);
+      out.push(u);
+    };
+    push(product.thumbnail);
+    (product.images ?? []).forEach(push);
+    return out;
+  }, [product]);
+
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [id]);
+
+  useEffect(() => {
+    if (activeImageIndex >= galleryImages.length) {
+      setActiveImageIndex(0);
+    }
+  }, [galleryImages.length, activeImageIndex]);
 
   // Update selectedSize and quantity when product loads
   useEffect(() => {
@@ -102,13 +128,18 @@ export default function ProductDetails() {
   }
 
 
+  const mainImageSrc =
+    galleryImages[activeImageIndex] ??
+    product.thumbnail ??
+    "/placeholder.svg";
+
   const handleAddToCart = () => {
     addToCart(
       {
         id: product.id,
         name: product.productName,
         price: `GHS ${currentPrice.toFixed(2)}`,
-        image: product.thumbnail,
+        image: mainImageSrc,
         description: product.productDetails,
         rating: product.rating || 4.5,
         reviews: 0,
@@ -136,18 +167,88 @@ export default function ProductDetails() {
 
           <div className="grid md:grid-cols-2 gap-12">
 
-            <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100">
-              <Image
-                src={product.thumbnail}
-                alt={product.productName}
-                fill
-                className="object-cover"
-                priority
-              />
-              {/* Sold Out Badge */}
-              {isSoldOut && (
-                <div className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg z-10">
-                  Sold Out
+            <div className="space-y-4">
+              <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100">
+                <Image
+                  src={mainImageSrc}
+                  alt={product.productName}
+                  fill
+                  className="object-cover"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                {galleryImages.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveImageIndex((i) =>
+                          i <= 0 ? galleryImages.length - 1 : i - 1
+                        )
+                      }
+                      className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/90 text-gray-800 shadow-md hover:bg-white transition-colors"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft className="w-6 h-6" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveImageIndex((i) =>
+                          i >= galleryImages.length - 1 ? 0 : i + 1
+                        )
+                      }
+                      className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/90 text-gray-800 shadow-md hover:bg-white transition-colors"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight className="w-6 h-6" />
+                    </button>
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 px-2 py-1 rounded-full bg-black/40">
+                      {galleryImages.map((_, i) => (
+                        <button
+                          key={i}
+                          type="button"
+                          onClick={() => setActiveImageIndex(i)}
+                          className={`h-2 rounded-full transition-all ${
+                            i === activeImageIndex
+                              ? "w-6 bg-white"
+                              : "w-2 bg-white/50 hover:bg-white/70"
+                          }`}
+                          aria-label={`Image ${i + 1} of ${galleryImages.length}`}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+                {isSoldOut && (
+                  <div className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg z-10">
+                    Sold Out
+                  </div>
+                )}
+              </div>
+
+              {galleryImages.length > 1 && (
+                <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin snap-x snap-mandatory">
+                  {galleryImages.map((src, i) => (
+                    <button
+                      key={`${src}-${i}`}
+                      type="button"
+                      onClick={() => setActiveImageIndex(i)}
+                      className={`relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 snap-start transition-all ${
+                        i === activeImageIndex
+                          ? "border-[#bd6325] ring-2 ring-[#bd6325]/30"
+                          : "border-transparent opacity-70 hover:opacity-100"
+                      }`}
+                    >
+                      <Image
+                        src={src}
+                        alt={`${product.productName} — image ${i + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="96px"
+                      />
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
