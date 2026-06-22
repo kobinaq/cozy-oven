@@ -23,14 +23,15 @@ export default function ComboSection() {
   }
 
   return (
-    <section className="py-16 bg-[#fff8f0]">
+    <section id="gift-combos" className="py-20 bg-[#f6ead8]">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#2A2C22]">
+            <p className="premium-kicker mb-3">Gifting made easy</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-[#231913]">
               Flight Boxes &amp; Gift Combos
             </h2>
-            <p className="text-gray-700 mt-2 max-w-xl">
+            <p className="text-[#6b5d50] mt-4 max-w-xl">
               Build a custom box by choosing multiple flavours. The base price covers the first
               selections, and any extras are added transparently.
             </p>
@@ -42,9 +43,9 @@ export default function ComboSection() {
             <button
               key={combo.id}
               onClick={() => setActiveCombo(combo)}
-              className="text-left bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+              className="premium-card text-left rounded-2xl overflow-hidden hover:-translate-y-1 transition-transform"
             >
-              <div className="relative h-40 bg-gray-100">
+              <div className="relative h-48 bg-[#fffdf8]">
                 {combo.image ? (
                   <Image
                     src={combo.image}
@@ -59,11 +60,11 @@ export default function ComboSection() {
                 )}
               </div>
               <div className="p-4 space-y-2">
-                <h3 className="text-lg font-semibold text-gray-900">{combo.name}</h3>
-                <p className="text-sm text-gray-600 line-clamp-2">
+                <h3 className="text-lg font-semibold text-[#231913]">{combo.name}</h3>
+                <p className="text-sm text-[#6b5d50] line-clamp-2">
                   {combo.description || "Create your own signature combo."}
                 </p>
-                <p className="text-sm font-medium text-[#bd6325]">
+                <p className="text-sm font-bold text-[#b56b32]">
                   Choose any {combo.baseSelectionCount} for ₵ {combo.basePrice.toFixed(2)}
                 </p>
                 {combo.allowExtras && (

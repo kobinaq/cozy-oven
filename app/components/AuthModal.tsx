@@ -221,20 +221,20 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[#231913]/50 backdrop-blur-sm p-4"
         onClick={handleClose}
       >
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          className="relative bg-white rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+          className="premium-card relative rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close button */}
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition"
+            className="absolute top-4 right-4 p-2 rounded-full hover:bg-[#f6ead8] transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -242,16 +242,23 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
           <div className="p-8">
             {/* Header */}
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <p className="premium-kicker mb-2">
+                {activeTab === "login" && "Account"}
+                {activeTab === "signup" && "Join Cozy Oven"}
+                {activeTab === "forgot-password" && "Account help"}
+                {activeTab === "verify-otp" && "Security"}
+                {activeTab === "reset-password" && "Security"}
+              </p>
+              <h2 className="text-2xl font-bold text-[#231913]">
                 {activeTab === "login" && "Welcome Back"}
                 {activeTab === "signup" && "Create Account"}
                 {activeTab === "forgot-password" && "Reset Password"}
                 {activeTab === "verify-otp" && "Verify OTP"}
                 {activeTab === "reset-password" && "New Password"}
               </h2>
-              <p className="text-gray-600 mt-2">
+              <p className="text-[#6b5d50] mt-2">
                 {activeTab === "login" && "Sign in to continue to Cozy Oven"}
-                {activeTab === "signup" && "Join us and start ordering delicious treats"}
+                {activeTab === "signup" && "Join us and start ordering premium treats"}
                 {activeTab === "forgot-password" && "We'll send you a code to reset your password"}
                 {activeTab === "verify-otp" && "Enter the OTP sent to your  phone number"}
                 {activeTab === "reset-password" && "Create a new secure password"}
@@ -260,12 +267,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
 
             {/* Error and Success messages */}
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
                 {error}
               </div>
             )}
             {success && (
-              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
+              <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl text-green-700 text-sm">
                 {success}
               </div>
             )}
@@ -280,7 +287,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                   <input
                     type="email"
                     {...loginForm.register("email")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                     placeholder="you@example.com"
                   />
                   {loginForm.formState.errors.email && (
@@ -298,8 +305,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                     <input
                       type={showLoginPassword ? "text" : "password"}
                       {...loginForm.register("password")}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent pr-10"
-                      placeholder="••••••••"
+                      className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent pr-10"
+                      placeholder="********"
                     />
                     <button
                       type="button"
@@ -326,7 +333,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                     setActiveTab("forgot-password");
                     resetForms();
                   }}
-                  className="text-sm text-[#2A2C22] hover:underline"
+                  className="text-sm text-[#b56b32] hover:underline"
                 >
                   Forgot password?
                 </button>
@@ -334,7 +341,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="premium-button w-full py-3 disabled:opacity-50"
                 >
                   {loading ? "Signing in..." : "Sign In"}
                 </button>
@@ -347,7 +354,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       setActiveTab("signup");
                       resetForms();
                     }}
-                    className="text-[#2A2C22] font-semibold hover:underline"
+                    className="text-[#b56b32] font-semibold hover:underline"
                   >
                     Sign Up
                   </button>
@@ -365,7 +372,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                   <input
                     type="text"
                     {...signupForm.register("fullName")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                     placeholder="Jane Doe"
                   />
                   {signupForm.formState.errors.fullName && (
@@ -382,7 +389,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                   <input
                     type="email"
                     {...signupForm.register("email")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                     placeholder="you@example.com"
                   />
                   {signupForm.formState.errors.email && (
@@ -399,7 +406,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                   <input
                     type="tel"
                     {...signupForm.register("phoneNumber")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                     placeholder="0205345678"
                   />
                   {signupForm.formState.errors.phoneNumber && (
@@ -417,7 +424,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                     <input
                       type={showSignupPassword ? "text" : "password"}
                       {...signupForm.register("password")}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent pr-10"
+                      className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent pr-10"
                       placeholder="********"
                     />
                     <button
@@ -442,7 +449,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="premium-button w-full py-3 disabled:opacity-50"
                 >
                   {loading ? "Creating Account..." : "Sign Up"}
                 </button>
@@ -455,7 +462,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       setActiveTab("login");
                       resetForms();
                     }}
-                    className="text-[#2A2C22] font-semibold hover:underline"
+                    className="text-[#b56b32] font-semibold hover:underline"
                   >
                     Sign In
                   </button>
@@ -476,7 +483,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                   <input
                     type="email"
                     {...forgotPasswordForm.register("email")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                     placeholder="you@example.com"
                   />
                   {forgotPasswordForm.formState.errors.email && (
@@ -489,7 +496,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="premium-button w-full py-3 disabled:opacity-50"
                 >
                   {loading ? "Sending..." : "Send OTP"}
                 </button>
@@ -502,7 +509,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       setActiveTab("login");
                       resetForms();
                     }}
-                    className="text-[#2A2C22] font-semibold hover:underline"
+                    className="text-[#b56b32] font-semibold hover:underline"
                   >
                     Sign In
                   </button>
@@ -520,7 +527,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                   <input
                     type="text"
                     {...verifyOtpForm.register("otp")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent text-center text-2xl tracking-widest"
+                    className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent text-center text-2xl tracking-widest"
                     placeholder="12345"
                     maxLength={5}
                   />
@@ -534,7 +541,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="premium-button w-full py-3 disabled:opacity-50"
                 >
                   {loading ? "Verifying..." : "Verify OTP"}
                 </button>
@@ -545,7 +552,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                     type="button"
                     onClick={handleResendOtp}
                     disabled={loading}
-                    className="text-[#2A2C22] font-semibold hover:underline disabled:opacity-50"
+                    className="text-[#b56b32] font-semibold hover:underline disabled:opacity-50"
                   >
                     Resend
                   </button>
@@ -567,8 +574,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                     <input
                       type={showResetPassword ? "text" : "password"}
                       {...resetPasswordForm.register("newPassword")}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent pr-10"
-                      placeholder="••••••••"
+                      className="w-full px-4 py-3 border border-[#eadfce] rounded-xl bg-white focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent pr-10"
+                      placeholder="********"
                     />
                     <button
                       type="button"
@@ -596,7 +603,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="premium-button w-full py-3 disabled:opacity-50"
                 >
                   {loading ? "Resetting..." : "Reset Password"}
                 </button>

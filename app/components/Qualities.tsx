@@ -1,103 +1,30 @@
 "use client";
 
-import { Truck, ShieldCheck, CreditCard } from "lucide-react";
+import { Truck, ShieldCheck, CreditCard, Gift } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-
-// Bubble component for floating animations
-const FloatingBubble = ({ 
-  size, 
-  color, 
-  left, 
-  top, 
-  delay, 
-  duration 
-}: { 
-  size: number; 
-  color: string; 
-  left: string; 
-  top: string; 
-  delay: number;
-  duration: number;
-}) => {
-  return (
-    <motion.div
-      className="absolute rounded-full opacity-20"
-      style={{
-        width: `${size}px`,
-        height: `${size}px`,
-        backgroundColor: color,
-        left,
-        top,
-      }}
-      animate={{
-        y: [0, -20, 0],
-        x: [0, 10, 0],
-        scale: [1, 1.1, 1],
-      }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        ease: "easeInOut",
-      }}
-    />
-  );
-};
 
 export default function Qualities() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   const qualities = [
-    { 
-      icon: Truck, 
-      title: "Quick Delivery", 
-      bgColor: "bg-[#bd6325]/15",
-      borderColor: "border-[#bd6325]/30", 
-      iconColor: "text-[#bd6325]",
-      bubbles: [
-        { size: 20, color: "#bd6325", left: "10%", top: "15%", delay: 0, duration: 3 },
-        { size: 15, color: "#bd6325", left: "80%", top: "25%", delay: 0.5, duration: 4 },
-        { size: 25, color: "#bd6325", left: "20%", top: "70%", delay: 1, duration: 3.5 },
-        { size: 18, color: "#bd6325", left: "75%", top: "65%", delay: 1.5, duration: 4.5 },
-        { size: 12, color: "#bd6325", left: "50%", top: "10%", delay: 0.8, duration: 3.2 },
-      ]
-    },
-    { 
-      icon: ShieldCheck, 
-      title: "Customer Satisfaction Guarantee", 
-      bgColor: "bg-[#bd6325]/15",
-      borderColor: "border-[#bd6325]/30", 
-      iconColor: "text-[#bd6325]",
-      bubbles: [
-        { size: 22, color: "#bd6325", left: "15%", top: "20%", delay: 0, duration: 3.5 },
-        { size: 16, color: "#bd6325", left: "85%", top: "30%", delay: 0.7, duration: 4 },
-        { size: 20, color: "#bd6325", left: "25%", top: "75%", delay: 1.2, duration: 3.8 },
-        { size: 14, color: "#bd6325", left: "70%", top: "60%", delay: 0.3, duration: 4.2 },
-        { size: 19, color: "#bd6325", left: "45%", top: "15%", delay: 1, duration: 3.3 },
-      ]
-    },
-    { 
-      icon: CreditCard, 
-      title: "Secure Payments", 
-      bgColor: "bg-[#bd6325]/15",
-      borderColor: "border-[#bd6325]/30", 
-      iconColor: "text-[#bd6325]",
-      bubbles: [
-        { size: 18, color: "#bd6325", left: "12%", top: "18%", delay: 0, duration: 4 },
-        { size: 24, color: "#bd6325", left: "82%", top: "28%", delay: 0.6, duration: 3.5 },
-        { size: 16, color: "#bd6325", left: "22%", top: "72%", delay: 1.1, duration: 4.3 },
-        { size: 20, color: "#bd6325", left: "78%", top: "62%", delay: 0.4, duration: 3.7 },
-        { size: 14, color: "#bd6325", left: "48%", top: "12%", delay: 0.9, duration: 4.1 },
-      ]
-    },
+    { icon: Gift, title: "Gift-ready packaging", body: "Boxes arrive polished, protective, and ready to hand over." },
+    { icon: Truck, title: "Pickup or delivery", body: "Choose store pickup or delivery details during checkout." },
+    { icon: CreditCard, title: "Secure Paystack checkout", body: "Pay safely with mobile money, cards, and supported payment methods." },
+    { icon: ShieldCheck, title: "Freshness promise", body: "Every order is prepared with care and tracked by the Cozy Oven team." },
   ];
 
   return (
-    <section ref={sectionRef} className="md:py-24 py-16 bg-[#faf9f5]">
-      <div className="max-w-5xl mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8">
+    <section ref={sectionRef} className="md:py-20 py-16 bg-[#231913]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="mb-10 max-w-2xl">
+          <p className="premium-kicker mb-3 text-[#c79a4b]">The premium details</p>
+          <h2 className="text-3xl font-bold text-white sm:text-5xl">
+            Made to feel considered from checkout to unboxing.
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-5">
           {qualities.map((quality, index) => {
             const Icon = quality.icon;
             return (
@@ -106,29 +33,16 @@ export default function Qualities() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`${quality.bgColor} border-2 ${quality.borderColor} rounded-2xl py-6 px-6 shadow-sm transition-all duration-300 transform hover:scale-105 hover:shadow-md relative overflow-hidden`}
+                className="rounded-2xl border border-white/10 bg-white/[0.06] py-6 px-5 transition-colors hover:bg-white/[0.09]"
               >
-                {/* Floating Bubbles */}
-                {quality.bubbles.map((bubble, bubbleIndex) => (
-                  <FloatingBubble
-                    key={bubbleIndex}
-                    size={bubble.size}
-                    color={bubble.color}
-                    left={bubble.left}
-                    top={bubble.top}
-                    delay={bubble.delay}
-                    duration={bubble.duration}
-                  />
-                ))}
-                
-                {/* Content */}
-                <div className="flex flex-col items-center text-center gap-4 relative z-10">
-                  <div className={`bg-white p-4 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm`}>
-                    <Icon className={`w-6 h-6 sm:w-8 sm:h-8 ${quality.iconColor}`} />
+                <div className="flex flex-col gap-4 relative z-10">
+                  <div className="bg-[#c79a4b] p-3 rounded-full flex w-fit items-center justify-center flex-shrink-0 shadow-sm">
+                    <Icon className="w-6 h-6 text-[#231913]" />
                   </div>
-                  <h3 className="text-sm sm:text-base md:text-lg font-bold text-[#222222] mb-0">
+                  <h3 className="text-base font-bold text-white mb-0">
                     {quality.title}
                   </h3>
+                  <p className="text-sm leading-6 text-white/70">{quality.body}</p>
                 </div>
               </motion.div>
             );
@@ -140,12 +54,12 @@ export default function Qualities() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-16 text-center"
+          className="mt-14 text-center"
         >
-          <p className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#bd6325] mb-2">
+          <p className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#c79a4b] mb-2">
             1,300+
           </p>
-          <p className="text-lg sm:text-xl text-[#222222] font-medium">
+          <p className="text-lg sm:text-xl text-white/75 font-medium">
             Deliveries Made Successfully
           </p>
         </motion.div>

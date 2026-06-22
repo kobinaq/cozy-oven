@@ -26,19 +26,21 @@ export default function CartPage() {
     return (
       <>
         <Navbar />
-        <main className="min-h-screen pt-24 pb-16">
+        <main className="premium-shell min-h-screen pt-28 pb-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <ShoppingBag className="w-24 h-24 text-gray-300 mb-6" />
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
-                Your basket&apos;s feeling lonely. Add some treats!
+              <div className="mb-6 rounded-full bg-[#f6ead8] p-6">
+                <ShoppingBag className="w-16 h-16 text-[#b56b32]" />
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#231913] mb-4">
+                Your gift basket is waiting.
               </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-8 max-w-md">
-                Browse our delicious selection of fresh-baked banana bread and pastries
+              <p className="text-sm sm:text-base text-[#6b5d50] mb-8 max-w-md">
+                Choose a fresh loaf, minis, or a polished flight box for the next sweet occasion.
               </p>
               <button
                 onClick={() => router.push("/")}
-                className="bg-[#bd6325] hover:bg-[#bd6325] text-white font-semibold py-3 px-8 rounded-lg transition-colors"
+                className="premium-button py-3 px-8"
               >
                 Shop Now
               </button>
@@ -53,10 +55,11 @@ export default function CartPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-24 pb-16 bg-gray-50">
+      <main className="premium-shell min-h-screen pt-28 pb-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-8">
-            Shopping Cart
+          <p className="premium-kicker mb-3">Your selection</p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#231913] mb-8">
+            Gift basket
           </h1>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -69,11 +72,11 @@ export default function CartPage() {
                 return (
                   <div
                     key={`${item.id}-${item.selectedSize}`}
-                    className="bg-white rounded-lg shadow-sm p-4 md:p-6 hover:shadow-md transition-shadow"
+                    className="premium-card rounded-2xl p-4 md:p-6 transition-transform hover:-translate-y-0.5"
                   >
                     <div className="flex gap-4">
                       {/* Thumbnail */}
-                      <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                      <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-xl overflow-hidden flex-shrink-0 bg-[#f6ead8]">
                         <Image
                           src={item.image || ""}
                           alt={item.name}
@@ -86,12 +89,12 @@ export default function CartPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start mb-2">
                           <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                            <h3 className="text-lg font-semibold text-[#231913] mb-1">
                               {item.name}
                             </h3>
                             {item.selectedSize && (
                               <p className="text-sm text-gray-600">
-                                Size: {item.selectedSize}
+                                Box/size: {item.selectedSize}
                               </p>
                             )}
                           </div>
@@ -112,7 +115,7 @@ export default function CartPage() {
                               onClick={() =>
                                 handleQuantityChange(item.id, item.quantity - 1, item.selectedSize)
                               }
-                              className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:bg-gray-100 transition-colors"
+                              className="w-8 h-8 flex items-center justify-center border border-[#eadfce] rounded-full hover:bg-[#fff8e8] transition-colors"
                               aria-label="Decrease quantity"
                             >
                               <Minus className="w-4 h-4" />
@@ -124,7 +127,7 @@ export default function CartPage() {
                               onClick={() =>
                                 handleQuantityChange(item.id, item.quantity + 1, item.selectedSize)
                               }
-                              className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:bg-gray-100 transition-colors"
+                              className="w-8 h-8 flex items-center justify-center border border-[#eadfce] rounded-full hover:bg-[#fff8e8] transition-colors"
                               aria-label="Increase quantity"
                             >
                               <Plus className="w-4 h-4" />
@@ -136,7 +139,7 @@ export default function CartPage() {
                             <p className="text-sm text-gray-600">
                               GHS {itemPrice.toFixed(2)} each
                             </p>
-                            <p className="text-lg font-bold text-[#bd6325]">
+                            <p className="text-lg font-bold text-[#b56b32]">
                               GHS {itemTotal.toFixed(2)}
                             </p>
                           </div>
@@ -150,8 +153,8 @@ export default function CartPage() {
 
             {/* Cart Summary - Right Side (Sticky on desktop) */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
+              <div className="premium-card rounded-2xl p-6 sticky top-28">
+                <h2 className="text-xl font-bold text-[#231913] mb-6">
                   Order Summary
                 </h2>
 
@@ -160,22 +163,26 @@ export default function CartPage() {
                     <span>Subtotal</span>
                     <span>GHS {subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="border-t pt-3 flex justify-between text-lg font-bold text-gray-900">
+                  <div className="border-t border-[#eadfce] pt-3 flex justify-between text-lg font-bold text-[#231913]">
                     <span>Total</span>
-                    <span className="text-[#bd6325]">GHS {total.toFixed(2)}</span>
+                    <span className="text-[#b56b32]">GHS {total.toFixed(2)}</span>
                   </div>
+                </div>
+
+                <div className="mb-5 rounded-xl bg-[#fff8e8] p-4 text-sm text-[#6b5d50]">
+                  Delivery fees are confirmed separately based on location. Gift notes can be added in checkout.
                 </div>
 
                 <button
                   onClick={() => router.push("/checkout")}
-                  className="w-full bg-[#bd6325] hover:bg-[#bd6325] text-white font-bold py-3 px-6 rounded-full transition-colors mb-3 hover:cursor-pointer"
+                  className="premium-button w-full py-3 px-6 mb-3 hover:cursor-pointer"
                 >
                   Proceed to Checkout
                 </button>
 
                 <button
                   onClick={() => router.push("/")}
-                  className="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-6 rounded-full hover:cursor-pointer transition-colors"
+                  className="premium-button-secondary w-full py-3 px-6 hover:cursor-pointer"
                 >
                   Continue Shopping
                 </button>

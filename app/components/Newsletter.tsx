@@ -12,13 +12,14 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="py-16 md:py-16 ">
+    <section className="premium-shell py-16 md:py-20">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          Want tips on how to make these tasty delicacies???
+        <p className="premium-kicker mb-3">Bakery notes</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-[#231913] mb-4">
+          Flavor drops, gifting ideas, and sweet updates.
         </h2>
-        <p className="text-lg text-gray-600 mb-8">
-          Subscribe to our newsletter and get exclusive baking tips, recipes, and special offers delivered straight to your inbox!
+        <p className="text-lg text-[#6b5d50] mb-8">
+          Subscribe for seasonal boxes, new flavors, and special offers delivered straight to your inbox.
         </p>
         
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
@@ -27,12 +28,12 @@ export default function Newsletter() {
             placeholder="Enter your email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="flex-1 px-6 py-4 rounded-full border-2 border-gray-300 focus:border-amber-500 focus:outline-none text-gray-900"
+            className="flex-1 px-6 py-4 rounded-full border border-[#eadfce] bg-white focus:border-[#c79a4b] focus:outline-none text-[#231913]"
             required
           />
           <button
             type="submit"
-            className="bg-[#2A2C22] text-white px-8 py-4 rounded-full font-semibold hover:bg-[2A2C22] transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+            className="premium-button px-8 py-4 flex items-center justify-center gap-2"
           >
             <Send className="w-5 h-5" />
             Subscribe

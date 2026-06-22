@@ -289,13 +289,19 @@ export default function CheckoutPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-24 pb-16 bg-gray-50">
+      <main className="premium-shell min-h-screen pt-28 pb-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-8">Checkout</h1>
+          <p className="premium-kicker mb-3">Checkout</p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#231913] mb-4">
+            Finish your gift order
+          </h1>
+          <p className="mb-8 max-w-2xl text-[#6b5d50]">
+            Confirm the recipient details, pickup or delivery preference, and complete payment securely with Paystack.
+          </p>
 
           {!isAuthenticated && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-sm text-red-800">
+            <div className="mb-6 rounded-2xl border border-[#eadfce] bg-[#fff8e8] p-4">
+              <p className="text-sm text-[#6b5d50]">
                The minimum delivery charge is GHS 30, and the final fee may vary depending on your location and other delivery factors..
               </p>
             </div>
@@ -309,8 +315,8 @@ export default function CheckoutPage() {
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
                       index <= currentStepIndex
-                        ? "bg-[#bd6325] text-white"
-                        : "bg-gray-200 text-gray-600"
+                        ? "bg-[#231913] text-white"
+                        : "bg-white text-[#8a7b6b] border border-[#eadfce]"
                     }`}
                   >
                     {index < currentStepIndex ? <Check className="w-5 h-5" /> : index + 1}
@@ -321,7 +327,7 @@ export default function CheckoutPage() {
                 {index < steps.length - 1 && (
                   <div
                     className={`flex-1 h-1 mx-2 ${
-                      index < currentStepIndex ? "bg-[#bd6325]" : "bg-gray-200"
+                      index < currentStepIndex ? "bg-[#c79a4b]" : "bg-[#eadfce]"
                     }`}
                   />
                 )}
@@ -330,7 +336,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* Form Content */}
-          <div className="bg-white rounded-lg shadow-sm p-6 md:p-8 mb-8">
+          <div className="premium-card rounded-2xl p-6 md:p-8 mb-8">
             {/* Error Message at top of form */}
             {error && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
@@ -341,13 +347,13 @@ export default function CheckoutPage() {
             {/* Customer Information */}
             {currentStep === "info" && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                <h2 className="text-2xl font-bold text-[#231913] mb-6">
                   Customer Information
                 </h2>
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Full Name *
+                      Recipient / Full Name *
                     </label>
                     <input
                       type="text"
@@ -355,7 +361,7 @@ export default function CheckoutPage() {
                       onChange={(e) =>
                         setCustomerInfo({ ...customerInfo, name: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#eadfce] bg-white px-4 py-3 focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                       placeholder="John Doe"
                       autoComplete="name"
                     />
@@ -370,7 +376,7 @@ export default function CheckoutPage() {
                       onChange={(e) =>
                         setCustomerInfo({ ...customerInfo, email: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#eadfce] bg-white px-4 py-3 focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                       placeholder="john@example.com"
                       autoComplete="email"
                     />
@@ -385,7 +391,7 @@ export default function CheckoutPage() {
                       onChange={(e) =>
                         setCustomerInfo({ ...customerInfo, phone: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#eadfce] bg-white px-4 py-3 focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                       placeholder="+233 123 456 789"
                       autoComplete="tel"
                     />
@@ -397,7 +403,7 @@ export default function CheckoutPage() {
             {/* Delivery/Pickup Details */}
             {currentStep === "delivery" && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                <h2 className="text-2xl font-bold text-[#231913] mb-6">
                   Delivery Details
                 </h2>
             
@@ -412,7 +418,7 @@ export default function CheckoutPage() {
                       onClick={() => setDeliveryMethod("delivery")}
                       className={`flex-1 py-3 px-4 rounded-full border-2 font-semibold transition-colors ${
                         deliveryMethod === "delivery"
-                          ? "border-[#bd6325] bg-orange-50 text-[#bd6325]"
+                          ? "border-[#c79a4b] bg-[#fff8e8] text-[#231913]"
                           : "border-gray-300 text-gray-700 hover:border-gray-400"
                       }`}
                     >
@@ -422,7 +428,7 @@ export default function CheckoutPage() {
                       onClick={() => setDeliveryMethod("pickup")}
                       className={`flex-1 py-3 px-4 rounded-full border-2 font-semibold transition-colors ${
                         deliveryMethod === "pickup"
-                          ? "border-[#bd6325] bg-orange-50 text-[#bd6325]"
+                          ? "border-[#c79a4b] bg-[#fff8e8] text-[#231913]"
                           : "border-gray-300 text-gray-700 hover:border-gray-400"
                       }`}
                     >
@@ -451,7 +457,7 @@ export default function CheckoutPage() {
                             address: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#eadfce] bg-white px-4 py-3 focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                         placeholder="123 Main Street"
                         autoComplete="street-address"
                       />
@@ -469,7 +475,7 @@ export default function CheckoutPage() {
                             city: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#eadfce] bg-white px-4 py-3 focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                         placeholder="Accra"
                         autoComplete="address-level2"
                       />
@@ -494,7 +500,7 @@ export default function CheckoutPage() {
                           })
                         }
                         min={new Date().toISOString().split('T')[0]}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#eadfce] bg-white px-4 py-3 focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                       />
                     </div>
                     <div>
@@ -510,7 +516,7 @@ export default function CheckoutPage() {
                             time: e.target.value,
                           })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#eadfce] bg-white px-4 py-3 focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
                       />
                     </div>
                   </div>
@@ -518,7 +524,7 @@ export default function CheckoutPage() {
 
                 <div className="mt-4">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Special Instructions (Optional)
+                    Gift Note / Special Instructions (Optional)
                   </label>
                   <textarea
                     value={deliveryDetails.notes}
@@ -529,8 +535,8 @@ export default function CheckoutPage() {
                       })
                     }
                     rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
-                    placeholder="Please ring bell once, no nuts..."
+                    className="w-full rounded-xl border border-[#eadfce] bg-white px-4 py-3 focus:ring-2 focus:ring-[#c79a4b]/40 focus:border-transparent"
+                    placeholder="Happy birthday note, delivery direction, no nuts..."
                   />
                 </div>
               </div>
@@ -539,7 +545,7 @@ export default function CheckoutPage() {
             {/* Payment Details */}
             {currentStep === "payment" && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                <h2 className="text-2xl font-bold text-[#231913] mb-6">
                   Payment Method
                 </h2>
 
@@ -551,15 +557,15 @@ export default function CheckoutPage() {
                     <div className="space-y-3">
                       <button
                         onClick={() => setPaymentMethod("paystack")}
-                        className="w-full py-3 px-4 rounded-lg border-2 text-left font-semibold transition-colors border-[#bd6325] bg-orange-50 text-[#bd6325]"
+                        className="w-full py-4 px-5 rounded-2xl border text-left font-semibold transition-colors border-[#c79a4b] bg-[#fff8e8] text-[#231913]"
                       >
                         Paystack Payment (Mobile Money, Cards, & More)
                       </button>
                     </div>
                   </div>
 
-                  <div className="mt-6 p-4 bg-red-50 rounded-lg border border-red-200">
-                    <p className="text-sm text-red-800">
+                  <div className="mt-6 p-4 bg-[#fff8e8] rounded-2xl border border-[#eadfce]">
+                    <p className="text-sm text-[#6b5d50]">
                       <span className="font-semibold">Secure Payment:</span> You&apos;ll be redirected to Paystack&apos;s secure checkout page to complete your payment. Paystack supports Mobile Money, credit/debit cards, and other payment methods.
                     </p>
                   </div>
@@ -570,14 +576,14 @@ export default function CheckoutPage() {
             {/* Review & Confirm */}
             {currentStep === "review" && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                <h2 className="text-2xl font-bold text-[#231913] mb-6">
                   Review Your Order
                 </h2>
 
                 <div className="space-y-6">
                   {/* Order Items */}
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                    <h3 className="text-lg font-semibold text-[#231913] mb-3">
                       Order Items
                     </h3>
                     <div className="space-y-2">
@@ -659,13 +665,13 @@ export default function CheckoutPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 bg-gray-50 rounded-lg text-xs text-gray-600">
+                  <div className="p-4 bg-[#fff8e8] rounded-2xl text-xs text-[#6b5d50]">
                     By placing this order, you agree to our{" "}
-                    <a href="#" className="text-[#bd6325] hover:underline">
+                    <a href="#" className="text-[#b56b32] hover:underline">
                       Terms and Conditions
                     </a>{" "}
                     and{" "}
-                    <a href="#" className="text-[#bd6325] hover:underline">
+                    <a href="#" className="text-[#b56b32] hover:underline">
                       Privacy Policy
                     </a>
                     .
@@ -687,7 +693,7 @@ export default function CheckoutPage() {
             <button
               onClick={handleBack}
               disabled={isProcessing}
-              className="flex-1 border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+              className="premium-button-secondary flex-1 py-3 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Back
             </button>
@@ -695,14 +701,14 @@ export default function CheckoutPage() {
               <button
                 onClick={handlePlaceOrder}
                 disabled={isProcessing}
-                className="flex-1 bg-[#bd6325] text-white font-bold py-3 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
+                className="premium-button flex-1 py-3 px-6 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isProcessing ? "Processing..." : "Place Order & Pay"}
               </button>
             ) : (
               <button
                 onClick={handleNext}
-                className="flex-1 bg-[#bd6325] text-white font-bold py-3 px-6 rounded-full"
+                className="premium-button flex-1 py-3 px-6"
               >
                 Continue
               </button>

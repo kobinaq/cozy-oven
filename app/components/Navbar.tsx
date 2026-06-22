@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, ShoppingCart, User, LogOut, Search } from "lucide-react";
+import { Menu, X, ShoppingCart, User, LogOut, Search, Gift } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
@@ -114,7 +114,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-[2.5rem] left-0 right-0 z-40 w-full flex items-center justify-between px-4 md:px-8 py-6 backdrop-blur-lg bg-white/80 shadow-sm">
+      <nav className="fixed left-0 right-0 top-0 z-40 border-b border-[#eadfce] bg-[#fffdf8]/90 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 md:px-8">
         {/* Brand */}
         <div className="flex items-center gap-3">
           <Link href="/">
@@ -123,6 +124,7 @@ export default function Navbar() {
               width={80} 
               height={80} 
               alt="Logo" 
+              className="h-14 w-auto"
             />
           </Link>
         </div>
@@ -133,12 +135,19 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="relative text-gray-700 hover:text-gray-900 transition-colors group"
+              className="relative text-sm font-semibold text-[#5f5348] hover:text-[#231913] transition-colors group"
             >
               {link.label}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#bd6325] transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#c79a4b] transition-all duration-300 group-hover:w-full"></span>
             </Link>
           ))}
+          <button
+            onClick={() => document.getElementById("gift-combos")?.scrollIntoView({ behavior: "smooth" })}
+            className="hidden items-center gap-2 rounded-full border border-[#c79a4b] px-4 py-2 text-sm font-bold text-[#231913] transition-colors hover:bg-[#fff8e8] lg:flex"
+          >
+            <Gift className="h-4 w-4" />
+            Gift boxes
+          </button>
         </div>
 
         {/* Right side: Search + Cart + Profile + Menu */}
@@ -147,7 +156,7 @@ export default function Navbar() {
           <div className="relative" ref={searchRef}>
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 rounded-full hover:bg-gray-100/80 transition"
+              className="p-2 rounded-full text-[#231913] hover:bg-[#f6ead8] transition"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
@@ -157,7 +166,7 @@ export default function Navbar() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="absolute right-0 mt-2 w-[calc(100vw-8rem)] sm:w-96 md:w-80 bg-white/95 backdrop-blur-lg border-gray-200 border rounded-lg shadow-lg overflow-hidden z-50"
+                className="absolute right-0 mt-2 w-[calc(100vw-8rem)] sm:w-96 md:w-80 bg-white/95 backdrop-blur-lg border-[#eadfce] border rounded-2xl shadow-xl overflow-hidden z-50"
               >
                 <div className="p-3 border-b border-gray-200">
                   <input
@@ -220,12 +229,12 @@ export default function Navbar() {
           {isMounted && (
             <button
               onClick={handleCartClick}
-              className="relative p-2 rounded-full hover:bg-gray-100/80 transition"
+              className="relative p-2 rounded-full text-[#231913] hover:bg-[#f6ead8] transition"
               aria-label="Shopping Cart"
             >
               <ShoppingCart className="w-5 h-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#bd6325] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-[#b56b32] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
@@ -237,7 +246,7 @@ export default function Navbar() {
             <div className="relative hidden md:block">
               <button
                 onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-                className="p-2 rounded-full hover:bg-gray-100/80 transition"
+                className="p-2 rounded-full text-[#231913] hover:bg-[#f6ead8] transition"
                 aria-label="Profile"
               >
                 <User className="w-5 h-5" />
@@ -267,9 +276,10 @@ export default function Navbar() {
           )}
 
           {/* Mobile menu toggle */}
-          <button onClick={toggleMenu} className="md:hidden p-2 rounded-full hover:bg-gray-100/80 transition" aria-label="Menu">
+          <button onClick={toggleMenu} className="md:hidden p-2 rounded-full text-[#231913] hover:bg-[#f6ead8] transition" aria-label="Menu">
             {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
+        </div>
         </div>
       </nav>
 
@@ -291,13 +301,13 @@ export default function Navbar() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ duration: 0.35, ease: "easeOut" }}
-              className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-8 pt-12 shadow-xl"
+              className="absolute bottom-0 left-0 right-0 bg-[#fffdf8] rounded-t-3xl p-8 pt-12 shadow-xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col items-center w-full gap-6">
                 {navLinks.map((link, i) => (
                   <motion.div key={link.href} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ delay: i * 0.08 }}>
-                    <Link href={link.href} className="text-2xl font-semibold text-gray-900 hover:text-[#bd6325] transition-colors" onClick={() => setMenuOpen(false)}>
+                    <Link href={link.href} className="text-2xl font-semibold text-[#231913] hover:text-[#b56b32] transition-colors" onClick={() => setMenuOpen(false)}>
                       {link.label}
                     </Link>
                   </motion.div>
@@ -318,7 +328,7 @@ export default function Navbar() {
                       </motion.button>
                     </>
                   ) : (
-                    <motion.button onClick={handleAuthClick} className="text-lg py-3 rounded-xl bg-[#bd6325] text-white hover:bg-[#a8551f] transition">Sign In / Sign Up</motion.button>
+                    <motion.button onClick={handleAuthClick} className="text-lg py-3 rounded-full bg-[#231913] text-white hover:bg-[#3a291f] transition">Sign In / Sign Up</motion.button>
                   )}
                 </div>
               </div>

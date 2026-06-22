@@ -124,38 +124,41 @@ export default function Categories() {
     <>
       <div
         ref={sectionRef}
-        className="flex flex-col items-center justify-center min-h-screen font-[Euclid-Circular-B] mt-12"
+        id="flavour-collections"
+        className="premium-shell flex flex-col items-center justify-center font-[Euclid-Circular-B] py-20"
         style={{ display: availableCategories.length === 0 ? "none" : "block" }}
       >
         <motion.div 
-          className="w-full max-w-8xl px-4 md:py-8 "
+          className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
         >
           {/* Only show category tabs if there are categories with products */}
+          <div className="mb-8 max-w-3xl">
+            <p className="premium-kicker mb-3">Flavor collections</p>
+            <h2 className="text-3xl font-bold tracking-tight text-[#231913] sm:text-5xl">
+              Choose the box that matches the moment.
+            </h2>
+            <p className="mt-4 text-[#6b5d50]">
+              From classic loaves to minis and flight boxes, every product is arranged for gifting,
+              sharing, and easy checkout.
+            </p>
+          </div>
+
           {availableCategories.length > 0 && (
-            <div className="flex md:gap-8 gap-4 mb-8 overflow-x-auto pb-2">
+            <div className="flex md:gap-6 gap-3 mb-8 overflow-x-auto pb-2">
               {availableCategories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
-                  className={`md:text-3xl text-xl font-bold transition-colors relative whitespace-nowrap ${
+                  className={`rounded-full border px-5 py-3 text-sm font-bold transition-colors relative whitespace-nowrap ${
                     effectiveActiveCategory === category
-                      ? "text-[#bd6325]"
-                      : "text-gray-400 hover:text-gray-600"
+                      ? "border-[#c79a4b] bg-[#231913] text-white"
+                      : "border-[#eadfce] bg-white/70 text-[#6b5d50] hover:text-[#231913]"
                   }`}
                 >
                   {category}
-                  {effectiveActiveCategory === category && (
-                  <motion.span
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-[#bd6325] rounded-full origin-left"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.4, ease: "easeOut" }}
-                  />
-                )}
-
                 </button> 
               ))}
             </div>
@@ -164,7 +167,7 @@ export default function Categories() {
           {/* Loading State */}
           {loading && (
             <div className="text-center py-12">
-              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#bd6325] border-r-transparent"></div>
+              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#b56b32] border-r-transparent"></div>
               <p className="mt-4 text-gray-600">Loading products...</p>
             </div>
           )}
@@ -174,7 +177,7 @@ export default function Categories() {
             <div className="overflow-x-auto pb-4 scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
               <motion.div
                 key={activeCategory}
-                className="flex gap-6 min-w-max"
+                className="flex gap-5 min-w-max"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
@@ -183,13 +186,15 @@ export default function Categories() {
                   <motion.div
                     key={product.id}
                     variants={cardVariants}
-                    className="relative overflow-hidden rounded-4xl text-white h-[400px] sm:h-[450px] md:h-[500px] w-[300px] shrink-0 group snap-start"
+                    className="premium-card relative h-[430px] w-[300px] shrink-0 overflow-hidden rounded-2xl text-[#231913] transition-transform duration-300 hover:-translate-y-1 group snap-start"
                     onClick={() => handleCardClick(product.id)}
                   >
                   <div className="absolute inset-0 transition-transform duration-500 ease-in-out group-hover:scale-110 z-0">
-                    <CyclingImage images={product.images} defaultImage={product.thumbnail} />
+                    <div className="absolute inset-x-3 top-3 h-64 overflow-hidden rounded-xl">
+                      <CyclingImage images={product.images} defaultImage={product.thumbnail} />
+                    </div>
                   </div>
-                  <div className={`absolute inset-0 z-10 ${((product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter(opt => opt.isAvailable !== false)?.length ?? 0) === 0) ? "bg-black/60" : "bg-black/30"}`} />
+                  <div className="absolute inset-x-0 bottom-0 z-10 h-48 bg-gradient-to-t from-[#fffdf8] via-[#fffdf8] to-transparent" />
                   
                   {/* Sold Out Badge - shown when product has variants and all are unavailable */}
                   {(product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter(opt => opt.isAvailable !== false)?.length ?? 0) === 0 && (
@@ -198,20 +203,22 @@ export default function Categories() {
                     </div>
                   )}
 
-                  <div className="relative z-20 p-8 h-full flex flex-col">
-                    <div className="mb-auto">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4">
+                  <div className="relative z-20 p-5 h-full flex flex-col justify-end">
+                    <div>
+                      <p className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#b56b32]">
+                        {product.productCategory}
+                      </p>
+                      <h2 className="text-xl font-bold mb-2 text-[#231913]">
                         {product.productName}
                       </h2>
-                      <p className="text-gray-300 text-sm sm:text-base md:text-lg font-extralight line-clamp-3">
+                      <p className="text-[#6b5d50] text-sm line-clamp-2">
                         {product.productDetails}
                       </p>
                     </div>
-                    <div className="flex items-center gap-3">
-                      {/* Button that slides up */}
-                      <div className="flex-1 opacity-0 translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                    <div className="mt-5 flex items-center gap-3">
+                      <div className="flex-1">
                         <button 
-                          className="font-medium py-3 px-7 rounded-full bg-black shadow-sm w-full"
+                          className="premium-button py-3 px-7 w-full"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleCardClick(product.id);
@@ -220,17 +227,16 @@ export default function Categories() {
                           Shop
                         </button>
                       </div>
-                      {/* Search icon that slides in from right */}
-                      <div className="opacity-0 translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+                      <div>
                         <button 
-                          className="p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
+                          className="p-3 rounded-full border border-[#eadfce] bg-white text-[#231913] hover:bg-[#fff8e8] transition-colors"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleQuickView(product);
                           }}
                           aria-label="Quick view"
                         >
-                          <Search className="w-5 h-5 text-white" />
+                          <Search className="w-5 h-5" />
                         </button>
                       </div>
                     </div>

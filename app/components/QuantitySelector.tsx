@@ -30,19 +30,21 @@ export default function QuantitySelector({
       <button
         onClick={handleDecrement}
         disabled={quantity <= min}
-        className="w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-lg hover:border-[#2A2C22] hover:bg-[#2A2C22] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-[#eadfce] bg-white transition-colors hover:border-[#c79a4b] hover:bg-[#fff8e8] disabled:cursor-not-allowed disabled:opacity-50"
+        aria-label="Decrease quantity"
       >
-        <span className="text-xl font-semibold">−</span>
+        <span className="text-xl font-semibold">-</span>
       </button>
-      
-      <span className="text-xl font-semibold min-w-[3rem] text-center">
+
+      <span className="min-w-[3rem] text-center text-xl font-semibold text-[#231913]">
         {quantity}
       </span>
-      
+
       <button
         onClick={handleIncrement}
         disabled={quantity >= max}
-        className="w-10 h-10 flex items-center justify-center border-2 border-gray-300 rounded-lg hover:border-[#2A2C22] hover:bg-[2A2C22] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-[#eadfce] bg-white transition-colors hover:border-[#c79a4b] hover:bg-[#fff8e8] disabled:cursor-not-allowed disabled:opacity-50"
+        aria-label="Increase quantity"
       >
         <span className="text-xl font-semibold">+</span>
       </button>

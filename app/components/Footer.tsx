@@ -4,34 +4,32 @@ import { ArrowRight, Instagram } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer
-      className="relative bg-cover bg-center bg-no-repeat text-gray-900"
-      style={{ backgroundImage: "url('/cozy4.PNG')" }} 
-    >
-      {/* Overlay to keep text readable */}
-      <div className="absolute inset-0 bg-[#bd6325]/20" />
+    <footer className="relative overflow-hidden bg-[#231913] text-white">
+      <div
+        className="absolute inset-0 bg-cover bg-center opacity-10"
+        style={{ backgroundImage: "url('/cozy4.PNG')" }}
+      />
 
-      {/* Main Content */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
-          {/* Newsletter Section */}
+      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mb-10 grid grid-cols-1 gap-8 md:grid-cols-3">
           <div className="md:col-span-2">
-            <h2 className="text-xl sm:text-2xl font-bold mb-3">
-              Want tips on how to make these tasty delicacies???
+            <p className="premium-kicker mb-3 text-[#c79a4b]">Stay in the loop</p>
+            <h2 className="mb-4 max-w-xl text-2xl font-bold sm:text-3xl">
+              Gift notes, flavor drops, and bakery updates.
             </h2>
 
-            <div className="flex">
+            <div className="flex max-w-xl">
               <input
                 type="email"
                 placeholder="Email"
-                className="flex-1 bg-gray-100 px-4 py-3 text-sm focus:outline-none rounded-l-full"
+                className="min-w-0 flex-1 rounded-l-full bg-white/95 px-4 py-3 text-sm text-[#231913] focus:outline-none"
               />
-              <button className="bg-[#bd6325]/80 px-4 py-3 transition-colors rounded-r-full hover:cursor-pointer">
-                <ArrowRight className="w-5 h-5 text-white hover:translate-x-2 transition-transform duration-200" />
+              <button className="rounded-r-full bg-[#c79a4b] px-4 py-3 transition-colors hover:cursor-pointer">
+                <ArrowRight className="h-5 w-5 text-white transition-transform duration-200 hover:translate-x-1" />
               </button>
             </div>
 
-            <p className="text-xs text-gray-700 mt-4">
+            <p className="mt-4 text-xs text-white/60">
               By subscribing you agree to the{" "}
               <a href="#" className="underline hover:no-underline">
                 Terms of Use
@@ -44,81 +42,65 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* About Column */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">About</h3>
+            <h3 className="mb-4 font-semibold text-white">About</h3>
             <ul className="space-y-3">
               <li>
-                <a
-                  href="/about"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
-                >
+                <a href="/contact" className="text-white/70 transition-colors hover:text-white">
                   Contact
                 </a>
               </li>
               <li>
-                <a
-                  href="/about"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
-                >
+                <a href="/about" className="text-white/70 transition-colors hover:text-white">
                   Our Story
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Customer Service */}
           <div>
-            <h3 className="font-semibold text-gray-900 mb-4">
-              Customer Service
-            </h3>
+            <h3 className="mb-4 font-semibold text-white">Customer Service</h3>
             <ul className="space-y-3">
               <li>
                 <a
-                  href="mailto:hello@cozyovens.com"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
+                  href="mailto:info@cozyoven.store"
+                  className="text-white/70 transition-colors hover:text-white"
                 >
                   info@cozyoven.store
                 </a>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
-                >
-                  Location: Tema community 22 Nhmf Estates
-                </a>
+                <span className="text-white/70">Tema community 22, Nhmf Estates</span>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="relative border-t border-gray-300 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div className="text-sm text-gray-600">
+        <div className="relative border-t border-white/10 pt-8">
+          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div className="text-sm text-white/55">
               © {new Date().getFullYear()} Cozy Oven. All rights reserved.
             </div>
-            <div className="flex gap-4 ml-auto">
-              <a 
-                href="https://www.tiktok.com/@cozyovengh?_r=1&_t=ZM-933sQOzBXiK" 
-                target="_blank" 
+            <div className="ml-auto flex gap-4">
+              <a
+                href="https://www.tiktok.com/@cozyovengh?_r=1&_t=ZM-933sQOzBXiK"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-700 hover:text-[#bd6325] transition-colors"
+                className="text-white/70 transition-colors hover:text-[#c79a4b]"
                 aria-label="TikTok"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
                 </svg>
               </a>
-              <a 
-                href="https://www.instagram.com/cozyoven.gh?igsh=NWd0bXcxczk5aGsy" 
-                target="_blank" 
+              <a
+                href="https://www.instagram.com/cozyoven.gh?igsh=NWd0bXcxczk5aGsy"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-700 hover:text-[#bd6325] transition-colors"
+                className="text-white/70 transition-colors hover:text-[#c79a4b]"
                 aria-label="Instagram"
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="h-5 w-5" />
               </a>
             </div>
           </div>

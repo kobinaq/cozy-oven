@@ -78,7 +78,7 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/50 z-50"
+            className="fixed inset-0 bg-[#231913]/50 z-50"
             onClick={onClose}
           />
 
@@ -88,14 +88,17 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed right-0 top-0 bottom-0 w-full md:w-[400px] bg-white z-50 shadow-2xl flex flex-col rounded-l-2xl"
+            className="fixed right-0 top-0 bottom-0 w-full md:w-[430px] bg-[#fffdf8] z-50 shadow-2xl flex flex-col md:rounded-l-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold">Quick View</h2>
+            <div className="flex items-center justify-between p-6 border-b border-[#eadfce]">
+              <div>
+                <p className="premium-kicker mb-1">Boutique preview</p>
+                <h2 className="text-2xl font-bold text-[#231913]">Quick View</h2>
+              </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-full transition"
+                className="p-2 hover:bg-[#f6ead8] rounded-full transition"
                 aria-label="Close quick view"
               >
                 <X className="w-6 h-6" />
@@ -105,7 +108,7 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
             {/* Content - Scrollable */}
             <div className="flex-1 overflow-y-auto p-6">
               {/* Product Image */}
-              <div className="relative w-full h-64 rounded-xl overflow-hidden bg-gray-100 mb-6">
+              <div className="relative w-full h-72 rounded-2xl overflow-hidden bg-[#f6ead8] mb-6">
                 <Image
                   src={product.image || ""}
                   alt={product.name}
@@ -116,7 +119,7 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
 
               {/* Product Name */}
               <div className="flex items-center gap-3 mb-2">
-                <h3 className="text-2xl font-bold text-gray-900">
+                <h3 className="text-2xl font-bold text-[#231913]">
                   {product.name}
                 </h3>
                 {product.isAvailable === false && (
@@ -127,19 +130,19 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
               </div>
 
               {/* Price */}
-              <p className="text-3xl font-bold text-[#2A2C22] mb-4">
+              <p className="text-3xl font-bold text-[#b56b32] mb-4">
                 {product.price}
               </p>
 
               {/* Description */}
               {product.description && (
-                <p className="text-gray-700 mb-6">{product.description}</p>
+                <p className="text-[#6b5d50] leading-7 mb-6">{product.description}</p>
               )}
 
               {/* What's in the box */}
               <div className="mb-6">
-                <h4 className="font-semibold text-gray-900 mb-2">What&apos;s in the box</h4>
-                <ul className="list-disc list-inside text-gray-700 space-y-1">
+                <h4 className="font-semibold text-[#231913] mb-2">What&apos;s in the box</h4>
+                <ul className="list-disc list-inside text-[#6b5d50] space-y-1">
                   <li>1x {product.name}</li>
                   <li>Premium packaging</li>
                   <li>Care instructions card</li>
@@ -148,8 +151,8 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
 
               {/* Ingredients */}
               <div className="mb-6">
-                <h4 className="font-semibold text-gray-900 mb-2">Ingredients</h4>
-                <p className="text-gray-700 text-sm">
+                <h4 className="font-semibold text-[#231913] mb-2">Ingredients</h4>
+                <p className="text-[#6b5d50] text-sm">
                   Premium flour, organic eggs, butter, sugar, vanilla extract, 
                   baking powder, salt, and natural flavors.
                 </p>
@@ -157,7 +160,7 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
 
               {/* Allergens */}
               <div className="mb-6">
-                <h4 className="font-semibold text-gray-900 mb-2">Allergen Information</h4>
+                <h4 className="font-semibold text-[#231913] mb-2">Allergen Information</h4>
                 <div className="flex flex-wrap gap-2">
                   <span className="px-3 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">
                     Contains: Wheat
@@ -184,8 +187,8 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
                         onClick={() => setSelectedSize(size)}
                         className={`px-4 py-2 rounded-full border-2 font-medium transition-colors ${
                           selectedSize === size
-                            ? "border-[#2A2C22] bg-[#2A2C22] text-white"
-                            : "border-gray-300 hover:border-gray-400"
+                            ? "border-[#231913] bg-[#231913] text-white"
+                            : "border-[#eadfce] bg-white hover:border-[#c79a4b]"
                         }`}
                       >
                         {size}
@@ -197,11 +200,11 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
             </div>
 
             {/* Footer - Fixed */}
-            <div className="border-t border-gray-200 p-6 bg-white">
+            <div className="border-t border-[#eadfce] p-6 bg-[#fffdf8]">
               {/* Quantity and Add to Cart */}
               <div className="flex items-center gap-4 mb-4">
                 {/* Quantity Selector */}
-                <div className="flex items-center border-2 border-gray-300 rounded-full">
+                <div className="flex items-center border border-[#eadfce] bg-white rounded-full">
                   <button
                     onClick={decrementQuantity}
                     className="p-3 hover:bg-gray-100 transition rounded-full"
@@ -225,8 +228,8 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
                   disabled={product.isAvailable === false}
                   className={`flex-1 flex items-center justify-center gap-2 font-semibold py-3 rounded-full transition-colors ${
                     product.isAvailable === false
-                      ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                      : "bg-[#bd6325] hover:bg-[#a8551f] text-white hover:cursor-pointer"
+                      ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                      : "premium-button hover:cursor-pointer"
                   }`}
                 >
                   <ShoppingCart className="w-5 h-5" />
@@ -236,14 +239,14 @@ export default function ProductQuickView({ isOpen, onClose, product }: ProductQu
 
               {/* Minimum order note for minis */}
               {isMinisProduct && (
-                <p className="text-sm text-orange-600 font-medium mb-4">
+                <p className="text-sm text-[#b56b32] font-medium mb-4">
                   Minimum order: 4 pieces
                 </p>
               )}
 
               {/* View Full Details Link */}
               <Link href={`/product/${product.id}`} onClick={onClose}>
-                <button className="w-full border-2 border-[#bd6325] text-[#bd6325] font-semibold py-3 rounded-full hover:bg-[#bd6325] hover:text-white transition-colors hover:cursor-pointer">
+                <button className="premium-button-secondary w-full py-3 hover:cursor-pointer">
                   View Full Details
                 </button>
               </Link>

@@ -29,10 +29,9 @@ function PaymentVerificationContent() {
 
         if (response.success) {
           setStatus("success");
-          setMessage(response.message || "Payment verified successfully!");
+          setMessage(response.message || "Payment verified successfully.");
           setOrderNumber(response.data.orderId);
 
-          // Redirect to order success page after 2 seconds
           setTimeout(() => {
             router.push(`/order-success?orderNumber=${response.data.orderId}`);
           }, 2000);
@@ -53,62 +52,48 @@ function PaymentVerificationContent() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-24 pb-16 bg-gray-50 flex items-center justify-center">
-        <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+      <main className="premium-shell flex min-h-screen items-center justify-center px-4 pb-16 pt-28">
+        <div className="w-full max-w-md">
+          <div className="premium-card rounded-2xl p-8 text-center">
             {status === "verifying" && (
               <>
-                <div className="flex justify-center mb-6">
-                  <Loader2 className="w-16 h-16 text-[#2A2C22] animate-spin" />
+                <div className="mb-6 flex justify-center">
+                  <Loader2 className="h-16 w-16 animate-spin text-[#b56b32]" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">
-                  Verifying Payment
-                </h1>
-                <p className="text-gray-600">{message}</p>
+                <h1 className="mb-4 text-2xl font-bold text-[#231913]">Verifying Payment</h1>
+                <p className="text-[#6b5d50]">{message}</p>
               </>
             )}
 
             {status === "success" && (
               <>
-                <div className="flex justify-center mb-6">
-                  <CheckCircle2 className="w-16 h-16 text-green-500" />
+                <div className="mb-6 flex justify-center">
+                  <CheckCircle2 className="h-16 w-16 text-green-500" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">
-                  Payment Successful!
-                </h1>
-                <p className="text-gray-600 mb-4">{message}</p>
+                <h1 className="mb-4 text-2xl font-bold text-[#231913]">Payment Successful</h1>
+                <p className="mb-4 text-[#6b5d50]">{message}</p>
                 {orderNumber && (
-                  <div className="bg-orange-50 rounded-lg p-4">
-                    <p className="text-sm text-gray-600 mb-1">Order Number</p>
-                    <p className="text-lg font-bold text-orange-500">{orderNumber}</p>
+                  <div className="rounded-2xl bg-[#fff8e8] p-4">
+                    <p className="mb-1 text-sm text-[#6b5d50]">Order Number</p>
+                    <p className="text-lg font-bold text-[#b56b32]">{orderNumber}</p>
                   </div>
                 )}
-                <p className="text-sm text-gray-500 mt-4">
-                  Redirecting to order confirmation...
-                </p>
+                <p className="mt-4 text-sm text-[#8a7b6b]">Redirecting to order confirmation...</p>
               </>
             )}
 
             {status === "failed" && (
               <>
-                <div className="flex justify-center mb-6">
-                  <XCircle className="w-16 h-16 text-red-500" />
+                <div className="mb-6 flex justify-center">
+                  <XCircle className="h-16 w-16 text-red-500" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">
-                  Payment Failed
-                </h1>
-                <p className="text-gray-600 mb-6">{message}</p>
+                <h1 className="mb-4 text-2xl font-bold text-[#231913]">Payment Failed</h1>
+                <p className="mb-6 text-[#6b5d50]">{message}</p>
                 <div className="flex flex-col gap-3">
-                  <button
-                    onClick={() => router.push("/cart")}
-                    className="w-full bg-[#2A2C22] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#1a1c12] transition-colors"
-                  >
+                  <button onClick={() => router.push("/cart")} className="premium-button w-full px-6 py-3">
                     Return to Cart
                   </button>
-                  <button
-                    onClick={() => router.push("/")}
-                    className="w-full border border-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
+                  <button onClick={() => router.push("/")} className="premium-button-secondary w-full px-6 py-3">
                     Go to Home
                   </button>
                 </div>
@@ -126,8 +111,8 @@ export default function PaymentVerifyPage() {
   return (
     <Suspense
       fallback={
-        <main className="min-h-screen pt-24 pb-16 bg-gray-50 flex items-center justify-center">
-          <div className="text-gray-600">Loading...</div>
+        <main className="premium-shell flex min-h-screen items-center justify-center pb-16 pt-28">
+          <div className="text-[#6b5d50]">Loading...</div>
         </main>
       }
     >

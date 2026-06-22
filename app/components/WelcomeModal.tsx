@@ -30,7 +30,7 @@ export default function WelcomeModal() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[10000]"
+            className="fixed inset-0 bg-[#231913]/60 backdrop-blur-sm z-[10000]"
             onClick={handleClose}
           />
 
@@ -45,10 +45,10 @@ export default function WelcomeModal() {
                 damping: 25,
                 stiffness: 300,
               }}
-              className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden pointer-events-auto"
+              className="premium-card relative rounded-3xl max-w-md w-full overflow-hidden pointer-events-auto"
             >
               {/* Decorative gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#bd6325]/10 via-[#b9aca2]/5 to-[#5d6043]/10" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#c79a4b]/15 via-[#fffdf8]/40 to-[#69715b]/10" />
               
               {/* Animated sparkles */}
               <div className="absolute top-4 right-4">
@@ -63,14 +63,14 @@ export default function WelcomeModal() {
                     ease: "linear",
                   }}
                 >
-                  <Sparkles className="w-6 h-6 text-[#bd6325]" />
+                  <Sparkles className="w-6 h-6 text-[#c79a4b]" />
                 </motion.div>
               </div>
 
               {/* Close button */}
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white/80 hover:bg-[#f6ead8] transition-colors"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5 text-gray-600" />
@@ -91,8 +91,8 @@ export default function WelcomeModal() {
                   className="mb-6 flex justify-center"
                 >
                   <div className="relative">
-                    <div className="absolute inset-0 bg-[#bd6325]/20 rounded-full blur-xl animate-pulse" />
-                    <div className="relative bg-gradient-to-br from-[#bd6325] to-[#a8551f] p-6 rounded-full">
+                    <div className="absolute inset-0 bg-[#c79a4b]/20 rounded-full blur-xl animate-pulse" />
+                    <div className="relative bg-[#231913] p-6 rounded-full">
                       <Gift className="w-12 h-12 text-white" />
                     </div>
                   </div>
@@ -103,9 +103,9 @@ export default function WelcomeModal() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-2xl md:text-3xl font-bold text-[#222222] mb-3"
+                  className="text-2xl md:text-3xl font-bold text-[#231913] mb-3"
                 >
-                  Thank You for Testing!
+                  Welcome to the gift shop.
                 </motion.h2>
 
                 {/* Message */}
@@ -113,10 +113,9 @@ export default function WelcomeModal() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-gray-700 text-base md:text-lg mb-6 leading-relaxed"
+                  className="text-[#6b5d50] text-base md:text-lg mb-6 leading-relaxed"
                 >
-                  We appreciate you taking the time to explore Cozy Oven. As a special thank you, enjoy a{" "}
-                  <span className="font-semibold text-[#bd6325]">complimentary mini</span> with your order!
+                  Explore premium banana bread boxes, flavor flights, and sweet gifts prepared by Cozy Oven.
                 </motion.p>
 
                 {/* CTA Button */}
@@ -125,21 +124,15 @@ export default function WelcomeModal() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                   onClick={handleClose}
-                  className="w-full bg-gradient-to-r from-[#bd6325] to-[#a8551f] text-white font-semibold py-4 px-8 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+                  className="premium-button w-full py-4 px-8 relative overflow-hidden group"
                 >
                   <span className="relative z-10">Start Shopping</span>
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-[#a8551f] to-[#bd6325]"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: 0 }}
-                    transition={{ duration: 0.3 }}
-                  />
                 </motion.button>
 
               </div>
 
               {/* Decorative bottom border */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#bd6325] via-[#b9aca2] to-[#5d6043]" />
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#231913] via-[#c79a4b] to-[#69715b]" />
             </motion.div>
           </div>
         </>

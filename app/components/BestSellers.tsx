@@ -73,7 +73,7 @@ export default function BestSellers() {
   };
 
   return (
-    <section ref={sectionRef} className="py-20 bg-[#faf9f5]">
+    <section ref={sectionRef} className="py-20 bg-[#fffdf8]">
       <motion.div 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         initial={{ opacity: 0, y: 30 }}
@@ -82,14 +82,14 @@ export default function BestSellers() {
       >
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           <div className="lg:w-1/3 flex flex-col justify-center">
-            <p className="text-xs sm:text-sm font-medium text-gray-600 mb-2">
+            <p className="premium-kicker mb-3">
               What&apos;s Popular Now
             </p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#231913] mb-4 md:mb-6 leading-tight">
               Best Sellers
             </h2>
-            <p className="text-base sm:text-lg text-gray-700">
-              Shop our most loved products.
+            <p className="text-base sm:text-lg text-[#6b5d50]">
+              The boxes customers keep sending as gifts, office treats, and weekend favorites.
             </p>
           </div>
 
@@ -109,10 +109,10 @@ export default function BestSellers() {
                   >
                     <Link
                       href={`/product/${product.id}`}
-                      className="relative flex-shrink-0 w-72 h-80 rounded-3xl overflow-hidden cursor-pointer group snap-start block"
+                      className="premium-card relative flex-shrink-0 w-72 h-96 rounded-2xl overflow-hidden cursor-pointer group snap-start block"
                     >
                       {/* Product Image */}
-                      <div className="absolute inset-0 overflow-hidden transition-transform duration-500 group-hover:scale-110">
+                      <div className="absolute inset-x-3 top-3 h-56 overflow-hidden rounded-xl transition-transform duration-500 group-hover:scale-[1.03]">
                         <CyclingImage images={product.images} defaultImage={product.thumbnail} alt={product.productName} />
                       </div>
 
@@ -123,18 +123,17 @@ export default function BestSellers() {
                         </div>
                       )}
 
-                      <div className={`absolute inset-0 bg-gradient-to-t ${((product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter((opt: any) => opt.isAvailable !== false)?.length ?? 0) === 0) ? "from-black/70" : "from-black/60"} via-transparent to-transparent flex flex-col justify-end p-6`}>
+                      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#fffdf8] via-[#fffdf8] to-transparent flex flex-col justify-end p-5">
                         <div className="flex items-end justify-between">
                           <div>
-                            <h3 className="text-white text-xl sm:text-2xl font-bold mb-2">
+                            <h3 className="text-[#231913] text-xl font-bold mb-2">
                               {product.productName}
                             </h3>
-                            <p className="text-white/80 text-xs sm:text-sm font-medium">
+                            <p className="text-[#b56b32] text-sm font-bold">
                               GHS {product?.price?.toFixed(2)}
                             </p>
                           </div>
-                          {/* Arrow icon */}
-                          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 flex items-center justify-center group-hover:bg-white/30 transition-colors">
+                          <div className="bg-[#231913] rounded-full p-3 flex items-center justify-center transition-colors">
                             <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform duration-300" />
                           </div>
                         </div>

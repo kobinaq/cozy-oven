@@ -17,10 +17,10 @@ export default function SizeSelector({
         <button
           key={`${size}-${index}`}
           onClick={() => onSizeChange(size)}
-          className={`px-6 py-2 rounded-full border-2 font-semibold transition-all ${
+          className={`px-6 py-2 rounded-full border font-semibold transition-all ${
             selectedSize === size
-              ? "border-[#bd6325] bg-[#bd6325] text-white"
-              : "border-gray-300 bg-white text-gray-700 hover:border-[#bd6325]"
+              ? "border-[#231913] bg-[#231913] text-white"
+              : "border-[#eadfce] bg-white text-[#6b5d50] hover:border-[#c79a4b] hover:text-[#231913]"
           }`}
         >
           {size}
