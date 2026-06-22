@@ -84,7 +84,8 @@ export default function ProductDetails() {
     }
   }, [product, availableOptions]);
 
-  // Final price is the selected size price, not base plus size.`r`n  const currentPrice = (() => {
+  // Final price is the selected size price, not base plus size.
+  const currentPrice = (() => {
     if (!product) return 0;
 
     const option = availableOptions.find(
