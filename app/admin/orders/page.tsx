@@ -298,7 +298,6 @@ export default function OrdersPage() {
               >
                 <option value="all">All Payment Methods</option>
                 <option value="cash">Cash</option>
-                <option value="hubtel">Hubtel</option>
                 <option value="paystack">Paystack</option>
                 <option value="mobile_money">Mobile Money</option>
               </select>

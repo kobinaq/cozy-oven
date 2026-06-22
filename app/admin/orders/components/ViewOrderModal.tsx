@@ -166,7 +166,7 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
         },
         payment: {
           status: raw.payment?.status || raw.paymentStatus || "pending",
-          method: raw.payment?.method || raw.paymentMethod || "hubtel",
+          method: raw.payment?.method || raw.paymentMethod || "paystack",
           transactionRef:
             raw.payment?.transactionRef ||
             raw.transactionRef ||

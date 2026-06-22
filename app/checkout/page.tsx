@@ -39,7 +39,7 @@ export default function CheckoutPage() {
     time: "",
     notes: "",
   });
-  const [paymentMethod, setPaymentMethod] = useState("hubtel");
+  const [paymentMethod, setPaymentMethod] = useState("paystack");
 
   const subtotal = getCartTotal();
   const total = subtotal; // Delivery fee not included in checkout
@@ -231,6 +231,8 @@ export default function CheckoutPage() {
         city: deliveryMethod === "delivery" ? deliveryDetails.city.trim() : undefined,
         specialInstruction: deliveryMethod === "delivery" ? deliveryDetails.notes.trim() || undefined : undefined,
         contactNumber: customerInfo.phone.trim(),
+        fullName: customerInfo.name.trim(),
+        email: customerInfo.email.trim(),
         paymentMethod,
         ...(deliveryMethod === "pickup" && {
           orderDetails: {
@@ -256,7 +258,7 @@ export default function CheckoutPage() {
       // Initiate payment
       const paymentResponse = await orderService.initiatePayment(orderId);
 
-      // Extract checkout URL from response (supports both Hubtel and Paystack formats)
+      // Extract checkout URL from response.
       const extractPaymentUrl = (response: typeof paymentResponse): string | null => {
         return (
           response.checkoutUrl || 
@@ -548,17 +550,17 @@ export default function CheckoutPage() {
                     </label>
                     <div className="space-y-3">
                       <button
-                        onClick={() => setPaymentMethod("hubtel")}
+                        onClick={() => setPaymentMethod("paystack")}
                         className="w-full py-3 px-4 rounded-lg border-2 text-left font-semibold transition-colors border-[#bd6325] bg-orange-50 text-[#bd6325]"
                       >
-                        Hubtel Payment (Mobile Money, Cards, & More)
+                        Paystack Payment (Mobile Money, Cards, & More)
                       </button>
                     </div>
                   </div>
 
                   <div className="mt-6 p-4 bg-red-50 rounded-lg border border-red-200">
                     <p className="text-sm text-red-800">
-                      <span className="font-semibold">Secure Payment:</span> You&apos;ll be redirected to Hubtel&apos;s secure checkout page to complete your payment. Hubtel supports Mobile Money, credit/debit cards, and other payment methods.
+                      <span className="font-semibold">Secure Payment:</span> You&apos;ll be redirected to Paystack&apos;s secure checkout page to complete your payment. Paystack supports Mobile Money, credit/debit cards, and other payment methods.
                     </p>
                   </div>
                 </div>

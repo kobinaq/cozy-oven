@@ -15,7 +15,9 @@ export interface CheckoutRequest {
   city?: string;
   specialInstruction?: string;
   contactNumber: string;
-  paymentMethod: string; // "hubtel" or other payment methods
+  paymentMethod: string;
+  fullName?: string;
+  email?: string;
 }
 
 // Order interface
@@ -68,17 +70,17 @@ export interface Order {
 }
 
 
-// Payment initiation response (Hubtel integration)
+// Payment initiation response
 export interface PaymentInitiationResponse {
   success: boolean;
   message: string;
   data?: {
     authorizationUrl?: string;
-    checkoutUrl?: string; // Hubtel checkout URL
+    checkoutUrl?: string;
     reference?: string;
   };
   authorizationUrl?: string;
-  checkoutUrl?: string; // Hubtel checkout URL (can be at top level)
+  checkoutUrl?: string;
   reference?: string;
 }
 
