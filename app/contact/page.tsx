@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send } from "lucide-react";
+import { Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { motion } from "framer-motion";
+import contactService from "../services/contactService";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -15,18 +16,30 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage("");
+    setSubmitStatus(null);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const response = await contactService.submitMessage(formData);
+      if (!response?.success) {
+        throw new Error(response?.message || "Failed to send message");
+      }
+
       setSubmitMessage("Thank you for reaching out! We'll get back to you soon.");
+      setSubmitStatus("success");
       setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      console.error("Contact form error:", error);
+      setSubmitMessage("We couldn't send your message. Please try WhatsApp or email us directly.");
+      setSubmitStatus("error");
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   const handleChange = (
@@ -97,6 +110,24 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
                       <p className="text-gray-600">0249612035</p>
+                    </div>
+                  </div>
+
+                  {/* WhatsApp */}
+                  <div className="flex items-start gap-4">
+                    <div className="bg-green-50 p-3 rounded-full">
+                      <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">WhatsApp</h3>
+                      <a
+                        href="https://api.whatsapp.com/message/QAOMJAY7KI7WP1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center rounded-full bg-green-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-green-700"
+                      >
+                        Chat on WhatsApp
+                      </a>
                     </div>
                   </div>
 
@@ -205,8 +236,16 @@ export default function ContactPage() {
                   </div>
 
                   {submitMessage && (
-                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                      <p className="text-sm text-green-800">{submitMessage}</p>
+                    <div
+                      className={`p-4 rounded-lg border ${
+                        submitStatus === "error"
+                          ? "bg-red-50 border-red-200"
+                          : "bg-green-50 border-green-200"
+                      }`}
+                    >
+                      <p className={`text-sm ${submitStatus === "error" ? "text-red-800" : "text-green-800"}`}>
+                        {submitMessage}
+                      </p>
                     </div>
                   )}
 

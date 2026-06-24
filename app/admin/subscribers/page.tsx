@@ -224,7 +224,7 @@ export default function SubscribersPage() {
                           </p>
                           <button
                             onClick={() =>
-                              (window.location.href = `mailto:${subscriber.email}?subject=Cozy Oven VIP Newsletter`)
+                              router.push(`/admin/email-marketing?email=${encodeURIComponent(subscriber.email)}&name=${encodeURIComponent(subscriber.fullName)}`)
                             }
                             className="mt-1 text-xs text-[#bd6325] hover:text-[#a8551f] flex items-center gap-1"
                           >
@@ -284,7 +284,7 @@ export default function SubscribersPage() {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <a
-                              href={`mailto:${subscriber.email}`}
+                              href={`/admin/email-marketing?email=${encodeURIComponent(subscriber.email)}&name=${encodeURIComponent(subscriber.fullName)}`}
                               className="text-sm text-[#bd6325] hover:underline flex items-center gap-2"
                             >
                               <Mail className="w-4 h-4" />
@@ -301,7 +301,7 @@ export default function SubscribersPage() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <button
                               onClick={() =>
-                                (window.location.href = `mailto:${subscriber.email}?subject=Cozy Oven VIP Newsletter`)
+                                router.push(`/admin/email-marketing?email=${encodeURIComponent(subscriber.email)}&name=${encodeURIComponent(subscriber.fullName)}`)
                               }
                               className="text-sm text-[#bd6325] hover:text-[#a8551f] font-medium"
                             >

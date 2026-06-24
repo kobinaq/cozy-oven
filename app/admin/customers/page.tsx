@@ -102,7 +102,7 @@ export default function CustomersPage() {
   }
 
   const handleSendEmail = (customerEmail: string) => {
-    window.location.href = `mailto:${customerEmail}?subject=Cozy Oven - Customer Support`
+    router.push(`/admin/email-marketing?email=${encodeURIComponent(customerEmail)}`)
     setSelectedCustomer(null)
   }
 

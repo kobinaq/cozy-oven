@@ -32,6 +32,7 @@ const menuItems = [
   { name: "Product Management", icon: ShoppingBag, href: "/admin/products" },
   { name: "Orders", icon: ShoppingCart, href: "/admin/orders" },
   { name: "Subscribers", icon: Mail, href: "/admin/subscribers" },
+  { name: "Email Marketing", icon: Mail, href: "/admin/email-marketing" },
   { name: "Notifications", icon: Bell, href: "/admin/notifications" },
   { name: "Admin Profile", icon: UserCircle, href: "/admin/profile" },
   { name: "Reports", icon: BarChart3, href: "/admin/reports" },
