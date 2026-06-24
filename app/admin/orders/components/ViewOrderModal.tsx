@@ -14,6 +14,10 @@ interface OrderItem {
   quantity: number;
   total: number;
   size?: string; // Add size variation field
+  packageSelections?: {
+    label: string;
+    quantity: number;
+  }[];
 }
 
 interface PickUpDetails {
@@ -145,6 +149,9 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                       ? item.price
                       : 0) * (item.quantity || 1),
               size: item.size,
+              packageSelections: Array.isArray(item.packageSelections)
+                ? item.packageSelections
+                : [],
             }))
           : [],
         orderDetails: raw.orderDetails
@@ -329,6 +336,15 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                           <h5 className="text-sm font-medium text-gray-900">{item.name}</h5>
                           {item.size && (
                             <p className="text-xs text-gray-500 mt-0.5">Size: {item.size}</p>
+                          )}
+                          {item.packageSelections && item.packageSelections.length > 0 && (
+                            <div className="mt-1 text-xs text-gray-500">
+                              {item.packageSelections.map((selection) => (
+                                <p key={selection.label}>
+                                  {selection.label} x {selection.quantity}
+                                </p>
+                              ))}
+                            </div>
                           )}
                           <p className="text-xs text-gray-600 mt-1">
                             GHS {item.unitPrice.toFixed(2)} x {item.quantity}

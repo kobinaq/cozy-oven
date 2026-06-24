@@ -13,7 +13,7 @@ import {
   ChevronRight,
   Loader2,
 } from "lucide-react";
-import { Product, SelectOption } from "../../services/productService";
+import { PackageConfig, PackageOption, Product, SelectOption } from "../../services/productService";
 // import ComboProductModal from "./components/ComboProductModal";
 // import comboService, { ComboProduct } from "../../services/comboService";
 import useAdminProducts from "../../hooks/useAdminProducts";
@@ -45,8 +45,19 @@ export default function ProductManagementPage() {
     price: 0,
     productDetails: "",
   });
+  const [productType, setProductType] = useState<"standard" | "package">("standard");
   const [selectOptionInput, setSelectOptionInput] = useState({ label: "", additionalPrice: 0 });
   const [selectOptions, setSelectOptions] = useState<SelectOption[]>([]);
+  const [packageConfig, setPackageConfig] = useState<PackageConfig>({
+    selectionLabel: "Choose your options",
+    requiredSelectionCount: 1,
+    options: [],
+  });
+  const [packageOptionInput, setPackageOptionInput] = useState<PackageOption>({
+    label: "",
+    description: "",
+    isAvailable: true,
+  });
   // const [comboProducts, setComboProducts] = useState<ComboProduct[]>([]);
 
   // Use custom hooks
@@ -167,6 +178,56 @@ export default function ProductManagementPage() {
     }
   };
 
+  const addPackageOption = () => {
+    const label = packageOptionInput.label.trim();
+    if (!label) return;
+
+    setPackageConfig((prev) => ({
+      ...prev,
+      options: [
+        ...prev.options,
+        {
+          label,
+          description: packageOptionInput.description?.trim() || undefined,
+          isAvailable: true,
+          sortOrder: prev.options.length,
+        },
+      ],
+    }));
+    setPackageOptionInput({ label: "", description: "", isAvailable: true });
+  };
+
+  const removePackageOption = (index: number) => {
+    setPackageConfig((prev) => ({
+      ...prev,
+      options: prev.options.filter((_, i) => i !== index),
+    }));
+  };
+
+  const togglePackageOptionAvailable = (index: number) => {
+    setPackageConfig((prev) => ({
+      ...prev,
+      options: prev.options.map((option, i) =>
+        i === index
+          ? { ...option, isAvailable: option.isAvailable === false ? true : false }
+          : option
+      ),
+    }));
+  };
+
+  const updatePackageOptionInput = (
+    field: keyof PackageOption,
+    value: string | number | boolean
+  ) => {
+    setPackageOptionInput((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const packageConfigIsValid = () => {
+    if (productType !== "package") return true;
+    const availableCount = packageConfig.options.filter((option) => option.isAvailable !== false).length;
+    return packageConfig.requiredSelectionCount > 0 && availableCount >= packageConfig.requiredSelectionCount;
+  };
+
   const removeSelectOption = (index: number) => {
     setSelectOptions(selectOptions.filter((_, i) => i !== index));
   };
@@ -189,7 +250,14 @@ export default function ProductManagementPage() {
       price: 0,
       productDetails: "",
     });
+    setProductType("standard");
     setSelectOptions([]);
+    setPackageConfig({
+      selectionLabel: "Choose your options",
+      requiredSelectionCount: 1,
+      options: [],
+    });
+    setPackageOptionInput({ label: "", description: "", isAvailable: true });
     setImageFiles([]);
     setImagePreviews([]);
     setExistingImages([]);
@@ -225,6 +293,11 @@ export default function ProductManagementPage() {
         return;
       }
 
+      if (!packageConfigIsValid()) {
+        console.error("Package products need enough available options for the required selection count");
+        return;
+      }
+
       // Validations already handled in handleImageChange
 
       const formData = new FormData();
@@ -232,7 +305,11 @@ export default function ProductManagementPage() {
       formData.append("productCategory", newProduct.productCategory);
       formData.append("productDetails", newProduct.productDetails.trim());
       formData.append("price", newProduct.price.toString());
+      formData.append("productType", productType);
       formData.append("selectOptions", JSON.stringify(selectOptions));
+      if (productType === "package") {
+        formData.append("packageConfig", JSON.stringify(packageConfig));
+      }
       
       // Backend expects 'thumbnail' for all images (array of 1-5)
       imageFiles.forEach(file => {
@@ -264,6 +341,12 @@ export default function ProductManagementPage() {
         newProduct.price !== selectedProduct.price ||
         newProduct.productCategory !== selectedProduct.productCategory ||
         newProduct.productDetails !== selectedProduct.productDetails ||
+        productType !== (selectedProduct.productType || "standard") ||
+        JSON.stringify(packageConfig) !== JSON.stringify(selectedProduct.packageConfig || {
+          selectionLabel: "Choose your options",
+          requiredSelectionCount: 1,
+          options: [],
+        }) ||
         imageFiles.length > 0 ||
         JSON.stringify(selectOptions) !== JSON.stringify(selectedProduct.selectOptions);
       
@@ -280,6 +363,11 @@ export default function ProductManagementPage() {
         return;
       }
 
+      if (!packageConfigIsValid()) {
+        console.error("Package products need enough available options for the required selection count");
+        return;
+      }
+
       const formData = new FormData();
       
       // Append basic fields
@@ -287,9 +375,13 @@ export default function ProductManagementPage() {
       formData.append("productCategory", newProduct.productCategory);
       formData.append("productDetails", newProduct.productDetails.trim());
       formData.append("price", newProduct.price.toString());
+      formData.append("productType", productType);
       
       // selectOptions MUST be a JSON string
       formData.append("selectOptions", JSON.stringify(selectOptions));
+      if (productType === "package") {
+        formData.append("packageConfig", JSON.stringify(packageConfig));
+      }
       
       // Only send new image files as 'thumbnail' — these ADD to existing images
       if (imageFiles.length > 0) {
@@ -320,6 +412,13 @@ export default function ProductManagementPage() {
       productDetails: product.productDetails,
     });
     setSelectOptions(product.selectOptions || []);
+    setProductType(product.productType || "standard");
+    setPackageConfig(product.packageConfig || {
+      selectionLabel: "Choose your options",
+      requiredSelectionCount: 1,
+      options: [],
+    });
+    setPackageOptionInput({ label: "", description: "", isAvailable: true });
     // Store existing server images separately from new uploads
     const serverImages = product.images && product.images.length > 0
       ? product.images
@@ -561,6 +660,7 @@ export default function ProductManagementPage() {
         show={showAddModal}
         onClose={handleCloseAddModal}
         onSubmit={handleAddProduct}
+        productType={productType}
         productName={newProduct.productName}
         productCategory={newProduct.productCategory}
         price={newProduct.price}
@@ -569,8 +669,11 @@ export default function ProductManagementPage() {
         imagePreview={imagePreviews as any}
         selectOptions={selectOptions}
         selectOptionInput={selectOptionInput}
+        packageConfig={packageConfig}
+        packageOptionInput={packageOptionInput}
         loading={actionLoading}
         categories={categories}
+        onProductTypeChange={setProductType}
         onProductNameChange={(value) => setNewProduct({ ...newProduct, productName: value })}
         onProductCategoryChange={(value) => setNewProduct({ ...newProduct, productCategory: value })}
         onPriceChange={(value) => setNewProduct({ ...newProduct, price: value })}
@@ -583,6 +686,11 @@ export default function ProductManagementPage() {
         onAddSelectOption={addSelectOption}
         onRemoveSelectOption={removeSelectOption}
         onToggleOptionAvailable={toggleOptionAvailable}
+        onPackageConfigChange={setPackageConfig}
+        onPackageOptionInputChange={updatePackageOptionInput}
+        onAddPackageOption={addPackageOption}
+        onRemovePackageOption={removePackageOption}
+        onTogglePackageOptionAvailable={togglePackageOptionAvailable}
       />
 
       {/* Edit Product Modal */}
@@ -591,6 +699,7 @@ export default function ProductManagementPage() {
         onClose={handleCloseEditModal}
         onSubmit={handleEditProduct}
         selectedProduct={selectedProduct}
+        productType={productType}
         productName={newProduct.productName}
         productCategory={newProduct.productCategory}
         price={newProduct.price}
@@ -600,8 +709,11 @@ export default function ProductManagementPage() {
         existingImageCount={existingImages.length}
         selectOptions={selectOptions}
         selectOptionInput={selectOptionInput}
+        packageConfig={packageConfig}
+        packageOptionInput={packageOptionInput}
         loading={actionLoading}
         categories={categories}
+        onProductTypeChange={setProductType}
         onProductNameChange={(value) => setNewProduct({ ...newProduct, productName: value })}
         onProductCategoryChange={(value) => setNewProduct({ ...newProduct, productCategory: value })}
         onPriceChange={(value) => setNewProduct({ ...newProduct, price: value })}
@@ -614,6 +726,11 @@ export default function ProductManagementPage() {
         onAddSelectOption={addSelectOption}
         onRemoveSelectOption={removeSelectOption}
         onToggleOptionAvailable={toggleOptionAvailable}
+        onPackageConfigChange={setPackageConfig}
+        onPackageOptionInputChange={updatePackageOptionInput}
+        onAddPackageOption={addPackageOption}
+        onRemovePackageOption={removePackageOption}
+        onTogglePackageOptionAvailable={togglePackageOptionAvailable}
       />
 
       {/* Combo Product Modal - Commented out until feature is complete */}

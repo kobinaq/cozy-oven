@@ -14,11 +14,16 @@ export default function CartPage() {
   const subtotal = getCartTotal();
   const total = subtotal;
 
-  const handleQuantityChange = (productId: string, newQuantity: number, size?: string) => {
+  const handleQuantityChange = (
+    productId: string,
+    newQuantity: number,
+    size?: string,
+    packageSelections?: { label: string; quantity: number }[]
+  ) => {
     if (newQuantity <= 0) {
-      removeFromCart(productId, size);
+      removeFromCart(productId, size, packageSelections);
     } else {
-      updateQuantity(productId, newQuantity, size);
+      updateQuantity(productId, newQuantity, size, packageSelections);
     }
   };
 
@@ -68,7 +73,7 @@ export default function CartPage() {
 
                 return (
                   <div
-                    key={`${item.id}-${item.selectedSize}`}
+                    key={`${item.id}-${item.selectedSize}-${JSON.stringify(item.packageSelections || [])}`}
                     className="bg-white rounded-lg shadow-sm p-4 md:p-6 hover:shadow-md transition-shadow"
                   >
                     <div className="flex gap-4">
@@ -94,9 +99,21 @@ export default function CartPage() {
                                 Size: {item.selectedSize}
                               </p>
                             )}
+                            {item.packageSelections && item.packageSelections.length > 0 && (
+                              <div className="mt-2 text-sm text-gray-600">
+                                <p className="font-medium text-gray-700">Package selections:</p>
+                                <ul className="mt-1 space-y-0.5">
+                                  {item.packageSelections.map((selection) => (
+                                    <li key={selection.label}>
+                                      {selection.label} x {selection.quantity}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
                           </div>
                           <button
-                            onClick={() => removeFromCart(item.id, item.selectedSize)}
+                            onClick={() => removeFromCart(item.id, item.selectedSize, item.packageSelections)}
                             className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors"
                             aria-label="Remove item"
                           >
@@ -110,7 +127,7 @@ export default function CartPage() {
                             <span className="text-sm text-gray-600 mr-2">Qty:</span>
                             <button
                               onClick={() =>
-                                handleQuantityChange(item.id, item.quantity - 1, item.selectedSize)
+                                handleQuantityChange(item.id, item.quantity - 1, item.selectedSize, item.packageSelections)
                               }
                               className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:bg-gray-100 transition-colors"
                               aria-label="Decrease quantity"
@@ -122,7 +139,7 @@ export default function CartPage() {
                             </span>
                             <button
                               onClick={() =>
-                                handleQuantityChange(item.id, item.quantity + 1, item.selectedSize)
+                                handleQuantityChange(item.id, item.quantity + 1, item.selectedSize, item.packageSelections)
                               }
                               className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:bg-gray-100 transition-colors"
                               aria-label="Increase quantity"

@@ -6,6 +6,19 @@ export interface SelectOption {
   isAvailable?: boolean;
 }
 
+export interface PackageOption {
+  label: string;
+  description?: string;
+  isAvailable?: boolean;
+  sortOrder?: number;
+}
+
+export interface PackageConfig {
+  selectionLabel?: string;
+  requiredSelectionCount: number;
+  options: PackageOption[];
+}
+
 export interface Product {
   id: string;
   productName: string;
@@ -24,6 +37,8 @@ export interface Product {
   images?: string[];
   imageCount?: number;
   pagination?: number;
+  productType?: "standard" | "package";
+  packageConfig?: PackageConfig;
 }
 
 export interface CreateProductData {
@@ -33,6 +48,8 @@ export interface CreateProductData {
   productThumbnail: string;
   productDetails: string;
   selectOptions: SelectOption[];
+  productType?: "standard" | "package";
+  packageConfig?: PackageConfig;
 }
 
 export interface UpdateProductData {
@@ -43,6 +60,8 @@ export interface UpdateProductData {
   selectOptions?: SelectOption[];
   isAvailable?: boolean;
   productStatus?: string;
+  productType?: "standard" | "package";
+  packageConfig?: PackageConfig;
 }
 
 export interface PaginationInfo {
@@ -91,6 +110,8 @@ export function normalizeProduct(raw: any): Product {
     thumbnail: raw.thumbnail || raw.productThumbnail,
     images: raw.images || raw.productImages || [],
     imageCount: raw.imageCount ?? (raw.images || raw.productImages || []).length,
+    productType: raw.productType || "standard",
+    packageConfig: raw.packageConfig,
   };
 }
 

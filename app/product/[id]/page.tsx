@@ -19,6 +19,7 @@ export default function ProductDetails() {
   const { addToCart } = useCart();
 
   const [quantity, setQuantity] = useState(1);
+  const [packageSelectionCounts, setPackageSelectionCounts] = useState<Record<string, number>>({});
   const { product, loading } = useCustomerProduct(id as string);
 
   // Check if this is a minis/mini/flightbox product
@@ -37,6 +38,27 @@ export default function ProductDetails() {
   // A product is "sold out" if it has variants and ALL variants are unavailable
   const hasVariants = (product?.selectOptions?.length ?? 0) > 0;
   const isSoldOut = hasVariants && availableOptions.length === 0;
+  const isPackageProduct = product?.productType === "package";
+  const activePackageOptions = useMemo(
+    () =>
+      [...(product?.packageConfig?.options || [])]
+        .filter((option) => option.isAvailable !== false)
+        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0)),
+    [product?.packageConfig?.options]
+  );
+  const requiredPackageCount = product?.packageConfig?.requiredSelectionCount || 0;
+  const selectedPackageCount = Object.values(packageSelectionCounts).reduce(
+    (sum, count) => sum + count,
+    0
+  );
+  const packageSelections = activePackageOptions
+    .map((option) => ({
+      label: option.label,
+      quantity: packageSelectionCounts[option.label] || 0,
+    }))
+    .filter((selection) => selection.quantity > 0);
+  const packageSelectionComplete =
+    !isPackageProduct || selectedPackageCount === requiredPackageCount;
   
   const [selectedSize, setSelectedSize] = useState<string | null>(
     availableOptions?.[0]?.label ?? null
@@ -62,6 +84,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     setActiveImageIndex(0);
+    setPackageSelectionCounts({});
   }, [id]);
 
   useEffect(() => {
@@ -134,6 +157,8 @@ export default function ProductDetails() {
     "/placeholder.svg";
 
   const handleAddToCart = () => {
+    if (!packageSelectionComplete) return;
+
     addToCart(
       {
         id: product.id,
@@ -147,8 +172,24 @@ export default function ProductDetails() {
         details: product.productDetails
       },
       quantity,
-      selectedSize ?? undefined
+      selectedSize ?? undefined,
+      packageSelections
     );
+  };
+
+  const updatePackageSelection = (label: string, nextCount: number) => {
+    setPackageSelectionCounts((prev) => {
+      const current = prev[label] || 0;
+      const totalWithoutCurrent = selectedPackageCount - current;
+      const bounded = Math.max(
+        0,
+        Math.min(nextCount, Math.max(0, requiredPackageCount - totalWithoutCurrent))
+      );
+      return {
+        ...prev,
+        [label]: bounded,
+      };
+    });
   };
 
   return (
@@ -310,20 +351,77 @@ export default function ProductDetails() {
                       </p>
                     )}
                   </div>
+
+                  {isPackageProduct && (
+                    <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-4">
+                      <div className="flex items-start justify-between gap-4 mb-4">
+                        <div>
+                          <label className="block font-semibold">
+                            {product.packageConfig?.selectionLabel || "Choose your options"}
+                          </label>
+                          <p className="text-sm text-gray-600 mt-1">
+                            Select exactly {requiredPackageCount}. Chosen: {selectedPackageCount}/{requiredPackageCount}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="space-y-3">
+                        {activePackageOptions.map((option) => {
+                          const optionCount = packageSelectionCounts[option.label] || 0;
+                          return (
+                            <div
+                              key={option.label}
+                              className="flex items-center justify-between gap-3 rounded-xl border border-gray-200 p-3"
+                            >
+                              <div className="min-w-0">
+                                <p className="font-medium text-gray-900">{option.label}</p>
+                                {option.description && (
+                                  <p className="text-sm text-gray-500">{option.description}</p>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2 shrink-0">
+                                <button
+                                  type="button"
+                                  onClick={() => updatePackageSelection(option.label, optionCount - 1)}
+                                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center disabled:opacity-40"
+                                  disabled={optionCount === 0}
+                                >
+                                  -
+                                </button>
+                                <span className="w-8 text-center font-semibold">{optionCount}</span>
+                                <button
+                                  type="button"
+                                  onClick={() => updatePackageSelection(option.label, optionCount + 1)}
+                                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center disabled:opacity-40"
+                                  disabled={selectedPackageCount >= requiredPackageCount}
+                                >
+                                  +
+                                </button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
 
               <button
                 onClick={handleAddToCart}
-                disabled={isSoldOut}
+                disabled={isSoldOut || !packageSelectionComplete}
                 className={`flex items-center justify-center gap-3 font-bold py-4 px-8 rounded-full w-full transition-all ${
-                  isSoldOut
+                  isSoldOut || !packageSelectionComplete
                     ? "bg-gray-400 text-gray-600 cursor-not-allowed"
                     : "bg-[#bd6325] text-white hover:bg-[#a8551f]"
                 }`}
               >
                 <ShoppingCart className="w-6 h-6" />
-                {isSoldOut ? "Sold Out" : "Add to Cart"}
+                {isSoldOut
+                  ? "Sold Out"
+                  : !packageSelectionComplete
+                  ? `Select ${requiredPackageCount} options`
+                  : "Add to Cart"}
               </button>
             </div>
           </div>

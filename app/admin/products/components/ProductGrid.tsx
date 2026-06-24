@@ -69,7 +69,14 @@ export default function ProductGrid({ products, onEdit, onDelete, onToggleAvaila
                 {product.productName}
               </h3>
             </div>
-            <p className="text-sm text-gray-600 mb-2">{product.productCategory}</p>
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <p className="text-sm text-gray-600">{product.productCategory}</p>
+              {product.productType === "package" && (
+                <span className="text-xs font-semibold text-[#2A2C22] bg-[#f5eadc] px-2 py-1 rounded-full">
+                  Package
+                </span>
+              )}
+            </div>
             <div className="flex items-center justify-between mb-3">
               <span className="text-lg font-bold text-[#2A2C22]">
                 GHS {product?.price?.toFixed(2)}

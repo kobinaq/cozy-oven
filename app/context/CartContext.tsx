@@ -17,16 +17,22 @@ export interface Product {
   productImages?: string[];
 }
 
+export interface PackageSelection {
+  label: string;
+  quantity: number;
+}
+
 export interface CartItem extends Product {
   quantity: number;
   selectedSize?: string;
+  packageSelections?: PackageSelection[];
 }
 
 interface CartContextType {
   cart: CartItem[];
-  addToCart: (product: Product, quantity?: number, size?: string) => void;
-  removeFromCart: (productId: string, size?: string) => void;
-  updateQuantity: (productId: string, quantity: number, size?: string) => void;
+  addToCart: (product: Product, quantity?: number, size?: string, packageSelections?: PackageSelection[]) => void;
+  removeFromCart: (productId: string, size?: string, packageSelections?: PackageSelection[]) => void;
+  updateQuantity: (productId: string, quantity: number, size?: string, packageSelections?: PackageSelection[]) => void;
   clearCart: () => void;
   moveAllToWishlist: () => CartItem[];
   getCartCount: () => number;
@@ -36,6 +42,14 @@ interface CartContextType {
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+const packageSelectionKey = (selections?: PackageSelection[]) =>
+  JSON.stringify(
+    [...(selections || [])]
+      .filter((selection) => selection.label && selection.quantity > 0)
+      .sort((a, b) => a.label.localeCompare(b.label))
+      .map((selection) => [selection.label, selection.quantity])
+  );
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -66,10 +80,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [toastMessage]);
 
-  const addToCart = (product: Product, quantity: number = 1, size?: string) => {
+  const addToCart = (
+    product: Product,
+    quantity: number = 1,
+    size?: string,
+    packageSelections?: PackageSelection[]
+  ) => {
     setCart((prevCart) => {
+      const nextSelectionKey = packageSelectionKey(packageSelections);
       const existingItemIndex = prevCart.findIndex(
-        (item) => item.id === product.id && item.selectedSize === size
+        (item) =>
+          item.id === product.id &&
+          item.selectedSize === size &&
+          packageSelectionKey(item.packageSelections) === nextSelectionKey
       );
 
       if (existingItemIndex > -1) {
@@ -80,7 +103,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       }
 
       setToastMessage("Item added to cart!");
-      return [...prevCart, { ...product, quantity, selectedSize: size }];
+      return [...prevCart, { ...product, quantity, selectedSize: size, packageSelections }];
     });
   };
 
@@ -88,21 +111,37 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setToastMessage(null);
   };
 
-  const removeFromCart = (productId: string, size?: string) => {
+  const removeFromCart = (productId: string, size?: string, packageSelections?: PackageSelection[]) => {
+    const targetSelectionKey = packageSelectionKey(packageSelections);
     setCart((prevCart) => 
-      prevCart.filter((item) => !(item.id === productId && (!size || item.selectedSize === size)))
+      prevCart.filter(
+        (item) =>
+          !(
+            item.id === productId &&
+            (!size || item.selectedSize === size) &&
+            packageSelectionKey(item.packageSelections) === targetSelectionKey
+          )
+      )
     );
   };
 
-  const updateQuantity = (productId: string, quantity: number, size?: string) => {
+  const updateQuantity = (
+    productId: string,
+    quantity: number,
+    size?: string,
+    packageSelections?: PackageSelection[]
+  ) => {
     if (quantity <= 0) {
-      removeFromCart(productId, size);
+      removeFromCart(productId, size, packageSelections);
       return;
     }
 
+    const targetSelectionKey = packageSelectionKey(packageSelections);
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.id === productId && (!size || item.selectedSize === size) 
+        item.id === productId &&
+        (!size || item.selectedSize === size) &&
+        packageSelectionKey(item.packageSelections) === targetSelectionKey
           ? { ...item, quantity } 
           : item
       )

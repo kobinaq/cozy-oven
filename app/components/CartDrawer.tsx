@@ -65,7 +65,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             <div className="space-y-4">
               {cart.map((item) => (
                 <div
-                  key={`${item.id}-${item.selectedSize || "default"}`}
+                  key={`${item.id}-${item.selectedSize || "default"}-${JSON.stringify(item.packageSelections || [])}`}
                   className="flex gap-4 border-b border-gray-300 pb-4"
                 >
                   {/* Product Image */}
@@ -85,6 +85,15 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       {item.selectedSize && (
                         <p className="text-xs text-gray-500">Size: {item.selectedSize}</p>
                       )}
+                      {item.packageSelections && item.packageSelections.length > 0 && (
+                        <div className="mt-1 text-xs text-gray-500">
+                          {item.packageSelections.map((selection) => (
+                            <p key={selection.label}>
+                              {selection.label} x {selection.quantity}
+                            </p>
+                          ))}
+                        </div>
+                      )}
                       <p className="text-[#bd6325] font-semibold mt-1">{item.price}</p>
                     </div>
 
@@ -94,12 +103,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                         <QuantitySelector
                           quantity={item.quantity}
                           onQuantityChange={(newQuantity) =>
-                            updateQuantity(item.id, newQuantity, item.selectedSize)
+                            updateQuantity(item.id, newQuantity, item.selectedSize, item.packageSelections)
                           }
                         />
                       </div>
                       <button
-                        onClick={() => removeFromCart(item.id, item.selectedSize)}
+                        onClick={() => removeFromCart(item.id, item.selectedSize, item.packageSelections)}
                         className="text-white bg-red-700 text-xs px-4 py-2 rounded-full transition hover:cursor-pointer"
                       >
                         Remove

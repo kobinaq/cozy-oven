@@ -214,6 +214,9 @@ export default function CheckoutPage() {
         unitPrice: parseFloat(item.price.replace("GHS ", "")),
         // Include size information - backend will store this in order details
         ...(item.selectedSize ? { size: item.selectedSize } : {}),
+        ...(item.packageSelections && item.packageSelections.length > 0
+          ? { packageSelections: item.packageSelections }
+          : {}),
       }));
 
       // Use admin checkout endpoint if user is admin, otherwise use customer endpoint
@@ -586,13 +589,24 @@ export default function CheckoutPage() {
                         const itemTotal = itemPrice * item.quantity;
                         return (
                           <div
-                            key={`${item.id}-${item.selectedSize}`}
-                            className="flex justify-between text-gray-700"
+                            key={`${item.id}-${item.selectedSize}-${JSON.stringify(item.packageSelections || [])}`}
+                            className="flex justify-between gap-4 text-gray-700"
                           >
-                            <span>
-                              {item.name} {item.selectedSize && `(${item.selectedSize})`} x{" "}
-                              {item.quantity}
-                            </span>
+                            <div>
+                              <span>
+                                {item.name} {item.selectedSize && `(${item.selectedSize})`} x{" "}
+                                {item.quantity}
+                              </span>
+                              {item.packageSelections && item.packageSelections.length > 0 && (
+                                <div className="mt-1 text-xs text-gray-500">
+                                  {item.packageSelections.map((selection) => (
+                                    <p key={selection.label}>
+                                      {selection.label} x {selection.quantity}
+                                    </p>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
                             <span>GHS {itemTotal.toFixed(2)}</span>
                           </div>
                         );

@@ -1,12 +1,13 @@
 import { X } from "lucide-react";
 import ProductForm from "./ProductForm";
-import { Product, SelectOption } from "../../../services/productService";
+import { PackageConfig, PackageOption, Product, SelectOption } from "../../../services/productService";
 
 interface EditProductModalProps {
   show: boolean;
   onClose: () => void;
   onSubmit: (e: React.FormEvent) => void;
   selectedProduct: Product | null;
+  productType: "standard" | "package";
   productName: string;
   productCategory: string;
   price: number;
@@ -17,8 +18,11 @@ interface EditProductModalProps {
   onRemoveImage?: (index: number) => void;
   selectOptions: SelectOption[];
   selectOptionInput: { label: string; additionalPrice: number };
+  packageConfig: PackageConfig;
+  packageOptionInput: PackageOption;
   loading: boolean;
   categories: string[];
+  onProductTypeChange: (value: "standard" | "package") => void;
   onProductNameChange: (value: string) => void;
   onProductCategoryChange: (value: string) => void;
   onPriceChange: (value: number) => void;
@@ -28,6 +32,11 @@ interface EditProductModalProps {
   onAddSelectOption: () => void;
   onRemoveSelectOption: (index: number) => void;
   onToggleOptionAvailable?: (index: number) => void;
+  onPackageConfigChange: (config: PackageConfig) => void;
+  onPackageOptionInputChange: (field: keyof PackageOption, value: string | number | boolean) => void;
+  onAddPackageOption: () => void;
+  onRemovePackageOption: (index: number) => void;
+  onTogglePackageOptionAvailable: (index: number) => void;
 }
 
 export default function EditProductModal({
@@ -35,6 +44,7 @@ export default function EditProductModal({
   onClose,
   onSubmit,
   selectedProduct,
+  productType,
   productName,
   productCategory,
   price,
@@ -45,8 +55,11 @@ export default function EditProductModal({
   onRemoveImage,
   selectOptions,
   selectOptionInput,
+  packageConfig,
+  packageOptionInput,
   loading,
   categories,
+  onProductTypeChange,
   onProductNameChange,
   onProductCategoryChange,
   onPriceChange,
@@ -56,6 +69,11 @@ export default function EditProductModal({
   onAddSelectOption,
   onRemoveSelectOption,
   onToggleOptionAvailable,
+  onPackageConfigChange,
+  onPackageOptionInputChange,
+  onAddPackageOption,
+  onRemovePackageOption,
+  onTogglePackageOptionAvailable,
 }: EditProductModalProps) {
   if (!show || !selectedProduct) return null;
 
@@ -73,6 +91,7 @@ export default function EditProductModal({
         </div>
 
         <ProductForm
+          productType={productType}
           productName={productName}
           productCategory={productCategory}
           price={price}
@@ -83,8 +102,11 @@ export default function EditProductModal({
           onRemoveImage={onRemoveImage}
           selectOptions={selectOptions}
           selectOptionInput={selectOptionInput}
+          packageConfig={packageConfig}
+          packageOptionInput={packageOptionInput}
           loading={loading}
           categories={categories}
+          onProductTypeChange={onProductTypeChange}
           onProductNameChange={onProductNameChange}
           onProductCategoryChange={onProductCategoryChange}
           onPriceChange={onPriceChange}
@@ -94,6 +116,11 @@ export default function EditProductModal({
           onAddSelectOption={onAddSelectOption}
           onRemoveSelectOption={onRemoveSelectOption}
           onToggleOptionAvailable={onToggleOptionAvailable}
+          onPackageConfigChange={onPackageConfigChange}
+          onPackageOptionInputChange={onPackageOptionInputChange}
+          onAddPackageOption={onAddPackageOption}
+          onRemovePackageOption={onRemovePackageOption}
+          onTogglePackageOptionAvailable={onTogglePackageOptionAvailable}
           onSubmit={onSubmit}
           onCancel={onClose}
           submitLabel="Update Product"

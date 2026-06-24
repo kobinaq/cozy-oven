@@ -5,6 +5,11 @@ export interface OrderItem {
   productId: string;
   quantity: number;
   unitPrice: number;
+  size?: string;
+  packageSelections?: {
+    label: string;
+    quantity: number;
+  }[];
 }
 
 // Checkout request interface
@@ -18,6 +23,12 @@ export interface CheckoutRequest {
   paymentMethod: string;
   fullName?: string;
   email?: string;
+  orderDetails?: {
+    pickUpDetails?: {
+      pickupDate: string;
+      specialInstructions?: string;
+    };
+  };
 }
 
 // Order interface
