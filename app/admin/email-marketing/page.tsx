@@ -256,8 +256,8 @@ export default function EmailMarketingPage() {
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
           <section className="rounded-lg bg-white p-6 shadow-sm">
-            <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
+            <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+              <div className="min-w-0">
                 <h2 className="flex items-center gap-2 text-lg font-bold text-gray-900">
                   <Users className="h-5 w-5" />
                   Recipients
@@ -266,23 +266,23 @@ export default function EmailMarketingPage() {
                   {selectedRecipients.length} selected from {recipients.length} available
                 </p>
               </div>
-              <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="grid w-full min-w-0 gap-3 sm:grid-cols-2 lg:max-w-md">
                 <select
                   value={sourceFilter}
                   onChange={(event) => setSourceFilter(event.target.value as RecipientSourceFilter)}
-                  className="rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20"
+                  className="w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20"
                 >
                   <option value="all">Customers + subscribers</option>
                   <option value="customers">Customers only</option>
                   <option value="subscribers">Subscribers only</option>
                 </select>
-                <div className="relative">
+                <div className="relative min-w-0">
                   <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
                   <input
                     value={searchQuery}
                     onChange={(event) => setSearchQuery(event.target.value)}
                     placeholder="Search recipients..."
-                    className="w-full rounded-lg border border-gray-300 py-2 pl-9 pr-3 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20 sm:w-64"
+                    className="w-full min-w-0 rounded-lg border border-gray-300 py-2 pl-9 pr-3 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20"
                   />
                 </div>
               </div>
