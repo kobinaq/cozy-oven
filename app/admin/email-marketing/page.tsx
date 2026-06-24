@@ -256,7 +256,7 @@ export default function EmailMarketingPage() {
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
           <section className="rounded-lg bg-white p-6 shadow-sm">
-            <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+            <div className="mb-5 flex flex-col gap-4">
               <div className="min-w-0">
                 <h2 className="flex items-center gap-2 text-lg font-bold text-gray-900">
                   <Users className="h-5 w-5" />
@@ -266,7 +266,7 @@ export default function EmailMarketingPage() {
                   {selectedRecipients.length} selected from {recipients.length} available
                 </p>
               </div>
-              <div className="grid w-full min-w-0 gap-3 sm:grid-cols-2 lg:max-w-md">
+              <div className="grid w-full min-w-0 gap-3 sm:grid-cols-2">
                 <select
                   value={sourceFilter}
                   onChange={(event) => setSourceFilter(event.target.value as RecipientSourceFilter)}
