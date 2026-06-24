@@ -19,6 +19,7 @@ import {
 } from "../schemas/authSchema";
 import authService from "../services/authService";
 import { useAuth } from "../context/AuthContext";
+import { clearGuestOrderProfile } from "../utils/guestOrderProfile";
 
 type AuthTab = "login" | "signup" | "forgot-password" | "verify-otp" | "reset-password";
 
@@ -92,6 +93,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
       const response = await authService.login(data);
       if (response.success && response.accessToken && response.data) {
         login(response.data, response.accessToken);
+        clearGuestOrderProfile();
         setSuccess(response.message);
         setTimeout(() => {
           handleClose();

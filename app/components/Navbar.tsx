@@ -17,7 +17,6 @@ import { Product } from "../services/productService";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Orders", href: "/account/orders" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -89,6 +88,10 @@ export default function Navbar() {
   }, [searchQuery]);
 
   const cartCount = isMounted ? getCartCount() : 0;
+  const visibleNavLinks =
+    isMounted && isAuthenticated
+      ? [...navLinks.slice(0, 2), { label: "Orders", href: "/account/orders" }, ...navLinks.slice(2)]
+      : navLinks;
 
   const handleCartClick = () => {
     if (cartCount > 0) setCartDrawerOpen(true);
@@ -129,7 +132,7 @@ export default function Navbar() {
 
         {/* Desktop nav links */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
+          {visibleNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -295,7 +298,7 @@ export default function Navbar() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex flex-col items-center w-full gap-6">
-                {navLinks.map((link, i) => (
+                {visibleNavLinks.map((link, i) => (
                   <motion.div key={link.href} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ delay: i * 0.08 }}>
                     <Link href={link.href} className="text-2xl font-semibold text-gray-900 hover:text-[#bd6325] transition-colors" onClick={() => setMenuOpen(false)}>
                       {link.label}

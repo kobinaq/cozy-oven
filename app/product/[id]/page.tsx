@@ -329,14 +329,16 @@ export default function ProductDetails() {
 
               {!isSoldOut && (
                 <>
-                  <div className="mb-6">
-                    <label className="block font-semibold mb-2">Size</label>
-                    <SizeSelector
-                      sizes={sizes}
-                      selectedSize={selectedSize}
-                      onSizeChange={setSelectedSize}
-                    />
-                  </div>
+                  {hasVariants && (
+                    <div className="mb-6">
+                      <label className="block font-semibold mb-2">Size</label>
+                      <SizeSelector
+                        sizes={sizes}
+                        selectedSize={selectedSize}
+                        onSizeChange={setSelectedSize}
+                      />
+                    </div>
+                  )}
 
                   <div className="mb-6">
                     <label className="block font-semibold mb-2">Quantity</label>

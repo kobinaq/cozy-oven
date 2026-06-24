@@ -5,10 +5,12 @@ import { CheckCircle2 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import { useEffect, Suspense } from "react";
 
 function OrderSuccessContent() {
   const { clearCart } = useCart();
+  const { isAuthenticated } = useAuth();
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -20,6 +22,15 @@ function OrderSuccessContent() {
     // Clear cart after successful order
     clearCart();
   }, [clearCart]);
+
+  const handleTrackOrder = () => {
+    if (isAuthenticated) {
+      router.push("/account/orders");
+      return;
+    }
+
+    router.push("/signup?next=/account/orders&source=guest-order");
+  };
 
   return (
     <>
@@ -86,7 +97,7 @@ function OrderSuccessContent() {
                 Continue Shopping
               </button>
               <button
-                onClick={() => router.push("/account/orders")}
+                onClick={handleTrackOrder}
                 className="border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-8 rounded-lg transition-colors"
               >
                 Track Order

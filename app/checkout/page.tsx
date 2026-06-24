@@ -10,6 +10,7 @@ import IncompleteOrderModal from "../components/IncompleteOrderModal";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { orderService, type OrderItem } from "../services/orderService";
+import { saveGuestOrderProfile } from "../utils/guestOrderProfile";
 
 type DeliveryMethod = "delivery" | "pickup";
 type CheckoutStep = "info" | "delivery" | "payment" | "review";
@@ -256,6 +257,15 @@ export default function CheckoutPage() {
 
       if (!orderId) {
         throw new Error("Order ID not found in response");
+      }
+
+      if (!isAuthenticated) {
+        saveGuestOrderProfile({
+          fullName: customerInfo.name.trim(),
+          email: customerInfo.email.trim(),
+          phoneNumber: customerInfo.phone.trim(),
+          orderId,
+        });
       }
 
       // Initiate payment
