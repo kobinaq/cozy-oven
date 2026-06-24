@@ -23,6 +23,7 @@ interface OrderItem {
 export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderModalProps) {
   const { products } = useCustomerProducts({ limit: 100 });
   const [customerName, setCustomerName] = useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState("");
   const [city, setCity] = useState("");
@@ -95,18 +96,21 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
         ...(item.size && { size: item.size }),
       }));
 
-      await orderService.checkout({
+      await orderService.createOfflineSale({
         items,
         deliveryFee: 0,
         deliveryAddress: deliveryAddress.trim() || "In-person purchase",
         city: city.trim() || undefined,
         specialInstruction: specialInstructions.trim() || undefined,
         contactNumber: contactNumber.trim(),
+        fullName: customerName.trim(),
+        email: customerEmail.trim() || undefined,
         paymentMethod: "cash",
       });
 
       // Reset form
       setCustomerName("");
+      setCustomerEmail("");
       setContactNumber("");
       setDeliveryAddress("");
       setCity("");
@@ -192,6 +196,18 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
                         onChange={(e) => setContactNumber(e.target.value)}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
                         required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Email (Optional)
+                      </label>
+                      <input
+                        type="email"
+                        value={customerEmail}
+                        onChange={(e) => setCustomerEmail(e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        placeholder="customer@example.com"
                       />
                     </div>
                     <div>

@@ -20,6 +20,9 @@ export interface Product {
 export interface PackageSelection {
   label: string;
   quantity: number;
+  groupLabel?: string;
+  groupId?: string;
+  type?: "fixed" | "selection";
 }
 
 export interface CartItem extends Product {

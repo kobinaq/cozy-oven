@@ -18,7 +18,7 @@ export default function CartPage() {
     productId: string,
     newQuantity: number,
     size?: string,
-    packageSelections?: { label: string; quantity: number }[]
+    packageSelections?: { label: string; quantity: number; groupLabel?: string; groupId?: string; type?: "fixed" | "selection" }[]
   ) => {
     if (newQuantity <= 0) {
       removeFromCart(productId, size, packageSelections);
@@ -104,7 +104,8 @@ export default function CartPage() {
                                 <p className="font-medium text-gray-700">Package selections:</p>
                                 <ul className="mt-1 space-y-0.5">
                                   {item.packageSelections.map((selection) => (
-                                    <li key={selection.label}>
+                                    <li key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
+                                      {selection.groupLabel ? `${selection.groupLabel}: ` : ""}
                                       {selection.label} x {selection.quantity}
                                     </li>
                                   ))}

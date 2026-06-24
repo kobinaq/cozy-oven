@@ -9,6 +9,9 @@ export interface OrderItem {
   packageSelections?: {
     label: string;
     quantity: number;
+    groupLabel?: string;
+    groupId?: string;
+    type?: "fixed" | "selection";
   }[];
 }
 
@@ -226,6 +229,11 @@ export const orderService = {
       }
       throw error;
     }
+  },
+
+  createOfflineSale: async (data: CheckoutRequest): Promise<ApiResponse<Order>> => {
+    const response = await apiClient.post("/api/v1/dashboard/admin/orders/offline", data);
+    return response.data;
   },
 
   // Admin: Get single order details by orderId

@@ -224,6 +224,15 @@ export default function ProductManagementPage() {
 
   const packageConfigIsValid = () => {
     if (productType !== "package") return true;
+    if (packageConfig.groups && packageConfig.groups.length > 0) {
+      return packageConfig.groups.every((group) => {
+        const availableCount = group.options.filter((option) => option.isAvailable !== false).length;
+        if (group.type === "fixed") return availableCount > 0;
+        if (!group.requiredSelectionCount || group.requiredSelectionCount < 1) return false;
+        if (group.allowRepeats === false) return availableCount >= group.requiredSelectionCount;
+        return availableCount > 0;
+      });
+    }
     const availableCount = packageConfig.options.filter((option) => option.isAvailable !== false).length;
     return packageConfig.requiredSelectionCount > 0 && availableCount >= packageConfig.requiredSelectionCount;
   };

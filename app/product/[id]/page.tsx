@@ -39,26 +39,73 @@ export default function ProductDetails() {
   const hasVariants = (product?.selectOptions?.length ?? 0) > 0;
   const isSoldOut = hasVariants && availableOptions.length === 0;
   const isPackageProduct = product?.productType === "package";
-  const activePackageOptions = useMemo(
-    () =>
-      [...(product?.packageConfig?.options || [])]
-        .filter((option) => option.isAvailable !== false)
-        .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0)),
-    [product?.packageConfig?.options]
-  );
-  const requiredPackageCount = product?.packageConfig?.requiredSelectionCount || 0;
-  const selectedPackageCount = Object.values(packageSelectionCounts).reduce(
-    (sum, count) => sum + count,
+  const packageGroups = useMemo(() => {
+    const groups = product?.packageConfig?.groups;
+    if (groups && groups.length > 0) {
+      return [...groups].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+    }
+
+    const legacyOptions = product?.packageConfig?.options || [];
+    if (legacyOptions.length > 0) {
+      return [
+        {
+          id: "default",
+          label: product?.packageConfig?.selectionLabel || "Choose your options",
+          type: "selection" as const,
+          requiredSelectionCount: product?.packageConfig?.requiredSelectionCount || 1,
+          allowRepeats: true,
+          options: legacyOptions,
+          sortOrder: 0,
+        },
+      ];
+    }
+
+    return [];
+  }, [product?.packageConfig]);
+  const selectablePackageGroups = packageGroups.filter((group) => group.type !== "fixed");
+  const selectedPackageCount = Object.values(packageSelectionCounts).reduce((sum, count) => sum + count, 0);
+  const requiredPackageCount = selectablePackageGroups.reduce(
+    (sum, group) => sum + (group.requiredSelectionCount || 0),
     0
   );
-  const packageSelections = activePackageOptions
-    .map((option) => ({
-      label: option.label,
-      quantity: packageSelectionCounts[option.label] || 0,
-    }))
-    .filter((selection) => selection.quantity > 0);
+  const fixedPackageSelections = packageGroups
+    .filter((group) => group.type === "fixed")
+    .flatMap((group) =>
+      (group.options || [])
+        .filter((option) => option.isAvailable !== false)
+        .map((option) => ({
+          label: option.label,
+          quantity: option.quantity || 1,
+          groupLabel: group.label,
+          groupId: group.id || group.label,
+          type: "fixed" as const,
+        }))
+    );
+  const packageSelections = [
+    ...fixedPackageSelections,
+    ...selectablePackageGroups.flatMap((group) =>
+      (group.options || [])
+        .filter((option) => option.isAvailable !== false)
+        .map((option) => ({
+          label: option.label,
+          quantity: packageSelectionCounts[`${group.id || group.label}::${option.label}`] || 0,
+          groupLabel: group.label,
+          groupId: group.id || group.label,
+          type: "selection" as const,
+        }))
+        .filter((selection) => selection.quantity > 0)
+    ),
+  ];
   const packageSelectionComplete =
-    !isPackageProduct || selectedPackageCount === requiredPackageCount;
+    !isPackageProduct ||
+    selectablePackageGroups.every((group) => {
+      const groupId = group.id || group.label;
+      const count = (group.options || []).reduce(
+        (sum, option) => sum + (packageSelectionCounts[`${groupId}::${option.label}`] || 0),
+        0
+      );
+      return count === group.requiredSelectionCount;
+    });
   
   const [selectedSize, setSelectedSize] = useState<string | null>(
     availableOptions?.[0]?.label ?? null
@@ -177,17 +224,21 @@ export default function ProductDetails() {
     );
   };
 
-  const updatePackageSelection = (label: string, nextCount: number) => {
+  const updatePackageSelection = (groupId: string, label: string, nextCount: number, requiredCount: number) => {
     setPackageSelectionCounts((prev) => {
-      const current = prev[label] || 0;
-      const totalWithoutCurrent = selectedPackageCount - current;
+      const key = `${groupId}::${label}`;
+      const current = prev[key] || 0;
+      const groupTotal = Object.entries(prev)
+        .filter(([entryKey]) => entryKey.startsWith(`${groupId}::`))
+        .reduce((sum, [, count]) => sum + count, 0);
+      const totalWithoutCurrent = groupTotal - current;
       const bounded = Math.max(
         0,
-        Math.min(nextCount, Math.max(0, requiredPackageCount - totalWithoutCurrent))
+        Math.min(nextCount, Math.max(0, requiredCount - totalWithoutCurrent))
       );
       return {
         ...prev,
-        [label]: bounded,
+        [key]: bounded,
       };
     });
   };
@@ -359,47 +410,88 @@ export default function ProductDetails() {
                       <div className="flex items-start justify-between gap-4 mb-4">
                         <div>
                           <label className="block font-semibold">
-                            {product.packageConfig?.selectionLabel || "Choose your options"}
+                            {product.packageConfig?.selectionLabel || "Build your package"}
                           </label>
                           <p className="text-sm text-gray-600 mt-1">
-                            Select exactly {requiredPackageCount}. Chosen: {selectedPackageCount}/{requiredPackageCount}
+                            {requiredPackageCount > 0
+                              ? `Chosen: ${selectedPackageCount}/${requiredPackageCount}`
+                              : "Included items are fixed for this package."}
                           </p>
                         </div>
                       </div>
 
-                      <div className="space-y-3">
-                        {activePackageOptions.map((option) => {
-                          const optionCount = packageSelectionCounts[option.label] || 0;
+                      <div className="space-y-5">
+                        {packageGroups.map((group) => {
+                          const groupId = group.id || group.label;
+                          const activeOptions = (group.options || [])
+                            .filter((option) => option.isAvailable !== false)
+                            .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+                          const groupSelectedCount = activeOptions.reduce(
+                            (sum, option) => sum + (packageSelectionCounts[`${groupId}::${option.label}`] || 0),
+                            0
+                          );
+
                           return (
-                            <div
-                              key={option.label}
-                              className="flex items-center justify-between gap-3 rounded-xl border border-gray-200 p-3"
-                            >
-                              <div className="min-w-0">
-                                <p className="font-medium text-gray-900">{option.label}</p>
-                                {option.description && (
-                                  <p className="text-sm text-gray-500">{option.description}</p>
-                                )}
+                            <div key={groupId} className="space-y-3">
+                              <div>
+                                <p className="font-semibold text-gray-900">{group.label}</p>
+                                <p className="text-sm text-gray-600">
+                                  {group.type === "fixed"
+                                    ? "Included in this package"
+                                    : `Select exactly ${group.requiredSelectionCount}. Chosen: ${groupSelectedCount}/${group.requiredSelectionCount}`}
+                                </p>
                               </div>
-                              <div className="flex items-center gap-2 shrink-0">
-                                <button
-                                  type="button"
-                                  onClick={() => updatePackageSelection(option.label, optionCount - 1)}
-                                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center disabled:opacity-40"
-                                  disabled={optionCount === 0}
-                                >
-                                  -
-                                </button>
-                                <span className="w-8 text-center font-semibold">{optionCount}</span>
-                                <button
-                                  type="button"
-                                  onClick={() => updatePackageSelection(option.label, optionCount + 1)}
-                                  className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center disabled:opacity-40"
-                                  disabled={selectedPackageCount >= requiredPackageCount}
-                                >
-                                  +
-                                </button>
-                              </div>
+
+                              {activeOptions.map((option) => {
+                                const optionCount = packageSelectionCounts[`${groupId}::${option.label}`] || 0;
+                                return (
+                                  <div
+                                    key={`${groupId}-${option.label}`}
+                                    className="flex items-center justify-between gap-3 rounded-xl border border-gray-200 p-3"
+                                  >
+                                    <div className="min-w-0">
+                                      <p className="font-medium text-gray-900">
+                                        {option.label}
+                                        {group.type === "fixed" && (
+                                          <span className="ml-2 text-sm text-gray-500">x {option.quantity || 1}</span>
+                                        )}
+                                      </p>
+                                      {option.description && (
+                                        <p className="text-sm text-gray-500">{option.description}</p>
+                                      )}
+                                    </div>
+
+                                    {group.type === "selection" && (
+                                      <div className="flex items-center gap-2 shrink-0">
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            updatePackageSelection(groupId, option.label, optionCount - 1, group.requiredSelectionCount)
+                                          }
+                                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center disabled:opacity-40"
+                                          disabled={optionCount === 0}
+                                        >
+                                          -
+                                        </button>
+                                        <span className="w-8 text-center font-semibold">{optionCount}</span>
+                                        <button
+                                          type="button"
+                                          onClick={() =>
+                                            updatePackageSelection(groupId, option.label, optionCount + 1, group.requiredSelectionCount)
+                                          }
+                                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center disabled:opacity-40"
+                                          disabled={
+                                            groupSelectedCount >= group.requiredSelectionCount ||
+                                            (group.allowRepeats === false && optionCount >= 1)
+                                          }
+                                        >
+                                          +
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                );
+                              })}
                             </div>
                           );
                         })}

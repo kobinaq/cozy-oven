@@ -610,7 +610,8 @@ export default function CheckoutPage() {
                               {item.packageSelections && item.packageSelections.length > 0 && (
                                 <div className="mt-1 text-xs text-gray-500">
                                   {item.packageSelections.map((selection) => (
-                                    <p key={selection.label}>
+                                    <p key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
+                                      {selection.groupLabel ? `${selection.groupLabel}: ` : ""}
                                       {selection.label} x {selection.quantity}
                                     </p>
                                   ))}

@@ -35,6 +35,8 @@ export default function EmailMarketingPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [manualEmails, setManualEmails] = useState("");
+  const [invalidManualEmails, setInvalidManualEmails] = useState<string[]>([]);
   const [loadingRecipients, setLoadingRecipients] = useState(true);
   const [loadingCampaigns, setLoadingCampaigns] = useState(true);
   const [sending, setSending] = useState(false);
@@ -171,6 +173,37 @@ export default function EmailMarketingPage() {
       filteredRecipients.forEach((recipient) => next.set(recipientKey(recipient), recipient));
       return Array.from(next.values());
     });
+  };
+
+  const handleAddManualRecipients = () => {
+    const entries = manualEmails
+      .split(/[\n,;]+/)
+      .map((entry) => entry.trim().toLowerCase())
+      .filter(Boolean);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const invalid = entries.filter((email) => !emailRegex.test(email));
+    const valid = entries.filter((email) => emailRegex.test(email));
+    setInvalidManualEmails(Array.from(new Set(invalid)));
+
+    if (valid.length === 0) return;
+
+    setSelectedRecipients((current) => {
+      const next = new Map(current.map((recipient) => [recipientKey(recipient), recipient]));
+      valid.forEach((email) => {
+        if (!next.has(email)) {
+          next.set(email, {
+            id: email,
+            name: email,
+            email,
+            source: "manual",
+          });
+        }
+      });
+      return Array.from(next.values());
+    });
+
+    setManualEmails("");
   };
 
   const handleSendCampaign = async () => {
@@ -350,6 +383,30 @@ export default function EmailMarketingPage() {
                 Compose Campaign
               </h2>
               <div className="space-y-4">
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                  <label className="mb-2 block text-sm font-semibold text-gray-700">
+                    Add manual recipients
+                  </label>
+                  <textarea
+                    value={manualEmails}
+                    onChange={(event) => setManualEmails(event.target.value)}
+                    rows={3}
+                    placeholder="name@example.com, second@example.com"
+                    className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20"
+                  />
+                  {invalidManualEmails.length > 0 && (
+                    <p className="mt-2 text-xs text-red-600">
+                      Invalid: {invalidManualEmails.join(", ")}
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    onClick={handleAddManualRecipients}
+                    className="mt-3 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                  >
+                    Add emails to recipients
+                  </button>
+                </div>
                 <div>
                   <label className="mb-2 block text-sm font-semibold text-gray-700">Subject</label>
                   <input

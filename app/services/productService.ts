@@ -11,12 +11,24 @@ export interface PackageOption {
   description?: string;
   isAvailable?: boolean;
   sortOrder?: number;
+  quantity?: number;
+}
+
+export interface PackageGroup {
+  id?: string;
+  label: string;
+  type: "fixed" | "selection";
+  requiredSelectionCount: number;
+  allowRepeats?: boolean;
+  options: PackageOption[];
+  sortOrder?: number;
 }
 
 export interface PackageConfig {
   selectionLabel?: string;
   requiredSelectionCount: number;
   options: PackageOption[];
+  groups?: PackageGroup[];
 }
 
 export interface Product {

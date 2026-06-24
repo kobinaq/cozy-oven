@@ -17,6 +17,9 @@ interface OrderItem {
   packageSelections?: {
     label: string;
     quantity: number;
+    groupLabel?: string;
+    groupId?: string;
+    type?: "fixed" | "selection";
   }[];
 }
 
@@ -340,7 +343,8 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                           {item.packageSelections && item.packageSelections.length > 0 && (
                             <div className="mt-1 text-xs text-gray-500">
                               {item.packageSelections.map((selection) => (
-                                <p key={selection.label}>
+                                <p key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
+                                  {selection.groupLabel ? `${selection.groupLabel}: ` : ""}
                                   {selection.label} x {selection.quantity}
                                 </p>
                               ))}

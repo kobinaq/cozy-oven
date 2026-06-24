@@ -1,6 +1,6 @@
-import { X, Upload, Plus } from "lucide-react";
+import { X, Upload, Plus, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { PackageConfig, PackageOption, SelectOption } from "../../../services/productService";
+import { PackageConfig, PackageGroup, PackageOption, SelectOption } from "../../../services/productService";
 
 interface ProductFormProps {
   productType: "standard" | "package";
@@ -75,6 +75,98 @@ export default function ProductForm({
   submitLabel,
   isEdit = false,
 }: ProductFormProps) {
+  const updatePackageGroup = (index: number, updates: Partial<PackageGroup>) => {
+    onPackageConfigChange({
+      ...packageConfig,
+      groups: (packageConfig.groups || []).map((group, i) =>
+        i === index ? { ...group, ...updates } : group
+      ),
+    });
+  };
+
+  const addPackageGroup = (type: "fixed" | "selection") => {
+    const groups = packageConfig.groups || [];
+    onPackageConfigChange({
+      ...packageConfig,
+      groups: [
+        ...groups,
+        {
+          id: `group-${Date.now()}`,
+          label: type === "fixed" ? "Included items" : "Choose your options",
+          type,
+          requiredSelectionCount: type === "fixed" ? 0 : 1,
+          allowRepeats: true,
+          options: [],
+          sortOrder: groups.length,
+        },
+      ],
+    });
+  };
+
+  const removePackageGroup = (index: number) => {
+    onPackageConfigChange({
+      ...packageConfig,
+      groups: (packageConfig.groups || []).filter((_, i) => i !== index),
+    });
+  };
+
+  const addOptionToGroup = (groupIndex: number) => {
+    const groups = packageConfig.groups || [];
+    onPackageConfigChange({
+      ...packageConfig,
+      groups: groups.map((group, i) =>
+        i === groupIndex
+          ? {
+              ...group,
+              options: [
+                ...group.options,
+                {
+                  label: "New option",
+                  description: "",
+                  isAvailable: true,
+                  quantity: 1,
+                  sortOrder: group.options.length,
+                },
+              ],
+            }
+          : group
+      ),
+    });
+  };
+
+  const updateGroupOption = (
+    groupIndex: number,
+    optionIndex: number,
+    updates: Partial<PackageOption>
+  ) => {
+    const groups = packageConfig.groups || [];
+    onPackageConfigChange({
+      ...packageConfig,
+      groups: groups.map((group, i) =>
+        i === groupIndex
+          ? {
+              ...group,
+              options: group.options.map((option, oi) =>
+                oi === optionIndex ? { ...option, ...updates } : option
+              ),
+            }
+          : group
+      ),
+    });
+  };
+
+  const removeGroupOption = (groupIndex: number, optionIndex: number) => {
+    const groups = packageConfig.groups || [];
+    onPackageConfigChange({
+      ...packageConfig,
+      groups: groups.map((group, i) =>
+        i === groupIndex
+          ? { ...group, options: group.options.filter((_, oi) => oi !== optionIndex) }
+          : group
+      ),
+    });
+  };
+
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       {/* Product Type */}
@@ -386,10 +478,155 @@ export default function ProductForm({
             </div>
           </div>
 
+          <div className="rounded-lg border border-gray-200 bg-white p-3 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div>
+                <h4 className="text-sm font-bold text-gray-900">Package Groups</h4>
+                <p className="text-xs text-gray-600">
+                  Use fixed groups for included items and selection groups for customer choices.
+                </p>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => addPackageGroup("selection")}
+                  className="px-3 py-2 text-sm bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12]"
+                >
+                  + Selection
+                </button>
+                <button
+                  type="button"
+                  onClick={() => addPackageGroup("fixed")}
+                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
+                >
+                  + Fixed
+                </button>
+              </div>
+            </div>
+
+            {(packageConfig.groups || []).map((group, groupIndex) => (
+              <div key={group.id || groupIndex} className="rounded-lg border border-gray-200 p-3 space-y-3">
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_auto_auto] gap-2 items-end">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1">Group Label</label>
+                    <input
+                      type="text"
+                      value={group.label}
+                      onChange={(e) => updatePackageGroup(groupIndex, { label: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-600 mb-1">Type</label>
+                    <select
+                      value={group.type}
+                      onChange={(e) =>
+                        updatePackageGroup(groupIndex, {
+                          type: e.target.value as "fixed" | "selection",
+                          requiredSelectionCount: e.target.value === "fixed" ? 0 : Math.max(1, group.requiredSelectionCount || 1),
+                        })
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                    >
+                      <option value="selection">Customer chooses</option>
+                      <option value="fixed">Fixed included</option>
+                    </select>
+                  </div>
+                  {group.type === "selection" && (
+                    <div>
+                      <label className="block text-xs font-semibold text-gray-600 mb-1">Required</label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={group.requiredSelectionCount || 1}
+                        onChange={(e) =>
+                          updatePackageGroup(groupIndex, {
+                            requiredSelectionCount: Math.max(1, parseInt(e.target.value, 10) || 1),
+                          })
+                        }
+                        className="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      />
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => removePackageGroup(groupIndex)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                    title="Remove group"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {group.type === "selection" && (
+                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                    <input
+                      type="checkbox"
+                      checked={group.allowRepeats !== false}
+                      onChange={(e) => updatePackageGroup(groupIndex, { allowRepeats: e.target.checked })}
+                    />
+                    Allow customers to repeat an option
+                  </label>
+                )}
+
+                <div className="space-y-2">
+                  {group.options.map((option, optionIndex) => (
+                    <div key={`${groupIndex}-${optionIndex}`} className="grid grid-cols-1 md:grid-cols-[1fr_1fr_90px_auto] gap-2">
+                      <input
+                        type="text"
+                        value={option.label}
+                        onChange={(e) => updateGroupOption(groupIndex, optionIndex, { label: e.target.value })}
+                        className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        placeholder="Option label"
+                      />
+                      <input
+                        type="text"
+                        value={option.description || ""}
+                        onChange={(e) => updateGroupOption(groupIndex, optionIndex, { description: e.target.value })}
+                        className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        placeholder="Description"
+                      />
+                      <input
+                        type="number"
+                        min="1"
+                        value={option.quantity || 1}
+                        onChange={(e) =>
+                          updateGroupOption(groupIndex, optionIndex, {
+                            quantity: Math.max(1, parseInt(e.target.value, 10) || 1),
+                          })
+                        }
+                        className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        title="Quantity"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeGroupOption(groupIndex, optionIndex)}
+                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => addOptionToGroup(groupIndex)}
+                    className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
+                  >
+                    <Plus className="w-4 h-4" />
+                    Add option
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Package Options
+              Legacy Package Options
             </label>
+            <p className="text-xs text-gray-500 mb-2">
+              Existing simple packages can still use this. New mixed packages should use Package Groups above.
+            </p>
             <div className="space-y-2">
               <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-2">
                 <input
