@@ -12,7 +12,7 @@ import useCustomerProducts from "./hooks/useCustomerProducts";
 const fallbackImages = ["/gift.png", "/flightbox.png", "/cozy2.png"];
 
 export default function Home() {
-  const { products, loading } = useCustomerProducts({ limit: 100 });
+  const { products, loading, error } = useCustomerProducts({ limit: 100 });
   const bestSellers = products.slice(0, 4);
   const bananaProducts = products.filter((product) =>
     product.productCategory?.toLowerCase().includes("banana")
@@ -84,6 +84,12 @@ export default function Home() {
           </div>
           {loading ? (
             <div className="editorial-card p-10 text-center text-[#5D4A3D]">Loading products...</div>
+          ) : error ? (
+            <div className="editorial-card p-10 text-center text-[#8C2F1E]">{error}</div>
+          ) : bestSellers.length === 0 ? (
+            <div className="editorial-card p-10 text-center text-[#5D4A3D]">
+              No products are available right now.
+            </div>
           ) : (
             <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
               {bestSellers.map((product) => (
@@ -126,9 +132,15 @@ export default function Home() {
               </Link>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              {(yogurtProducts.length ? yogurtProducts.slice(0, 2) : products.slice(0, 2)).map((product) => (
-                <EditorialProductCard key={product.id} product={product} compact />
-              ))}
+              {(yogurtProducts.length ? yogurtProducts.slice(0, 2) : products.slice(0, 2)).length > 0 ? (
+                (yogurtProducts.length ? yogurtProducts.slice(0, 2) : products.slice(0, 2)).map((product) => (
+                  <EditorialProductCard key={product.id} product={product} compact />
+                ))
+              ) : (
+                <div className="editorial-card col-span-full p-8 text-center text-[#5D4A3D]">
+                  Yoghurt products will appear here once they are available.
+                </div>
+              )}
             </div>
           </div>
         </section>

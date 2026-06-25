@@ -119,7 +119,7 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 w-full border-b border-[#E8DDD0] bg-[#FAF6F1]/90 px-4 py-4 backdrop-blur-xl md:px-8">
+      <nav className="sticky top-10 z-40 w-full border-b border-[#E8DDD0] bg-[#FAF6F1]/90 px-4 py-4 backdrop-blur-xl md:px-8">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-3">

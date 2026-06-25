@@ -3,7 +3,9 @@ import type { MetadataRoute } from "next";
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://cozyoven.store";
 const apiBaseUrl =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "https://cozy-oven-bakery-backend.onrender.com";
+  (process.env.NODE_ENV === "production"
+    ? "https://cozy-oven-bakery-backend.onrender.com"
+    : "http://localhost:5000");
 
 async function getProductUrls() {
   try {
