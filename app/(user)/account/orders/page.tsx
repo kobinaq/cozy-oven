@@ -5,21 +5,17 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { orderService, type Order } from "@/app/services/orderService";
 
-const getStatusInfo = (status: string) => {
-  switch (status) {
-    case "pending":
-      return { label: "Order Processed", color: "bg-blue-500", progress: 25 };
-    case "preparing":
-      return { label: "Being Prepared", color: "bg-orange-500", progress: 50 };
-    case "on-delivery":
-      return { label: "On The Way", color: "bg-purple-500", progress: 75 };
-    case "delivered":
-      return { label: "Delivered", color: "bg-green-500", progress: 100 };
-    case "cancelled":
-      return { label: "Cancelled", color: "bg-red-500", progress: 0 };
-    default:
-      return { label: "Unknown", color: "bg-gray-300", progress: 0 };
-  }
+const steps = [
+  { key: "pending", label: "Order Placed" },
+  { key: "preparing", label: "Preparing" },
+  { key: "on-delivery", label: "Out for Delivery" },
+  { key: "delivered", label: "Delivered" },
+];
+
+const getStatusIndex = (status: string) => {
+  if (status === "cancelled") return -1;
+  const index = steps.findIndex((step) => step.key === status);
+  return index >= 0 ? index : 0;
 };
 
 export default function OrdersPage() {
@@ -50,108 +46,115 @@ export default function OrdersPage() {
   const hasOrders = orders.length > 0;
 
   return (
-    <div>
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">My Orders</h1>
-        <p className="text-gray-600 mt-2">Track and manage your orders</p>
+    <div className="text-[#1A1410]">
+      <div className="mb-10 text-center">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#C8863A]">
+          Order Tracking
+        </p>
+        <h1 className="font-editorial text-5xl leading-tight">Track Your Order</h1>
+        <p className="mx-auto mt-4 max-w-xl text-[#5D4A3D]">
+          Track and manage your orders.
+        </p>
       </div>
 
       {loading ? (
-        // Loading state
-        <div className="flex flex-col items-center justify-center py-16">
-          <div className="bg-gray-100 rounded-full p-6 mb-4">
-            <Package className="w-16 h-16 text-gray-400 animate-pulse" />
-          </div>
-          <p className="text-gray-600">Loading your orders...</p>
+        <div className="editorial-card flex flex-col items-center justify-center py-16">
+          <Package className="mb-4 h-14 w-14 animate-pulse text-[#C8863A]" />
+          <p className="text-[#5D4A3D]">Loading your orders...</p>
         </div>
       ) : error ? (
-        // Error state
-        <div className="flex flex-col items-center justify-center py-16">
-          <div className="bg-red-100 rounded-full p-6 mb-4">
-            <Package className="w-16 h-16 text-red-400" />
-          </div>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-            Failed to load orders
-          </h2>
-          <p className="text-red-600 mb-6 text-center max-w-md">{error}</p>
+        <div className="editorial-card flex flex-col items-center justify-center py-16 text-center">
+          <Package className="mb-4 h-14 w-14 text-red-400" />
+          <h2 className="font-editorial text-3xl">Failed to load orders</h2>
+          <p className="mb-6 mt-3 max-w-md text-red-700">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-6 py-3 bg-[#2A2C22] text-white font-semibold rounded-full hover:bg-[#1a1c12] transition-colors"
+            className="editorial-button px-7 py-3"
           >
             Try Again
           </button>
         </div>
       ) : !hasOrders ? (
-        // Empty state
-        <div className="flex flex-col items-center justify-center py-16">
-          <div className="bg-gray-100 rounded-full p-6 mb-4">
-            <ShoppingBag className="w-16 h-16 text-gray-400" />
-          </div>
-          <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-            No orders yet
-          </h2>
-          <p className="text-gray-600 mb-6 text-center max-w-md">
+        <div className="editorial-card flex flex-col items-center justify-center py-16 text-center">
+          <ShoppingBag className="mb-4 h-14 w-14 text-[#C8863A]" />
+          <h2 className="font-editorial text-3xl">No orders yet</h2>
+          <p className="mb-6 mt-3 max-w-md text-[#5D4A3D]">
             You haven&apos;t placed any orders yet. Start shopping to see your orders here!
           </p>
-          <Link
-            href="/"
-            className="px-6 py-3 bg-[#2A2C22] text-white font-semibold rounded-full hover:bg-[#1a1c12] transition-colors"
-          >
+          <Link href="/shop" className="editorial-button px-7 py-3">
             Start Shopping
           </Link>
         </div>
       ) : (
-        // Orders list
         <div className="space-y-6">
           {orders.map((order) => {
-            const statusInfo = getStatusInfo(order.status);
+            const activeIndex = getStatusIndex(order.status);
+            const isCancelled = order.status === "cancelled";
+
             return (
-              <div
-                key={order.orderId}
-                className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
-              >
-                {/* Order Header */}
-                <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
+              <article key={order.orderId} className="editorial-card p-6 sm:p-8">
+                <div className="flex flex-col justify-between gap-5 border-b border-[#E8DDD0] pb-6 sm:flex-row sm:items-start">
                   <div>
-                    <div className="flex items-center gap-3">
-                      <Package className="w-7 h-7 text-black" />
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          Order #{order.orderId}
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          {order.title || 'N/A'}
-                        </p>
-                      </div>
-                    </div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#C8863A]">
+                      Order #{order.orderId}
+                    </p>
+                    <h3 className="font-editorial mt-2 text-3xl">{order.title || "Order Items"}</h3>
+                    <p className="mt-2 text-sm text-[#5D4A3D]">{order.createdAt || order.date || order.paidAt}</p>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-600">Total</p>
-                    <p className="text-xl font-bold text-[#2A2C22]">
+                  <div className="sm:text-right">
+                    <p className="text-sm text-[#5D4A3D]">Total</p>
+                    <p className="text-2xl font-bold text-[#C8863A]">
                       GHS {((order.price || 0)).toFixed(2)}
                     </p>
                   </div>
                 </div>
 
+                <div className="mt-8">
+                  {isCancelled ? (
+                    <div className="rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+                      This order was cancelled.
+                    </div>
+                  ) : (
+                    <div className="grid gap-4 sm:grid-cols-4">
+                      {steps.map((step, index) => {
+                        const complete = index <= activeIndex;
+                        return (
+                          <div key={step.key} className="relative">
+                            <div className={`h-1 rounded-full ${complete ? "bg-[#C8863A]" : "bg-[#E8DDD0]"}`} />
+                            <div className="mt-3 flex items-center gap-3">
+                              <span
+                                className={`flex h-8 w-8 items-center justify-center rounded-full border text-xs font-bold ${
+                                  complete
+                                    ? "border-[#C8863A] bg-[#C8863A] text-white"
+                                    : "border-[#E8DDD0] bg-[#FFFDF8] text-[#8C6E53]"
+                                }`}
+                              >
+                                {index + 1}
+                              </span>
+                              <span className="text-sm font-semibold text-[#5D4A3D]">{step.label}</span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
 
-                {/* Order Status */}
-                <div className="mt-4 pt-4 border-t border-gray-200">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-semibold text-gray-700">
-                      {statusInfo.label}
-                    </span>
-                    <span className="text-sm text-gray-600">
-                      {statusInfo.progress}%
-                    </span>
+                <div className="mt-8 grid gap-4 rounded-2xl border border-[#E8DDD0] bg-[#FAF6F1] p-5 sm:grid-cols-3">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8C6E53]">Item</p>
+                    <p className="mt-1 font-semibold">{order.title || "Order Items"}</p>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className={`${statusInfo.color} h-2 rounded-full transition-all duration-500`}
-                      style={{ width: `${statusInfo.progress}%` }}
-                    ></div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8C6E53]">Status</p>
+                    <p className="mt-1 font-semibold capitalize">{order.status?.replace("-", " ")}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#8C6E53]">Delivery</p>
+                    <p className="mt-1 font-semibold">{order.deliveryAddress || "Scheduled with Cozy Oven"}</p>
                   </div>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>

@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Send, MessageCircle } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { motion } from "framer-motion";
 import contactService from "../services/contactService";
 
 export default function ContactPage() {
@@ -51,223 +50,121 @@ export default function ContactPage() {
     });
   };
 
+  const contactRows = [
+    { icon: Mail, label: "Email", value: "info@cozyoven.store", href: "mailto:info@cozyoven.store" },
+    { icon: Phone, label: "Phone", value: "0558288424", href: "tel:0558288424" },
+    { icon: MessageCircle, label: "WhatsApp", value: "Message us directly", href: "https://api.whatsapp.com/message/QAOMJAY7KI7WP1" },
+    { icon: MapPin, label: "Location", value: "Tema community 22 Nhmf Estates", href: "#" },
+  ];
+
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-24 pb-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Get in Touch
-            </h1>
-            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-              Have questions about our products or want to place a custom order?
-              We&apos;d love to hear from you!
-            </p>
-          </motion.div>
+      <main className="bg-[#FAF6F1] text-[#1A1410]">
+        <section className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-24">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-[#C8863A]">
+            Contact
+          </p>
+          <h1 className="font-editorial text-5xl leading-tight sm:text-6xl">Get in Touch</h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#5D4A3D]">
+            Have questions about our products or want to place a custom order? We&apos;d love to hear from you!
+          </p>
+        </section>
 
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-            {/* Contact Information */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-8"
-            >
-              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
-                  Contact Information
-                </h2>
-
-                <div className="space-y-6">
-                  {/* Email */}
-                  <div className="flex items-start gap-4">
-                    <div className="bg-[#2A2C22]/10 p-3 rounded-full">
-                      <Mail className="w-5 h-5 sm:w-6 sm:h-6 text-[#2A2C22]" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
-                      <a
-                        href="mailto:info@cozyoven.store"
-                        className="text-gray-600 hover:text-[#2A2C22] transition-colors"
-                      >
-                        info@cozyoven.store
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Phone */}
-                  <div className="flex items-start gap-4">
-                    <div className="bg-[#2A2C22]/10 p-3 rounded-full">
-                      <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-[#2A2C22]" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                      <p className="text-gray-600">0249612035</p>
-                    </div>
-                  </div>
-
-                  {/* WhatsApp */}
-                  <div className="flex items-start gap-4">
-                    <div className="bg-green-50 p-3 rounded-full">
-                      <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">WhatsApp</h3>
-                      <a
-                        href="https://api.whatsapp.com/message/QAOMJAY7KI7WP1"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center rounded-full bg-green-600 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-green-700"
-                      >
-                        Chat on WhatsApp
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Location */}
-                  <div className="flex items-start gap-4">
-                    <div className="bg-[#2A2C22]/10 p-3 rounded-full">
-                      <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-[#2A2C22]" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900 mb-1">Location</h3>
-                      <p className="text-gray-600">Tema community 22 Nhmf Estates</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm">
-                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
-                  Send Us a Message
-                </h2>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-semibold text-gray-700 mb-2"
-                    >
-                      Your Name *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      autoComplete="name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
-                      placeholder="John Doe"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-semibold text-gray-700 mb-2"
-                    >
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      autoComplete="email"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
-                      placeholder="john@example.com"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="subject"
-                      className="block text-sm font-semibold text-gray-700 mb-2"
-                    >
-                      Subject *
-                    </label>
-                    <input
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
-                      placeholder="Custom Order Inquiry"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-semibold text-gray-700 mb-2"
-                    >
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={6}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent resize-none"
-                      placeholder="Tell us how we can help you..."
-                    />
-                  </div>
-
-                  {submitMessage && (
-                    <div
-                      className={`p-4 rounded-lg border ${
-                        submitStatus === "error"
-                          ? "bg-red-50 border-red-200"
-                          : "bg-green-50 border-green-200"
-                      }`}
-                    >
-                      <p className={`text-sm ${submitStatus === "error" ? "text-red-800" : "text-green-800"}`}>
-                        {submitMessage}
-                      </p>
-                    </div>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-[#2A2C22] hover:bg-[#1a1c12] text-white font-bold py-3 px-6 rounded-full transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? (
-                      "Sending..."
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" />
-                        Send Message
-                      </>
-                    )}
-                  </button>
-                </form>
-              </div>
-            </motion.div>
+        <section className="mx-auto grid max-w-7xl gap-8 px-4 pb-24 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8">
+          <div className="space-y-4">
+            {contactRows.map((row) => {
+              const Icon = row.icon;
+              const isWhatsapp = row.label === "WhatsApp";
+              return (
+                <a
+                  key={row.label}
+                  href={row.href}
+                  target={isWhatsapp ? "_blank" : undefined}
+                  rel={isWhatsapp ? "noopener noreferrer" : undefined}
+                  className={`flex items-start gap-4 rounded-2xl border p-5 transition ${
+                    isWhatsapp
+                      ? "border-[#2F855A] bg-[#2F855A] text-white hover:bg-[#276749]"
+                      : "border-[#E8DDD0] bg-[#FFFDF8] text-[#1A1410] hover:border-[#C8863A]"
+                  }`}
+                >
+                  <Icon className="mt-1 h-5 w-5 shrink-0" />
+                  <span>
+                    <span className="block text-xs font-semibold uppercase tracking-[0.18em] opacity-75">
+                      {row.label}
+                    </span>
+                    <span className="mt-1 block font-semibold">{row.value}</span>
+                  </span>
+                </a>
+              );
+            })}
           </div>
-        </div>
+
+          <form onSubmit={handleSubmit} className="editorial-card p-6 sm:p-8">
+            <div className="grid gap-5 sm:grid-cols-2">
+              <label className="grid gap-2 text-sm font-semibold text-[#5D4A3D]">
+                Name
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="rounded-2xl border border-[#E8DDD0] bg-[#FAF6F1] px-4 py-3 text-[#1A1410] outline-none focus:border-[#C8863A]"
+                  required
+                />
+              </label>
+              <label className="grid gap-2 text-sm font-semibold text-[#5D4A3D]">
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="rounded-2xl border border-[#E8DDD0] bg-[#FAF6F1] px-4 py-3 text-[#1A1410] outline-none focus:border-[#C8863A]"
+                  required
+                />
+              </label>
+            </div>
+            <label className="mt-5 grid gap-2 text-sm font-semibold text-[#5D4A3D]">
+              Subject
+              <input
+                type="text"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                className="rounded-2xl border border-[#E8DDD0] bg-[#FAF6F1] px-4 py-3 text-[#1A1410] outline-none focus:border-[#C8863A]"
+                required
+              />
+            </label>
+            <label className="mt-5 grid gap-2 text-sm font-semibold text-[#5D4A3D]">
+              Message
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                rows={6}
+                className="rounded-2xl border border-[#E8DDD0] bg-[#FAF6F1] px-4 py-3 text-[#1A1410] outline-none focus:border-[#C8863A]"
+                required
+              />
+            </label>
+
+            {submitMessage && (
+              <div
+                className={`mt-5 rounded-2xl border px-4 py-3 text-sm ${
+                  submitStatus === "success"
+                    ? "border-green-200 bg-green-50 text-green-800"
+                    : "border-red-200 bg-red-50 text-red-800"
+                }`}
+              >
+                {submitMessage}
+              </div>
+            )}
+
+            <button type="submit" disabled={isSubmitting} className="editorial-button mt-6 min-h-14 w-full px-8 disabled:bg-[#CAB9A5]">
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+          </form>
+        </section>
       </main>
       <Footer />
     </>

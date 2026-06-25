@@ -1,128 +1,73 @@
 "use client";
 
-import { ArrowRight, Instagram } from "lucide-react";
+import { Instagram, Mail } from "lucide-react";
+import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer
-      className="relative bg-cover bg-center bg-no-repeat text-gray-900"
-      style={{ backgroundImage: "url('/cozy4.PNG')" }} 
-    >
-      {/* Overlay to keep text readable */}
-      <div className="absolute inset-0 bg-[#bd6325]/20" />
+    <footer className="bg-[#211712] text-[#FAF6F1]">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.3fr_1fr_1fr] lg:px-8">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#C8863A]">
+            Cozy Oven
+          </p>
+          <h2 className="font-editorial mt-4 text-4xl leading-tight">
+            Premium banana bread, made with warmth.
+          </h2>
+          <p className="mt-5 max-w-sm text-sm leading-7 text-[#E8DDD0]">
+            Handcrafted banana bread, yoghurt, and gift boxes made fresh with care.
+          </p>
+        </div>
 
-      {/* Main Content */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
-          {/* Newsletter Section */}
-          <div className="md:col-span-2">
-            <h2 className="text-xl sm:text-2xl font-bold mb-3">
-              Want tips on how to make these tasty delicacies???
-            </h2>
-
-            <div className="flex">
-              <input
-                type="email"
-                placeholder="Email"
-                className="flex-1 bg-gray-100 px-4 py-3 text-sm focus:outline-none rounded-l-full"
-              />
-              <button className="bg-[#bd6325]/80 px-4 py-3 transition-colors rounded-r-full hover:cursor-pointer">
-                <ArrowRight className="w-5 h-5 text-white hover:translate-x-2 transition-transform duration-200" />
-              </button>
-            </div>
-
-            <p className="text-xs text-gray-700 mt-4">
-              By subscribing you agree to the{" "}
-              <a href="#" className="underline hover:no-underline">
-                Terms of Use
-              </a>{" "}
-              &{" "}
-              <a href="#" className="underline hover:no-underline">
-                Privacy Policy
-              </a>
-              .
-            </p>
-          </div>
-
-          {/* About Column */}
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-4">About</h3>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href="/about"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
-                >
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/about"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
-                >
-                  Our Story
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Customer Service */}
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-4">
-              Customer Service
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href="mailto:hello@cozyovens.com"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
-                >
-                  info@cozyoven.store
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-700 hover:text-gray-900 transition-colors"
-                >
-                  Location: Tema community 22 Nhmf Estates
-                </a>
-              </li>
-            </ul>
+        <div>
+          <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#C8863A]">
+            Explore
+          </h3>
+          <div className="grid gap-3 text-sm text-[#E8DDD0]">
+            <Link href="/" className="hover:text-white">Home</Link>
+            <Link href="/shop" className="hover:text-white">Shop</Link>
+            <Link href="/about" className="hover:text-white">Our Story</Link>
+            <Link href="/contact" className="hover:text-white">Contact</Link>
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="relative border-t border-gray-300 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div className="text-sm text-gray-600">
-              © {new Date().getFullYear()} Cozy Oven. All rights reserved.
-            </div>
-            <div className="flex gap-4 ml-auto">
-              <a 
-                href="https://www.tiktok.com/@cozyovengh?_r=1&_t=ZM-933sQOzBXiK" 
-                target="_blank" 
+        <div>
+          <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#C8863A]">
+            Contact
+          </h3>
+          <div className="grid gap-3 text-sm text-[#E8DDD0]">
+            <a href="mailto:info@cozyoven.store" className="hover:text-white">info@cozyoven.store</a>
+            <p>Tema Community 22, Nhmf Estates</p>
+            <div className="mt-3 flex gap-4">
+              <a
+                href="https://www.tiktok.com/@cozyovengh?_r=1&_t=ZM-933sQOzBXiK"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-700 hover:text-[#bd6325] transition-colors"
+                className="text-[#E8DDD0] transition-colors hover:text-white"
                 aria-label="TikTok"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
                 </svg>
               </a>
-              <a 
-                href="https://www.instagram.com/cozyoven.gh?igsh=NWd0bXcxczk5aGsy" 
-                target="_blank" 
+              <a
+                href="https://www.instagram.com/cozyoven.gh?igsh=NWd0bXcxczk5aGsy"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-700 hover:text-[#bd6325] transition-colors"
+                className="text-[#E8DDD0] transition-colors hover:text-white"
                 aria-label="Instagram"
               >
-                <Instagram className="w-5 h-5" />
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a href="mailto:info@cozyoven.store" className="text-[#E8DDD0] transition-colors hover:text-white" aria-label="Email">
+                <Mail className="h-5 w-5" />
               </a>
             </div>
           </div>
         </div>
+      </div>
+      <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-[#BDAE9D]">
+        © {new Date().getFullYear()} Cozy Oven. All rights reserved.
       </div>
     </footer>
   );

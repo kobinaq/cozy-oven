@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, ShoppingCart, User, LogOut, Search } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import CartDrawer from "./CartDrawer";
@@ -16,12 +16,14 @@ import { Product } from "../services/productService";
 
 const navLinks = [
   { label: "Home", href: "/" },
+  { label: "Shop", href: "/shop" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -117,29 +119,34 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-[2.5rem] left-0 right-0 z-40 w-full flex items-center justify-between px-4 md:px-8 py-6 backdrop-blur-lg bg-white/80 shadow-sm">
+      <nav className="sticky top-0 z-40 w-full border-b border-[#E8DDD0] bg-[#FAF6F1]/90 px-4 py-4 backdrop-blur-xl md:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-3">
           <Link href="/">
             <Image 
               src={logo} 
-              width={80} 
-              height={80} 
-              alt="Logo" 
+              width={68}
+              height={68}
+              alt="Cozy Oven"
             />
           </Link>
         </div>
 
         {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden items-center gap-10 md:flex">
           {visibleNavLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="relative text-gray-700 hover:text-gray-900 transition-colors group"
+              className="group relative text-sm font-semibold uppercase tracking-[0.18em] text-[#1A1410] transition-colors hover:text-[#C8863A]"
             >
               {link.label}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#bd6325] transition-all duration-300 group-hover:w-full"></span>
+              <span
+                className={`absolute -bottom-2 left-0 h-px bg-[#C8863A] transition-all duration-300 group-hover:w-full ${
+                  pathname === link.href ? "w-full" : "w-0"
+                }`}
+              />
             </Link>
           ))}
         </div>
@@ -150,7 +157,7 @@ export default function Navbar() {
           <div className="relative" ref={searchRef}>
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 rounded-full hover:bg-gray-100/80 transition"
+              className="rounded-full p-2 text-[#1A1410] transition hover:bg-[#E8DDD0]/50"
               aria-label="Search"
             >
               <Search className="w-5 h-5" />
@@ -160,7 +167,7 @@ export default function Navbar() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="absolute right-0 mt-2 w-[calc(100vw-8rem)] sm:w-96 md:w-80 bg-white/95 backdrop-blur-lg border-gray-200 border rounded-lg shadow-lg overflow-hidden z-50"
+                className="absolute right-0 z-50 mt-3 w-[calc(100vw-8rem)] overflow-hidden rounded-2xl border border-[#E8DDD0] bg-[#FFFDF8]/95 shadow-2xl backdrop-blur-lg sm:w-96 md:w-80"
               >
                 <div className="p-3 border-b border-gray-200">
                   <input
@@ -168,7 +175,7 @@ export default function Navbar() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search products..."
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent text-sm"
+                    className="w-full rounded-full border border-[#E8DDD0] bg-[#FAF6F1] px-4 py-3 text-sm text-[#1A1410] outline-none focus:border-[#C8863A]"
                     autoFocus
                   />
                 </div>
@@ -223,12 +230,12 @@ export default function Navbar() {
           {isMounted && (
             <button
               onClick={handleCartClick}
-              className="relative p-2 rounded-full hover:bg-gray-100/80 transition"
+              className="relative rounded-full p-2 text-[#1A1410] transition hover:bg-[#E8DDD0]/50"
               aria-label="Shopping Cart"
             >
               <ShoppingCart className="w-5 h-5" />
               {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-[#bd6325] text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-[#C8863A] text-xs font-bold text-white">
                   {cartCount}
                 </span>
               )}
@@ -240,14 +247,14 @@ export default function Navbar() {
             <div className="relative hidden md:block">
               <button
                 onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-                className="p-2 rounded-full hover:bg-gray-100/80 transition"
+                className="rounded-full p-2 text-[#1A1410] transition hover:bg-[#E8DDD0]/50"
                 aria-label="Profile"
               >
                 <User className="w-5 h-5" />
               </button>
 
               {profileMenuOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white/95 backdrop-blur-lg border rounded-lg shadow-lg text-sm overflow-hidden z-50">
+                <div className="absolute right-0 z-50 mt-3 w-56 overflow-hidden rounded-2xl border border-[#E8DDD0] bg-[#FFFDF8]/95 text-sm shadow-2xl backdrop-blur-lg">
                   {isAuthenticated ? (
                     <>
                       <div className="px-4 py-3 border-b border-gray-200">
@@ -270,9 +277,10 @@ export default function Navbar() {
           )}
 
           {/* Mobile menu toggle */}
-          <button onClick={toggleMenu} className="md:hidden p-2 rounded-full hover:bg-gray-100/80 transition" aria-label="Menu">
+          <button onClick={toggleMenu} className="rounded-full p-2 text-[#1A1410] transition hover:bg-[#E8DDD0]/50 md:hidden" aria-label="Menu">
             {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
+        </div>
         </div>
       </nav>
 

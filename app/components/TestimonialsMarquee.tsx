@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Quote } from "lucide-react";
 
 interface Testimonial {
   id: string;
@@ -13,71 +12,68 @@ interface TestimonialsMarqueeProps {
   speed?: number;
 }
 
-export default function TestimonialsMarquee({ 
-  testimonials, 
-  speed = 30 
-}: TestimonialsMarqueeProps) {
-  // Duplicate testimonials for seamless loop
-  const duplicatedTestimonials = [...testimonials, ...testimonials];
-  
-  // Calculate total width for animation
-  const cardWidth = 288; // w-72 = 288px (matching BestSellers)
-  const gap = 24; // Gap between cards
+function MarqueeRow({
+  testimonials,
+  speed,
+  reverse = false,
+}: {
+  testimonials: Testimonial[];
+  speed: number;
+  reverse?: boolean;
+}) {
+  const duplicated = [...testimonials, ...testimonials];
+  const cardWidth = 360;
+  const gap = 24;
   const totalWidth = (cardWidth + gap) * testimonials.length;
 
   return (
-    <section className="relative py-20 bg-white overflow-hidden">
-      {/* Section Header */}
-      <div className="text-center mb-16 px-4">
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#222222] mb-4">
-          What Our Customers Say
-        </h2>
-        <p className="text-lg text-[#5d6043] max-w-2xl mx-auto">
-          Real reviews from real customers who love our banana bread
-        </p>
-      </div>
-
-      {/* Marquee Container */}
-      <div className="relative">
-        {/* Marquee Wrapper */}
-        <div className="overflow-hidden">
-          <motion.div
-            className="flex gap-6"
-            animate={{
-              x: [0, -totalWidth],
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: speed,
-                ease: "linear",
-              },
-            }}
+    <div className="overflow-hidden">
+      <motion.div
+        className="flex gap-6"
+        animate={{ x: reverse ? [-totalWidth, 0] : [0, -totalWidth] }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: speed,
+            ease: "linear",
+          },
+        }}
+      >
+        {duplicated.map((testimonial, index) => (
+          <article
+            key={`${testimonial.id}-${index}`}
+            className="editorial-card h-56 w-[360px] flex-shrink-0 p-7"
           >
-            {duplicatedTestimonials.map((testimonial, index) => (
-              <div
-                key={`${testimonial.id}-${index}`}
-                className="relative flex-shrink-0 w-72 h-80 rounded-3xl overflow-hidden cursor-pointer group snap-start bg-white border border-gray-200 shadow-sm"
-              >
-                {/* Content */}
-                <div className="absolute inset-0 flex flex-col p-6">
-                  {/* Quote Icon */}
-                  <div className="absolute top-6 right-6 opacity-10">
-                    <Quote className="w-12 h-12 text-[#bd6325]" />
-                  </div>
+            <p className="font-editorial text-2xl leading-tight text-[#C8863A]">“</p>
+            <p className="font-editorial mt-2 line-clamp-5 text-lg italic leading-8 text-[#1A1410]">
+              {testimonial.message}
+            </p>
+          </article>
+        ))}
+      </motion.div>
+    </div>
+  );
+}
 
-                  {/* Message */}
-                  <div className="flex-1 flex items-center">
-                    <p className="text-gray-700 text-sm leading-relaxed line-clamp-6 group-hover:line-clamp-none transition-all">
-                      {testimonial.message}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
+export default function TestimonialsMarquee({ testimonials, speed = 34 }: TestimonialsMarqueeProps) {
+  const midpoint = Math.ceil(testimonials.length / 2);
+  const firstRow = testimonials.slice(0, midpoint);
+  const secondRow = testimonials.slice(midpoint);
+
+  return (
+    <section className="overflow-hidden bg-[#FAF6F1] py-20 lg:py-28">
+      <div className="mx-auto mb-12 max-w-4xl px-4 text-center">
+        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#C8863A]">
+          Customer Notes
+        </p>
+        <h2 className="font-editorial text-4xl leading-tight sm:text-5xl">
+          Kind words from people who made room for a slice.
+        </h2>
+      </div>
+      <div className="space-y-6">
+        <MarqueeRow testimonials={firstRow.length ? firstRow : testimonials} speed={speed} />
+        <MarqueeRow testimonials={secondRow.length ? secondRow : testimonials} speed={speed + 8} reverse />
       </div>
     </section>
   );
