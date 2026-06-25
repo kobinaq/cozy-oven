@@ -21,7 +21,7 @@ export default function Home() {
     product.productCategory?.toLowerCase().includes("yog")
   );
   const signature = bananaProducts[0] || products[0];
-  const heroImage = signature?.thumbnail || fallbackImages[0];
+  const heroImage = "https://res.cloudinary.com/daljxj4yl/image/upload/v1782411696/hero_reoa6c.png";
 
   return (
     <>
