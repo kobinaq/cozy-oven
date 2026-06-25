@@ -75,6 +75,9 @@ export default function ProductForm({
   submitLabel,
   isEdit = false,
 }: ProductFormProps) {
+  const isPackageCategory = productCategory.trim().toLowerCase() === "package";
+  const categorySuggestions = Array.from(new Set(["Package", ...categories])).sort();
+
   const updatePackageGroup = (index: number, updates: Partial<PackageGroup>) => {
     onPackageConfigChange({
       ...packageConfig,
@@ -168,40 +171,9 @@ export default function ProductForm({
   };
 
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
-      {/* Product Type */}
-      <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
-          Product Type
-        </label>
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            type="button"
-            onClick={() => onProductTypeChange("standard")}
-            className={`px-4 py-3 rounded-lg border font-semibold transition-colors ${
-              productType === "standard"
-                ? "border-[#2A2C22] bg-[#2A2C22] text-white"
-                : "border-gray-300 text-gray-700 hover:bg-gray-50"
-            }`}
-          >
-            Standard
-          </button>
-          <button
-            type="button"
-            onClick={() => onProductTypeChange("package")}
-            className={`px-4 py-3 rounded-lg border font-semibold transition-colors ${
-              productType === "package"
-                ? "border-[#2A2C22] bg-[#2A2C22] text-white"
-                : "border-gray-300 text-gray-700 hover:bg-gray-50"
-            }`}
-          >
-            Package
-          </button>
-        </div>
-      </div>
-
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
       {/* Product Name */}
-      <div>
+      <div className="order-1">
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Product Name {!isEdit && "*"}
         </label>
@@ -216,7 +188,7 @@ export default function ProductForm({
       </div>
 
       {/* Category and Price */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="order-2 grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Category {!isEdit && "*"}
@@ -230,7 +202,7 @@ export default function ProductForm({
             required={!isEdit}
           />
           <datalist id="categories-list">
-            {categories.map((cat) => (
+            {categorySuggestions.map((cat) => (
               <option key={cat} value={cat} />
             ))}
           </datalist>
@@ -254,7 +226,7 @@ export default function ProductForm({
       </div>
 
       {/* Product Details */}
-      <div>
+      <div className="order-4">
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Product Details {!isEdit && "*"}
         </label>
@@ -269,7 +241,7 @@ export default function ProductForm({
       </div>
 
       {/* Image Upload */}
-      <div>
+      <div className="order-5">
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Product Images (Select multiple)
         </label>
@@ -370,7 +342,7 @@ export default function ProductForm({
       </div>
 
       {/* Select Options */}
-      <div>
+      <div className="order-6">
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Select Options (e.g., Size variations)
         </label>
@@ -432,8 +404,8 @@ export default function ProductForm({
         </div>
       </div>
 
-      {productType === "package" && (
-        <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 space-y-4">
+      {isPackageCategory && (
+        <div className="order-3 rounded-xl border border-gray-200 bg-gray-50 p-4 space-y-4">
           <div>
             <h3 className="text-sm font-bold text-gray-900">Package Builder</h3>
             <p className="text-xs text-gray-600 mt-1">
@@ -620,77 +592,10 @@ export default function ProductForm({
             ))}
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Legacy Package Options
-            </label>
-            <p className="text-xs text-gray-500 mb-2">
-              Existing simple packages can still use this. New mixed packages should use Package Groups above.
-            </p>
-            <div className="space-y-2">
-              <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-2">
-                <input
-                  type="text"
-                  value={packageOptionInput.label}
-                  onChange={(e) => onPackageOptionInputChange("label", e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
-                  placeholder="Option label (e.g., Lemon)"
-                />
-                <input
-                  type="text"
-                  value={packageOptionInput.description || ""}
-                  onChange={(e) => onPackageOptionInputChange("description", e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
-                  placeholder="Short description"
-                />
-                <button
-                  type="button"
-                  onClick={onAddPackageOption}
-                  className="px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-100"
-                >
-                  <Plus className="w-5 h-5" />
-                </button>
-              </div>
-
-              {packageConfig.options.map((option, index) => (
-                <div key={`${option.label}-${index}`} className="flex items-center justify-between bg-white p-2 rounded-lg gap-2 border border-gray-200">
-                  <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-medium ${option.isAvailable === false ? "text-gray-400 line-through" : "text-gray-900"}`}>
-                      {option.label}
-                    </p>
-                    {option.description && (
-                      <p className="text-xs text-gray-500 truncate">{option.description}</p>
-                    )}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => onTogglePackageOptionAvailable(index)}
-                    className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                      option.isAvailable !== false ? "bg-green-500" : "bg-gray-300"
-                    }`}
-                    title={option.isAvailable !== false ? "Mark as unavailable" : "Mark as available"}
-                  >
-                    <span
-                      className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${
-                        option.isAvailable !== false ? "translate-x-5" : "translate-x-1"
-                      }`}
-                    />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => onRemovePackageOption(index)}
-                    className="text-red-600 hover:bg-red-50 p-1 rounded"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       )}
 
-      <div className="flex gap-3 pt-4">
+      <div className="order-7 flex gap-3 pt-4">
         <button
           type="button"
           onClick={onCancel}

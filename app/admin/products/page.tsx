@@ -72,6 +72,7 @@ export default function ProductManagementPage() {
   // Get unique categories dynamically from products
   const categories = React.useMemo(() => {
     const categoriesSet = new Set<string>();
+    categoriesSet.add("Package");
     products.forEach(product => {
       if (product.productCategory) {
         categoriesSet.add(product.productCategory);
@@ -79,6 +80,9 @@ export default function ProductManagementPage() {
     });
     return Array.from(categoriesSet).sort();
   }, [products]);
+
+  const isPackageCategory = (category: string) =>
+    category.trim().toLowerCase() === "package";
 
   const {
     loading: actionLoading,
@@ -223,7 +227,7 @@ export default function ProductManagementPage() {
   };
 
   const packageConfigIsValid = () => {
-    if (productType !== "package") return true;
+    if (!isPackageCategory(newProduct.productCategory)) return true;
     if (packageConfig.groups && packageConfig.groups.length > 0) {
       return packageConfig.groups.every((group) => {
         const availableCount = group.options.filter((option) => option.isAvailable !== false).length;
@@ -308,15 +312,16 @@ export default function ProductManagementPage() {
       }
 
       // Validations already handled in handleImageChange
+      const nextProductType = isPackageCategory(newProduct.productCategory) ? "package" : "standard";
 
       const formData = new FormData();
       formData.append("productName", newProduct.productName.trim());
       formData.append("productCategory", newProduct.productCategory);
       formData.append("productDetails", newProduct.productDetails.trim());
       formData.append("price", newProduct.price.toString());
-      formData.append("productType", productType);
+      formData.append("productType", nextProductType);
       formData.append("selectOptions", JSON.stringify(selectOptions));
-      if (productType === "package") {
+      if (nextProductType === "package") {
         formData.append("packageConfig", JSON.stringify(packageConfig));
       }
       
@@ -350,7 +355,7 @@ export default function ProductManagementPage() {
         newProduct.price !== selectedProduct.price ||
         newProduct.productCategory !== selectedProduct.productCategory ||
         newProduct.productDetails !== selectedProduct.productDetails ||
-        productType !== (selectedProduct.productType || "standard") ||
+        (isPackageCategory(newProduct.productCategory) ? "package" : "standard") !== (selectedProduct.productType || "standard") ||
         JSON.stringify(packageConfig) !== JSON.stringify(selectedProduct.packageConfig || {
           selectionLabel: "Choose your options",
           requiredSelectionCount: 1,
@@ -377,6 +382,8 @@ export default function ProductManagementPage() {
         return;
       }
 
+      const nextProductType = isPackageCategory(newProduct.productCategory) ? "package" : "standard";
+
       const formData = new FormData();
       
       // Append basic fields
@@ -384,11 +391,11 @@ export default function ProductManagementPage() {
       formData.append("productCategory", newProduct.productCategory);
       formData.append("productDetails", newProduct.productDetails.trim());
       formData.append("price", newProduct.price.toString());
-      formData.append("productType", productType);
+      formData.append("productType", nextProductType);
       
       // selectOptions MUST be a JSON string
       formData.append("selectOptions", JSON.stringify(selectOptions));
-      if (productType === "package") {
+      if (nextProductType === "package") {
         formData.append("packageConfig", JSON.stringify(packageConfig));
       }
       
@@ -416,7 +423,7 @@ export default function ProductManagementPage() {
     setSelectedProduct(product);
     setNewProduct({
       productName: product.productName,
-      productCategory: product.productCategory,
+      productCategory: product.productType === "package" ? "Package" : product.productCategory,
       price: product.price,
       productDetails: product.productDetails,
     });
