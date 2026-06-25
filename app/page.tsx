@@ -27,36 +27,51 @@ export default function Home() {
     <>
       <Navbar />
       <main className="bg-[#FAF6F1] text-[#1A1410]">
-        <section className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
-          <div className="flex flex-col justify-center">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-[#C8863A]">
-              Handcrafted with love
-            </p>
-            <h1 className="font-editorial text-5xl leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
-              Banana bread, the way it should be.
-            </h1>
-            <p className="mt-7 max-w-xl text-lg leading-8 text-[#5D4A3D]">
-              Moist, flavourful and made from the finest natural ingredients.
-            </p>
-            <div className="mt-9 flex flex-wrap gap-4">
-              <Link href="/shop" className="editorial-button px-7 py-4">
-                Shop Banana Bread
-              </Link>
-              <Link href="/about" className="editorial-button-outline px-7 py-4">
-                Our Story
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative min-h-[420px] overflow-hidden rounded-[2rem] border border-[#E8DDD0] bg-[#F3E9DD] shadow-2xl">
+        <section className="relative overflow-hidden lg:min-h-[calc(100vh-80px)]">
+          <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[56vw] lg:block">
             <Image
               src={heroImage}
               alt={signature?.productName || "Cozy Oven baked goods"}
               fill
               priority
               className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 55vw"
+              sizes="56vw"
             />
+            <div className="absolute inset-y-0 left-0 w-2/5 bg-gradient-to-r from-[#FAF6F1] via-[#FAF6F1]/80 to-transparent" />
+            <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#FAF6F1] to-transparent" />
+          </div>
+
+          <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:min-h-[calc(100vh-80px)] lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
+            <div className="flex flex-col justify-center">
+              <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-[#C8863A]">
+                Handcrafted with love
+              </p>
+              <h1 className="font-editorial text-5xl leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl">
+                Banana bread, the way it should be.
+              </h1>
+              <p className="mt-7 max-w-xl text-lg leading-8 text-[#5D4A3D]">
+                Moist, flavourful and made from the finest natural ingredients.
+              </p>
+              <div className="mt-9 flex flex-wrap gap-4">
+                <Link href="/shop" className="editorial-button px-7 py-4">
+                  Shop Banana Bread
+                </Link>
+                <Link href="/about" className="editorial-button-outline px-7 py-4">
+                  Our Story
+                </Link>
+              </div>
+            </div>
+
+            <div className="relative min-h-[420px] overflow-hidden rounded-[2rem] border border-[#E8DDD0] bg-[#F3E9DD] shadow-2xl lg:hidden">
+              <Image
+                src={heroImage}
+                alt={signature?.productName || "Cozy Oven baked goods"}
+                fill
+                priority
+                className="object-cover"
+                sizes="100vw"
+              />
+            </div>
           </div>
         </section>
 
