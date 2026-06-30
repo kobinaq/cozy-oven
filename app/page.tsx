@@ -75,7 +75,7 @@ export default function Home() {
               </div>
               <div className="px-2 pb-2">
                 <h2 className="text-2xl font-black tracking-[-0.04em] text-[#30170F]">
-                  Classic Banana Bread
+                  Chocolate Banana Bread
                 </h2>
                 <p className="mt-2 leading-6 text-[#80634F]">
                   Soft, rich, moist and baked in small batches.
