@@ -58,7 +58,6 @@ export default function PurchaseToast() {
       try {
         setIsLoading(true);
         const data = await purchaseToastService.getRecentPurchases();
-        console.log("Data",data)
         setPurchases(data);
       } catch (error) {
         console.error("Error fetching purchases:", error);
@@ -150,12 +149,12 @@ export default function PurchaseToast() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -300 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
-          className="fixed bottom-6 left-6 z-50 bg-[#bd6325] text-white rounded-lg shadow-2xl overflow-hidden max-w-sm border-2 border-white/20"
+          className="fixed bottom-6 left-4 z-50 max-w-sm overflow-hidden rounded-[26px] border border-[rgba(48,23,15,0.1)] bg-[#FFFDF7]/95 text-[#30170F] shadow-[0_26px_80px_rgba(48,23,15,0.16)] backdrop-blur-xl sm:left-6"
           style={{ minWidth: "320px" }}
         >
           <div className="flex items-center gap-3 p-4">
             {/* Product Image */}
-            <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-white">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-[#F7EAD6]">
               <Image
                 src={currentNotification.productImage || "/placeholder.svg"}
                 alt={currentNotification.productName}
@@ -166,11 +165,14 @@ export default function PurchaseToast() {
 
             {/* Text Content */}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium leading-tight">
-                <span className="font-semibold">{currentNotification.name}</span> just purchased{" "}
-                <span className="font-semibold">{currentNotification.productName}</span>
+              <p className="mb-1 text-[11px] font-black uppercase tracking-[0.14em] text-[#C97D35]">
+                Fresh order
               </p>
-              <p className="text-xs text-white/80 mt-1">
+              <p className="text-sm font-semibold leading-tight text-[#5B3322]">
+                <span className="font-black text-[#30170F]">{currentNotification.name}</span> just purchased{" "}
+                <span className="font-black text-[#30170F]">{currentNotification.productName}</span>
+              </p>
+              <p className="mt-1 text-xs text-[#80634F]">
                 {currentNotification.timeAgo}
               </p>
             </div>
@@ -178,7 +180,7 @@ export default function PurchaseToast() {
             {/* Close Button */}
             <button
               onClick={handleClose}
-              className="shrink-0 p-1 hover:bg-white/20 rounded-full transition-colors"
+              className="shrink-0 rounded-full bg-[#F7EAD6] p-1 text-[#30170F] transition-colors hover:bg-[#F3C667]"
               aria-label="Close notification"
             >
               <svg

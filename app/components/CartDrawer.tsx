@@ -35,20 +35,20 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-black/50 z-50 transition-opacity"
+        className="fixed inset-0 z-50 bg-[#30170F]/45 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 bottom-0 w-full md:w-96 bg-white z-50 shadow-2xl flex flex-col animate-slide-in rounded-l-2xl">
+      <div className="fixed bottom-0 right-0 top-0 z-50 flex w-full animate-slide-in flex-col bg-[#FFF8EC] shadow-[-20px_0_70px_rgba(0,0,0,0.24)] md:w-[460px] md:rounded-l-[34px]">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-300">
-          <h2 className="text-2xl font-bold">
+        <div className="flex items-center justify-between border-b border-[rgba(48,23,15,0.12)] p-6">
+          <h2 className="font-editorial text-3xl tracking-[-0.05em] text-[#30170F]">
             Your Cart ({cartCount})
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition"
+            className="rounded-full bg-[#FFFDF7] p-2 text-[#30170F] shadow-[inset_0_0_0_1px_rgba(48,23,15,0.1)] transition hover:bg-[#F7EAD6]"
             aria-label="Close cart"
           >
             <X className="w-6 h-6" />
@@ -58,7 +58,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         {/* Cart Items - Scrollable */}
         <div className="flex-1 overflow-y-auto p-6">
           {cart.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-gray-500">
+            <div className="flex h-full flex-col items-center justify-center text-[#80634F]">
               <p className="text-lg">Your cart is empty</p>
             </div>
           ) : (
@@ -66,10 +66,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               {cart.map((item) => (
                 <div
                   key={`${item.id}-${item.selectedSize || "default"}-${JSON.stringify(item.packageSelections || [])}`}
-                  className="flex gap-4 border-b border-gray-300 pb-4"
+                  className="rounded-[24px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7] p-3 shadow-[0_12px_40px_rgba(48,23,15,0.08)]"
                 >
+                  <div className="flex gap-4">
                   {/* Product Image */}
-                  <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                  <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-[#F7EAD6]">
                     <Image
                       src={item.image || ""}
                       alt={item.name}
@@ -81,12 +82,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   {/* Product Details */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="font-semibold text-sm">{item.name}</h3>
+                      <h3 className="text-sm font-black text-[#30170F]">{item.name}</h3>
                       {item.selectedSize && (
-                        <p className="text-xs text-gray-500">Size: {item.selectedSize}</p>
+                        <p className="text-xs text-[#80634F]">Size: {item.selectedSize}</p>
                       )}
                       {item.packageSelections && item.packageSelections.length > 0 && (
-                        <div className="mt-1 text-xs text-gray-500">
+                        <div className="mt-1 text-xs text-[#80634F]">
                           {item.packageSelections.map((selection) => (
                             <p key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
                               {selection.groupLabel ? `${selection.groupLabel}: ` : ""}
@@ -95,7 +96,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                           ))}
                         </div>
                       )}
-                      <p className="text-[#bd6325] font-semibold mt-1">{item.price}</p>
+                      <p className="mt-1 font-black text-[#C97D35]">{item.price}</p>
                     </div>
 
                     {/* Quantity Selector */}
@@ -110,11 +111,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       </div>
                       <button
                         onClick={() => removeFromCart(item.id, item.selectedSize, item.packageSelections)}
-                        className="text-white bg-red-700 text-xs px-4 py-2 rounded-full transition hover:cursor-pointer"
+                        className="rounded-full bg-red-50 px-4 py-2 text-xs font-black text-red-700 transition hover:cursor-pointer hover:bg-red-100"
                       >
                         Remove
                       </button>
                     </div>
+                  </div>
                   </div>
                 </div>
               ))}
@@ -123,25 +125,25 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         </div>
 
         {/* Footer - Fixed */}
-        <div className="border-t border-gray-300 p-6 bg-gray-50">
+        <div className="border-t border-[rgba(48,23,15,0.12)] bg-[#F7EAD6]/50 p-6">
           <div className="space-y-2 mb-4">
             <div className="flex justify-between text-lg font-bold">
               <span>Total</span>
-              <span className="text-[#bd6325]">GHS {cartTotal.toFixed(2)}</span>
+              <span className="text-[#C97D35]">GHS {cartTotal.toFixed(2)}</span>
             </div>
           </div>
           
           <Link href="/cart">
             <button
               onClick={onClose}
-              className="w-full bg-[#bd6325] hover:bg-[#a8551f] text-white font-semibold py-3 rounded-full transition-colors hover:cursor-pointer mb-3"
+              className="editorial-button mb-3 w-full py-3 hover:cursor-pointer"
             >
               View Cart
             </button>
           </Link>
           <button
             onClick={onClose}
-            className="w-full border-2 border-gray-300 text-gray-700 font-semibold py-3 rounded-full hover:bg-gray-50 transition-colors hover:cursor-pointer"
+            className="editorial-button-outline w-full py-3 hover:cursor-pointer"
           >
             Continue Shopping
           </button>

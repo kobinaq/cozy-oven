@@ -5,45 +5,46 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#211712] text-[#FAF6F1]">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.3fr_1fr_1fr] lg:px-8">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#C8863A]">
-            Cozy Oven
-          </p>
-          <h2 className="font-editorial mt-4 text-4xl leading-tight">
-            Premium banana bread, made with warmth.
-          </h2>
-          <p className="mt-5 max-w-sm text-sm leading-7 text-[#E8DDD0]">
-            Handcrafted banana bread, yoghurt, and gift boxes made fresh with care.
+    <footer className="editorial-shell border-t border-[rgba(48,23,15,0.12)]">
+      <div className="mx-auto flex max-w-7xl flex-col justify-between gap-10 px-4 py-12 sm:px-6 lg:flex-row lg:px-8">
+        <div className="max-w-sm">
+          <Link href="/" className="inline-flex items-center gap-3" aria-label="Cozy Oven home">
+            <span className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-[#30170F] to-[#C97D35] font-black tracking-[-0.08em] text-[#FFF8EC]">
+              CO
+            </span>
+            <span>
+              <strong className="block leading-none text-[#30170F]">Cozy Oven</strong>
+              <small className="mt-1 block text-xs text-[#80634F]">Fresh banana bread & gift boxes</small>
+            </span>
+          </Link>
+          <p className="mt-5 text-sm leading-7 text-[#80634F]">
+            Handcrafted banana bread, yoghurt, and gift-ready packages made fresh with care in Tema.
           </p>
         </div>
 
         <div>
-          <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#C8863A]">
-            Explore
-          </h3>
-          <div className="grid gap-3 text-sm text-[#E8DDD0]">
-            <Link href="/" className="hover:text-white">Home</Link>
-            <Link href="/shop" className="hover:text-white">Shop</Link>
-            <Link href="/about" className="hover:text-white">Our Story</Link>
-            <Link href="/contact" className="hover:text-white">Contact</Link>
+          <h3 className="editorial-eyebrow mb-5">Explore</h3>
+          <div className="grid gap-3 text-sm font-black text-[#5B3322]">
+            <Link href="/" className="hover:text-[#C97D35]">Home</Link>
+            <Link href="/shop" className="hover:text-[#C97D35]">Shop</Link>
+            <Link href="/about" className="hover:text-[#C97D35]">Our Story</Link>
+            <Link href="/contact" className="hover:text-[#C97D35]">Contact</Link>
           </div>
         </div>
 
         <div>
-          <h3 className="mb-5 text-sm font-semibold uppercase tracking-[0.2em] text-[#C8863A]">
-            Contact
-          </h3>
-          <div className="grid gap-3 text-sm text-[#E8DDD0]">
-            <a href="mailto:info@cozyoven.store" className="hover:text-white">info@cozyoven.store</a>
+          <h3 className="editorial-eyebrow mb-5">Contact</h3>
+          <div className="grid gap-3 text-sm text-[#80634F]">
+            <a href="mailto:info@cozyoven.store" className="font-black text-[#5B3322] hover:text-[#C97D35]">
+              info@cozyoven.store
+            </a>
             <p>Tema Community 22, Nhmf Estates</p>
-            <div className="mt-3 flex gap-4">
+            <div className="mt-3 flex gap-3">
               <a
                 href="https://www.tiktok.com/@cozyovengh?_r=1&_t=ZM-933sQOzBXiK"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#E8DDD0] transition-colors hover:text-white"
+                className="grid h-11 w-11 place-items-center rounded-full bg-[#FFFDF7] text-[#30170F] shadow-[inset_0_0_0_1px_rgba(48,23,15,0.09)] transition hover:text-[#C97D35]"
                 aria-label="TikTok"
               >
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -54,20 +55,24 @@ export default function Footer() {
                 href="https://www.instagram.com/cozyoven.gh?igsh=NWd0bXcxczk5aGsy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[#E8DDD0] transition-colors hover:text-white"
+                className="grid h-11 w-11 place-items-center rounded-full bg-[#FFFDF7] text-[#30170F] shadow-[inset_0_0_0_1px_rgba(48,23,15,0.09)] transition hover:text-[#C97D35]"
                 aria-label="Instagram"
               >
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="mailto:info@cozyoven.store" className="text-[#E8DDD0] transition-colors hover:text-white" aria-label="Email">
+              <a
+                href="mailto:info@cozyoven.store"
+                className="grid h-11 w-11 place-items-center rounded-full bg-[#FFFDF7] text-[#30170F] shadow-[inset_0_0_0_1px_rgba(48,23,15,0.09)] transition hover:text-[#C97D35]"
+                aria-label="Email"
+              >
                 <Mail className="h-5 w-5" />
               </a>
             </div>
           </div>
         </div>
       </div>
-      <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-[#BDAE9D]">
-        © {new Date().getFullYear()} Cozy Oven. All rights reserved.
+      <div className="border-t border-[rgba(48,23,15,0.1)] px-4 py-5 text-center text-xs text-[#80634F]">
+        Copyright {new Date().getFullYear()} Cozy Oven. All rights reserved.
       </div>
     </footer>
   );

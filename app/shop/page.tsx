@@ -24,13 +24,13 @@ export default function ShopPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-[#FAF6F1] text-[#1A1410]">
+      <main className="editorial-shell">
         <section className="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-[#C8863A]">
+          <p className="editorial-eyebrow mb-4">
             The Bakery Counter
           </p>
-          <h1 className="font-editorial text-5xl leading-tight sm:text-6xl">Shop fresh bakes by category.</h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#5D4A3D]">
+          <h1 className="font-editorial text-6xl leading-[0.9] tracking-[-0.07em] sm:text-7xl">Shop fresh bakes by category.</h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#80634F]">
             Banana bread, creamy yoghurt, and gift-ready packages, grouped so you can browse with ease.
           </p>
 
@@ -55,12 +55,12 @@ export default function ShopPage() {
                 <section key={category} id={slugify(category)} className="scroll-mt-28">
                   <div className="mb-8 flex flex-col justify-between gap-4 border-b border-[#E8DDD0] pb-5 sm:flex-row sm:items-end">
                     <div>
-                      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.24em] text-[#C8863A]">
+                      <p className="editorial-eyebrow mb-2">
                         Category
                       </p>
-                      <h2 className="font-editorial text-4xl">{category}</h2>
+                      <h2 className="font-editorial text-5xl tracking-[-0.055em]">{category}</h2>
                     </div>
-                    <p className="text-sm text-[#5D4A3D]">{groups[category].length} items</p>
+                    <p className="rounded-full bg-[#FFFDF7] px-4 py-2 text-sm font-black text-[#80634F] shadow-[inset_0_0_0_1px_rgba(48,23,15,0.09)]">{groups[category].length} items</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
                     {groups[category].map((product) => (
