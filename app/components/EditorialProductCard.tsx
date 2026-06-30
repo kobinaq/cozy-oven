@@ -47,7 +47,7 @@ export default function EditorialProductCard({ product, compact = false }: Edito
   };
 
   return (
-    <article className="group overflow-hidden rounded-[36px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/80 shadow-[0_12px_40px_rgba(48,23,15,0.10)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_80px_rgba(48,23,15,0.16)]">
+    <article className="prototype-card group overflow-hidden rounded-[36px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/80 shadow-[0_12px_40px_rgba(48,23,15,0.10)]">
       <Link href={`/product/${product.id}`} className="block">
         <div className={`relative overflow-hidden bg-gradient-to-br from-[#F7D38E] to-[#C87832] ${compact ? "aspect-[4/3]" : "aspect-[5/4]"}`}>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,255,255,0.45),transparent_9rem)]" />
@@ -71,7 +71,7 @@ export default function EditorialProductCard({ product, compact = false }: Edito
           {product.productCategory}
         </p>
         <Link href={`/product/${product.id}`}>
-          <h3 className="font-editorial text-xl leading-tight text-[#30170F] transition-colors group-hover:text-[#C97D35]">
+          <h3 className="text-xl font-black leading-tight tracking-[-0.035em] text-[#30170F] transition-colors group-hover:text-[#C97D35]">
             {product.productName}
           </h3>
         </Link>

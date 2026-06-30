@@ -41,7 +41,7 @@ export default function Home() {
             <p className="editorial-eyebrow mb-5">
               Tema-baked - Ghana-loved - Gift-ready
             </p>
-            <h1 className="font-editorial max-w-3xl text-[clamp(3.8rem,8.5vw,7.6rem)] leading-[0.84] tracking-[-0.075em] text-[#30170F]">
+            <h1 className="prototype-heading max-w-3xl text-[clamp(3.8rem,8.5vw,7.6rem)] text-[#30170F]">
               Moist banana bread, baked fresh by Anita.
             </h1>
             <p className="mt-7 max-w-2xl text-[clamp(1.08rem,2vw,1.42rem)] leading-[1.55] text-[#5B3322]">
@@ -55,23 +55,11 @@ export default function Home() {
                 Send a gift box
               </Link>
             </div>
-            <div className="mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
-              {[
-                ["1,300+", "deliveries made"],
-                ["Tue / Thu", "fresh-bake delivery days"],
-                ["WhatsApp-loved", "real customer voice"],
-              ].map(([value, label]) => (
-                <div key={value} className="rounded-[22px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/72 p-5 shadow-[0_12px_40px_rgba(48,23,15,0.10)]">
-                  <strong className="block text-2xl font-black tracking-[-0.04em] text-[#30170F]">{value}</strong>
-                  <span className="mt-1 block text-sm leading-5 text-[#80634F]">{label}</span>
-                </div>
-              ))}
-            </div>
           </div>
 
-          <div className="relative grid min-h-[560px] place-items-center lg:min-h-[650px]">
-            <div className="absolute h-[88%] w-[88%] rounded-full bg-[radial-gradient(circle,rgba(243,198,103,0.46),rgba(201,125,53,0.12)_48%,transparent_72%)] blur-[10px]" />
-            <article className="relative w-[min(440px,88vw)] animate-[float_5.5s_ease-in-out_infinite] overflow-hidden rounded-[44px] border border-[rgba(48,23,15,0.1)] bg-gradient-to-b from-[#FFFDF7]/95 to-[#F7EAD6]/95 p-5 shadow-[0_26px_80px_rgba(48,23,15,0.16)]">
+          <div className="relative grid min-h-[560px] -translate-y-6 place-items-center lg:min-h-[650px] lg:-translate-y-14">
+            <div className="soft-glow absolute h-[88%] w-[88%] rounded-full" />
+            <article className="float-card relative w-[min(440px,88vw)] overflow-hidden rounded-[44px] border border-[rgba(48,23,15,0.1)] bg-gradient-to-b from-[#FFFDF7]/95 to-[#F7EAD6]/95 p-5 shadow-[0_26px_80px_rgba(48,23,15,0.16)]">
               <span className="absolute left-6 top-6 z-10 rounded-full bg-[#30170F] px-3 py-2 text-xs font-black uppercase tracking-[0.08em] text-[#FFF8EC]">
                 Best seller
               </span>
@@ -101,19 +89,12 @@ export default function Home() {
               <strong className="block leading-5 text-[#30170F]">&quot;The bread melts in your mouth.&quot;</strong>
               <span className="mt-2 block text-xs text-[#80634F]">Family order review</span>
             </aside>
-            <aside className="absolute bottom-24 left-0 hidden max-w-[220px] rounded-[22px_22px_22px_6px] border border-[rgba(48,23,15,0.08)] bg-[#FFFDF7] p-4 shadow-[0_12px_40px_rgba(48,23,15,0.10)] md:block">
+            <aside className="absolute bottom-56 left-0 hidden max-w-[220px] rounded-[22px_22px_22px_6px] border border-[rgba(48,23,15,0.08)] bg-[#FFFDF7] p-4 shadow-[0_12px_40px_rgba(48,23,15,0.10)] md:block lg:bottom-60">
               <strong className="block leading-5 text-[#30170F]">&quot;Saved the day, Anita.&quot;</strong>
               <span className="mt-2 block text-xs text-[#80634F]">Customer message</span>
             </aside>
           </div>
         </section>
-
-        <style jsx global>{`
-          @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(-1deg); }
-            50% { transform: translateY(-14px) rotate(1deg); }
-          }
-        `}</style>
 
         <section className="px-4 pb-8 sm:px-6 lg:px-8">
           <div className="mx-auto grid max-w-7xl gap-4 text-center md:grid-cols-4">
@@ -125,30 +106,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mx-auto grid max-w-7xl grid-cols-2 gap-3 px-4 pb-12 sm:px-6 md:grid-cols-5 lg:px-8">
-          {[
-            { label: "Craving now", href: "/shop" },
-            { label: "Birthday gift", href: giftPackage ? `/product/${giftPackage.id}` : "/shop#package" },
-            { label: "Office treat", href: giftPackage ? `/product/${giftPackage.id}` : "/shop#package" },
-            { label: "Family weekend", href: "/shop" },
-            { label: "Meet the baker", href: "/about" },
-          ].map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="rounded-full border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/75 px-5 py-4 text-center text-sm font-black text-[#5B3322] shadow-[0_12px_40px_rgba(48,23,15,0.10)] transition hover:-translate-y-1 hover:text-[#C97D35]"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </section>
-
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="mb-10 max-w-2xl">
             <p className="editorial-eyebrow mb-3">
               Best Sellers
             </p>
-            <h2 className="font-editorial text-5xl leading-[0.92] tracking-[-0.055em] sm:text-6xl">
+            <h2 className="prototype-heading text-5xl sm:text-6xl">
               Customer favourites, freshly baked.
             </h2>
             <p className="mt-4 text-[#80634F]">
@@ -181,7 +144,7 @@ export default function Home() {
               <p className="editorial-eyebrow mb-3">
                 Our Signature
               </p>
-              <h2 className="font-editorial text-4xl leading-tight tracking-[-0.05em] sm:text-5xl">{signature.productName}</h2>
+              <h2 className="prototype-heading text-4xl sm:text-5xl">{signature.productName}</h2>
               <p className="mt-5 leading-8 text-[#80634F]">{signature.productDetails}</p>
               <Link href={`/product/${signature.id}`} className="editorial-button mt-8 w-fit px-7 py-4">
                 Shop {signature.productName}
@@ -196,7 +159,7 @@ export default function Home() {
               <p className="mb-4 text-xs font-black uppercase tracking-[0.2em] text-[#FFE8B0]">
                 Not just a loaf. A thoughtful gesture.
               </p>
-              <h2 className="font-editorial text-5xl leading-[0.9] tracking-[-0.055em] sm:text-6xl">
+              <h2 className="prototype-heading text-5xl sm:text-6xl">
                 Send a Cozy Oven gift box.
               </h2>
               <p className="mt-5 max-w-2xl text-lg leading-8 text-[#FFF8EC]/82">
@@ -220,13 +183,13 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="relative z-10 mt-12 min-h-[330px] md:mt-0">
+            <div className="slow-float relative z-10 mt-12 min-h-[330px] md:mt-0">
               <div className="absolute left-1/2 top-7 h-20 w-72 -translate-x-1/2 -rotate-6 rounded-[24px] bg-gradient-to-br from-[#F7E3BF] to-[#C97D35] shadow-[0_20px_44px_rgba(0,0,0,0.18)]" />
               <div className="absolute left-1/2 top-24 h-60 w-[min(360px,92%)] -translate-x-1/2 rotate-3 rounded-[34px] bg-gradient-to-br from-[#FFF7E5] to-[#DCA55F] shadow-[0_30px_70px_rgba(0,0,0,0.22)] ring-[12px] ring-white/20">
                 <span className="absolute left-9 top-12 h-20 w-28 -rotate-12 rounded-[28px_28px_20px_20px] bg-gradient-to-br from-[#D99045] to-[#69351F] shadow-lg" />
                 <span className="absolute left-36 top-20 h-20 w-28 rotate-6 rounded-[28px_28px_20px_20px] bg-gradient-to-br from-[#70402F] to-[#2A140F] shadow-lg" />
                 <span className="absolute right-8 top-12 h-20 w-28 rotate-12 rounded-[28px_28px_20px_20px] bg-gradient-to-br from-[#E6BA76] to-[#995426] shadow-lg" />
-                <span className="font-editorial absolute bottom-9 left-20 grid h-20 w-44 -rotate-3 place-items-center rounded-2xl bg-[#FFFDF7] text-2xl text-[#30170F]">
+                <span className="absolute bottom-9 left-20 grid h-20 w-44 -rotate-3 place-items-center rounded-2xl bg-[#FFFDF7] font-[Georgia,serif] text-2xl text-[#30170F]">
                   For you
                 </span>
               </div>
@@ -240,7 +203,7 @@ export default function Home() {
               <p className="editorial-eyebrow mb-3">
                 Creamy & delicious
               </p>
-              <h2 className="font-editorial text-5xl tracking-[-0.055em]">Yoghurt</h2>
+              <h2 className="prototype-heading text-5xl">Yoghurt</h2>
               <p className="mt-4 leading-7 text-[#80634F]">
                 Made with real fruit, live cultures and absolutely no preservatives.
               </p>
@@ -265,7 +228,7 @@ export default function Home() {
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="mb-10 max-w-3xl">
             <p className="editorial-eyebrow mb-3">Simple ordering</p>
-            <h2 className="font-editorial text-5xl leading-[0.9] tracking-[-0.055em] sm:text-6xl">
+            <h2 className="prototype-heading text-5xl sm:text-6xl">
               Freshness should feel obvious before checkout.
             </h2>
           </div>
@@ -289,7 +252,7 @@ export default function Home() {
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
           <div className="mb-10 max-w-3xl">
             <p className="editorial-eyebrow mb-3">Real customer voice</p>
-            <h2 className="font-editorial text-5xl leading-[0.9] tracking-[-0.055em] sm:text-6xl">
+            <h2 className="prototype-heading text-5xl sm:text-6xl">
               WhatsApp praise belongs in the product experience.
             </h2>
           </div>
@@ -300,8 +263,8 @@ export default function Home() {
                 <strong>Cozy Oven reviews</strong>
               </div>
               <div className="relative h-[520px] overflow-hidden rounded-[30px] bg-[#EFE3D0] p-5">
-                <div className="animate-[review-scroll_28s_linear_infinite] space-y-4">
-                  {[...testimonials, ...testimonials].map((testimonial, index) => (
+                <div className="whatsapp-review-track space-y-4">
+                  {[...testimonials, ...testimonials, ...testimonials, ...testimonials].map((testimonial, index) => (
                     <p
                       key={`${testimonial.id}-${index}`}
                       className={`max-w-[86%] rounded-[20px] px-4 py-3 leading-6 text-[#30170F] shadow-[0_10px_24px_rgba(48,23,15,0.08)] ${
@@ -320,7 +283,7 @@ export default function Home() {
             <div className="grid content-start gap-4">
               {testimonials.slice(0, 3).map((testimonial) => (
                 <article key={testimonial.id} className="rounded-[30px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/80 p-7 shadow-[0_12px_40px_rgba(48,23,15,0.10)]">
-                  <h3 className="font-editorial text-3xl leading-[1] tracking-[-0.05em] text-[#30170F]">
+                  <h3 className="text-3xl font-black leading-[1] tracking-[-0.05em] text-[#30170F]">
                     &quot;{testimonial.message}&quot;
                   </h3>
                 </article>
@@ -345,7 +308,7 @@ export default function Home() {
             </div>
             <div>
               <p className="editorial-eyebrow mb-3">Meet the baker</p>
-              <h2 className="font-editorial text-5xl leading-[0.9] tracking-[-0.055em] sm:text-6xl">
+              <h2 className="prototype-heading text-5xl sm:text-6xl">
                 Baked by Anita, trusted by repeat customers.
               </h2>
               <p className="mt-5 max-w-3xl text-lg leading-8 text-[#80634F]">
@@ -361,7 +324,7 @@ export default function Home() {
         <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8 lg:pb-28">
           <div className="mb-8 max-w-3xl">
             <p className="editorial-eyebrow mb-3">Before you order</p>
-            <h2 className="font-editorial text-5xl leading-[0.9] tracking-[-0.055em] sm:text-6xl">
+            <h2 className="prototype-heading text-5xl sm:text-6xl">
               Delivery, freshness and gifting questions.
             </h2>
           </div>
@@ -381,17 +344,10 @@ export default function Home() {
           </div>
         </section>
 
-        <style jsx global>{`
-          @keyframes review-scroll {
-            from { transform: translateY(0); }
-            to { transform: translateY(-50%); }
-          }
-        `}</style>
-
         <section className="bg-gradient-to-br from-[#30170F] via-[#5B3322] to-[#C97D35] px-4 py-20 text-[#FFF8EC] sm:px-6 lg:px-8">
           <div className="mx-auto flex max-w-5xl flex-col gap-8 text-center">
             <p className="text-xs font-black uppercase tracking-[0.24em] text-[#FFE8B0]">Stay in the loop</p>
-            <h2 className="font-editorial text-4xl leading-tight tracking-[-0.055em] sm:text-5xl">
+            <h2 className="prototype-heading text-4xl sm:text-5xl">
               Be the first to know about new flavours, fresh bakes and special offers.
             </h2>
             <form className="mx-auto flex w-full max-w-2xl flex-col gap-3 sm:flex-row">
