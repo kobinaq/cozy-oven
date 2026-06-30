@@ -115,16 +115,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="delivery-ribbon py-2">
-        <div className="delivery-ribbon-track">
-          <span>Freshly baked banana bread delivered Tuesdays & Thursdays</span>
-          <span>Order for yourself, family, office treats, or a thoughtful gift box</span>
-          <span>Freshly baked banana bread delivered Tuesdays & Thursdays</span>
-          <span>Order for yourself, family, office treats, or a thoughtful gift box</span>
-        </div>
-      </div>
-
-      <nav className="sticky top-0 z-40 w-full px-3 py-3 md:px-6">
+      <nav className="sticky top-9 z-40 w-full px-3 py-3 md:px-6">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 rounded-full border border-[rgba(48,23,15,0.08)] bg-[#FFF8EC]/85 px-4 py-3 shadow-[0_12px_40px_rgba(48,23,15,0.10)] backdrop-blur-xl md:px-5">
           <Link href="/" className="flex min-w-max items-center gap-3" aria-label="Cozy Oven home">
             <Image src={logo} width={48} height={48} alt="Cozy Oven" className="rounded-full" />
