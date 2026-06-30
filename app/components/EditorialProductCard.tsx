@@ -51,12 +51,12 @@ export default function EditorialProductCard({ product, compact = false }: Edito
       <Link href={`/product/${product.id}`} className="block">
         <div className={`relative overflow-hidden bg-gradient-to-br from-[#F7D38E] to-[#C87832] ${compact ? "aspect-[4/3]" : "aspect-[5/4]"}`}>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,255,255,0.45),transparent_9rem)]" />
-          <div className="absolute bottom-6 left-1/2 h-12 w-2/3 -translate-x-1/2 rounded-full bg-[#30170F]/20 blur-xl transition duration-500 group-hover:scale-110" />
+          <div className="absolute bottom-5 left-1/2 h-14 w-4/5 -translate-x-1/2 rounded-full bg-[#30170F]/20 blur-xl transition duration-500 group-hover:scale-110" />
           <Image
             src={product.thumbnail || "/gift.png"}
             alt={product.productName}
             fill
-            className="object-contain p-7 drop-shadow-[0_26px_28px_rgba(48,23,15,0.28)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-[1.04]"
+            className="scale-[1.18] object-contain p-2 drop-shadow-[0_26px_28px_rgba(48,23,15,0.28)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-[1.25]"
             sizes="(max-width: 768px) 50vw, 25vw"
           />
           {unavailable && (
