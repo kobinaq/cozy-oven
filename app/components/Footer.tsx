@@ -1,6 +1,7 @@
 "use client";
 
 import { Instagram, Mail } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -9,9 +10,7 @@ export default function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col justify-between gap-10 px-4 py-12 sm:px-6 lg:flex-row lg:px-8">
         <div className="max-w-sm">
           <Link href="/" className="inline-flex items-center gap-3" aria-label="Cozy Oven home">
-            <span className="grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-[#30170F] to-[#C97D35] font-black tracking-[-0.08em] text-[#FFF8EC]">
-              CO
-            </span>
+            <Image src="/cozy3.png" alt="Cozy Oven" width={58} height={58} className="rounded-full" />
             <span>
               <strong className="block leading-none text-[#30170F]">Cozy Oven</strong>
               <small className="mt-1 block text-xs text-[#80634F]">Fresh banana bread & gift boxes</small>
