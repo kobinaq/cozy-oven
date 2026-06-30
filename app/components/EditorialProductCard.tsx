@@ -49,13 +49,14 @@ export default function EditorialProductCard({ product, compact = false }: Edito
   return (
     <article className="group overflow-hidden rounded-[36px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/80 shadow-[0_12px_40px_rgba(48,23,15,0.10)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_26px_80px_rgba(48,23,15,0.16)]">
       <Link href={`/product/${product.id}`} className="block">
-        <div className={`relative bg-gradient-to-br from-[#F7D38E] to-[#C87832] ${compact ? "aspect-[4/3]" : "aspect-[5/4]"}`}>
+        <div className={`relative overflow-hidden bg-gradient-to-br from-[#F7D38E] to-[#C87832] ${compact ? "aspect-[4/3]" : "aspect-[5/4]"}`}>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,rgba(255,255,255,0.45),transparent_9rem)]" />
+          <div className="absolute bottom-6 left-1/2 h-12 w-2/3 -translate-x-1/2 rounded-full bg-[#30170F]/20 blur-xl transition duration-500 group-hover:scale-110" />
           <Image
             src={product.thumbnail || "/gift.png"}
             alt={product.productName}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            className="object-contain p-7 drop-shadow-[0_26px_28px_rgba(48,23,15,0.28)] transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-[1.04]"
             sizes="(max-width: 768px) 50vw, 25vw"
           />
           {unavailable && (

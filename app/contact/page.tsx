@@ -60,13 +60,13 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-[#FAF6F1] text-[#1A1410]">
+      <main className="editorial-shell">
         <section className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-24">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-[#C8863A]">
+          <p className="editorial-eyebrow mb-4">
             Contact
           </p>
-          <h1 className="font-editorial text-5xl leading-tight sm:text-6xl">Get in Touch</h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#5D4A3D]">
+          <h1 className="font-editorial text-6xl leading-[0.9] tracking-[-0.07em] sm:text-7xl">Get in Touch</h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#80634F]">
             Have questions about our products or want to place a custom order? We&apos;d love to hear from you!
           </p>
         </section>
@@ -84,8 +84,8 @@ export default function ContactPage() {
                   rel={isWhatsapp ? "noopener noreferrer" : undefined}
                   className={`flex items-start gap-4 rounded-2xl border p-5 transition ${
                     isWhatsapp
-                      ? "border-[#2F855A] bg-[#2F855A] text-white hover:bg-[#276749]"
-                      : "border-[#E8DDD0] bg-[#FFFDF8] text-[#1A1410] hover:border-[#C8863A]"
+                      ? "rounded-[26px] border-[#2F855A] bg-[#2F855A] text-white shadow-[0_12px_40px_rgba(48,23,15,0.10)] hover:bg-[#276749]"
+                      : "rounded-[26px] border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/82 text-[#30170F] shadow-[0_12px_40px_rgba(48,23,15,0.10)] hover:border-[#C97D35]"
                   }`}
                 >
                   <Icon className="mt-1 h-5 w-5 shrink-0" />
@@ -109,7 +109,7 @@ export default function ContactPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className="rounded-2xl border border-[#E8DDD0] bg-[#FAF6F1] px-4 py-3 text-[#1A1410] outline-none focus:border-[#C8863A]"
+                  className="editorial-input px-4 py-3"
                   required
                 />
               </label>
@@ -120,7 +120,7 @@ export default function ContactPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="rounded-2xl border border-[#E8DDD0] bg-[#FAF6F1] px-4 py-3 text-[#1A1410] outline-none focus:border-[#C8863A]"
+                  className="editorial-input px-4 py-3"
                   required
                 />
               </label>
@@ -132,7 +132,7 @@ export default function ContactPage() {
                 name="subject"
                 value={formData.subject}
                 onChange={handleChange}
-                className="rounded-2xl border border-[#E8DDD0] bg-[#FAF6F1] px-4 py-3 text-[#1A1410] outline-none focus:border-[#C8863A]"
+                className="editorial-input px-4 py-3"
                 required
               />
             </label>
@@ -143,7 +143,7 @@ export default function ContactPage() {
                 value={formData.message}
                 onChange={handleChange}
                 rows={6}
-                className="rounded-2xl border border-[#E8DDD0] bg-[#FAF6F1] px-4 py-3 text-[#1A1410] outline-none focus:border-[#C8863A]"
+                className="editorial-input px-4 py-3"
                 required
               />
             </label>

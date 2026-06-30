@@ -15,15 +15,15 @@ export default function AboutPage() {
   return (
     <>
       <Navbar />
-      <main className="bg-[#FAF6F1] text-[#1A1410]">
+      <main className="editorial-shell">
         <section className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-28">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-[#C8863A]">
+          <p className="editorial-eyebrow mb-4">
             Our Story
           </p>
-          <h1 className="font-editorial text-5xl leading-tight sm:text-6xl">
+          <h1 className="font-editorial text-6xl leading-[0.9] tracking-[-0.07em] sm:text-7xl">
             We&apos;re so glad you&apos;re here.
           </h1>
-          <div className="mx-auto mt-8 max-w-[680px] space-y-5 text-lg leading-8 text-[#5D4A3D]">
+          <div className="mx-auto mt-8 max-w-[680px] space-y-5 text-lg leading-8 text-[#80634F]">
             <p>
               Cozy Oven is built by a small but passionate team—warm, creative, and committed to giving you fresh, comforting baked goodness that truly makes your day better.
             </p>
@@ -34,15 +34,15 @@ export default function AboutPage() {
         </section>
 
         <section className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
-          <div className="relative min-h-[360px] overflow-hidden rounded-[2rem] border border-[#E8DDD0] bg-[#F3E9DD]">
+          <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-[rgba(48,23,15,0.09)] bg-[#F7EAD6] shadow-[0_12px_40px_rgba(48,23,15,0.10)]">
             <Image src="/cozy4.PNG" alt="How it started" fill className="object-cover" />
           </div>
           <div className="flex flex-col justify-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#C8863A]">
+            <p className="editorial-eyebrow mb-3">
               How It Started
             </p>
-            <h2 className="font-editorial text-4xl leading-tight sm:text-5xl">How It Started</h2>
-            <div className="mt-7 space-y-4 text-lg leading-8 text-[#5D4A3D]">
+            <h2 className="font-editorial text-5xl leading-[0.95] tracking-[-0.055em] sm:text-6xl">How It Started</h2>
+            <div className="mt-7 space-y-4 text-lg leading-8 text-[#80634F]">
               <p>Cozy Oven was born in a season that tested everything.</p>
               <p>
                 During a time of change and uncertainty, when life felt overwhelming and plans seemed to fall apart, I found myself leaning deeper into prayer and quieting my heart to hear God&apos;s direction.
@@ -57,17 +57,17 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-[#211712] px-4 py-20 text-[#FAF6F1] sm:px-6 lg:px-8">
+        <section className="bg-gradient-to-br from-[#30170F] via-[#5B3322] to-[#C97D35] px-4 py-20 text-[#FFF8EC] sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="mb-10 text-center">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#C8863A]">
+              <p className="mb-3 text-xs font-black uppercase tracking-[0.24em] text-[#FFE8B0]">
                 Why Cozy?
               </p>
-              <h2 className="font-editorial text-4xl sm:text-5xl">Because comfort is powerful.</h2>
+              <h2 className="font-editorial text-5xl tracking-[-0.055em] sm:text-6xl">Because comfort is powerful.</h2>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               {cozyReasons.map((reason) => (
-                <div key={reason} className="rounded-2xl border border-white/10 bg-white/5 p-6 text-[#E8DDD0]">
+                <div key={reason} className="rounded-[24px] border border-white/10 bg-white/10 p-6 text-[#FFF8EC]">
                   {reason}
                 </div>
               ))}
@@ -94,7 +94,7 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <div className="relative min-h-[360px] overflow-hidden rounded-[2rem] border border-[#E8DDD0] bg-[#F3E9DD]">
+          <div className="relative min-h-[360px] overflow-hidden rounded-[36px] border border-[rgba(48,23,15,0.09)] bg-[#F7EAD6] shadow-[0_12px_40px_rgba(48,23,15,0.10)]">
             <Image src="/cozy2.png" alt="The vision" fill className="object-cover" />
           </div>
         </section>

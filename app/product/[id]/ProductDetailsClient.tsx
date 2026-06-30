@@ -169,8 +169,8 @@ export default function ProductDetails() {
     return (
       <>
         <Navbar />
-        <main className="min-h-screen pt-20 flex justify-center items-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#bd6325]" />
+        <main className="editorial-shell flex min-h-screen items-center justify-center pt-20">
+          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[#C97D35]" />
         </main>
         <Footer />
       </>
@@ -181,12 +181,12 @@ export default function ProductDetails() {
     return (
       <>
         <Navbar />
-        <main className="min-h-screen pt-20 flex justify-center items-center">
+        <main className="editorial-shell flex min-h-screen items-center justify-center pt-20">
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Product not found</h1>
+            <h1 className="font-editorial mb-4 text-4xl text-[#30170F]">Product not found</h1>
             <button
               onClick={() => router.push("/")}
-              className="text-orange-500"
+              className="editorial-button px-6 py-3"
             >
               Return to home
             </button>
@@ -246,12 +246,12 @@ export default function ProductDetails() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-20 pb-16">
+      <main className="editorial-shell min-h-screen pb-16 pt-20">
         <div className="max-w-7xl mx-auto px-4">
 
           <button
             onClick={() => router.back()}
-            className="flex items-center gap-2 mb-6 text-gray-600"
+            className="mb-6 flex items-center gap-2 font-black text-[#80634F] transition hover:text-[#C97D35]"
           >
             <ArrowLeft className="w-5 h-5" />
             Back
@@ -260,7 +260,7 @@ export default function ProductDetails() {
           <div className="grid md:grid-cols-2 gap-12">
 
             <div className="space-y-4">
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-gray-100">
+              <div className="relative aspect-square overflow-hidden rounded-[36px] border border-[rgba(48,23,15,0.09)] bg-[#F7EAD6] shadow-[0_26px_80px_rgba(48,23,15,0.16)]">
                 <Image
                   src={mainImageSrc}
                   alt={product.productName}
@@ -278,7 +278,7 @@ export default function ProductDetails() {
                           i <= 0 ? galleryImages.length - 1 : i - 1
                         )
                       }
-                      className="absolute left-3 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/90 text-gray-800 shadow-md hover:bg-white transition-colors"
+                      className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-[#FFFDF7]/90 p-2 text-[#30170F] shadow-md transition-colors hover:bg-white"
                       aria-label="Previous image"
                     >
                       <ChevronLeft className="w-6 h-6" />
@@ -290,12 +290,12 @@ export default function ProductDetails() {
                           i >= galleryImages.length - 1 ? 0 : i + 1
                         )
                       }
-                      className="absolute right-3 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/90 text-gray-800 shadow-md hover:bg-white transition-colors"
+                      className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-[#FFFDF7]/90 p-2 text-[#30170F] shadow-md transition-colors hover:bg-white"
                       aria-label="Next image"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 px-2 py-1 rounded-full bg-black/40">
+                    <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-1.5 rounded-full bg-[#30170F]/40 px-2 py-1">
                       {galleryImages.map((_, i) => (
                         <button
                           key={i}
@@ -326,9 +326,9 @@ export default function ProductDetails() {
                       key={`${src}-${i}`}
                       type="button"
                       onClick={() => setActiveImageIndex(i)}
-                      className={`relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden border-2 snap-start transition-all ${
+                    className={`relative h-20 w-20 shrink-0 snap-start overflow-hidden rounded-2xl border-2 transition-all sm:h-24 sm:w-24 ${
                         i === activeImageIndex
-                          ? "border-[#bd6325] ring-2 ring-[#bd6325]/30"
+                          ? "border-[#C97D35] ring-2 ring-[#C97D35]/30"
                           : "border-transparent opacity-70 hover:opacity-100"
                       }`}
                     >
@@ -346,12 +346,12 @@ export default function ProductDetails() {
             </div>
 
             <div>
-              <div className="flex items-center gap-3 mb-4">
-                <h1 className="text-3xl font-bold">
+              <div className="mb-4 flex items-center gap-3">
+                <h1 className="font-editorial text-5xl leading-[0.92] tracking-[-0.055em] text-[#30170F]">
                   {product.productName}
                 </h1>
                 {isSoldOut && (
-                  <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                  <span className="rounded-full bg-red-700 px-3 py-1 text-sm font-black text-white">
                     Sold Out
                   </span>
                 )}
@@ -370,11 +370,11 @@ export default function ProductDetails() {
                 ))}
               </div>
 
-              <p className="text-3xl font-bold text-orange-500 mb-6">
+              <p className="mb-6 text-3xl font-black text-[#C97D35]">
                 GHS {currentPrice.toFixed(2)}
               </p>
 
-              <p className="text-gray-700 mb-6">
+              <p className="mb-6 leading-8 text-[#80634F]">
                 {product.productDetails}
               </p>
 
@@ -382,7 +382,7 @@ export default function ProductDetails() {
                 <>
                   {hasVariants && (
                     <div className="mb-6">
-                      <label className="block font-semibold mb-2">Size</label>
+                      <label className="mb-2 block font-black text-[#30170F]">Size</label>
                       <SizeSelector
                         sizes={sizes}
                         selectedSize={selectedSize}
@@ -392,27 +392,27 @@ export default function ProductDetails() {
                   )}
 
                   <div className="mb-6">
-                    <label className="block font-semibold mb-2">Quantity</label>
+                    <label className="mb-2 block font-black text-[#30170F]">Quantity</label>
                     <QuantitySelector
                       quantity={quantity}
                       onQuantityChange={setQuantity}
                       min={minQuantity}
                     />
                     {isMinisProduct && (
-                      <p className="text-sm text-orange-600 mt-2 font-medium">
+                      <p className="mt-2 text-sm font-black text-[#C97D35]">
                         Minimum order: 4 pieces
                       </p>
                     )}
                   </div>
 
                   {isPackageProduct && (
-                    <div className="mb-6 rounded-2xl border border-gray-200 bg-white p-4">
+                    <div className="mb-6 rounded-[30px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/86 p-5 shadow-[0_12px_40px_rgba(48,23,15,0.10)]">
                       <div className="flex items-start justify-between gap-4 mb-4">
                         <div>
-                          <label className="block font-semibold">
+                          <label className="block font-black text-[#30170F]">
                             {product.packageConfig?.selectionLabel || "Build your package"}
                           </label>
-                          <p className="text-sm text-gray-600 mt-1">
+                          <p className="mt-1 text-sm text-[#80634F]">
                             {requiredPackageCount > 0
                               ? `Chosen: ${selectedPackageCount}/${requiredPackageCount}`
                               : "Included items are fixed for this package."}
@@ -434,8 +434,8 @@ export default function ProductDetails() {
                           return (
                             <div key={groupId} className="space-y-3">
                               <div>
-                                <p className="font-semibold text-gray-900">{group.label}</p>
-                                <p className="text-sm text-gray-600">
+                                <p className="font-black text-[#30170F]">{group.label}</p>
+                                <p className="text-sm text-[#80634F]">
                                   {group.type === "fixed"
                                     ? "Included in this package"
                                     : `Select exactly ${group.requiredSelectionCount}. Chosen: ${groupSelectedCount}/${group.requiredSelectionCount}`}
@@ -447,17 +447,17 @@ export default function ProductDetails() {
                                 return (
                                   <div
                                     key={`${groupId}-${option.label}`}
-                                    className="flex items-center justify-between gap-3 rounded-xl border border-gray-200 p-3"
+                                    className="flex items-center justify-between gap-3 rounded-2xl border border-[rgba(48,23,15,0.09)] bg-[#FFF8EC] p-3"
                                   >
                                     <div className="min-w-0">
-                                      <p className="font-medium text-gray-900">
+                                      <p className="font-black text-[#30170F]">
                                         {option.label}
                                         {group.type === "fixed" && (
-                                          <span className="ml-2 text-sm text-gray-500">x {option.quantity || 1}</span>
+                                          <span className="ml-2 text-sm text-[#80634F]">x {option.quantity || 1}</span>
                                         )}
                                       </p>
                                       {option.description && (
-                                        <p className="text-sm text-gray-500">{option.description}</p>
+                                        <p className="text-sm text-[#80634F]">{option.description}</p>
                                       )}
                                     </div>
 
@@ -468,7 +468,7 @@ export default function ProductDetails() {
                                           onClick={() =>
                                             updatePackageSelection(groupId, option.label, optionCount - 1, group.requiredSelectionCount)
                                           }
-                                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center disabled:opacity-40"
+                                          className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(48,23,15,0.12)] bg-[#FFFDF7] disabled:opacity-40"
                                           disabled={optionCount === 0}
                                         >
                                           -
@@ -479,7 +479,7 @@ export default function ProductDetails() {
                                           onClick={() =>
                                             updatePackageSelection(groupId, option.label, optionCount + 1, group.requiredSelectionCount)
                                           }
-                                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center disabled:opacity-40"
+                                          className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(48,23,15,0.12)] bg-[#FFFDF7] disabled:opacity-40"
                                           disabled={
                                             groupSelectedCount >= group.requiredSelectionCount ||
                                             (group.allowRepeats === false && optionCount >= 1)
@@ -504,10 +504,10 @@ export default function ProductDetails() {
               <button
                 onClick={handleAddToCart}
                 disabled={isSoldOut || !packageSelectionComplete}
-                className={`flex items-center justify-center gap-3 font-bold py-4 px-8 rounded-full w-full transition-all ${
+                className={`flex w-full items-center justify-center gap-3 rounded-full px-8 py-4 font-black transition-all ${
                   isSoldOut || !packageSelectionComplete
-                    ? "bg-gray-400 text-gray-600 cursor-not-allowed"
-                    : "bg-[#bd6325] text-white hover:bg-[#a8551f]"
+                    ? "cursor-not-allowed bg-[#CAB9A5] text-[#80634F]"
+                    : "bg-[#30170F] text-[#FFF8EC] shadow-[0_16px_30px_rgba(48,23,15,0.18)] hover:bg-[#1F100B]"
                 }`}
               >
                 <ShoppingCart className="w-6 h-6" />

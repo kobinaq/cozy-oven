@@ -31,19 +31,19 @@ export default function CartPage() {
     return (
       <>
         <Navbar />
-        <main className="min-h-screen pt-24 pb-16">
+        <main className="editorial-shell min-h-screen pb-16 pt-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <ShoppingBag className="w-24 h-24 text-gray-300 mb-6" />
-              <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
+              <ShoppingBag className="mb-6 h-24 w-24 text-[#C97D35]" />
+              <h2 className="font-editorial mb-4 text-4xl tracking-[-0.055em] text-[#30170F] sm:text-5xl">
                 Your basket&apos;s feeling lonely. Add some treats!
               </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-8 max-w-md">
+              <p className="mb-8 max-w-md text-sm text-[#80634F] sm:text-base">
                 Browse our delicious selection of fresh-baked banana bread and pastries
               </p>
               <button
                 onClick={() => router.push("/")}
-                className="bg-[#bd6325] hover:bg-[#bd6325] text-white font-semibold py-3 px-8 rounded-lg transition-colors"
+                className="editorial-button px-8 py-3"
               >
                 Shop Now
               </button>
@@ -58,9 +58,9 @@ export default function CartPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-24 pb-16 bg-gray-50">
+      <main className="editorial-shell min-h-screen pb-16 pt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+          <h1 className="font-editorial mb-8 text-5xl tracking-[-0.055em] text-[#30170F] sm:text-6xl">
             Shopping Cart
           </h1>
 
@@ -74,11 +74,11 @@ export default function CartPage() {
                 return (
                   <div
                     key={`${item.id}-${item.selectedSize}-${JSON.stringify(item.packageSelections || [])}`}
-                    className="bg-white rounded-lg shadow-sm p-4 md:p-6 hover:shadow-md transition-shadow"
+                    className="rounded-[30px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/82 p-4 shadow-[0_12px_40px_rgba(48,23,15,0.10)] transition-shadow hover:shadow-[0_26px_80px_rgba(48,23,15,0.16)] md:p-6"
                   >
                     <div className="flex gap-4">
                       {/* Thumbnail */}
-                      <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                      <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-[22px] bg-[#F7EAD6] md:h-32 md:w-32">
                         <Image
                           src={item.image || ""}
                           alt={item.name}
@@ -91,17 +91,17 @@ export default function CartPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-start mb-2">
                           <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                            <h3 className="mb-1 text-lg font-black text-[#30170F]">
                               {item.name}
                             </h3>
                             {item.selectedSize && (
-                              <p className="text-sm text-gray-600">
+                              <p className="text-sm text-[#80634F]">
                                 Size: {item.selectedSize}
                               </p>
                             )}
                             {item.packageSelections && item.packageSelections.length > 0 && (
-                              <div className="mt-2 text-sm text-gray-600">
-                                <p className="font-medium text-gray-700">Package selections:</p>
+                              <div className="mt-2 text-sm text-[#80634F]">
+                                <p className="font-black text-[#5B3322]">Package selections:</p>
                                 <ul className="mt-1 space-y-0.5">
                                   {item.packageSelections.map((selection) => (
                                     <li key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
@@ -115,7 +115,7 @@ export default function CartPage() {
                           </div>
                           <button
                             onClick={() => removeFromCart(item.id, item.selectedSize, item.packageSelections)}
-                            className="text-red-500 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors"
+                            className="rounded-full bg-red-50 p-2 text-red-700 transition-colors hover:bg-red-100"
                             aria-label="Remove item"
                           >
                             <Trash2 className="w-5 h-5" />
@@ -125,12 +125,12 @@ export default function CartPage() {
                         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-4">
                           {/* Quantity Selector */}
                           <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600 mr-2">Qty:</span>
+                            <span className="mr-2 text-sm text-[#80634F]">Qty:</span>
                             <button
                               onClick={() =>
                                 handleQuantityChange(item.id, item.quantity - 1, item.selectedSize, item.packageSelections)
                               }
-                              className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:bg-gray-100 transition-colors"
+                              className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(48,23,15,0.12)] bg-[#FFFDF7] transition-colors hover:bg-[#F7EAD6]"
                               aria-label="Decrease quantity"
                             >
                               <Minus className="w-4 h-4" />
@@ -142,7 +142,7 @@ export default function CartPage() {
                               onClick={() =>
                                 handleQuantityChange(item.id, item.quantity + 1, item.selectedSize, item.packageSelections)
                               }
-                              className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-full hover:bg-gray-100 transition-colors"
+                              className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(48,23,15,0.12)] bg-[#FFFDF7] transition-colors hover:bg-[#F7EAD6]"
                               aria-label="Increase quantity"
                             >
                               <Plus className="w-4 h-4" />
@@ -151,10 +151,10 @@ export default function CartPage() {
 
                           {/* Price */}
                           <div className="text-right">
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-[#80634F]">
                               GHS {itemPrice.toFixed(2)} each
                             </p>
-                            <p className="text-lg font-bold text-[#bd6325]">
+                            <p className="text-lg font-black text-[#C97D35]">
                               GHS {itemTotal.toFixed(2)}
                             </p>
                           </div>
@@ -168,32 +168,32 @@ export default function CartPage() {
 
             {/* Cart Summary - Right Side (Sticky on desktop) */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
-                <h2 className="text-xl font-bold text-gray-900 mb-6">
+              <div className="sticky top-24 rounded-[30px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/86 p-6 shadow-[0_12px_40px_rgba(48,23,15,0.10)]">
+                <h2 className="font-editorial mb-6 text-3xl tracking-[-0.05em] text-[#30170F]">
                   Order Summary
                 </h2>
 
                 <div className="space-y-3 mb-6">
-                  <div className="flex justify-between text-gray-700">
+                  <div className="flex justify-between text-[#80634F]">
                     <span>Subtotal</span>
                     <span>GHS {subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="border-t pt-3 flex justify-between text-lg font-bold text-gray-900">
+                  <div className="flex justify-between border-t border-[rgba(48,23,15,0.12)] pt-3 text-lg font-black text-[#30170F]">
                     <span>Total</span>
-                    <span className="text-[#bd6325]">GHS {total.toFixed(2)}</span>
+                    <span className="text-[#C97D35]">GHS {total.toFixed(2)}</span>
                   </div>
                 </div>
 
                 <button
                   onClick={() => router.push("/checkout")}
-                  className="w-full bg-[#bd6325] hover:bg-[#bd6325] text-white font-bold py-3 px-6 rounded-full transition-colors mb-3 hover:cursor-pointer"
+                  className="editorial-button mb-3 w-full px-6 py-3 hover:cursor-pointer"
                 >
                   Proceed to Checkout
                 </button>
 
                 <button
                   onClick={() => router.push("/")}
-                  className="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 font-semibold py-3 px-6 rounded-full hover:cursor-pointer transition-colors"
+                  className="editorial-button-outline w-full px-6 py-3 hover:cursor-pointer"
                 >
                   Continue Shopping
                 </button>
