@@ -26,7 +26,7 @@ export default function Home() {
   );
   const signature = bananaProducts[0] || products[0];
   const giftPackage = packageProducts.find((product) => product.packageConfig?.groups?.some((group) => group.type === "selection")) || packageProducts[0];
-  const heroImage = "https://res.cloudinary.com/daljxj4yl/image/upload/v1782411696/hero_reoa6c.png";
+  const heroImage = "https://res.cloudinary.com/daljxj4yl/image/upload/v1782461961/cozyoven/products_thumbnails/urzdqfzt92jqdnhx0mef.jpg";
 
   useEffect(() => {
     faqService.getPublicFaqs().then(setFaqs);
