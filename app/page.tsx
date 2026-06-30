@@ -63,13 +63,13 @@ export default function Home() {
               <span className="absolute left-6 top-6 z-10 rounded-full bg-[#30170F] px-3 py-2 text-xs font-black uppercase tracking-[0.08em] text-[#FFF8EC]">
                 Best seller
               </span>
-              <div className="relative h-[360px]">
+              <div className="relative h-[360px] overflow-hidden rounded-[34px]">
                 <Image
                   src={heroImage}
                   alt={signature?.productName || "Cozy Oven baked goods"}
                   fill
                   priority
-                  className="object-contain drop-shadow-[0_34px_34px_rgba(48,23,15,0.3)]"
+                  className="scale-[1.08] object-cover drop-shadow-[0_34px_34px_rgba(48,23,15,0.3)]"
                   sizes="(max-width: 1024px) 88vw, 440px"
                 />
               </div>
