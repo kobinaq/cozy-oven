@@ -230,13 +230,13 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          className="relative bg-white rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+          className="relative bg-[#faf9f5] rounded-2xl shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close button */}
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition"
+            className="absolute top-4 right-4 p-2 rounded-full hover:bg-[#b9aca2] transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -244,14 +244,14 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
           <div className="p-8">
             {/* Header */}
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">
+              <h2 className="text-2xl font-bold text-[#222222]">
                 {activeTab === "login" && "Welcome Back"}
                 {activeTab === "signup" && "Create Account"}
                 {activeTab === "forgot-password" && "Reset Password"}
                 {activeTab === "verify-otp" && "Verify OTP"}
                 {activeTab === "reset-password" && "New Password"}
               </h2>
-              <p className="text-gray-600 mt-2">
+              <p className="text-[#5d6043] mt-2">
                 {activeTab === "login" && "Sign in to continue to Cozy Oven"}
                 {activeTab === "signup" && "Join us and start ordering delicious treats"}
                 {activeTab === "forgot-password" && "We'll send you a code to reset your password"}
@@ -276,13 +276,13 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
             {activeTab === "login" && (
               <form onSubmit={loginForm.handleSubmit(handleLogin)} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                     Email
                   </label>
                   <input
                     type="email"
                     {...loginForm.register("email")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                     placeholder="you@example.com"
                   />
                   {loginForm.formState.errors.email && (
@@ -293,14 +293,14 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                     Password
                   </label>
                   <div className="relative">
                     <input
                       type={showLoginPassword ? "text" : "password"}
                       {...loginForm.register("password")}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent pr-10"
+                      className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent pr-10"
                       placeholder="••••••••"
                     />
                     <button
@@ -309,9 +309,9 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       className="absolute inset-y-0 right-0 pr-3 flex items-center"
                     >
                       {showLoginPassword ? (
-                        <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                        <EyeOff className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                       ) : (
-                        <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                        <Eye className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                       )}
                     </button>
                   </div>
@@ -328,7 +328,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                     setActiveTab("forgot-password");
                     resetForms();
                   }}
-                  className="text-sm text-[#2A2C22] hover:underline"
+                  className="text-sm text-[#5d6043] hover:underline"
                 >
                   Forgot password?
                 </button>
@@ -336,12 +336,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="w-full bg-[#5d6043] text-[#faf9f5] py-3 rounded-full font-semibold hover:bg-[#222222] transition disabled:opacity-50"
                 >
                   {loading ? "Signing in..." : "Sign In"}
                 </button>
 
-                <p className="text-center text-sm text-gray-600">
+                <p className="text-center text-sm text-[#5d6043]">
                   Don&apos;t have an account?{" "}
                   <button
                     type="button"
@@ -349,7 +349,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       setActiveTab("signup");
                       resetForms();
                     }}
-                    className="text-[#2A2C22] font-semibold hover:underline"
+                    className="text-[#5d6043] font-semibold hover:underline"
                   >
                     Sign Up
                   </button>
@@ -361,13 +361,13 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
             {activeTab === "signup" && (
               <form onSubmit={signupForm.handleSubmit(handleSignup)} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                     Full Name
                   </label>
                   <input
                     type="text"
                     {...signupForm.register("fullName")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                     placeholder="Jane Doe"
                   />
                   {signupForm.formState.errors.fullName && (
@@ -378,13 +378,13 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                     Email
                   </label>
                   <input
                     type="email"
                     {...signupForm.register("email")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                     placeholder="you@example.com"
                   />
                   {signupForm.formState.errors.email && (
@@ -395,13 +395,13 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                     Phone Number
                   </label>
                   <input
                     type="tel"
                     {...signupForm.register("phoneNumber")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                     placeholder="0205345678"
                   />
                   {signupForm.formState.errors.phoneNumber && (
@@ -412,14 +412,14 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                     Password
                   </label>
                   <div className="relative">
                     <input
                       type={showSignupPassword ? "text" : "password"}
                       {...signupForm.register("password")}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent pr-10"
+                      className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent pr-10"
                       placeholder="********"
                     />
                     <button
@@ -428,9 +428,9 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       className="absolute inset-y-0 right-0 pr-3 flex items-center"
                     >
                       {showSignupPassword ? (
-                        <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                        <EyeOff className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                       ) : (
-                        <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                        <Eye className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                       )}
                     </button>
                   </div>
@@ -444,12 +444,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="w-full bg-[#5d6043] text-[#faf9f5] py-3 rounded-full font-semibold hover:bg-[#222222] transition disabled:opacity-50"
                 >
                   {loading ? "Creating Account..." : "Sign Up"}
                 </button>
 
-                <p className="text-center text-sm text-gray-600">
+                <p className="text-center text-sm text-[#5d6043]">
                   Already have an account?{" "}
                   <button
                     type="button"
@@ -457,7 +457,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       setActiveTab("login");
                       resetForms();
                     }}
-                    className="text-[#2A2C22] font-semibold hover:underline"
+                    className="text-[#5d6043] font-semibold hover:underline"
                   >
                     Sign In
                   </button>
@@ -472,13 +472,13 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 className="space-y-4"
               >
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                     Email
                   </label>
                   <input
                     type="email"
                     {...forgotPasswordForm.register("email")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                     placeholder="you@example.com"
                   />
                   {forgotPasswordForm.formState.errors.email && (
@@ -491,12 +491,12 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="w-full bg-[#5d6043] text-[#faf9f5] py-3 rounded-full font-semibold hover:bg-[#222222] transition disabled:opacity-50"
                 >
                   {loading ? "Sending..." : "Send OTP"}
                 </button>
 
-                <p className="text-center text-sm text-gray-600">
+                <p className="text-center text-sm text-[#5d6043]">
                   Remember your password?{" "}
                   <button
                     type="button"
@@ -504,7 +504,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       setActiveTab("login");
                       resetForms();
                     }}
-                    className="text-[#2A2C22] font-semibold hover:underline"
+                    className="text-[#5d6043] font-semibold hover:underline"
                   >
                     Sign In
                   </button>
@@ -516,13 +516,13 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
             {activeTab === "verify-otp" && (
               <form onSubmit={verifyOtpForm.handleSubmit(handleVerifyOtp)} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                     Enter OTP
                   </label>
                   <input
                     type="text"
                     {...verifyOtpForm.register("otp")}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent text-center text-2xl tracking-widest"
+                    className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent text-center text-2xl tracking-widest"
                     placeholder="12345"
                     maxLength={5}
                   />
@@ -536,18 +536,18 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="w-full bg-[#5d6043] text-[#faf9f5] py-3 rounded-full font-semibold hover:bg-[#222222] transition disabled:opacity-50"
                 >
                   {loading ? "Verifying..." : "Verify OTP"}
                 </button>
 
-                <p className="text-center text-sm text-gray-600">
+                <p className="text-center text-sm text-[#5d6043]">
                   Didn&apos;t receive the code?{" "}
                   <button
                     type="button"
                     onClick={handleResendOtp}
                     disabled={loading}
-                    className="text-[#2A2C22] font-semibold hover:underline disabled:opacity-50"
+                    className="text-[#5d6043] font-semibold hover:underline disabled:opacity-50"
                   >
                     Resend
                   </button>
@@ -562,14 +562,14 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 className="space-y-4"
               >
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                     New Password
                   </label>
                   <div className="relative">
                     <input
                       type={showResetPassword ? "text" : "password"}
                       {...resetPasswordForm.register("newPassword")}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent pr-10"
+                      className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent pr-10"
                       placeholder="••••••••"
                     />
                     <button
@@ -578,9 +578,9 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       className="absolute inset-y-0 right-0 pr-3 flex items-center"
                     >
                       {showResetPassword ? (
-                        <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                        <EyeOff className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                       ) : (
-                        <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                        <Eye className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                       )}
                     </button>
                   </div>
@@ -589,7 +589,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       {resetPasswordForm.formState.errors.newPassword.message}
                     </p>
                   )}
-                  <p className="text-xs text-gray-500 mt-1">
+                  <p className="text-xs text-[#5d6043] mt-1">
                     Must contain at least 8 characters, including uppercase, lowercase, number, and
                     special character
                   </p>
@@ -598,7 +598,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50"
+                  className="w-full bg-[#5d6043] text-[#faf9f5] py-3 rounded-full font-semibold hover:bg-[#222222] transition disabled:opacity-50"
                 >
                   {loading ? "Resetting..." : "Reset Password"}
                 </button>

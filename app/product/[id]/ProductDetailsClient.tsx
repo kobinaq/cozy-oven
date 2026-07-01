@@ -170,7 +170,7 @@ export default function ProductDetails() {
       <>
         <Navbar />
         <main className="editorial-shell flex min-h-screen items-center justify-center pt-20">
-          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[#C97D35]" />
+          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-[#bd6325]" />
         </main>
         <Footer />
       </>
@@ -183,7 +183,7 @@ export default function ProductDetails() {
         <Navbar />
         <main className="editorial-shell flex min-h-screen items-center justify-center pt-20">
           <div className="text-center">
-            <h1 className="font-editorial mb-4 text-4xl text-[#30170F]">Product not found</h1>
+            <h1 className="font-editorial mb-4 text-4xl text-[#222222]">Product not found</h1>
             <button
               onClick={() => router.push("/")}
               className="editorial-button px-6 py-3"
@@ -251,7 +251,7 @@ export default function ProductDetails() {
 
           <button
             onClick={() => router.back()}
-            className="mb-6 flex items-center gap-2 font-black text-[#80634F] transition hover:text-[#C97D35]"
+            className="mb-6 flex items-center gap-2 font-black text-[#5d6043] transition hover:text-[#bd6325]"
           >
             <ArrowLeft className="w-5 h-5" />
             Back
@@ -260,7 +260,7 @@ export default function ProductDetails() {
           <div className="grid md:grid-cols-2 gap-12">
 
             <div className="space-y-4">
-              <div className="relative aspect-square overflow-hidden rounded-[36px] border border-[rgba(48,23,15,0.09)] bg-[#F7EAD6] shadow-[0_26px_80px_rgba(48,23,15,0.16)]">
+              <div className="relative aspect-square overflow-hidden rounded-[36px] border border-[rgba(34,34,34,0.09)] bg-[#b9aca2] shadow-[0_26px_80px_rgba(34,34,34,0.16)]">
                 <Image
                   src={mainImageSrc}
                   alt={product.productName}
@@ -278,7 +278,7 @@ export default function ProductDetails() {
                           i <= 0 ? galleryImages.length - 1 : i - 1
                         )
                       }
-                      className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-[#FFFDF7]/90 p-2 text-[#30170F] shadow-md transition-colors hover:bg-white"
+                      className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-[#faf9f5]/90 p-2 text-[#222222] shadow-md transition-colors hover:bg-[#faf9f5]"
                       aria-label="Previous image"
                     >
                       <ChevronLeft className="w-6 h-6" />
@@ -290,12 +290,12 @@ export default function ProductDetails() {
                           i >= galleryImages.length - 1 ? 0 : i + 1
                         )
                       }
-                      className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-[#FFFDF7]/90 p-2 text-[#30170F] shadow-md transition-colors hover:bg-white"
+                      className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-[#faf9f5]/90 p-2 text-[#222222] shadow-md transition-colors hover:bg-[#faf9f5]"
                       aria-label="Next image"
                     >
                       <ChevronRight className="w-6 h-6" />
                     </button>
-                    <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-1.5 rounded-full bg-[#30170F]/40 px-2 py-1">
+                    <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-1.5 rounded-full bg-[#222222]/40 px-2 py-1">
                       {galleryImages.map((_, i) => (
                         <button
                           key={i}
@@ -303,8 +303,8 @@ export default function ProductDetails() {
                           onClick={() => setActiveImageIndex(i)}
                           className={`h-2 rounded-full transition-all ${
                             i === activeImageIndex
-                              ? "w-6 bg-white"
-                              : "w-2 bg-white/50 hover:bg-white/70"
+                              ? "w-6 bg-[#faf9f5]"
+                              : "w-2 bg-[#faf9f5]/50 hover:bg-[#faf9f5]/70"
                           }`}
                           aria-label={`Image ${i + 1} of ${galleryImages.length}`}
                         />
@@ -313,7 +313,7 @@ export default function ProductDetails() {
                   </>
                 )}
                 {isSoldOut && (
-                  <div className="absolute top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg z-10">
+                  <div className="absolute top-4 right-4 bg-red-500 text-[#faf9f5] px-4 py-2 rounded-full text-sm font-semibold shadow-lg z-10">
                     Sold Out
                   </div>
                 )}
@@ -328,7 +328,7 @@ export default function ProductDetails() {
                       onClick={() => setActiveImageIndex(i)}
                     className={`relative h-20 w-20 shrink-0 snap-start overflow-hidden rounded-2xl border-2 transition-all sm:h-24 sm:w-24 ${
                         i === activeImageIndex
-                          ? "border-[#C97D35] ring-2 ring-[#C97D35]/30"
+                          ? "border-[#bd6325] ring-2 ring-[#bd6325]/30"
                           : "border-transparent opacity-70 hover:opacity-100"
                       }`}
                     >
@@ -347,11 +347,11 @@ export default function ProductDetails() {
 
             <div>
               <div className="mb-4 flex items-center gap-3">
-                <h1 className="font-editorial text-5xl leading-[0.92] tracking-[-0.055em] text-[#30170F]">
+                <h1 className="font-editorial text-5xl leading-[0.92] tracking-[-0.055em] text-[#222222]">
                   {product.productName}
                 </h1>
                 {isSoldOut && (
-                  <span className="rounded-full bg-red-700 px-3 py-1 text-sm font-black text-white">
+                  <span className="rounded-full bg-red-700 px-3 py-1 text-sm font-black text-[#faf9f5]">
                     Sold Out
                   </span>
                 )}
@@ -364,17 +364,17 @@ export default function ProductDetails() {
                     className={`w-5 h-5 ${
                       star <= Math.round(product.rating || 0)
                         ? "fill-yellow-400 text-yellow-400"
-                        : "text-gray-300"
+                        : "text-[#b9aca2]"
                     }`}
                   />
                 ))}
               </div>
 
-              <p className="mb-6 text-3xl font-black text-[#C97D35]">
+              <p className="mb-6 text-3xl font-black text-[#bd6325]">
                 GHS {currentPrice.toFixed(2)}
               </p>
 
-              <p className="mb-6 leading-8 text-[#80634F]">
+              <p className="mb-6 leading-8 text-[#5d6043]">
                 {product.productDetails}
               </p>
 
@@ -382,7 +382,7 @@ export default function ProductDetails() {
                 <>
                   {hasVariants && (
                     <div className="mb-6">
-                      <label className="mb-2 block font-black text-[#30170F]">Size</label>
+                      <label className="mb-2 block font-black text-[#222222]">Size</label>
                       <SizeSelector
                         sizes={sizes}
                         selectedSize={selectedSize}
@@ -392,27 +392,27 @@ export default function ProductDetails() {
                   )}
 
                   <div className="mb-6">
-                    <label className="mb-2 block font-black text-[#30170F]">Quantity</label>
+                    <label className="mb-2 block font-black text-[#222222]">Quantity</label>
                     <QuantitySelector
                       quantity={quantity}
                       onQuantityChange={setQuantity}
                       min={minQuantity}
                     />
                     {isMinisProduct && (
-                      <p className="mt-2 text-sm font-black text-[#C97D35]">
+                      <p className="mt-2 text-sm font-black text-[#bd6325]">
                         Minimum order: 4 pieces
                       </p>
                     )}
                   </div>
 
                   {isPackageProduct && (
-                    <div className="mb-6 rounded-[30px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/86 p-5 shadow-[0_12px_40px_rgba(48,23,15,0.10)]">
+                    <div className="mb-6 rounded-[30px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-5 shadow-[0_12px_40px_rgba(34,34,34,0.10)]">
                       <div className="flex items-start justify-between gap-4 mb-4">
                         <div>
-                          <label className="block font-black text-[#30170F]">
+                          <label className="block font-black text-[#222222]">
                             {product.packageConfig?.selectionLabel || "Build your package"}
                           </label>
-                          <p className="mt-1 text-sm text-[#80634F]">
+                          <p className="mt-1 text-sm text-[#5d6043]">
                             {requiredPackageCount > 0
                               ? `Chosen: ${selectedPackageCount}/${requiredPackageCount}`
                               : "Included items are fixed for this package."}
@@ -434,8 +434,8 @@ export default function ProductDetails() {
                           return (
                             <div key={groupId} className="space-y-3">
                               <div>
-                                <p className="font-black text-[#30170F]">{group.label}</p>
-                                <p className="text-sm text-[#80634F]">
+                                <p className="font-black text-[#222222]">{group.label}</p>
+                                <p className="text-sm text-[#5d6043]">
                                   {group.type === "fixed"
                                     ? "Included in this package"
                                     : `Select exactly ${group.requiredSelectionCount}. Chosen: ${groupSelectedCount}/${group.requiredSelectionCount}`}
@@ -447,17 +447,17 @@ export default function ProductDetails() {
                                 return (
                                   <div
                                     key={`${groupId}-${option.label}`}
-                                    className="flex items-center justify-between gap-3 rounded-2xl border border-[rgba(48,23,15,0.09)] bg-[#FFF8EC] p-3"
+                                    className="flex items-center justify-between gap-3 rounded-2xl border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-3"
                                   >
                                     <div className="min-w-0">
-                                      <p className="font-black text-[#30170F]">
+                                      <p className="font-black text-[#222222]">
                                         {option.label}
                                         {group.type === "fixed" && (
-                                          <span className="ml-2 text-sm text-[#80634F]">x {option.quantity || 1}</span>
+                                          <span className="ml-2 text-sm text-[#5d6043]">x {option.quantity || 1}</span>
                                         )}
                                       </p>
                                       {option.description && (
-                                        <p className="text-sm text-[#80634F]">{option.description}</p>
+                                        <p className="text-sm text-[#5d6043]">{option.description}</p>
                                       )}
                                     </div>
 
@@ -468,7 +468,7 @@ export default function ProductDetails() {
                                           onClick={() =>
                                             updatePackageSelection(groupId, option.label, optionCount - 1, group.requiredSelectionCount)
                                           }
-                                          className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(48,23,15,0.12)] bg-[#FFFDF7] disabled:opacity-40"
+                                          className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(34,34,34,0.12)] bg-[#faf9f5] disabled:opacity-40"
                                           disabled={optionCount === 0}
                                         >
                                           -
@@ -479,7 +479,7 @@ export default function ProductDetails() {
                                           onClick={() =>
                                             updatePackageSelection(groupId, option.label, optionCount + 1, group.requiredSelectionCount)
                                           }
-                                          className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(48,23,15,0.12)] bg-[#FFFDF7] disabled:opacity-40"
+                                          className="flex h-8 w-8 items-center justify-center rounded-full border border-[rgba(34,34,34,0.12)] bg-[#faf9f5] disabled:opacity-40"
                                           disabled={
                                             groupSelectedCount >= group.requiredSelectionCount ||
                                             (group.allowRepeats === false && optionCount >= 1)
@@ -506,8 +506,8 @@ export default function ProductDetails() {
                 disabled={isSoldOut || !packageSelectionComplete}
                 className={`flex w-full items-center justify-center gap-3 rounded-full px-8 py-4 font-black transition-all ${
                   isSoldOut || !packageSelectionComplete
-                    ? "cursor-not-allowed bg-[#CAB9A5] text-[#80634F]"
-                    : "bg-[#30170F] text-[#FFF8EC] shadow-[0_16px_30px_rgba(48,23,15,0.18)] hover:bg-[#1F100B]"
+                    ? "cursor-not-allowed bg-[#b9aca2] text-[#5d6043]"
+                    : "bg-[#222222] text-[#faf9f5] shadow-[0_16px_30px_rgba(34,34,34,0.18)] hover:bg-[#222222]"
                 }`}
               >
                 <ShoppingCart className="w-6 h-6" />

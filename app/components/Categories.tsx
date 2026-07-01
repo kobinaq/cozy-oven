@@ -143,7 +143,7 @@ export default function Categories() {
                   className={`md:text-3xl text-xl font-bold transition-colors relative whitespace-nowrap ${
                     effectiveActiveCategory === category
                       ? "text-[#bd6325]"
-                      : "text-gray-400 hover:text-gray-600"
+                      : "text-[#b9aca2] hover:text-[#5d6043]"
                   }`}
                 >
                   {category}
@@ -165,7 +165,7 @@ export default function Categories() {
           {loading && (
             <div className="text-center py-12">
               <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#bd6325] border-r-transparent"></div>
-              <p className="mt-4 text-gray-600">Loading products...</p>
+              <p className="mt-4 text-[#5d6043]">Loading products...</p>
             </div>
           )}
 
@@ -183,7 +183,7 @@ export default function Categories() {
                   <motion.div
                     key={product.id}
                     variants={cardVariants}
-                    className="relative overflow-hidden rounded-4xl text-white h-[400px] sm:h-[450px] md:h-[500px] w-[300px] shrink-0 group snap-start"
+                    className="relative overflow-hidden rounded-4xl text-[#faf9f5] h-[400px] sm:h-[450px] md:h-[500px] w-[300px] shrink-0 group snap-start"
                     onClick={() => handleCardClick(product.id)}
                   >
                   <div className="absolute inset-0 transition-transform duration-500 ease-in-out group-hover:scale-110 z-0">
@@ -193,7 +193,7 @@ export default function Categories() {
                   
                   {/* Sold Out Badge - shown when product has variants and all are unavailable */}
                   {(product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter(opt => opt.isAvailable !== false)?.length ?? 0) === 0 && (
-                    <div className="absolute top-4 right-4 z-30 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                    <div className="absolute top-4 right-4 z-30 bg-red-500 text-[#faf9f5] px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
                       Sold Out
                     </div>
                   )}
@@ -203,7 +203,7 @@ export default function Categories() {
                       <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 md:mb-4">
                         {product.productName}
                       </h2>
-                      <p className="text-gray-300 text-sm sm:text-base md:text-lg font-extralight line-clamp-3">
+                      <p className="text-[#b9aca2] text-sm sm:text-base md:text-lg font-extralight line-clamp-3">
                         {product.productDetails}
                       </p>
                     </div>
@@ -223,14 +223,14 @@ export default function Categories() {
                       {/* Search icon that slides in from right */}
                       <div className="opacity-0 translate-x-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                         <button 
-                          className="p-3 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 transition-colors"
+                          className="p-3 rounded-full bg-[#faf9f5]/20 backdrop-blur-sm hover:bg-[#faf9f5]/30 transition-colors"
                           onClick={(e) => {
                             e.stopPropagation();
                             handleQuickView(product);
                           }}
                           aria-label="Quick view"
                         >
-                          <Search className="w-5 h-5 text-white" />
+                          <Search className="w-5 h-5 text-[#faf9f5]" />
                         </button>
                       </div>
                     </div>
@@ -244,7 +244,7 @@ export default function Categories() {
           {/* Empty State */}
           {!loading && currentProducts.length === 0 && availableCategories.length > 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-600">No products found in this category.</p>
+              <p className="text-[#5d6043]">No products found in this category.</p>
             </div>
           )}
         </motion.div>

@@ -123,7 +123,7 @@ export default function Qualities() {
                 
                 {/* Content */}
                 <div className="flex flex-col items-center text-center gap-4 relative z-10">
-                  <div className={`bg-white p-4 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                  <div className={`bg-[#faf9f5] p-4 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm`}>
                     <Icon className={`w-6 h-6 sm:w-8 sm:h-8 ${quality.iconColor}`} />
                   </div>
                   <h3 className="text-sm sm:text-base md:text-lg font-bold text-[#222222] mb-0">

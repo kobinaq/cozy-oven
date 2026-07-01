@@ -258,20 +258,20 @@ export default function EmailMarketingPage() {
     <AdminLayout>
       <div className="space-y-6">
         {error && (
-          <div className="fixed top-4 right-4 z-50 rounded-lg bg-red-500 px-6 py-3 text-white shadow-lg">
+          <div className="fixed top-4 right-4 z-50 rounded-lg bg-red-500 px-6 py-3 text-[#faf9f5] shadow-lg">
             {error}
           </div>
         )}
         {success && (
-          <div className="fixed top-4 right-4 z-50 rounded-lg bg-green-500 px-6 py-3 text-white shadow-lg">
+          <div className="fixed top-4 right-4 z-50 rounded-lg bg-green-500 px-6 py-3 text-[#faf9f5] shadow-lg">
             {success}
           </div>
         )}
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Email Marketing</h1>
-            <p className="mt-1 text-sm text-gray-600">
+            <h1 className="text-2xl font-bold text-[#222222] sm:text-3xl">Email Marketing</h1>
+            <p className="mt-1 text-sm text-[#5d6043]">
               Send Resend campaigns to selected customers and subscribers.
             </p>
           </div>
@@ -280,7 +280,7 @@ export default function EmailMarketingPage() {
               fetchRecipients();
               fetchCampaigns();
             }}
-            className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+            className="inline-flex items-center justify-center gap-2 rounded-lg border border-[#b9aca2] bg-[#faf9f5] px-4 py-2 text-sm font-semibold text-[#5d6043] hover:bg-[#faf9f5]"
           >
             <RefreshCw className="h-4 w-4" />
             Refresh
@@ -288,14 +288,14 @@ export default function EmailMarketingPage() {
         </div>
 
         <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(360px,0.9fr)]">
-          <section className="rounded-lg bg-white p-6 shadow-sm">
+          <section className="rounded-lg bg-[#faf9f5] p-6 shadow-sm">
             <div className="mb-5 flex flex-col gap-4">
               <div className="min-w-0">
-                <h2 className="flex items-center gap-2 text-lg font-bold text-gray-900">
+                <h2 className="flex items-center gap-2 text-lg font-bold text-[#222222]">
                   <Users className="h-5 w-5" />
                   Recipients
                 </h2>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-[#5d6043]">
                   {selectedRecipients.length} selected from {recipients.length} available
                 </p>
               </div>
@@ -303,19 +303,19 @@ export default function EmailMarketingPage() {
                 <select
                   value={sourceFilter}
                   onChange={(event) => setSourceFilter(event.target.value as RecipientSourceFilter)}
-                  className="w-full min-w-0 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20"
+                  className="w-full min-w-0 rounded-lg border border-[#b9aca2] px-3 py-2 text-sm focus:border-[#5d6043] focus:outline-none focus:ring-2 focus:ring-[#5d6043]/20"
                 >
                   <option value="all">Customers + subscribers</option>
                   <option value="customers">Customers only</option>
                   <option value="subscribers">Subscribers only</option>
                 </select>
                 <div className="relative min-w-0">
-                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#b9aca2]" />
                   <input
                     value={searchQuery}
                     onChange={(event) => setSearchQuery(event.target.value)}
                     placeholder="Search recipients..."
-                    className="w-full min-w-0 rounded-lg border border-gray-300 py-2 pl-9 pr-3 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20"
+                    className="w-full min-w-0 rounded-lg border border-[#b9aca2] py-2 pl-9 pr-3 text-sm focus:border-[#5d6043] focus:outline-none focus:ring-2 focus:ring-[#5d6043]/20"
                   />
                 </div>
               </div>
@@ -325,7 +325,7 @@ export default function EmailMarketingPage() {
               <button
                 onClick={toggleAllFiltered}
                 disabled={filteredRecipients.length === 0}
-                className="inline-flex items-center gap-2 rounded-lg bg-[#2A2C22] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1a1c12] disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-lg bg-[#5d6043] px-4 py-2 text-sm font-semibold text-[#faf9f5] hover:bg-[#222222] disabled:opacity-50"
               >
                 {allFilteredSelected ? <CheckSquare className="h-4 w-4" /> : <Square className="h-4 w-4" />}
                 {allFilteredSelected ? "Unselect visible" : "Select visible"}
@@ -333,21 +333,21 @@ export default function EmailMarketingPage() {
               <button
                 onClick={() => setSelectedRecipients([])}
                 disabled={selectedRecipients.length === 0}
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-lg border border-[#b9aca2] px-4 py-2 text-sm font-semibold text-[#5d6043] hover:bg-[#faf9f5] disabled:opacity-50"
               >
                 <Trash2 className="h-4 w-4" />
                 Clear selected
               </button>
             </div>
 
-            <div className="max-h-[520px] overflow-y-auto rounded-lg border border-gray-200">
+            <div className="max-h-[520px] overflow-y-auto rounded-lg border border-[#b9aca2]/60">
               {loadingRecipients ? (
-                <div className="flex items-center justify-center gap-2 p-10 text-gray-500">
+                <div className="flex items-center justify-center gap-2 p-10 text-[#5d6043]">
                   <Loader2 className="h-5 w-5 animate-spin" />
                   Loading recipients...
                 </div>
               ) : filteredRecipients.length === 0 ? (
-                <div className="p-10 text-center text-sm text-gray-500">No recipients found.</div>
+                <div className="p-10 text-center text-sm text-[#5d6043]">No recipients found.</div>
               ) : (
                 filteredRecipients.map((recipient) => {
                   const isSelected = selectedEmailSet.has(recipientKey(recipient));
@@ -355,18 +355,18 @@ export default function EmailMarketingPage() {
                     <button
                       key={`${recipient.source}-${recipient.email}`}
                       onClick={() => toggleRecipient(recipient)}
-                      className="flex w-full items-center gap-3 border-b border-gray-100 px-4 py-3 text-left last:border-b-0 hover:bg-gray-50"
+                      className="flex w-full items-center gap-3 border-b border-[#b9aca2]/40 px-4 py-3 text-left last:border-b-0 hover:bg-[#faf9f5]"
                     >
                       {isSelected ? (
-                        <CheckSquare className="h-5 w-5 text-[#2A2C22]" />
+                        <CheckSquare className="h-5 w-5 text-[#5d6043]" />
                       ) : (
-                        <Square className="h-5 w-5 text-gray-400" />
+                        <Square className="h-5 w-5 text-[#b9aca2]" />
                       )}
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-semibold text-gray-900">{recipient.name}</p>
-                        <p className="truncate text-xs text-gray-500">{recipient.email}</p>
+                        <p className="truncate text-sm font-semibold text-[#222222]">{recipient.name}</p>
+                        <p className="truncate text-xs text-[#5d6043]">{recipient.email}</p>
                       </div>
-                      <span className="rounded-full bg-gray-100 px-2 py-1 text-xs capitalize text-gray-600">
+                      <span className="rounded-full bg-[#b9aca2] px-2 py-1 text-xs capitalize text-[#5d6043]">
                         {recipient.source}
                       </span>
                     </button>
@@ -377,14 +377,14 @@ export default function EmailMarketingPage() {
           </section>
 
           <section className="space-y-6">
-            <div className="rounded-lg bg-white p-6 shadow-sm">
-              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900">
+            <div className="rounded-lg bg-[#faf9f5] p-6 shadow-sm">
+              <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-[#222222]">
                 <Mail className="h-5 w-5" />
                 Compose Campaign
               </h2>
               <div className="space-y-4">
-                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <div className="rounded-lg border border-[#b9aca2]/60 bg-[#faf9f5] p-4">
+                  <label className="mb-2 block text-sm font-semibold text-[#5d6043]">
                     Add manual recipients
                   </label>
                   <textarea
@@ -392,7 +392,7 @@ export default function EmailMarketingPage() {
                     onChange={(event) => setManualEmails(event.target.value)}
                     rows={3}
                     placeholder="name@example.com, second@example.com"
-                    className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20"
+                    className="w-full resize-none rounded-lg border border-[#b9aca2] px-4 py-3 text-sm focus:border-[#5d6043] focus:outline-none focus:ring-2 focus:ring-[#5d6043]/20"
                   />
                   {invalidManualEmails.length > 0 && (
                     <p className="mt-2 text-xs text-red-600">
@@ -402,38 +402,38 @@ export default function EmailMarketingPage() {
                   <button
                     type="button"
                     onClick={handleAddManualRecipients}
-                    className="mt-3 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50"
+                    className="mt-3 rounded-lg border border-[#b9aca2] bg-[#faf9f5] px-4 py-2 text-sm font-semibold text-[#5d6043] hover:bg-[#faf9f5]"
                   >
                     Add emails to recipients
                   </button>
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">Subject</label>
+                  <label className="mb-2 block text-sm font-semibold text-[#5d6043]">Subject</label>
                   <input
                     value={subject}
                     onChange={(event) => setSubject(event.target.value)}
                     placeholder="Fresh treats from Cozy Oven"
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20"
+                    className="w-full rounded-lg border border-[#b9aca2] px-4 py-3 text-sm focus:border-[#5d6043] focus:outline-none focus:ring-2 focus:ring-[#5d6043]/20"
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">Message</label>
+                  <label className="mb-2 block text-sm font-semibold text-[#5d6043]">Message</label>
                   <textarea
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
                     rows={9}
                     placeholder="Write your message..."
-                    className="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-[#2A2C22] focus:outline-none focus:ring-2 focus:ring-[#2A2C22]/20"
+                    className="w-full resize-none rounded-lg border border-[#b9aca2] px-4 py-3 text-sm focus:border-[#5d6043] focus:outline-none focus:ring-2 focus:ring-[#5d6043]/20"
                   />
                 </div>
-                <div className="rounded-lg bg-gray-50 p-4 text-sm text-gray-700">
+                <div className="rounded-lg bg-[#faf9f5] p-4 text-sm text-[#5d6043]">
                   Sending to <span className="font-bold">{selectedRecipients.length}</span> recipient
                   {selectedRecipients.length === 1 ? "" : "s"}.
                 </div>
                 <button
                   onClick={handleSendCampaign}
                   disabled={sending || selectedRecipients.length === 0}
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#2A2C22] px-4 py-3 font-semibold text-white hover:bg-[#1a1c12] disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#5d6043] px-4 py-3 font-semibold text-[#faf9f5] hover:bg-[#222222] disabled:opacity-50"
                 >
                   {sending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
                   {sending ? "Sending..." : "Send Campaign"}
@@ -441,34 +441,34 @@ export default function EmailMarketingPage() {
               </div>
             </div>
 
-            <div className="rounded-lg bg-white p-6 shadow-sm">
-              <h2 className="mb-4 text-lg font-bold text-gray-900">Campaign History</h2>
+            <div className="rounded-lg bg-[#faf9f5] p-6 shadow-sm">
+              <h2 className="mb-4 text-lg font-bold text-[#222222]">Campaign History</h2>
               {loadingCampaigns ? (
-                <div className="flex items-center gap-2 text-sm text-gray-500">
+                <div className="flex items-center gap-2 text-sm text-[#5d6043]">
                   <Loader2 className="h-4 w-4 animate-spin" />
                   Loading campaigns...
                 </div>
               ) : campaigns.length === 0 ? (
-                <p className="text-sm text-gray-500">No campaigns sent yet.</p>
+                <p className="text-sm text-[#5d6043]">No campaigns sent yet.</p>
               ) : (
                 <div className="space-y-3">
                   {campaigns.map((campaign) => (
-                    <div key={campaign._id} className="rounded-lg border border-gray-200 p-4">
+                    <div key={campaign._id} className="rounded-lg border border-[#b9aca2]/60 p-4">
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
-                          <p className="truncate font-semibold text-gray-900">{campaign.subject}</p>
-                          <p className="text-xs text-gray-500">
+                          <p className="truncate font-semibold text-[#222222]">{campaign.subject}</p>
+                          <p className="text-xs text-[#5d6043]">
                             {new Date(campaign.createdAt).toLocaleString()}
                           </p>
                         </div>
-                        <span className="rounded-full bg-gray-100 px-2 py-1 text-xs capitalize text-gray-700">
+                        <span className="rounded-full bg-[#b9aca2] px-2 py-1 text-xs capitalize text-[#5d6043]">
                           {campaign.status}
                         </span>
                       </div>
                       <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
-                        <div className="rounded bg-gray-50 p-2">
-                          <p className="font-bold text-gray-900">{campaign.recipientCount ?? campaign.recipients?.length ?? 0}</p>
-                          <p className="text-gray-500">Recipients</p>
+                        <div className="rounded bg-[#faf9f5] p-2">
+                          <p className="font-bold text-[#222222]">{campaign.recipientCount ?? campaign.recipients?.length ?? 0}</p>
+                          <p className="text-[#5d6043]">Recipients</p>
                         </div>
                         <div className="rounded bg-green-50 p-2">
                           <p className="font-bold text-green-700">{campaign.sentCount}</p>

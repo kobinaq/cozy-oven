@@ -174,14 +174,14 @@ export default function ProductForm({
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
       {/* Product Name */}
       <div className="order-1">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label className="block text-sm font-semibold text-[#5d6043] mb-2">
           Product Name {!isEdit && "*"}
         </label>
         <input
           type="text"
           value={productName}
           onChange={(e) => onProductNameChange(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+          className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
           placeholder="Enter product name"
           required={!isEdit}
         />
@@ -190,14 +190,14 @@ export default function ProductForm({
       {/* Category and Price */}
       <div className="order-2 grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-[#5d6043] mb-2">
             Category {!isEdit && "*"}
           </label>
           <input
             list="categories-list"
             value={productCategory}
             onChange={(e) => onProductCategoryChange(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+            className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
             placeholder="Select existing or type new category"
             required={!isEdit}
           />
@@ -209,7 +209,7 @@ export default function ProductForm({
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-[#5d6043] mb-2">
             Price (GHS) {!isEdit && "*"}
           </label>
           <input
@@ -218,7 +218,7 @@ export default function ProductForm({
             min="0"
             value={price || ""}
             onChange={(e) => onPriceChange(parseFloat(e.target.value) || 0)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+            className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
             placeholder="0.00"
             required={!isEdit}
           />
@@ -227,13 +227,13 @@ export default function ProductForm({
 
       {/* Product Details */}
       <div className="order-4">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label className="block text-sm font-semibold text-[#5d6043] mb-2">
           Product Details {!isEdit && "*"}
         </label>
         <textarea
           value={productDetails}
           onChange={(e) => onProductDetailsChange(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+          className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
           placeholder="Enter product description"
           rows={3}
           required={!isEdit}
@@ -242,11 +242,11 @@ export default function ProductForm({
 
       {/* Image Upload */}
       <div className="order-5">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label className="block text-sm font-semibold text-[#5d6043] mb-2">
           Product Images (Select multiple)
         </label>
         <div className="flex items-center gap-4">
-          <label className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+          <label className="flex items-center gap-2 px-4 py-2 border border-[#b9aca2] rounded-lg cursor-pointer hover:bg-[#faf9f5]">
             <Upload className="w-4 h-4" />
             {isEdit ? "Add More Images" : "Choose Images"}
             <input
@@ -265,13 +265,13 @@ export default function ProductForm({
             {/* Existing server images */}
             {isEdit && existingImageCount > 0 && (
               <>
-                <p className="text-xs font-medium text-gray-500 mb-2">Current Images</p>
+                <p className="text-xs font-medium text-[#5d6043] mb-2">Current Images</p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
                   {(Array.isArray(imagePreview) ? imagePreview : [imagePreview])
                     .slice(0, existingImageCount)
                     .filter(p => p && typeof p === 'string' && p.trim() !== '')
                     .map((preview, index) => (
-                      <div key={`existing-${index}`} className="relative group aspect-square rounded-lg overflow-hidden border border-gray-200">
+                      <div key={`existing-${index}`} className="relative group aspect-square rounded-lg overflow-hidden border border-[#b9aca2]/60">
                         <Image
                           src={preview}
                           alt={`Current ${index + 1}`}
@@ -281,13 +281,13 @@ export default function ProductForm({
                         <button
                           type="button"
                           onClick={() => onRemoveImage && onRemoveImage(index)}
-                          className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                          className="absolute top-1 right-1 p-1 bg-red-500 text-[#faf9f5] rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                           aria-label="Remove image"
                         >
                           <X className="w-4 h-4" />
                         </button>
                         {index === 0 && (
-                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] py-1 text-center font-bold">
+                          <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-[#faf9f5] text-[10px] py-1 text-center font-bold">
                             MAIN THUMBNAIL
                           </div>
                         )}
@@ -320,13 +320,13 @@ export default function ProductForm({
                           <button
                             type="button"
                             onClick={() => onRemoveImage && onRemoveImage(actualIndex)}
-                            className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                            className="absolute top-1 right-1 p-1 bg-red-500 text-[#faf9f5] rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                             aria-label="Remove image"
                           >
                             <X className="w-4 h-4" />
                           </button>
                           {!isEdit && index === 0 && (
-                            <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-[10px] py-1 text-center font-bold">
+                            <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-[#faf9f5] text-[10px] py-1 text-center font-bold">
                               MAIN THUMBNAIL
                             </div>
                           )}
@@ -343,7 +343,7 @@ export default function ProductForm({
 
       {/* Select Options */}
       <div className="order-6">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label className="block text-sm font-semibold text-[#5d6043] mb-2">
           Select Options (e.g., Size variations)
         </label>
         <div className="space-y-2">
@@ -352,7 +352,7 @@ export default function ProductForm({
               type="text"
               value={selectOptionInput.label}
               onChange={(e) => onSelectOptionInputChange("label", e.target.value)}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+              className="flex-1 px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               placeholder="Option label (e.g., Large)"
             />
             <input
@@ -360,20 +360,20 @@ export default function ProductForm({
               step="0.01"
               value={selectOptionInput.additionalPrice || ""}
               onChange={(e) => onSelectOptionInputChange("additionalPrice", parseFloat(e.target.value) || 0)}
-              className="w-32 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+              className="w-32 px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               placeholder="+ Price"
             />
             <button
               type="button"
               onClick={onAddSelectOption}
-              className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"
+              className="px-4 py-2 bg-[#b9aca2] rounded-lg hover:bg-[#b9aca2]"
             >
               <Plus className="w-5 h-5" />
             </button>
           </div>
           {selectOptions.map((option, index) => (
-            <div key={index} className="flex items-center justify-between bg-gray-50 p-2 rounded-lg gap-2">
-              <span className={`text-sm flex-1 ${option.isAvailable === false ? "text-gray-400 line-through" : ""}`}>
+            <div key={index} className="flex items-center justify-between bg-[#faf9f5] p-2 rounded-lg gap-2">
+              <span className={`text-sm flex-1 ${option.isAvailable === false ? "text-[#b9aca2] line-through" : ""}`}>
                 {option.label} (+GHS {option.additionalPrice.toFixed(2)})
               </span>
               {onToggleOptionAvailable && (
@@ -381,12 +381,12 @@ export default function ProductForm({
                   type="button"
                   onClick={() => onToggleOptionAvailable(index)}
                   className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                    option.isAvailable !== false ? "bg-green-500" : "bg-gray-300"
+                    option.isAvailable !== false ? "bg-green-500" : "bg-[#b9aca2]"
                   }`}
                   title={option.isAvailable !== false ? "Mark as unavailable" : "Mark as available"}
                 >
                   <span
-                    className={`inline-block h-3 w-3 transform rounded-full bg-white transition-transform ${
+                    className={`inline-block h-3 w-3 transform rounded-full bg-[#faf9f5] transition-transform ${
                       option.isAvailable !== false ? "translate-x-5" : "translate-x-1"
                     }`}
                   />
@@ -405,17 +405,17 @@ export default function ProductForm({
       </div>
 
       {isPackageCategory && (
-        <div className="order-3 rounded-xl border border-gray-200 bg-gray-50 p-4 space-y-4">
+        <div className="order-3 rounded-xl border border-[#b9aca2]/60 bg-[#faf9f5] p-4 space-y-4">
           <div>
-            <h3 className="text-sm font-bold text-gray-900">Package Builder</h3>
-            <p className="text-xs text-gray-600 mt-1">
+            <h3 className="text-sm font-bold text-[#222222]">Package Builder</h3>
+            <p className="text-xs text-[#5d6043] mt-1">
               Customers will choose exactly the required number from these available options.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                 Selection Label
               </label>
               <input
@@ -427,12 +427,12 @@ export default function ProductForm({
                     selectionLabel: e.target.value,
                   })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                 placeholder="Choose your flavours"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                 Required Choices
               </label>
               <input
@@ -445,16 +445,16 @@ export default function ProductForm({
                     requiredSelectionCount: Math.max(1, parseInt(e.target.value, 10) || 1),
                   })
                 }
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               />
             </div>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-white p-3 space-y-3">
+          <div className="rounded-lg border border-[#b9aca2]/60 bg-[#faf9f5] p-3 space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <h4 className="text-sm font-bold text-gray-900">Package Groups</h4>
-                <p className="text-xs text-gray-600">
+                <h4 className="text-sm font-bold text-[#222222]">Package Groups</h4>
+                <p className="text-xs text-[#5d6043]">
                   Use fixed groups for included items and selection groups for customer choices.
                 </p>
               </div>
@@ -462,14 +462,14 @@ export default function ProductForm({
                 <button
                   type="button"
                   onClick={() => addPackageGroup("selection")}
-                  className="px-3 py-2 text-sm bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12]"
+                  className="px-3 py-2 text-sm bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222]"
                 >
                   + Selection
                 </button>
                 <button
                   type="button"
                   onClick={() => addPackageGroup("fixed")}
-                  className="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="px-3 py-2 text-sm border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5]"
                 >
                   + Fixed
                 </button>
@@ -477,19 +477,19 @@ export default function ProductForm({
             </div>
 
             {(packageConfig.groups || []).map((group, groupIndex) => (
-              <div key={group.id || groupIndex} className="rounded-lg border border-gray-200 p-3 space-y-3">
+              <div key={group.id || groupIndex} className="rounded-lg border border-[#b9aca2]/60 p-3 space-y-3">
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_auto_auto] gap-2 items-end">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Group Label</label>
+                    <label className="block text-xs font-semibold text-[#5d6043] mb-1">Group Label</label>
                     <input
                       type="text"
                       value={group.label}
                       onChange={(e) => updatePackageGroup(groupIndex, { label: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      className="w-full px-3 py-2 border border-[#b9aca2] rounded-lg text-sm"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-600 mb-1">Type</label>
+                    <label className="block text-xs font-semibold text-[#5d6043] mb-1">Type</label>
                     <select
                       value={group.type}
                       onChange={(e) =>
@@ -498,7 +498,7 @@ export default function ProductForm({
                           requiredSelectionCount: e.target.value === "fixed" ? 0 : Math.max(1, group.requiredSelectionCount || 1),
                         })
                       }
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                      className="w-full px-3 py-2 border border-[#b9aca2] rounded-lg text-sm"
                     >
                       <option value="selection">Customer chooses</option>
                       <option value="fixed">Fixed included</option>
@@ -506,7 +506,7 @@ export default function ProductForm({
                   </div>
                   {group.type === "selection" && (
                     <div>
-                      <label className="block text-xs font-semibold text-gray-600 mb-1">Required</label>
+                      <label className="block text-xs font-semibold text-[#5d6043] mb-1">Required</label>
                       <input
                         type="number"
                         min="1"
@@ -516,7 +516,7 @@ export default function ProductForm({
                             requiredSelectionCount: Math.max(1, parseInt(e.target.value, 10) || 1),
                           })
                         }
-                        className="w-24 px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        className="w-24 px-3 py-2 border border-[#b9aca2] rounded-lg text-sm"
                       />
                     </div>
                   )}
@@ -531,7 +531,7 @@ export default function ProductForm({
                 </div>
 
                 {group.type === "selection" && (
-                  <label className="flex items-center gap-2 text-sm text-gray-700">
+                  <label className="flex items-center gap-2 text-sm text-[#5d6043]">
                     <input
                       type="checkbox"
                       checked={group.allowRepeats !== false}
@@ -548,14 +548,14 @@ export default function ProductForm({
                         type="text"
                         value={option.label}
                         onChange={(e) => updateGroupOption(groupIndex, optionIndex, { label: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        className="px-3 py-2 border border-[#b9aca2] rounded-lg text-sm"
                         placeholder="Option label"
                       />
                       <input
                         type="text"
                         value={option.description || ""}
                         onChange={(e) => updateGroupOption(groupIndex, optionIndex, { description: e.target.value })}
-                        className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        className="px-3 py-2 border border-[#b9aca2] rounded-lg text-sm"
                         placeholder="Description"
                       />
                       <input
@@ -567,7 +567,7 @@ export default function ProductForm({
                             quantity: Math.max(1, parseInt(e.target.value, 10) || 1),
                           })
                         }
-                        className="px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                        className="px-3 py-2 border border-[#b9aca2] rounded-lg text-sm"
                         title="Quantity"
                       />
                       <button
@@ -582,7 +582,7 @@ export default function ProductForm({
                   <button
                     type="button"
                     onClick={() => addOptionToGroup(groupIndex)}
-                    className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
+                    className="inline-flex items-center gap-2 px-3 py-2 text-sm border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5]"
                   >
                     <Plus className="w-4 h-4" />
                     Add option
@@ -599,14 +599,14 @@ export default function ProductForm({
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex-1 px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors disabled:opacity-50"
+          className="flex-1 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors disabled:opacity-50"
         >
           {loading ? `${isEdit ? "Updating" : "Adding"}...` : submitLabel}
         </button>

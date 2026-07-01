@@ -47,10 +47,10 @@ export default function EditorialProductCard({ product, compact = false }: Edito
   };
 
   return (
-    <article className="prototype-card group overflow-hidden rounded-[36px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/80 shadow-[0_12px_40px_rgba(48,23,15,0.10)]">
+    <article className="prototype-card group overflow-hidden rounded-[36px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/80 shadow-[0_12px_40px_rgba(34,34,34,0.10)]">
       <Link href={`/product/${product.id}`} className="block">
-        <div className={`relative overflow-hidden bg-[#F7D38E] ${compact ? "aspect-[4/3]" : "aspect-[5/4]"}`}>
-          <div className="absolute bottom-5 left-1/2 h-14 w-4/5 -translate-x-1/2 rounded-full bg-[#30170F]/20 blur-xl transition duration-500 group-hover:scale-110" />
+        <div className={`relative overflow-hidden bg-[#b9aca2] ${compact ? "aspect-[4/3]" : "aspect-[5/4]"}`}>
+          <div className="absolute bottom-5 left-1/2 h-14 w-4/5 -translate-x-1/2 rounded-full bg-[#222222]/20 blur-xl transition duration-500 group-hover:scale-110" />
           <Image
             src={product.thumbnail || "/gift.png"}
             alt={product.productName}
@@ -59,28 +59,28 @@ export default function EditorialProductCard({ product, compact = false }: Edito
             sizes="(max-width: 768px) 50vw, 25vw"
           />
           {unavailable && (
-            <span className="absolute left-4 top-4 rounded-full bg-[#30170F] px-3 py-1 text-xs font-black uppercase tracking-[0.08em] text-[#FFF8EC]">
+            <span className="absolute left-4 top-4 rounded-full bg-[#222222] px-3 py-1 text-xs font-black uppercase tracking-[0.08em] text-[#faf9f5]">
               Sold out
             </span>
           )}
         </div>
       </Link>
       <div className={compact ? "p-4" : "p-5"}>
-        <p className="mb-2 text-[11px] font-black uppercase tracking-[0.16em] text-[#C97D35]">
+        <p className="mb-2 text-[11px] font-black uppercase tracking-[0.16em] text-[#bd6325]">
           {product.productCategory}
         </p>
         <Link href={`/product/${product.id}`}>
-          <h3 className="text-xl font-black leading-tight tracking-[-0.035em] text-[#30170F] transition-colors group-hover:text-[#C97D35]">
+          <h3 className="text-xl font-black leading-tight tracking-[-0.035em] text-[#222222] transition-colors group-hover:text-[#bd6325]">
             {product.productName}
           </h3>
         </Link>
         {product.productDetails && (
-          <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#80634F]">
+          <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#5d6043]">
             {product.productDetails}
           </p>
         )}
         <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-black text-[#5B3322]">GHS {price.toFixed(2)}</p>
+          <p className="font-black text-[#5d6043]">GHS {price.toFixed(2)}</p>
           {isPackage ? (
             <Link href={`/product/${product.id}`} className="editorial-button-outline px-4 py-2 text-sm">
               Build box
@@ -90,7 +90,7 @@ export default function EditorialProductCard({ product, compact = false }: Edito
               type="button"
               onClick={handleAddToCart}
               disabled={unavailable}
-              className="editorial-button px-4 py-2 text-sm disabled:cursor-not-allowed disabled:bg-[#CAB9A5]"
+              className="editorial-button px-4 py-2 text-sm disabled:cursor-not-allowed disabled:bg-[#b9aca2]"
             >
               {unavailable ? "Unavailable" : "Add to cart"}
             </button>

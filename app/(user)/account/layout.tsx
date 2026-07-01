@@ -46,12 +46,12 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-50 pt-24 pb-16">
+      <div className="min-h-screen bg-[#faf9f5] pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-6">
             {/* Sidebar */}
             <aside className="md:w-64 flex-shrink-0">
-              <div className="bg-white rounded-lg shadow-sm p-4 sticky top-28">
+              <div className="bg-[#faf9f5] rounded-lg shadow-sm p-4 sticky top-28">
                 <nav className="space-y-1">
                   {sidebarLinks.map((link) => {
                     const Icon = link.icon;
@@ -62,8 +62,8 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
                         href={link.href}
                         className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                           isActive
-                            ? "bg-[#2A2C22] text-white"
-                            : "text-gray-700 hover:bg-gray-100"
+                            ? "bg-[#5d6043] text-[#faf9f5]"
+                            : "text-[#5d6043] hover:bg-[#b9aca2]"
                         }`}
                       >
                         <Icon className="w-5 h-5" />
@@ -84,7 +84,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
 
             {/* Main Content */}
             <main className="flex-1">
-              <div className="bg-white rounded-lg shadow-sm p-6 md:p-8">
+              <div className="bg-[#faf9f5] rounded-lg shadow-sm p-6 md:p-8">
                 {children}
               </div>
             </main>

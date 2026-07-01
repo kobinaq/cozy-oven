@@ -11,28 +11,28 @@
 
 body {
   background:
-    radial-gradient(circle at 10% 0%, rgba(243, 198, 103, 0.45), transparent 32rem),
-    radial-gradient(circle at 95% 14%, rgba(201, 125, 53, 0.18), transparent 28rem),
-    #FFF8EC;
-  color: #30170F;
+    radial-gradient(circle at 10% 0%, rgba(185, 172, 162, 0.45), transparent 32rem),
+    radial-gradient(circle at 95% 14%, rgba(115, 118, 90, 0.2), transparent 28rem),
+    #faf9f5;
+  color: #222222;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   min-width: 320px;
 }
 
 :root {
-  --cream: #FFF8EC;
-  --cream-2: #F7EAD6;
-  --cream-3: #F4DFBD;
-  --ink: #30170F;
-  --ink-soft: #5B3322;
-  --accent: #C97D35;
-  --banana: #F3C667;
-  --line: rgba(48, 23, 15, 0.1);
-  --paper: #FFFDF7;
-  --deep: #30170F;
-  --muted: #80634F;
-  --shadow: 0 26px 80px rgba(48, 23, 15, 0.16);
-  --soft-shadow: 0 12px 40px rgba(48, 23, 15, 0.1);
+  --cream: #faf9f5;
+  --cream-2: #b9aca2;
+  --cream-3: #b9aca2;
+  --ink: #222222;
+  --ink-soft: #5d6043;
+  --accent: #bd6325;
+  --banana: #b9aca2;
+  --line: rgba(34, 34, 34, 0.1);
+  --paper: #faf9f5;
+  --deep: #222222;
+  --muted: #5d6043;
+  --shadow: 0 26px 80px rgba(34, 34, 34, 0.16);
+  --soft-shadow: 0 12px 40px rgba(34, 34, 34, 0.1);
   --serif: Georgia, "Times New Roman", serif;
 }
 
@@ -64,12 +64,12 @@ body {
   background: var(--deep);
   color: var(--cream);
   font-weight: 900;
-  box-shadow: 0 16px 30px rgba(48, 23, 15, 0.18);
+  box-shadow: 0 16px 30px rgba(34, 34, 34, 0.18);
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
 .editorial-button:hover {
-  background: #1F100B;
+  background: #222222;
   box-shadow: var(--shadow);
   transform: translateY(-2px);
 }
@@ -79,8 +79,8 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  border: 1px solid rgba(48, 23, 15, 0.12);
-  background: rgba(255, 253, 247, 0.8);
+  border: 1px solid rgba(34, 34, 34, 0.12);
+  background: rgba(250, 249, 245, 0.8);
   color: var(--ink);
   font-weight: 900;
   box-shadow: var(--soft-shadow);
@@ -95,8 +95,8 @@ body {
 
 .editorial-shell {
   background:
-    radial-gradient(circle at 10% 0%, rgba(243, 198, 103, 0.45), transparent 32rem),
-    radial-gradient(circle at 95% 14%, rgba(201, 125, 53, 0.18), transparent 28rem),
+    radial-gradient(circle at 10% 0%, rgba(185, 172, 162, 0.45), transparent 32rem),
+    radial-gradient(circle at 95% 14%, rgba(115, 118, 90, 0.2), transparent 28rem),
     var(--cream);
   color: var(--ink);
 }
@@ -111,9 +111,9 @@ body {
 
 .editorial-input {
   width: 100%;
-  border: 1px solid rgba(48, 23, 15, 0.12);
+  border: 1px solid rgba(34, 34, 34, 0.12);
   border-radius: 22px;
-  background: rgba(255, 253, 247, 0.86);
+  background: rgba(250, 249, 245, 0.86);
   color: var(--ink);
   outline: none;
   transition: border 180ms ease, box-shadow 180ms ease, background 180ms ease;
@@ -122,14 +122,14 @@ body {
 .editorial-input:focus {
   border-color: var(--accent);
   background: var(--paper);
-  box-shadow: 0 0 0 4px rgba(201, 125, 53, 0.14);
+  box-shadow: 0 0 0 4px rgba(189, 99, 37, 0.14);
 }
 
 .delivery-ribbon {
   overflow: hidden;
   white-space: nowrap;
   background: var(--deep);
-  color: #FFE8B0;
+  color: #faf9f5;
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -183,7 +183,7 @@ body {
 }
 
 .soft-glow {
-  background: radial-gradient(circle, rgba(243, 198, 103, 0.46), rgba(201, 125, 53, 0.12) 48%, transparent 72%);
+  background: radial-gradient(circle, rgba(185, 172, 162, 0.46), rgba(115, 118, 90, 0.14) 48%, transparent 72%);
   filter: blur(10px);
 }
 

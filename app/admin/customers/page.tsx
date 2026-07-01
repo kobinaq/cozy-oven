@@ -134,34 +134,34 @@ export default function CustomersPage() {
       <div className="space-y-6">
         {/* Header - Responsive text sizing for mobile */}
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Customer Management</h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">Manage and view all your customers</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-[#222222]">Customer Management</h1>
+          <p className="text-sm sm:text-base text-[#5d6043] mt-1">Manage and view all your customers</p>
         </div>
 
         {/* Stats Cards - Better responsive grid and text sizing */}
         {loading ? (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#5d6043] animate-spin" />
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
-            <div className="bg-white rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-gray-100">
-              <p className="text-xs sm:text-sm text-gray-600 font-medium">Total Customers</p>
-              <p className="text-xl sm:text-2xl font-bold text-gray-900 mt-1">{overview?.totalCustomers || 0}</p>
+            <div className="bg-[#faf9f5] rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-[#b9aca2]/40">
+              <p className="text-xs sm:text-sm text-[#5d6043] font-medium">Total Customers</p>
+              <p className="text-xl sm:text-2xl font-bold text-[#222222] mt-1">{overview?.totalCustomers || 0}</p>
             </div>
-            <div className="bg-white rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-gray-100">
-              <p className="text-xs sm:text-sm text-gray-600 font-medium">Active Customers</p>
+            <div className="bg-[#faf9f5] rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-[#b9aca2]/40">
+              <p className="text-xs sm:text-sm text-[#5d6043] font-medium">Active Customers</p>
               <p className="text-xl sm:text-2xl font-bold text-green-600 mt-1">
                 {overview?.activeCustomers || 0}
               </p>
             </div>
-            <div className="bg-white rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-gray-100">
-              <p className="text-xs sm:text-sm text-gray-600 font-medium">New This Month</p>
+            <div className="bg-[#faf9f5] rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-[#b9aca2]/40">
+              <p className="text-xs sm:text-sm text-[#5d6043] font-medium">New This Month</p>
               <p className="text-xl sm:text-2xl font-bold text-blue-600 mt-1">{overview?.newThisMonth || 0}</p>
             </div>
-            <div className="bg-white rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-gray-100">
-              <p className="text-xs sm:text-sm text-gray-600 font-medium">Total Revenue</p>
-              <p className="text-xl sm:text-2xl font-bold text-[#2A2C22] mt-1 line-clamp-1">
+            <div className="bg-[#faf9f5] rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-[#b9aca2]/40">
+              <p className="text-xs sm:text-sm text-[#5d6043] font-medium">Total Revenue</p>
+              <p className="text-xl sm:text-2xl font-bold text-[#5d6043] mt-1 line-clamp-1">
                 GHS {overview?.totalRevenue?.toFixed(2) || "0.00"}
               </p>
             </div>
@@ -169,11 +169,11 @@ export default function CustomersPage() {
         )}
 
         {/* Search and Filters - Better mobile layout with stacked inputs */}
-        <div className="bg-white rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-gray-100">
+        <div className="bg-[#faf9f5] rounded-lg sm:rounded-xl shadow-sm p-3 sm:p-4 border border-[#b9aca2]/40">
           <div className="flex flex-col gap-3 sm:gap-4">
             {/* Search */}
             <div className="w-full relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 sm:w-5 h-4 sm:h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 sm:w-5 h-4 sm:h-5 text-[#b9aca2]" />
               <input
                 type="text"
                 value={searchQuery}
@@ -184,17 +184,17 @@ export default function CustomersPage() {
                   }
                 }}
                 placeholder="Search by name, email..."
-                className="w-full pl-10 pr-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 text-sm sm:text-base border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               />
             </div>
 
             {/* Status Filter */}
             <div className="flex items-center gap-2 w-full sm:w-auto">
-              <Filter className="w-4 sm:w-5 h-4 sm:h-5 text-gray-400 shrink-0" />
+              <Filter className="w-4 sm:w-5 h-4 sm:h-5 text-[#b9aca2] shrink-0" />
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value as "all" | "active" | "inactive")}
-                className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 text-sm sm:text-base border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               >
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
@@ -210,30 +210,30 @@ export default function CustomersPage() {
           <div className="md:hidden space-y-3">
             {loading ? (
               <div className="text-center py-8">
-                <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin mx-auto" />
+                <Loader2 className="w-8 h-8 text-[#5d6043] animate-spin mx-auto" />
               </div>
             ) : filteredCustomers.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-gray-500 text-sm">No customers found</p>
+                <p className="text-[#5d6043] text-sm">No customers found</p>
               </div>
             ) : (
               filteredCustomers.map((customer) => (
-                <div key={customer._id} className="bg-white rounded-lg shadow-sm p-4 border border-gray-100">
+                <div key={customer._id} className="bg-[#faf9f5] rounded-lg shadow-sm p-4 border border-[#b9aca2]/40">
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-3 flex-1">
-                      <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold shrink-0">
+                      <div className="w-10 h-10 bg-[#5d6043] rounded-full flex items-center justify-center text-[#faf9f5] font-semibold shrink-0">
                         {customer.fullName?.charAt(0) || "?"}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <p className="font-semibold text-gray-900 text-sm truncate">{customer.fullName || "N/A"}</p>
-                        <p className="text-xs text-gray-500 truncate">{customer.email}</p>
+                        <p className="font-semibold text-[#222222] text-sm truncate">{customer.fullName || "N/A"}</p>
+                        <p className="text-xs text-[#5d6043] truncate">{customer.email}</p>
                       </div>
                     </div>
                     <button
                       onClick={() => setSelectedCustomer(selectedCustomer === customer._id ? null : customer._id)}
-                      className="p-1.5 hover:bg-gray-100 rounded-lg shrink-0"
+                      className="p-1.5 hover:bg-[#b9aca2] rounded-lg shrink-0"
                     >
-                      <MoreVertical className="w-4 h-4 text-gray-400" />
+                      <MoreVertical className="w-4 h-4 text-[#b9aca2]" />
                     </button>
                   </div>
 
@@ -241,7 +241,7 @@ export default function CustomersPage() {
                   <div className="mb-3">
                     <span
                       className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                        customer.isActive ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+                        customer.isActive ? "bg-green-100 text-green-800" : "bg-[#b9aca2] text-[#222222]"
                       }`}
                     >
                       {customer.isActive ? (
@@ -256,36 +256,36 @@ export default function CustomersPage() {
                   {/* Customer Details Grid */}
                   <div className="grid grid-cols-2 gap-3 mb-3 text-xs sm:text-sm">
                     <div>
-                      <p className="text-gray-500">Phone</p>
-                      <p className="font-medium text-gray-900">{customer.phoneNumber}</p>
+                      <p className="text-[#5d6043]">Phone</p>
+                      <p className="font-medium text-[#222222]">{customer.phoneNumber}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Orders</p>
-                      <p className="font-medium text-gray-900">{customer.totalOrders}</p>
+                      <p className="text-[#5d6043]">Orders</p>
+                      <p className="font-medium text-[#222222]">{customer.totalOrders}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Spent</p>
-                      <p className="font-semibold text-[#2A2C22]">GHS {customer.totalSpent.toFixed(2)}</p>
+                      <p className="text-[#5d6043]">Spent</p>
+                      <p className="font-semibold text-[#5d6043]">GHS {customer.totalSpent.toFixed(2)}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Joined</p>
-                      <p className="font-medium text-gray-900">{new Date(customer.createdAt).toLocaleDateString()}</p>
+                      <p className="text-[#5d6043]">Joined</p>
+                      <p className="font-medium text-[#222222]">{new Date(customer.createdAt).toLocaleDateString()}</p>
                     </div>
                   </div>
 
                   {/* Mobile Actions Menu */}
                   {selectedCustomer === customer._id && (
-                    <div className="border-t border-gray-100 pt-3 space-y-2">
+                    <div className="border-t border-[#b9aca2]/40 pt-3 space-y-2">
                       <button 
                         onClick={() => customer._id && handleViewDetails(customer._id)}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[#5d6043] hover:bg-[#faf9f5] rounded-lg"
                       >
                         <Eye className="w-4 h-4" />
                         View Details
                       </button>
                       <button 
                         onClick={() => { if (customer.email) handleSendEmail(customer.email); }}
-                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg"
+                        className="w-full flex items-center gap-2 px-3 py-2 text-sm text-[#5d6043] hover:bg-[#faf9f5] rounded-lg"
                       >
                         <Mail className="w-4 h-4" />
                         Send Email
@@ -305,84 +305,84 @@ export default function CustomersPage() {
           </div>
 
           {/* Desktop Table View (hidden on md and below) */}
-          <div className="hidden md:block bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="hidden md:block bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-[#faf9f5] border-b border-[#b9aca2]/60">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                       Customer
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                       Contact
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                       Orders
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                       Total Spent
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                       Joined
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-[#faf9f5] divide-y divide-[#b9aca2]/60">
                   {loading ? (
                     <tr>
                       <td colSpan={7} className="px-6 py-8 text-center">
-                        <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin mx-auto" />
+                        <Loader2 className="w-8 h-8 text-[#5d6043] animate-spin mx-auto" />
                       </td>
                     </tr>
                   ) : filteredCustomers.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="px-6 py-8 text-center text-gray-500">
+                      <td colSpan={7} className="px-6 py-8 text-center text-[#5d6043]">
                         No customers found
                       </td>
                     </tr>
                   ) : (
                     filteredCustomers.map((customer) => (
-                      <tr key={customer._id} className="hover:bg-gray-50">
+                      <tr key={customer._id} className="hover:bg-[#faf9f5]">
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold">
+                            <div className="w-10 h-10 bg-[#5d6043] rounded-full flex items-center justify-center text-[#faf9f5] font-semibold">
                               {customer.fullName?.charAt(0) || "?"}
                             </div>
                             <div className="ml-3">
-                              <p className="text-sm font-semibold text-gray-900">{customer.fullName || "N/A"}</p>
+                              <p className="text-sm font-semibold text-[#222222]">{customer.fullName || "N/A"}</p>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
+                          <div className="text-sm text-[#222222]">
                             <div className="flex items-center gap-2 mb-1">
-                              <Mail className="w-4 h-4 text-gray-400" />
+                              <Mail className="w-4 h-4 text-[#b9aca2]" />
                               <span>{customer.email}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <Phone className="w-4 h-4 text-gray-400" />
+                              <Phone className="w-4 h-4 text-[#b9aca2]" />
                               <span>{customer.phoneNumber}</span>
                             </div>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm font-medium text-gray-900">{customer.totalOrders}</span>
+                          <span className="text-sm font-medium text-[#222222]">{customer.totalOrders}</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm font-semibold text-[#2A2C22]">
+                          <span className="text-sm font-semibold text-[#5d6043]">
                             GHS {customer.totalSpent.toFixed(2)}
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              customer.isActive ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"
+                              customer.isActive ? "bg-green-100 text-green-800" : "bg-[#b9aca2] text-[#222222]"
                             }`}
                           >
                             {customer.isActive ? (
@@ -393,30 +393,30 @@ export default function CustomersPage() {
                             {customer.isActive ? "Active" : "Inactive"}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-[#5d6043]">
                           {new Date(customer.createdAt).toLocaleDateString()}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm">
                           <div className="relative">
                             <button
                               onClick={() => setSelectedCustomer(selectedCustomer === customer._id ? null : customer._id)}
-                              className="p-1 rounded-lg hover:bg-gray-100"
+                              className="p-1 rounded-lg hover:bg-[#b9aca2]"
                             >
-                              <MoreVertical className="w-5 h-5 text-gray-400" />
+                              <MoreVertical className="w-5 h-5 text-[#b9aca2]" />
                             </button>
 
                             {selectedCustomer === customer._id && (
-                              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                              <div className="absolute right-0 mt-2 w-48 bg-[#faf9f5] rounded-lg shadow-lg border border-[#b9aca2]/60 z-10">
                                 <button 
                                   onClick={() => { if (customer._id) handleViewDetails(customer._id); }}
-                                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-t-lg"
+                                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-[#5d6043] hover:bg-[#faf9f5] rounded-t-lg"
                                 >
                                   <Eye className="w-4 h-4" />
                                   View Details
                                 </button>
                                 <button 
                                   onClick={() => { if (customer.email) handleSendEmail(customer.email); }}
-                                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                                  className="w-full flex items-center gap-2 px-4 py-2 text-sm text-[#5d6043] hover:bg-[#faf9f5]"
                                 >
                                   <Mail className="w-4 h-4" />
                                   Send Email
@@ -447,17 +447,17 @@ export default function CustomersPage() {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </button>
-            <span className="px-4 py-2 text-gray-700">
+            <span className="px-4 py-2 text-[#5d6043]">
               Page {currentPage} of {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>

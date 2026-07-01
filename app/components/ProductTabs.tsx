@@ -45,7 +45,7 @@ export default function ProductTabs({ details, reviews = [] }: ProductTabsProps)
           <Star
             key={star}
             className={`w-4 h-4 ${
-              star <= rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+              star <= rating ? "fill-yellow-400 text-yellow-400" : "text-[#b9aca2]"
             }`}
           />
         ))}
@@ -56,31 +56,31 @@ export default function ProductTabs({ details, reviews = [] }: ProductTabsProps)
   return (
     <div className="mt-8">
       {/* Tab buttons */}
-      <div className="flex gap-4 border-b border-gray-200">
+      <div className="flex gap-4 border-b border-[#b9aca2]/60">
         <button
           onClick={() => setActiveTab("details")}
           className={`pb-3 px-4 font-semibold transition-colors relative ${
             activeTab === "details"
-              ? "text-[#2A2C22]"
-              : "text-gray-500 hover:text-gray-700"
+              ? "text-[#5d6043]"
+              : "text-[#5d6043] hover:text-[#5d6043]"
           }`}
         >
           Details
           {activeTab === "details" && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#2A2C22]" />
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#5d6043]" />
           )}
         </button>
         <button
           onClick={() => setActiveTab("reviews")}
           className={`pb-3 px-4 font-semibold transition-colors relative ${
             activeTab === "reviews"
-              ? "text-[#2A2C22]"
-              : "text-gray-500 hover:text-gray-700"
+              ? "text-[#5d6043]"
+              : "text-[#5d6043] hover:text-[#5d6043]"
           }`}
         >
           Reviews ({displayReviews.length})
           {activeTab === "reviews" && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#2A2C22]" />
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#5d6043]" />
           )}
         </button>
       </div>
@@ -88,7 +88,7 @@ export default function ProductTabs({ details, reviews = [] }: ProductTabsProps)
       {/* Tab content */}
       <div className="mt-6">
         {activeTab === "details" ? (
-          <div className="text-gray-700 leading-relaxed">
+          <div className="text-[#5d6043] leading-relaxed">
             <p>{details}</p>
             <div className="mt-4 space-y-2 text-sm">
               <p><strong>Storage:</strong> Keep refrigerated for up to 5 days</p>
@@ -99,15 +99,15 @@ export default function ProductTabs({ details, reviews = [] }: ProductTabsProps)
         ) : (
           <div className="space-y-6">
             {displayReviews.map((review, index) => (
-              <div key={index} className="border-b border-gray-100 pb-6 last:border-0">
+              <div key={index} className="border-b border-[#b9aca2]/40 pb-6 last:border-0">
                 <div className="flex items-start justify-between mb-2">
                   <div>
-                    <h4 className="font-semibold text-gray-900">{review.author}</h4>
-                    <p className="text-sm text-gray-500">{review.date}</p>
+                    <h4 className="font-semibold text-[#222222]">{review.author}</h4>
+                    <p className="text-sm text-[#5d6043]">{review.date}</p>
                   </div>
                   {renderStars(review.rating)}
                 </div>
-                <p className="text-gray-700">{review.comment}</p>
+                <p className="text-[#5d6043]">{review.comment}</p>
               </div>
             ))}
           </div>

@@ -35,20 +35,20 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 z-50 bg-[#30170F]/45 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 z-50 bg-[#222222]/45 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       {/* Drawer */}
-      <div className="fixed bottom-0 right-0 top-0 z-50 flex w-full animate-slide-in flex-col bg-[#FFF8EC] shadow-[-20px_0_70px_rgba(0,0,0,0.24)] md:w-[460px] md:rounded-l-[34px]">
+      <div className="fixed bottom-0 right-0 top-0 z-50 flex w-full animate-slide-in flex-col bg-[#faf9f5] shadow-[-20px_0_70px_rgba(0,0,0,0.24)] md:w-[460px] md:rounded-l-[34px]">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[rgba(48,23,15,0.12)] p-6">
-          <h2 className="font-editorial text-3xl tracking-[-0.05em] text-[#30170F]">
+        <div className="flex items-center justify-between border-b border-[rgba(34,34,34,0.12)] p-6">
+          <h2 className="font-editorial text-3xl tracking-[-0.05em] text-[#222222]">
             Your Cart ({cartCount})
           </h2>
           <button
             onClick={onClose}
-            className="rounded-full bg-[#FFFDF7] p-2 text-[#30170F] shadow-[inset_0_0_0_1px_rgba(48,23,15,0.1)] transition hover:bg-[#F7EAD6]"
+            className="rounded-full bg-[#faf9f5] p-2 text-[#222222] shadow-[inset_0_0_0_1px_rgba(34,34,34,0.1)] transition hover:bg-[#b9aca2]"
             aria-label="Close cart"
           >
             <X className="w-6 h-6" />
@@ -58,7 +58,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         {/* Cart Items - Scrollable */}
         <div className="flex-1 overflow-y-auto p-6">
           {cart.length === 0 ? (
-            <div className="flex h-full flex-col items-center justify-center text-[#80634F]">
+            <div className="flex h-full flex-col items-center justify-center text-[#5d6043]">
               <p className="text-lg">Your cart is empty</p>
             </div>
           ) : (
@@ -66,11 +66,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               {cart.map((item) => (
                 <div
                   key={`${item.id}-${item.selectedSize || "default"}-${JSON.stringify(item.packageSelections || [])}`}
-                  className="rounded-[24px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7] p-3 shadow-[0_12px_40px_rgba(48,23,15,0.08)]"
+                  className="rounded-[24px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-3 shadow-[0_12px_40px_rgba(34,34,34,0.08)]"
                 >
                   <div className="flex gap-4">
                   {/* Product Image */}
-                  <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-[#F7EAD6]">
+                  <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl bg-[#b9aca2]">
                     <Image
                       src={item.image || ""}
                       alt={item.name}
@@ -82,12 +82,12 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   {/* Product Details */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-sm font-black text-[#30170F]">{item.name}</h3>
+                      <h3 className="text-sm font-black text-[#222222]">{item.name}</h3>
                       {item.selectedSize && (
-                        <p className="text-xs text-[#80634F]">Size: {item.selectedSize}</p>
+                        <p className="text-xs text-[#5d6043]">Size: {item.selectedSize}</p>
                       )}
                       {item.packageSelections && item.packageSelections.length > 0 && (
-                        <div className="mt-1 text-xs text-[#80634F]">
+                        <div className="mt-1 text-xs text-[#5d6043]">
                           {item.packageSelections.map((selection) => (
                             <p key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
                               {selection.groupLabel ? `${selection.groupLabel}: ` : ""}
@@ -96,7 +96,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                           ))}
                         </div>
                       )}
-                      <p className="mt-1 font-black text-[#C97D35]">{item.price}</p>
+                      <p className="mt-1 font-black text-[#bd6325]">{item.price}</p>
                     </div>
 
                     {/* Quantity Selector */}
@@ -125,11 +125,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         </div>
 
         {/* Footer - Fixed */}
-        <div className="border-t border-[rgba(48,23,15,0.12)] bg-[#F7EAD6]/50 p-6">
+        <div className="border-t border-[rgba(34,34,34,0.12)] bg-[#b9aca2]/50 p-6">
           <div className="space-y-2 mb-4">
             <div className="flex justify-between text-lg font-bold">
               <span>Total</span>
-              <span className="text-[#C97D35]">GHS {cartTotal.toFixed(2)}</span>
+              <span className="text-[#bd6325]">GHS {cartTotal.toFixed(2)}</span>
             </div>
           </div>
           

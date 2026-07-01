@@ -22,7 +22,7 @@ import reportsService, {
 
 // Color palette for category charts
 const CATEGORY_COLORS = [
-  "#2A2C22",
+  "#5d6043",
   "#4CAF50",
   "#2196F3",
   "#FF9800",
@@ -115,24 +115,24 @@ export default function ReportsPage() {
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Reports & Analytics</h1>
-            <p className="text-gray-600 mt-1">Detailed insights into your business</p>
+            <h1 className="text-3xl font-bold text-[#222222]">Reports & Analytics</h1>
+            <p className="text-[#5d6043] mt-1">Detailed insights into your business</p>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors">
+          <button className="flex items-center gap-2 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors">
             <Download className="w-5 h-5" />
             Export Report
           </button>
         </div>
 
         {/* Date Range Filter */}
-        <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+        <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
-            <span className="text-sm font-medium text-gray-700">Finance Period:</span>
+            <span className="text-sm font-medium text-[#5d6043]">Finance Period:</span>
             <div className="flex gap-2">
               <select
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               >
                 {["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].map((month) => (
                   <option key={month} value={month}>{month}</option>
@@ -141,7 +141,7 @@ export default function ReportsPage() {
               <select
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(Number(e.target.value))}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               >
                 {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - 2 + i).map((year) => (
                   <option key={year} value={year}>{year}</option>
@@ -154,15 +154,15 @@ export default function ReportsPage() {
         {/* Summary Cards */}
         {loading ? (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#5d6043] animate-spin" />
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+            <div className="bg-[#faf9f5] rounded-xl shadow-sm p-5 border border-[#b9aca2]/40">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 font-medium">Total Revenue</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mt-2">
+                  <p className="text-sm text-[#5d6043] font-medium">Total Revenue</p>
+                  <h3 className="text-2xl font-bold text-[#222222] mt-2">
                     GHS {financeSummary?.totalRevenue.toFixed(2) || "0.00"}
                   </h3>
                 </div>
@@ -170,16 +170,16 @@ export default function ReportsPage() {
                   <span className="text-2xl font-bold text-green-600">₵</span>
                 </div>
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-[#5d6043] mt-2">
                 {selectedMonth} {selectedYear}
               </p>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+            <div className="bg-[#faf9f5] rounded-xl shadow-sm p-5 border border-[#b9aca2]/40">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 font-medium">Total Expenses</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mt-2">
+                  <p className="text-sm text-[#5d6043] font-medium">Total Expenses</p>
+                  <h3 className="text-2xl font-bold text-[#222222] mt-2">
                     GHS {financeSummary?.totalExpenses.toFixed(2) || "0.00"}
                   </h3>
                 </div>
@@ -187,16 +187,16 @@ export default function ReportsPage() {
                   <Package className="w-6 h-6 text-red-600" />
                 </div>
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-[#5d6043] mt-2">
                 {selectedMonth} {selectedYear}
               </p>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+            <div className="bg-[#faf9f5] rounded-xl shadow-sm p-5 border border-[#b9aca2]/40">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 font-medium">Profit</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mt-2">
+                  <p className="text-sm text-[#5d6043] font-medium">Profit</p>
+                  <h3 className="text-2xl font-bold text-[#222222] mt-2">
                     GHS {financeSummary?.profit.toFixed(2) || "0.00"}
                   </h3>
                 </div>
@@ -204,16 +204,16 @@ export default function ReportsPage() {
                   <TrendingUp className="w-6 h-6 text-purple-600" />
                 </div>
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-[#5d6043] mt-2">
                 {selectedMonth} {selectedYear}
               </p>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm p-5 border border-gray-100">
+            <div className="bg-[#faf9f5] rounded-xl shadow-sm p-5 border border-[#b9aca2]/40">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600 font-medium">Profit Margin</p>
-                  <h3 className="text-2xl font-bold text-gray-900 mt-2">
+                  <p className="text-sm text-[#5d6043] font-medium">Profit Margin</p>
+                  <h3 className="text-2xl font-bold text-[#222222] mt-2">
                     {financeSummary?.profitMargin || "0%"}
                   </h3>
                 </div>
@@ -221,7 +221,7 @@ export default function ReportsPage() {
                   <Users className="w-6 h-6 text-yellow-600" />
                 </div>
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-[#5d6043] mt-2">
                 {selectedMonth} {selectedYear}
               </p>
             </div>
@@ -231,8 +231,8 @@ export default function ReportsPage() {
         {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Sales by Category - Pie Chart */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Sales by Category</h2>
+          <div className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 p-6">
+            <h2 className="text-xl font-bold text-[#222222] mb-6">Sales by Category</h2>
             
             {/* Pie Chart */}
             <div className="flex items-center justify-center h-64 mb-4">
@@ -246,18 +246,18 @@ export default function ReportsPage() {
                     }).join(", ")})`
                   }}
                 >
-                  <div className="absolute inset-0 m-4 bg-white rounded-full flex flex-col items-center justify-center shadow-inner">
-                    <p className="text-2xl font-bold text-gray-900">
+                  <div className="absolute inset-0 m-4 bg-[#faf9f5] rounded-full flex flex-col items-center justify-center shadow-inner">
+                    <p className="text-2xl font-bold text-[#222222]">
                       GHS {financeSummary?.totalRevenue.toFixed(0) || "0"}
                     </p>
-                    <p className="text-sm text-gray-600">Total Sales</p>
+                    <p className="text-sm text-[#5d6043]">Total Sales</p>
                   </div>
                 </div>
               ) : (
-                <div className="relative w-48 h-48 rounded-full border-8 border-gray-200 flex items-center justify-center">
+                <div className="relative w-48 h-48 rounded-full border-8 border-[#b9aca2]/60 flex items-center justify-center">
                   <div className="text-center">
-                    <p className="text-2xl font-bold text-gray-900">0%</p>
-                    <p className="text-sm text-gray-600">No Data</p>
+                    <p className="text-2xl font-bold text-[#222222]">0%</p>
+                    <p className="text-sm text-[#5d6043]">No Data</p>
                   </div>
                 </div>
               )}
@@ -266,10 +266,10 @@ export default function ReportsPage() {
             {/* Category List */}
             {loading ? (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="w-6 h-6 text-[#2A2C22] animate-spin" />
+                <Loader2 className="w-6 h-6 text-[#5d6043] animate-spin" />
               </div>
             ) : salesByCategory.length === 0 ? (
-              <p className="text-center text-gray-500 py-8">No sales data available</p>
+              <p className="text-center text-[#5d6043] py-8">No sales data available</p>
             ) : (
               <div className="space-y-3">
                 {salesByCategory.map((item, index) => (
@@ -281,13 +281,13 @@ export default function ReportsPage() {
                           backgroundColor: CATEGORY_COLORS[index % CATEGORY_COLORS.length],
                         }}
                       />
-                      <span className="text-sm text-gray-700">{item.category}</span>
+                      <span className="text-sm text-[#5d6043]">{item.category}</span>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-gray-900">
+                      <p className="text-sm font-semibold text-[#222222]">
                         GHS {item.revenue.toFixed(2)}
                       </p>
-                      <p className="text-xs text-gray-500">{item.percentage.toFixed(1)}%</p>
+                      <p className="text-xs text-[#5d6043]">{item.percentage.toFixed(1)}%</p>
                     </div>
                   </div>
                 ))}
@@ -296,28 +296,28 @@ export default function ReportsPage() {
           </div>
 
           {/* Top Products */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-6">Top Selling Products</h2>
+          <div className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 p-6">
+            <h2 className="text-xl font-bold text-[#222222] mb-6">Top Selling Products</h2>
             {loading ? (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="w-6 h-6 text-[#2A2C22] animate-spin" />
+                <Loader2 className="w-6 h-6 text-[#5d6043] animate-spin" />
               </div>
             ) : topProducts.length === 0 ? (
-              <p className="text-center text-gray-500 py-8">No product data available</p>
+              <p className="text-center text-[#5d6043] py-8">No product data available</p>
             ) : (
               <div className="space-y-4">
                 {topProducts.map((product, index) => (
-                  <div key={product._id} className="flex items-center justify-between pb-4 border-b border-gray-100 last:border-0">
+                  <div key={product._id} className="flex items-center justify-between pb-4 border-b border-[#b9aca2]/40 last:border-0">
                     <div className="flex-1">
                       <div className="flex items-center gap-3">
-                        <span className="text-lg font-bold text-gray-400">#{index + 1}</span>
+                        <span className="text-lg font-bold text-[#b9aca2]">#{index + 1}</span>
                         <div>
-                          <p className="text-sm font-semibold text-gray-900">{product.name}</p>
-                          <p className="text-xs text-gray-500">{product.unitsSold} units sold</p>
+                          <p className="text-sm font-semibold text-[#222222]">{product.name}</p>
+                          <p className="text-xs text-[#5d6043]">{product.unitsSold} units sold</p>
                         </div>
                       </div>
                     </div>
-                    <p className="text-sm font-bold text-[#2A2C22]">
+                    <p className="text-sm font-bold text-[#5d6043]">
                       GHS {product.revenue.toFixed(2)}
                     </p>
                   </div>
@@ -328,25 +328,25 @@ export default function ReportsPage() {
         </div>
 
         {/* Top Customers */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900">Top Customers</h2>
+            <h2 className="text-xl font-bold text-[#222222]">Top Customers</h2>
             {customersMeta.totalPages > 1 && (
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setCustomersPage(prev => Math.max(1, prev - 1))}
                   disabled={customersPage === 1 || loading}
-                  className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-2 rounded-lg border border-[#b9aca2] hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-[#5d6043]">
                   Page {customersPage} of {customersMeta.totalPages}
                 </span>
                 <button
                   onClick={() => setCustomersPage(prev => Math.min(customersMeta.totalPages, prev + 1))}
                   disabled={customersPage === customersMeta.totalPages || loading}
-                  className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-2 rounded-lg border border-[#b9aca2] hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -356,58 +356,58 @@ export default function ReportsPage() {
           
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin" />
+              <Loader2 className="w-8 h-8 text-[#5d6043] animate-spin" />
             </div>
           ) : topCustomers.length === 0 ? (
-            <p className="text-center text-gray-500 py-12">No customer data available</p>
+            <p className="text-center text-[#5d6043] py-12">No customer data available</p>
           ) : (
             <>
               {/* Desktop Table View */}
               <div className="hidden md:block overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 border-b border-gray-200">
+                  <thead className="bg-[#faf9f5] border-b border-[#b9aca2]/60">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                         Rank
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                         Customer Name
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                         Email
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                         Total Orders
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                         Total Spent
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200">
+                  <tbody className="divide-y divide-[#b9aca2]/60">
                     {topCustomers.map((customer) => (
-                      <tr key={customer.userId} className="hover:bg-gray-50">
+                      <tr key={customer.userId} className="hover:bg-[#faf9f5]">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-lg font-bold text-gray-400">#{customer.rank}</span>
+                          <span className="text-lg font-bold text-[#b9aca2]">#{customer.rank}</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="flex items-center">
-                            <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold">
+                            <div className="w-10 h-10 bg-[#5d6043] rounded-full flex items-center justify-center text-[#faf9f5] font-semibold">
                               {customer.fullName?.charAt(0) || "?"}
                             </div>
-                            <span className="ml-3 text-sm font-semibold text-gray-900">
+                            <span className="ml-3 text-sm font-semibold text-[#222222]">
                               {customer.fullName}
                             </span>
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm text-gray-600">{customer.email}</span>
+                          <span className="text-sm text-[#5d6043]">{customer.email}</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm text-gray-900">{customer.totalOrders}</span>
+                          <span className="text-sm text-[#222222]">{customer.totalOrders}</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm font-semibold text-[#2A2C22]">
+                          <span className="text-sm font-semibold text-[#5d6043]">
                             GHS {customer.totalSpent.toFixed(2)}
                           </span>
                         </td>
@@ -420,27 +420,27 @@ export default function ReportsPage() {
               {/* Mobile Card View */}
               <div className="md:hidden space-y-3">
                 {topCustomers.map((customer) => (
-                  <div key={customer.userId} className="border border-gray-200 rounded-lg p-4">
+                  <div key={customer.userId} className="border border-[#b9aca2]/60 rounded-lg p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-[#2A2C22] rounded-full flex items-center justify-center text-white font-semibold">
+                        <div className="w-10 h-10 bg-[#5d6043] rounded-full flex items-center justify-center text-[#faf9f5] font-semibold">
                           {customer.fullName?.charAt(0) || "?"}
                         </div>
                         <div>
-                          <h3 className="font-semibold text-gray-900">{customer.fullName}</h3>
-                          <p className="text-xs text-gray-500">{customer.email}</p>
-                          <p className="text-xs text-gray-500">Rank #{customer.rank}</p>
+                          <h3 className="font-semibold text-[#222222]">{customer.fullName}</h3>
+                          <p className="text-xs text-[#5d6043]">{customer.email}</p>
+                          <p className="text-xs text-[#5d6043]">Rank #{customer.rank}</p>
                         </div>
                       </div>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <p className="text-xs text-gray-500 mb-1">Total Orders</p>
-                        <p className="text-sm font-semibold text-gray-900">{customer.totalOrders}</p>
+                        <p className="text-xs text-[#5d6043] mb-1">Total Orders</p>
+                        <p className="text-sm font-semibold text-[#222222]">{customer.totalOrders}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 mb-1">Total Spent</p>
-                        <p className="text-sm font-semibold text-[#2A2C22]">GHS {customer.totalSpent.toFixed(2)}</p>
+                        <p className="text-xs text-[#5d6043] mb-1">Total Spent</p>
+                        <p className="text-sm font-semibold text-[#5d6043]">GHS {customer.totalSpent.toFixed(2)}</p>
                       </div>
                     </div>
                   </div>

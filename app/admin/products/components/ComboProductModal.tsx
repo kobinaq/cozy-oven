@@ -138,15 +138,15 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6">
-        <div className="flex justify-between items-center mb-6 sticky top-0 bg-white z-10 pb-4">
+      <div className="bg-[#faf9f5] rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6">
+        <div className="flex justify-between items-center mb-6 sticky top-0 bg-[#faf9f5] z-10 pb-4">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900">Create Combo Product</h2>
-            <p className="text-sm text-gray-600 mt-1">
+            <h2 className="text-2xl font-bold text-[#222222]">Create Combo Product</h2>
+            <p className="text-sm text-[#5d6043] mt-1">
               Configure a Flight Box / Gift Combo with base rules and flavour options.
             </p>
           </div>
-          <button onClick={onClose} className="p-2 rounded-lg hover:bg-gray-100">
+          <button onClick={onClose} className="p-2 rounded-lg hover:bg-[#b9aca2]">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -161,24 +161,24 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
           {/* Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                 Combo Name *
               </label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                 placeholder="Flight Box"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                 Combo image
               </label>
               <div className="flex items-center gap-3">
-                <label className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                <label className="flex items-center gap-2 px-4 py-2 border border-[#b9aca2] rounded-lg cursor-pointer hover:bg-[#faf9f5]">
                   <Upload className="w-4 h-4" />
                   {imageFile ? "Change image" : "Upload image"}
                   <input
@@ -189,13 +189,13 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                   />
                 </label>
                 {imageFile && (
-                  <span className="text-xs text-gray-600 truncate max-w-[140px]">
+                  <span className="text-xs text-[#5d6043] truncate max-w-[140px]">
                     {imageFile.name}
                   </span>
                 )}
               </div>
               {imagePreview && (
-                <div className="mt-2 w-24 h-24 relative rounded-lg overflow-hidden border border-gray-200">
+                <div className="mt-2 w-24 h-24 relative rounded-lg overflow-hidden border border-[#b9aca2]/60">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={imagePreview}
@@ -208,13 +208,13 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-[#5d6043] mb-2">
               Description
             </label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+              className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               placeholder="Describe what this combo includes and how it works."
               rows={3}
             />
@@ -223,7 +223,7 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
           {/* Rules */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                 Base selection count *
               </label>
               <input
@@ -231,11 +231,11 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                 min={1}
                 value={baseSelectionCount}
                 onChange={(e) => setBaseSelectionCount(parseInt(e.target.value || "0", 10))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                 Base price (₵) *
               </label>
               <input
@@ -244,7 +244,7 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                 step="0.01"
                 value={basePrice}
                 onChange={(e) => setBasePrice(parseFloat(e.target.value || "0"))}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               />
             </div>
             <div className="flex items-center gap-2 mt-6 md:mt-8">
@@ -253,9 +253,9 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                 type="checkbox"
                 checked={allowExtras}
                 onChange={(e) => setAllowExtras(e.target.checked)}
-                className="h-4 w-4 text-[#2A2C22] border-gray-300 rounded"
+                className="h-4 w-4 text-[#5d6043] border-[#b9aca2] rounded"
               />
-              <label htmlFor="allow-extras" className="text-sm text-gray-700">
+              <label htmlFor="allow-extras" className="text-sm text-[#5d6043]">
                 Allow extras beyond base selection
               </label>
             </div>
@@ -263,13 +263,13 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
 
           {/* Base product link (for checkout) */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-[#5d6043] mb-2">
               Link to existing product (used for checkout) *
             </label>
             <select
               value={selectedBaseProductId}
               onChange={(e) => setSelectedBaseProductId(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent bg-white"
+              className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent bg-[#faf9f5]"
             >
               <option value="">Select product…</option>
               {products.map((p) => (
@@ -278,7 +278,7 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                 </option>
               ))}
             </select>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-[#5d6043] mt-1">
               Pick the regular product that should be used under the hood when customers buy this combo.
               You don&apos;t need to remember any IDs – just choose by name.
             </p>
@@ -286,7 +286,7 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
 
           {/* Options */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-sm font-semibold text-[#5d6043] mb-2">
               Flavour options
             </label>
             <div className="space-y-3">
@@ -295,7 +295,7 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                   type="text"
                   value={optionName}
                   onChange={(e) => setOptionName(e.target.value)}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                  className="flex-1 px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                   placeholder="Coconut, Blueberry, Chocolate..."
                 />
                 <input
@@ -304,13 +304,13 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                   step="0.01"
                   value={optionPrice || ""}
                   onChange={(e) => setOptionPrice(parseFloat(e.target.value || "0"))}
-                  className="w-32 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                  className="w-32 px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                   placeholder="Price"
                 />
                 <button
                   type="button"
                   onClick={handleAddOption}
-                  className="inline-flex items-center justify-center px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"
+                  className="inline-flex items-center justify-center px-4 py-2 bg-[#b9aca2] rounded-lg hover:bg-[#b9aca2]"
                 >
                   <Plus className="w-5 h-5" />
                 </button>
@@ -321,17 +321,17 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                   {options.map((opt) => (
                     <div
                       key={opt.id}
-                      className="flex items-center justify-between bg-gray-50 p-2 rounded-lg gap-2"
+                      className="flex items-center justify-between bg-[#faf9f5] p-2 rounded-lg gap-2"
                     >
                       <div className="flex flex-col">
                         <span
                           className={`text-sm font-medium ${
-                            !opt.isActive ? "text-gray-400 line-through" : "text-gray-900"
+                            !opt.isActive ? "text-[#b9aca2] line-through" : "text-[#222222]"
                           }`}
                         >
                           {opt.name}
                         </span>
-                        <span className="text-xs text-gray-600">
+                        <span className="text-xs text-[#5d6043]">
                           ₵ {opt.price.toFixed(2)} per option
                         </span>
                       </div>
@@ -342,7 +342,7 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                           className={`px-3 py-1 rounded-full text-xs font-medium border ${
                             opt.isActive
                               ? "bg-green-50 text-green-700 border-green-200"
-                              : "bg-gray-100 text-gray-600 border-gray-200"
+                              : "bg-[#b9aca2] text-[#5d6043] border-[#b9aca2]/60"
                           }`}
                         >
                           {opt.isActive ? "Active" : "Inactive"}
@@ -360,7 +360,7 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
                 </div>
               )}
             </div>
-            <p className="text-xs text-gray-500 mt-2">
+            <p className="text-xs text-[#5d6043] mt-2">
               Customers will choose any {baseSelectionCount || 0} options for the base price. Extra
               options (if allowed) will add their individual price on top.
             </p>
@@ -371,14 +371,14 @@ export default function ComboProductModal({ show, onClose, onSaved, products }: 
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors disabled:opacity-50"
+              className="px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors disabled:opacity-50"
             >
               {saving ? "Saving..." : "Save Combo"}
             </button>

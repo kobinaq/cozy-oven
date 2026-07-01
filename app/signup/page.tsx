@@ -116,14 +116,14 @@ function SignupContent() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gray-50 px-4 pb-16 pt-32">
+      <main className="min-h-screen bg-[#faf9f5] px-4 pb-16 pt-32">
         <div className="mx-auto max-w-md">
-          <div className="rounded-2xl bg-white p-8 shadow-sm">
+          <div className="rounded-2xl bg-[#faf9f5] p-8 shadow-sm">
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900">
+              <h1 className="text-3xl font-bold text-[#222222]">
                 {isGuestOrderFlow ? "Create an account to track your order" : "Create Account"}
               </h1>
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm text-[#5d6043]">
                 {isGuestOrderFlow
                   ? "Use the same email from checkout so we can attach your guest order."
                   : "Join Cozy Oven and manage your orders."}
@@ -145,15 +145,15 @@ function SignupContent() {
               <input type="hidden" {...register("role")} value="Customer" />
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-[#5d6043]">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                  <User className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#b9aca2]" />
                   <input
                     type="text"
                     {...register("fullName")}
-                    className="w-full rounded-lg border border-gray-300 py-3 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-[#2A2C22]"
+                    className="w-full rounded-lg border border-[#b9aca2] py-3 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-[#5d6043]"
                     placeholder="Jane Doe"
                   />
                 </div>
@@ -163,15 +163,15 @@ function SignupContent() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-[#5d6043]">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                  <Mail className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#b9aca2]" />
                   <input
                     type="email"
                     {...register("email")}
-                    className="w-full rounded-lg border border-gray-300 py-3 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-[#2A2C22]"
+                    className="w-full rounded-lg border border-[#b9aca2] py-3 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-[#5d6043]"
                     placeholder="you@example.com"
                   />
                 </div>
@@ -181,15 +181,15 @@ function SignupContent() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-[#5d6043]">
                   Phone Number
                 </label>
                 <div className="relative">
-                  <Phone className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                  <Phone className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#b9aca2]" />
                   <input
                     type="tel"
                     {...register("phoneNumber")}
-                    className="w-full rounded-lg border border-gray-300 py-3 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-[#2A2C22]"
+                    className="w-full rounded-lg border border-[#b9aca2] py-3 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-[#5d6043]"
                     placeholder="0205345678"
                   />
                 </div>
@@ -199,21 +199,21 @@ function SignupContent() {
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-semibold text-gray-700">
+                <label className="mb-2 block text-sm font-semibold text-[#5d6043]">
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                  <Lock className="pointer-events-none absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-[#b9aca2]" />
                   <input
                     type={showPassword ? "text" : "password"}
                     {...register("password")}
-                    className="w-full rounded-lg border border-gray-300 py-3 pl-10 pr-12 focus:border-transparent focus:ring-2 focus:ring-[#2A2C22]"
+                    className="w-full rounded-lg border border-[#b9aca2] py-3 pl-10 pr-12 focus:border-transparent focus:ring-2 focus:ring-[#5d6043]"
                     placeholder="********"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((value) => !value)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-[#b9aca2] hover:text-[#5d6043]"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -227,7 +227,7 @@ function SignupContent() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-full bg-[#2A2C22] px-6 py-3 font-semibold text-white transition hover:bg-[#1a1c12] disabled:opacity-50"
+                className="w-full rounded-full bg-[#5d6043] px-6 py-3 font-semibold text-[#faf9f5] transition hover:bg-[#222222] disabled:opacity-50"
               >
                 {loading ? "Creating Account..." : "Create Account"}
               </button>
@@ -244,7 +244,7 @@ export default function SignupPage() {
   return (
     <Suspense
       fallback={
-        <main className="min-h-screen bg-gray-50 pt-32 text-center text-gray-600">
+        <main className="min-h-screen bg-[#faf9f5] pt-32 text-center text-[#5d6043]">
           Loading...
         </main>
       }

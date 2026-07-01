@@ -27,7 +27,7 @@ export default function Toast({ message, onClose }: ToastProps) {
           animate={{ opacity: 1, y: 0, x: 0 }}
           exit={{ opacity: 0, y: -50, x: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 max-w-md"
+          className="fixed top-4 right-4 z-50 bg-green-500 text-[#faf9f5] px-6 py-3 rounded-lg shadow-lg flex items-center gap-3 max-w-md"
         >
           <span>{message}</span>
           <button

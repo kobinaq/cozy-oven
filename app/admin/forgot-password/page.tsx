@@ -125,22 +125,22 @@ export default function AdminForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#faf9f5] to-[#b9aca2]">
       <div className="w-full max-w-md p-8">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-[#faf9f5] rounded-2xl shadow-xl p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#2A2C22] rounded-full mb-4">
-              {currentStep === "email" && <Mail className="w-8 h-8 text-white" />}
-              {currentStep === "verify-otp" && <KeyRound className="w-8 h-8 text-white" />}
-              {currentStep === "reset-password" && <Lock className="w-8 h-8 text-white" />}
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-[#5d6043] rounded-full mb-4">
+              {currentStep === "email" && <Mail className="w-8 h-8 text-[#faf9f5]" />}
+              {currentStep === "verify-otp" && <KeyRound className="w-8 h-8 text-[#faf9f5]" />}
+              {currentStep === "reset-password" && <Lock className="w-8 h-8 text-[#faf9f5]" />}
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-3xl font-bold text-[#222222] mb-2">
               {currentStep === "email" && "Reset Password"}
               {currentStep === "verify-otp" && "Verify OTP"}
               {currentStep === "reset-password" && "New Password"}
             </h1>
-            <p className="text-gray-600">
+            <p className="text-[#5d6043]">
               {currentStep === "email" && "We'll send you a code to reset your password"}
               {currentStep === "verify-otp" && "Enter the 5-digit code sent to your email"}
               {currentStep === "reset-password" && "Create a new secure password"}
@@ -163,17 +163,17 @@ export default function AdminForgotPasswordPage() {
           {currentStep === "email" && (
             <form onSubmit={emailForm.handleSubmit(handleEmailSubmit)} className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                   Email Address
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-gray-400" />
+                    <Mail className="h-5 w-5 text-[#b9aca2]" />
                   </div>
                   <input
                     type="email"
                     {...emailForm.register("email")}
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                     placeholder="admin@cozyoven.com"
                   />
                 </div>
@@ -187,7 +187,7 @@ export default function AdminForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#5d6043] text-[#faf9f5] py-3 rounded-full font-semibold hover:bg-[#222222] transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "Sending..." : "Send OTP"}
               </button>
@@ -198,13 +198,13 @@ export default function AdminForgotPasswordPage() {
           {currentStep === "verify-otp" && (
             <form onSubmit={otpForm.handleSubmit(handleOtpSubmit)} className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                   Enter OTP
                 </label>
                 <input
                   type="text"
                   {...otpForm.register("otp")}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent text-center text-2xl tracking-widest"
+                  className="w-full px-4 py-3 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent text-center text-2xl tracking-widest"
                   placeholder="12345"
                   maxLength={5}
                 />
@@ -218,18 +218,18 @@ export default function AdminForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#5d6043] text-[#faf9f5] py-3 rounded-full font-semibold hover:bg-[#222222] transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "Verifying..." : "Verify OTP"}
               </button>
 
-              <p className="text-center text-sm text-gray-600">
+              <p className="text-center text-sm text-[#5d6043]">
                 Didn&apos;t receive the code?{" "}
                 <button
                   type="button"
                   onClick={handleResendOtp}
                   disabled={loading}
-                  className="text-[#2A2C22] font-semibold hover:underline disabled:opacity-50"
+                  className="text-[#5d6043] font-semibold hover:underline disabled:opacity-50"
                 >
                   Resend
                 </button>
@@ -241,17 +241,17 @@ export default function AdminForgotPasswordPage() {
           {currentStep === "reset-password" && (
             <form onSubmit={resetForm.handleSubmit(handleResetSubmit)} className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                   New Password
                 </label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Lock className="h-5 w-5 text-gray-400" />
+                    <Lock className="h-5 w-5 text-[#b9aca2]" />
                   </div>
                   <input
                     type={showPassword ? "text" : "password"}
                     {...resetForm.register("newPassword")}
-                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                    className="w-full pl-10 pr-12 py-3 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                     placeholder="••••••••"
                   />
                   <button
@@ -260,9 +260,9 @@ export default function AdminForgotPasswordPage() {
                     className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   >
                     {showPassword ? (
-                      <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                      <EyeOff className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                     ) : (
-                      <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                      <Eye className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                     )}
                   </button>
                 </div>
@@ -271,7 +271,7 @@ export default function AdminForgotPasswordPage() {
                     {resetForm.formState.errors.newPassword.message}
                   </p>
                 )}
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-[#5d6043] mt-1">
                   Must contain at least 8 characters, including uppercase, lowercase, number, and
                   special character
                 </p>
@@ -280,7 +280,7 @@ export default function AdminForgotPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-[#5d6043] text-[#faf9f5] py-3 rounded-full font-semibold hover:bg-[#222222] transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? "Resetting..." : "Reset Password"}
               </button>
@@ -291,7 +291,7 @@ export default function AdminForgotPasswordPage() {
           <div className="mt-6 text-center">
             <Link
               href="/admin/login"
-              className="text-sm text-[#2A2C22] hover:underline font-medium"
+              className="text-sm text-[#5d6043] hover:underline font-medium"
             >
               Back to login
             </Link>

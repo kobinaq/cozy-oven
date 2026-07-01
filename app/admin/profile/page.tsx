@@ -95,12 +95,12 @@ export default function ProfilePage() {
     <AdminLayout>
       {/* Toast Notifications */}
       {error && (
-        <div className="fixed top-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <div className="fixed top-4 right-4 z-50 bg-red-500 text-[#faf9f5] px-6 py-3 rounded-lg shadow-lg">
           {error}
         </div>
       )}
       {success && (
-        <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <div className="fixed top-4 right-4 z-50 bg-green-500 text-[#faf9f5] px-6 py-3 rounded-lg shadow-lg">
           {success}
         </div>
       )}
@@ -108,12 +108,12 @@ export default function ProfilePage() {
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Admin Profile</h1>
-          <p className="text-gray-600 mt-1">Manage your profile settings</p>
+          <h1 className="text-3xl font-bold text-[#222222]">Admin Profile</h1>
+          <p className="text-[#5d6043] mt-1">Manage your profile settings</p>
         </div>
 
         {/* Profile Card */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-[#faf9f5] rounded-2xl shadow-sm border border-[#b9aca2]/40 overflow-hidden">
           {/* Banner */}
           <div className="h-32"></div>
 
@@ -122,18 +122,18 @@ export default function ProfilePage() {
             {/* Profile Picture */}
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between -mt-16 mb-6">
               <div className="flex items-end gap-4">
-                <div className="w-32 h-32 bg-white rounded-full border-4 border-white shadow-lg flex items-center justify-center">
-                  <UserCircle className="w-28 h-28 text-gray-400" />
+                <div className="w-32 h-32 bg-[#faf9f5] rounded-full border-4 border-[#faf9f5] shadow-lg flex items-center justify-center">
+                  <UserCircle className="w-28 h-28 text-[#b9aca2]" />
                 </div>
                 <div className="mb-2">
-                  <h2 className="text-2xl font-bold text-gray-900">{profileData.fullName}</h2>
-                  <p className="text-gray-600">{profileData.role}</p>
+                  <h2 className="text-2xl font-bold text-[#222222]">{profileData.fullName}</h2>
+                  <p className="text-[#5d6043]">{profileData.role}</p>
                 </div>
               </div>
               {!isEditing && (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="mt-4 sm:mt-0 flex items-center gap-2 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors"
+                  className="mt-4 sm:mt-0 flex items-center gap-2 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors"
                 >
                   <Edit2 className="w-4 h-4" />
                   Edit Profile
@@ -145,12 +145,12 @@ export default function ProfilePage() {
             <form onSubmit={handleSaveProfile} className="space-y-6">
               {/* Personal Information */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <h3 className="text-lg font-semibold text-[#222222] mb-4">
                   Personal Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-[#5d6043] mb-2">
                       Full Name
                     </label>
                     {isEditing ? (
@@ -160,19 +160,19 @@ export default function ProfilePage() {
                         onChange={(e) =>
                           setProfileData({ ...profileData, fullName: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         required
                       />
                     ) : (
-                      <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg">
-                        <UserCircle className="w-5 h-5 text-gray-400" />
-                        <span className="text-gray-900">{profileData.fullName}</span>
+                      <div className="flex items-center gap-2 px-4 py-2 bg-[#faf9f5] rounded-lg">
+                        <UserCircle className="w-5 h-5 text-[#b9aca2]" />
+                        <span className="text-[#222222]">{profileData.fullName}</span>
                       </div>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-[#5d6043] mb-2">
                       Email Address
                     </label>
                     {isEditing ? (
@@ -182,19 +182,19 @@ export default function ProfilePage() {
                         onChange={(e) =>
                           setProfileData({ ...profileData, email: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         required
                       />
                     ) : (
-                      <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg">
-                        <Mail className="w-5 h-5 text-gray-400" />
-                        <span className="text-gray-900">{profileData.email}</span>
+                      <div className="flex items-center gap-2 px-4 py-2 bg-[#faf9f5] rounded-lg">
+                        <Mail className="w-5 h-5 text-[#b9aca2]" />
+                        <span className="text-[#222222]">{profileData.email}</span>
                       </div>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-[#5d6043] mb-2">
                       Phone Number
                     </label>
                     {isEditing ? (
@@ -204,13 +204,13 @@ export default function ProfilePage() {
                         onChange={(e) =>
                           setProfileData({ ...profileData, phoneNumber: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         placeholder="+233 20 123 4567"
                       />
                     ) : (
-                      <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg">
-                        <Phone className="w-5 h-5 text-gray-400" />
-                        <span className="text-gray-900">
+                      <div className="flex items-center gap-2 px-4 py-2 bg-[#faf9f5] rounded-lg">
+                        <Phone className="w-5 h-5 text-[#b9aca2]" />
+                        <span className="text-[#222222]">
                           {profileData.phoneNumber || "Not provided"}
                         </span>
                       </div>
@@ -218,10 +218,10 @@ export default function ProfilePage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
-                    <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg">
-                      <Building className="w-5 h-5 text-gray-400" />
-                      <span className="text-gray-900">{profileData.role}</span>
+                    <label className="block text-sm font-medium text-[#5d6043] mb-2">Role</label>
+                    <div className="flex items-center gap-2 px-4 py-2 bg-[#faf9f5] rounded-lg">
+                      <Building className="w-5 h-5 text-[#b9aca2]" />
+                      <span className="text-[#222222]">{profileData.role}</span>
                     </div>
                   </div>
                 </div>
@@ -229,12 +229,12 @@ export default function ProfilePage() {
 
               {/* Address Information */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                <h3 className="text-lg font-semibold text-[#222222] mb-4">
                   Address Information
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-[#5d6043] mb-2">
                       Address
                     </label>
                     {isEditing ? (
@@ -244,13 +244,13 @@ export default function ProfilePage() {
                         onChange={(e) =>
                           setProfileData({ ...profileData, address: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         placeholder="123 Main St"
                       />
                     ) : (
-                      <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg">
-                        <MapPin className="w-5 h-5 text-gray-400" />
-                        <span className="text-gray-900">
+                      <div className="flex items-center gap-2 px-4 py-2 bg-[#faf9f5] rounded-lg">
+                        <MapPin className="w-5 h-5 text-[#b9aca2]" />
+                        <span className="text-[#222222]">
                           {profileData.address || "Not provided"}
                         </span>
                       </div>
@@ -258,7 +258,7 @@ export default function ProfilePage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                    <label className="block text-sm font-medium text-[#5d6043] mb-2">City</label>
                     {isEditing ? (
                       <input
                         type="text"
@@ -266,13 +266,13 @@ export default function ProfilePage() {
                         onChange={(e) =>
                           setProfileData({ ...profileData, city: e.target.value })
                         }
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         placeholder="Accra"
                       />
                     ) : (
-                      <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg">
-                        <Building className="w-5 h-5 text-gray-400" />
-                        <span className="text-gray-900">{profileData.city || "Not provided"}</span>
+                      <div className="flex items-center gap-2 px-4 py-2 bg-[#faf9f5] rounded-lg">
+                        <Building className="w-5 h-5 text-[#b9aca2]" />
+                        <span className="text-[#222222]">{profileData.city || "Not provided"}</span>
                       </div>
                     )}
                   </div>
@@ -283,18 +283,18 @@ export default function ProfilePage() {
 
               {/* Action Buttons */}
               {isEditing && (
-                <div className="flex gap-3 pt-4 border-t border-gray-200">
+                <div className="flex gap-3 pt-4 border-t border-[#b9aca2]/60">
                   <button
                     type="button"
                     onClick={handleCancelEdit}
-                    className="flex items-center gap-2 px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center gap-2 px-6 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
                   >
                     <X className="w-4 h-4" />
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex items-center gap-2 px-6 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors"
+                    className="flex items-center gap-2 px-6 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors"
                   >
                     <Save className="w-4 h-4" />
                     Save Changes
@@ -306,16 +306,16 @@ export default function ProfilePage() {
         </div>
 
         {/* Security Settings */}
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+        <div className="bg-[#faf9f5] rounded-2xl shadow-sm border border-[#b9aca2]/40 p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">Security Settings</h3>
-              <p className="text-sm text-gray-600 mt-1">Manage your password and security</p>
+              <h3 className="text-lg font-semibold text-[#222222]">Security Settings</h3>
+              <p className="text-sm text-[#5d6043] mt-1">Manage your password and security</p>
             </div>
             {!showPasswordForm && (
               <button
                 onClick={() => setShowPasswordForm(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-[#b9aca2] text-[#5d6043] rounded-lg hover:bg-[#b9aca2] transition-colors"
               >
                 <Lock className="w-4 h-4" />
                 Change Password
@@ -326,7 +326,7 @@ export default function ProfilePage() {
           {showPasswordForm && (
             <form onSubmit={handleChangePassword} className="space-y-4 mt-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[#5d6043] mb-2">
                   Current Password
                 </label>
                 <div className="relative">
@@ -336,13 +336,13 @@ export default function ProfilePage() {
                     onChange={(e) =>
                       setPasswordData({ ...passwordData, currentPassword: e.target.value })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent pr-10"
+                    className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent pr-10"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#b9aca2] hover:text-[#5d6043]"
                   >
                     {showCurrentPassword ? (
                       <EyeOff className="w-5 h-5" />
@@ -354,7 +354,7 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[#5d6043] mb-2">
                   New Password
                 </label>
                 <div className="relative">
@@ -364,13 +364,13 @@ export default function ProfilePage() {
                     onChange={(e) =>
                       setPasswordData({ ...passwordData, newPassword: e.target.value })
                     }
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent pr-10"
+                    className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent pr-10"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowNewPassword(!showNewPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#b9aca2] hover:text-[#5d6043]"
                   >
                     {showNewPassword ? (
                       <EyeOff className="w-5 h-5" />
@@ -382,7 +382,7 @@ export default function ProfilePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[#5d6043] mb-2">
                   Confirm New Password
                 </label>
                 <input
@@ -391,7 +391,7 @@ export default function ProfilePage() {
                   onChange={(e) =>
                     setPasswordData({ ...passwordData, confirmPassword: e.target.value })
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                  className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                   required
                 />
               </div>
@@ -407,13 +407,13 @@ export default function ProfilePage() {
                       confirmPassword: "",
                     });
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors"
+                  className="flex-1 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors"
                 >
                   Update Password
                 </button>

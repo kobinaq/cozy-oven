@@ -158,7 +158,7 @@ export default function NotificationsPage() {
       case "sales":
         return "bg-yellow-100 text-yellow-600";
       default:
-        return "bg-gray-100 text-gray-600";
+        return "bg-[#b9aca2] text-[#5d6043]";
     }
   };
 
@@ -172,15 +172,15 @@ export default function NotificationsPage() {
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Notifications</h1>
-            <p className="text-gray-600 mt-1">
+            <h1 className="text-3xl font-bold text-[#222222]">Notifications</h1>
+            <p className="text-[#5d6043] mt-1">
               Stay updated with your business activities
             </p>
           </div>
           {unreadCount > 0 && (
             <button
               onClick={markAllAsRead}
-              className="flex items-center gap-2 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors"
             >
               <CheckCheck className="w-5 h-5" />
               Mark All as Read
@@ -191,29 +191,29 @@ export default function NotificationsPage() {
         {/* Stats */}
         {loading ? (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#5d6043] animate-spin" />
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+            <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                   <Bell className="w-6 h-6 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 font-medium">Total Notifications</p>
-                  <p className="text-2xl font-bold text-gray-900">{totalCount}</p>
+                  <p className="text-sm text-[#5d6043] font-medium">Total Notifications</p>
+                  <p className="text-2xl font-bold text-[#222222]">{totalCount}</p>
                 </div>
               </div>
             </div>
-            <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+            <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
               <div className="flex items-center gap-3">
                 <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
                   <AlertCircle className="w-6 h-6 text-red-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 font-medium">Unread</p>
-                  <p className="text-2xl font-bold text-gray-900">{unreadCount}</p>
+                  <p className="text-sm text-[#5d6043] font-medium">Unread</p>
+                  <p className="text-2xl font-bold text-[#222222]">{unreadCount}</p>
                 </div>
               </div>
             </div>
@@ -221,7 +221,7 @@ export default function NotificationsPage() {
         )}
 
         {/* Filter Tabs */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+        <div className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 p-4">
           <div className="flex gap-2">
             <button
               onClick={() => {
@@ -230,8 +230,8 @@ export default function NotificationsPage() {
               }}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 filter === "all"
-                  ? "bg-[#2A2C22] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-[#5d6043] text-[#faf9f5]"
+                  : "bg-[#b9aca2] text-[#5d6043] hover:bg-[#b9aca2]"
               }`}
             >
               All ({totalCount})
@@ -243,8 +243,8 @@ export default function NotificationsPage() {
               }}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 filter === "unread"
-                  ? "bg-[#2A2C22] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? "bg-[#5d6043] text-[#faf9f5]"
+                  : "bg-[#b9aca2] text-[#5d6043] hover:bg-[#b9aca2]"
               }`}
             >
               Unread ({unreadCount})
@@ -253,20 +253,20 @@ export default function NotificationsPage() {
         </div>
 
         {/* Notifications List */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 overflow-hidden">
           {loading ? (
             <div className="p-12 text-center">
-              <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin mx-auto" />
+              <Loader2 className="w-8 h-8 text-[#5d6043] animate-spin mx-auto" />
             </div>
           ) : displayedNotifications.length > 0 ? (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-[#b9aca2]/40">
               {displayedNotifications.map((notification, idx) => {
                 const Icon = getNotificationIcon(notification.type);
                 const color = getNotificationColor(notification.type);
                 return (
                   <div
                     key={notification._id || `n-${idx}`}
-                    className={`p-4 hover:bg-gray-50 transition-colors ${
+                    className={`p-4 hover:bg-[#faf9f5] transition-colors ${
                       !notification.isRead ? "bg-blue-50/50" : ""
                     }`}
                   >
@@ -279,11 +279,11 @@ export default function NotificationsPage() {
                       {/* Content */}
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
-                          <h3 className="font-semibold text-gray-900">
+                          <h3 className="font-semibold text-[#222222]">
                             {formatNotificationTitle(notification.type)}
                           </h3>
                           <div className="flex items-center gap-2 shrink-0">
-                            <span className="text-xs text-gray-500 flex items-center gap-1">
+                            <span className="text-xs text-[#5d6043] flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               {getTimeAgo(notification.createdAt)}
                             </span>
@@ -292,14 +292,14 @@ export default function NotificationsPage() {
                             )}
                           </div>
                         </div>
-                        <p className="text-sm text-gray-600 mt-1">{notification.message ?? ""}</p>
+                        <p className="text-sm text-[#5d6043] mt-1">{notification.message ?? ""}</p>
 
                         {/* Actions */}
                         <div className="flex items-center gap-3 mt-3">
                           {!notification.isRead && (
                             <button
                               onClick={() => markAsRead(notification._id)}
-                              className="text-xs text-[#2A2C22] font-medium hover:underline"
+                              className="text-xs text-[#5d6043] font-medium hover:underline"
                             >
                               Mark as read
                             </button>
@@ -320,11 +320,11 @@ export default function NotificationsPage() {
             </div>
           ) : (
             <div className="p-12 text-center">
-              <Bell className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <h2 className="text-xl font-semibold text-gray-900 mb-2">
+              <Bell className="w-16 h-16 text-[#b9aca2] mx-auto mb-4" />
+              <h2 className="text-xl font-semibold text-[#222222] mb-2">
                 No notifications
               </h2>
-              <p className="text-gray-600">
+              <p className="text-[#5d6043]">
                 {filter === "unread"
                   ? "You're all caught up!"
                   : "You don't have any notifications yet"}
@@ -339,17 +339,17 @@ export default function NotificationsPage() {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={safePage === 1}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </button>
-            <span className="px-4 py-2 text-gray-700">
+            <span className="px-4 py-2 text-[#5d6043]">
               Page {safePage} of {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={safePage === totalPages}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>

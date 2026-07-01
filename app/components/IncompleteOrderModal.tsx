@@ -108,7 +108,7 @@ export default function IncompleteOrderModal({
             className="fixed inset-0 z-[10000] flex items-center justify-center p-4 pointer-events-none"
           >
             <div
-              className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 md:p-8 pointer-events-auto"
+              className="bg-[#faf9f5] rounded-2xl shadow-2xl max-w-md w-full p-6 md:p-8 pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
@@ -118,10 +118,10 @@ export default function IncompleteOrderModal({
                 </h2>
                 <button
                   onClick={onClose}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-2 hover:bg-[#b9aca2] rounded-full transition-colors"
                   aria-label="Close modal"
                 >
-                  <X className="w-5 h-5 text-gray-600" />
+                  <X className="w-5 h-5 text-[#5d6043]" />
                 </button>
               </div>
 
@@ -142,16 +142,16 @@ export default function IncompleteOrderModal({
                       />
                     </svg>
                   </div>
-                  <p className="text-lg font-semibold text-gray-900 mb-2">
+                  <p className="text-lg font-semibold text-[#222222] mb-2">
                     Thank you
                   </p>
-                  <p className="text-gray-600">
+                  <p className="text-[#5d6043]">
                     Your details have been saved.
                   </p>
                 </div>
               ) : (
                 <>
-                  <p className="text-gray-700 mb-6">
+                  <p className="text-[#5d6043] mb-6">
                     If you’d like us to contact you later, please leave your
                     details below.
                   </p>
@@ -159,14 +159,14 @@ export default function IncompleteOrderModal({
                   <form onSubmit={handleSubmit} className="space-y-4">
                     {/* Full Name */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                         Full Name *
                       </label>
                       <input
                         type="text"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                        className="w-full px-4 py-3 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
                         placeholder="John Doe"
                         required
                       />
@@ -174,14 +174,14 @@ export default function IncompleteOrderModal({
 
                     {/* Email */}
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                         Email *
                       </label>
                       <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                        className="w-full px-4 py-3 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
                         placeholder="john@example.com"
                         required
                       />
@@ -196,12 +196,12 @@ export default function IncompleteOrderModal({
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full bg-[#bd6325] text-white font-semibold py-3 px-6 rounded-full hover:bg-[#a8551f] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full bg-[#bd6325] text-[#faf9f5] font-semibold py-3 px-6 rounded-full hover:bg-[#bd6325] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isSubmitting ? "Saving..." : "Save My Details"}
                     </button>
 
-                    <p className="text-xs text-gray-500 text-center">
+                    <p className="text-xs text-[#5d6043] text-center">
                       Your details will only be used for follow-up communication.
                     </p>
 
@@ -209,7 +209,7 @@ export default function IncompleteOrderModal({
                       <button
                         type="button"
                         onClick={onConfirmLeave}
-                        className="w-full border-2 border-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-full hover:bg-gray-50 transition-colors mt-2"
+                        className="w-full border-2 border-[#b9aca2] text-[#5d6043] font-semibold py-3 px-6 rounded-full hover:bg-[#faf9f5] transition-colors mt-2"
                       >
                         Continue Without Saving
                       </button>

@@ -53,18 +53,18 @@ function PaymentVerificationContent() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-24 pb-16 bg-gray-50 flex items-center justify-center">
+      <main className="min-h-screen pt-24 pb-16 bg-[#faf9f5] flex items-center justify-center">
         <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 w-full">
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center">
+          <div className="bg-[#faf9f5] rounded-lg shadow-sm p-8 text-center">
             {status === "verifying" && (
               <>
                 <div className="flex justify-center mb-6">
-                  <Loader2 className="w-16 h-16 text-[#2A2C22] animate-spin" />
+                  <Loader2 className="w-16 h-16 text-[#5d6043] animate-spin" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">
+                <h1 className="text-2xl font-bold text-[#222222] mb-4">
                   Verifying Payment
                 </h1>
-                <p className="text-gray-600">{message}</p>
+                <p className="text-[#5d6043]">{message}</p>
               </>
             )}
 
@@ -73,17 +73,17 @@ function PaymentVerificationContent() {
                 <div className="flex justify-center mb-6">
                   <CheckCircle2 className="w-16 h-16 text-green-500" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">
+                <h1 className="text-2xl font-bold text-[#222222] mb-4">
                   Payment Successful!
                 </h1>
-                <p className="text-gray-600 mb-4">{message}</p>
+                <p className="text-[#5d6043] mb-4">{message}</p>
                 {orderNumber && (
                   <div className="bg-orange-50 rounded-lg p-4">
-                    <p className="text-sm text-gray-600 mb-1">Order Number</p>
+                    <p className="text-sm text-[#5d6043] mb-1">Order Number</p>
                     <p className="text-lg font-bold text-orange-500">{orderNumber}</p>
                   </div>
                 )}
-                <p className="text-sm text-gray-500 mt-4">
+                <p className="text-sm text-[#5d6043] mt-4">
                   Redirecting to order confirmation...
                 </p>
               </>
@@ -94,20 +94,20 @@ function PaymentVerificationContent() {
                 <div className="flex justify-center mb-6">
                   <XCircle className="w-16 h-16 text-red-500" />
                 </div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-4">
+                <h1 className="text-2xl font-bold text-[#222222] mb-4">
                   Payment Failed
                 </h1>
-                <p className="text-gray-600 mb-6">{message}</p>
+                <p className="text-[#5d6043] mb-6">{message}</p>
                 <div className="flex flex-col gap-3">
                   <button
                     onClick={() => router.push("/cart")}
-                    className="w-full bg-[#2A2C22] text-white font-semibold py-3 px-6 rounded-lg hover:bg-[#1a1c12] transition-colors"
+                    className="w-full bg-[#5d6043] text-[#faf9f5] font-semibold py-3 px-6 rounded-lg hover:bg-[#222222] transition-colors"
                   >
                     Return to Cart
                   </button>
                   <button
                     onClick={() => router.push("/")}
-                    className="w-full border border-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="w-full border border-[#b9aca2] text-[#5d6043] font-semibold py-3 px-6 rounded-lg hover:bg-[#faf9f5] transition-colors"
                   >
                     Go to Home
                   </button>
@@ -126,8 +126,8 @@ export default function PaymentVerifyPage() {
   return (
     <Suspense
       fallback={
-        <main className="min-h-screen pt-24 pb-16 bg-gray-50 flex items-center justify-center">
-          <div className="text-gray-600">Loading...</div>
+        <main className="min-h-screen pt-24 pb-16 bg-[#faf9f5] flex items-center justify-center">
+          <div className="text-[#5d6043]">Loading...</div>
         </main>
       }
     >

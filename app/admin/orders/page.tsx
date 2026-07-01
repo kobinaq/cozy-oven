@@ -42,7 +42,7 @@ const getStatusColor = (status?: string) => {
     case "cancelled":
       return "bg-red-100 text-red-700";
     default:
-      return "bg-gray-100 text-gray-700";
+      return "bg-[#b9aca2] text-[#5d6043]";
   }
 };
 
@@ -217,12 +217,12 @@ export default function OrdersPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Orders</h1>
-            <p className="text-gray-600 mt-1">Manage all customer orders</p>
+            <h1 className="text-3xl font-bold text-[#222222]">Orders</h1>
+            <p className="text-[#5d6043] mt-1">Manage all customer orders</p>
           </div>
           <button
             onClick={() => setShowAddOrderModal(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors"
           >
             <Package className="w-5 h-5" />
             Add Order
@@ -231,30 +231,30 @@ export default function OrdersPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
-            <p className="text-sm text-gray-600 font-medium">Total Orders</p>
-            <p className="text-2xl font-bold text-gray-900 mt-1">{statistics.total}</p>
+          <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
+            <p className="text-sm text-[#5d6043] font-medium">Total Orders</p>
+            <p className="text-2xl font-bold text-[#222222] mt-1">{statistics.total}</p>
           </div>
-          <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
-            <p className="text-sm text-gray-600 font-medium">Pending</p>
+          <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
+            <p className="text-sm text-[#5d6043] font-medium">Pending</p>
             <p className="text-2xl font-bold text-yellow-600 mt-1">{statistics.pending}</p>
           </div>
-          <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
-            <p className="text-sm text-gray-600 font-medium">Preparing</p>
+          <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
+            <p className="text-sm text-[#5d6043] font-medium">Preparing</p>
             <p className="text-2xl font-bold text-blue-600 mt-1">{statistics.preparing}</p>
           </div>
-          <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
-            <p className="text-sm text-gray-600 font-medium">Delivered</p>
+          <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
+            <p className="text-sm text-[#5d6043] font-medium">Delivered</p>
             <p className="text-2xl font-bold text-green-600 mt-1">{statistics.delivered}</p>
           </div>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+        <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#b9aca2]" />
               <input
                 type="text"
                 value={searchQuery}
@@ -263,20 +263,20 @@ export default function OrdersPage() {
                   setCurrentPage(1); // reset page when searching
                 }}
                 placeholder="Search by order ID, customer name, or email..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               />
             </div>
 
             {/* Status Filter */}
             <div className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-gray-400" />
+              <Filter className="w-5 h-5 text-[#b9aca2]" />
               <select
                 value={statusFilter}
                 onChange={(e) => {
                   setStatusFilter(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               >
                 {statusOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -294,7 +294,7 @@ export default function OrdersPage() {
                   setPaymentMethodFilter(e.target.value);
                   setCurrentPage(1);
                 }}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               >
                 <option value="all">All Payment Methods</option>
                 <option value="cash">Cash</option>
@@ -306,68 +306,68 @@ export default function OrdersPage() {
         </div>
 
         {/* Orders Table/Cards */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 overflow-hidden">
           {/* Desktop Table View */}
           <div className="hidden md:block overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-[#faf9f5] border-b border-[#b9aca2]/60">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                     Order ID
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                     Customer
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                     Items
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                     Amount
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                     Payment
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                     Date
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-[#5d6043] uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-[#faf9f5] divide-y divide-[#b9aca2]/60">
                 {loading ? (
                   <tr >
-                    <td colSpan={8} className="px-6 py-8 text-center text-gray-500">
+                    <td colSpan={8} className="px-6 py-8 text-center text-[#5d6043]">
                       Loading orders...
                     </td>
                   </tr>
                 ) : filteredOrders.length === 0 ? (
                   <tr>
-                    <td colSpan={8} className="px-6 py-8 text-center text-gray-500">
+                    <td colSpan={8} className="px-6 py-8 text-center text-[#5d6043]">
                       No orders found
                     </td>
                   </tr>
                 ) : (
                   filteredOrders.map((order, idx) => (
-                    <tr key={order.orderId || order._id || idx} className="hover:bg-gray-50">
+                    <tr key={order.orderId || order._id || idx} className="hover:bg-[#faf9f5]">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="text-sm font-semibold text-gray-900">{order.orderId}</span>
+                        <span className="text-sm font-semibold text-[#222222]">{order.orderId}</span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{order.customer || 'N/A'}</p>
-                          <p className="text-xs text-gray-500">{order.email || 'N/A'}</p>
+                          <p className="text-sm font-medium text-[#222222]">{order.customer || 'N/A'}</p>
+                          <p className="text-xs text-[#5d6043]">{order.email || 'N/A'}</p>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="text-sm text-gray-700">{order.items || 'N/A'}</span>
+                        <span className="text-sm text-[#5d6043]">{order.items || 'N/A'}</span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="text-sm font-medium text-gray-900">{order.amount || 'N/A'}</span>
+                        <span className="text-sm font-medium text-[#222222]">{order.amount || 'N/A'}</span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div>
@@ -381,7 +381,7 @@ export default function OrdersPage() {
                             {order.paymentStatus || 'N/A'}
                           </span>
                           {order.paidAt && (
-                            <p className="text-xs text-gray-500 mt-1">{order.paidAt}</p>
+                            <p className="text-xs text-[#5d6043] mt-1">{order.paidAt}</p>
                           )}
                         </div>
                       </td>
@@ -390,7 +390,7 @@ export default function OrdersPage() {
                           <select
                             value={newStatus}
                             onChange={(e) => setNewStatus(e.target.value)}
-                            className="text-xs border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-[#2A2C22]"
+                            className="text-xs border border-[#b9aca2] rounded px-2 py-1 focus:ring-2 focus:ring-[#5d6043]"
                           >
                             <option value="">Select status</option>
                             <option value="pending">Pending</option>
@@ -412,7 +412,7 @@ export default function OrdersPage() {
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm text-[#5d6043]">
                           {order.date || 'N/A'}
                         </span>
                       </td>
@@ -423,7 +423,7 @@ export default function OrdersPage() {
                               <button
                                 onClick={() => handleStatusUpdate(order.orderId, newStatus)}
                                 disabled={!newStatus}
-                                className="px-2 py-1 text-xs text-white bg-green-600 hover:bg-green-700 rounded transition-colors disabled:opacity-50"
+                                className="px-2 py-1 text-xs text-[#faf9f5] bg-green-600 hover:bg-green-700 rounded transition-colors disabled:opacity-50"
                               >
                                 Save
                               </button>
@@ -432,7 +432,7 @@ export default function OrdersPage() {
                                   setEditingOrderId(null);
                                   setNewStatus("");
                                 }}
-                                className="px-2 py-1 text-xs text-gray-700 border border-gray-300 hover:bg-gray-100 rounded transition-colors"
+                                className="px-2 py-1 text-xs text-[#5d6043] border border-[#b9aca2] hover:bg-[#b9aca2] rounded transition-colors"
                               >
                                 Cancel
                               </button>
@@ -451,7 +451,7 @@ export default function OrdersPage() {
                                   setEditingOrderId(order.orderId);
                                   setNewStatus(order.status ?? "");
                                 }}
-                                className="p-1 text-[#2A2C22] hover:bg-gray-100 rounded transition-colors"
+                                className="p-1 text-[#5d6043] hover:bg-[#b9aca2] rounded transition-colors"
                                 title="Edit Status"
                               >
                                 <Edit className="w-4 h-4" />
@@ -477,18 +477,18 @@ export default function OrdersPage() {
           {/* Mobile Cards View */}
           <div className="md:hidden p-4">
             {loading ? (
-              <div className="text-center py-8 text-gray-500">Loading orders...</div>
+              <div className="text-center py-8 text-[#5d6043]">Loading orders...</div>
             ) : filteredOrders.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">No orders found</div>
+              <div className="text-center py-8 text-[#5d6043]">No orders found</div>
             ) : (
               <div className="space-y-4">
                 {filteredOrders.map((order) => (
-                  <div key={order.orderId} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                  <div key={order.orderId} className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 p-4">
                     {/* Header */}
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="font-semibold text-gray-900">{order.orderId}</h3>
-                        <p className="text-sm text-gray-500">{order.contactNumber}</p>
+                        <h3 className="font-semibold text-[#222222]">{order.orderId}</h3>
+                        <p className="text-sm text-[#5d6043]">{order.contactNumber}</p>
                       </div>
                       <span
                         className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(
@@ -504,8 +504,8 @@ export default function OrdersPage() {
                     {/* Info Grid */}
                     <div className="grid grid-cols-1 gap-3 mb-3">
                       <div>
-                        <p className="text-xs text-gray-500 mb-1">Date</p>
-                       <p className="text-sm font-medium text-gray-900">
+                        <p className="text-xs text-[#5d6043] mb-1">Date</p>
+                       <p className="text-sm font-medium text-[#222222]">
                         {order.date ? new Date(order.date).toLocaleDateString() : "-"}
                       </p>
 
@@ -514,8 +514,8 @@ export default function OrdersPage() {
 
                     {/* Delivery Address */}
                     <div className="mb-3">
-                      <p className="text-xs text-gray-500 mb-1">Delivery Address</p>
-                      <p className="text-sm text-gray-700">{order.deliveryAddress}</p>
+                      <p className="text-xs text-[#5d6043] mb-1">Delivery Address</p>
+                      <p className="text-sm text-[#5d6043]">{order.deliveryAddress}</p>
                     </div>
 
                     {/* Action Buttons */}
@@ -524,7 +524,7 @@ export default function OrdersPage() {
                         <select
                           value={newStatus}
                           onChange={(e) => setNewStatus(e.target.value)}
-                          className="w-full text-sm border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#2A2C22]"
+                          className="w-full text-sm border border-[#b9aca2] rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#5d6043]"
                         >
                           <option value="">Select status</option>
                           <option value="pending">Pending</option>
@@ -537,7 +537,7 @@ export default function OrdersPage() {
                           <button
                             onClick={() => handleStatusUpdate(order.orderId, newStatus)}
                             disabled={!newStatus}
-                            className="flex-1 px-3 py-2 text-sm text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors disabled:opacity-50"
+                            className="flex-1 px-3 py-2 text-sm text-[#faf9f5] bg-green-600 hover:bg-green-700 rounded-lg transition-colors disabled:opacity-50"
                           >
                             Save
                           </button>
@@ -546,7 +546,7 @@ export default function OrdersPage() {
                               setEditingOrderId(null);
                               setNewStatus("");
                             }}
-                            className="flex-1 px-3 py-2 text-sm text-gray-700 border border-gray-300 hover:bg-gray-100 rounded-lg transition-colors"
+                            className="flex-1 px-3 py-2 text-sm text-[#5d6043] border border-[#b9aca2] hover:bg-[#b9aca2] rounded-lg transition-colors"
                           >
                             Cancel
                           </button>
@@ -556,7 +556,7 @@ export default function OrdersPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => setViewingOrderId(order.orderId)}
-                          className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                          className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
                         >
                           <Eye className="w-4 h-4" />
                           View Details
@@ -566,7 +566,7 @@ export default function OrdersPage() {
                             setEditingOrderId(order.orderId);
                             setNewStatus(order.status ?? "");
                           }}
-                          className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                          className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
                         >
                           <Edit className="w-4 h-4" />
                           Edit Status
@@ -588,8 +588,8 @@ export default function OrdersPage() {
           {/* Empty State */}
           {!loading && filteredOrders.length === 0 && (
             <div className="text-center py-12">
-              <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-500">No orders found</p>
+              <Package className="w-16 h-16 text-[#b9aca2] mx-auto mb-4" />
+              <p className="text-[#5d6043]">No orders found</p>
             </div>
           )}
         </div>
@@ -600,17 +600,17 @@ export default function OrdersPage() {
             <button
               onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Previous
             </button>
-            <span className="px-4 py-2 text-gray-700">
+            <span className="px-4 py-2 text-[#5d6043]">
               Page {currentPage} of {totalPages}
             </span>
             <button
               onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>

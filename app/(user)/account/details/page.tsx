@@ -95,8 +95,8 @@ export default function AccountDetailsPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Account Details</h1>
-        <p className="text-gray-600 mt-2">Manage your personal information</p>
+        <h1 className="text-3xl font-bold text-[#222222]">Account Details</h1>
+        <p className="text-[#5d6043] mt-2">Manage your personal information</p>
       </div>
 
       {error && (
@@ -114,7 +114,7 @@ export default function AccountDetailsPage() {
       <div className="max-w-2xl space-y-6">
         {/* Full Name */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-[#5d6043] mb-2">
             Full Name *
           </label>
           <input
@@ -123,8 +123,8 @@ export default function AccountDetailsPage() {
             value={formData.fullName}
             onChange={handleInputChange}
             disabled={!isEditing}
-            className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent ${
-              !isEditing ? "bg-gray-50 text-gray-600" : ""
+            className={`w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent ${
+              !isEditing ? "bg-[#faf9f5] text-[#5d6043]" : ""
             }`}
             placeholder="John Doe"
           />
@@ -132,7 +132,7 @@ export default function AccountDetailsPage() {
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-[#5d6043] mb-2">
             Email Address *
           </label>
           <input
@@ -141,8 +141,8 @@ export default function AccountDetailsPage() {
             value={formData.email}
             onChange={handleInputChange}
             disabled={!isEditing}
-            className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent ${
-              !isEditing ? "bg-gray-50 text-gray-600" : ""
+            className={`w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent ${
+              !isEditing ? "bg-[#faf9f5] text-[#5d6043]" : ""
             }`}
             placeholder="john@example.com"
           />
@@ -150,7 +150,7 @@ export default function AccountDetailsPage() {
 
         {/* Phone Number */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-sm font-semibold text-[#5d6043] mb-2">
             Phone Number
           </label>
           <input
@@ -159,8 +159,8 @@ export default function AccountDetailsPage() {
             value={formData.phoneNumber}
             onChange={handleInputChange}
             disabled={!isEditing}
-            className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent ${
-              !isEditing ? "bg-gray-50 text-gray-600" : ""
+            className={`w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent ${
+              !isEditing ? "bg-[#faf9f5] text-[#5d6043]" : ""
             }`}
             placeholder="+233 123 456 789"
           />
@@ -173,7 +173,7 @@ export default function AccountDetailsPage() {
               <button
                 onClick={handleSave}
                 disabled={isSaving}
-                className="flex items-center gap-2 px-6 py-3 bg-[#2A2C22] text-white font-semibold rounded-lg hover:bg-[#1a1c12] transition-colors disabled:bg-gray-400"
+                className="flex items-center gap-2 px-6 py-3 bg-[#5d6043] text-[#faf9f5] font-semibold rounded-lg hover:bg-[#222222] transition-colors disabled:bg-[#b9aca2]"
               >
                 <Save className="w-4 h-4" />
                 {isSaving ? "Saving..." : "Save Changes"}
@@ -191,7 +191,7 @@ export default function AccountDetailsPage() {
                   });
                 }}
                 disabled={isSaving}
-                className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+                className="px-6 py-3 border border-[#b9aca2] text-[#5d6043] font-semibold rounded-lg hover:bg-[#faf9f5] transition-colors"
               >
                 Cancel
               </button>
@@ -199,7 +199,7 @@ export default function AccountDetailsPage() {
           ) : (
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-2 px-6 py-3 bg-[#2A2C22] text-white font-semibold rounded-lg hover:bg-[#1a1c12] transition-colors"
+              className="flex items-center gap-2 px-6 py-3 bg-[#5d6043] text-[#faf9f5] font-semibold rounded-lg hover:bg-[#222222] transition-colors"
             >
               <User className="w-4 h-4" />
               Edit Profile
@@ -208,9 +208,9 @@ export default function AccountDetailsPage() {
         </div>
 
         {/* Delete Account Section */}
-        <div className="pt-8 border-t border-gray-200">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Danger Zone</h2>
-          <p className="text-gray-600 mb-4">
+        <div className="pt-8 border-t border-[#b9aca2]/60">
+          <h2 className="text-xl font-bold text-[#222222] mb-2">Danger Zone</h2>
+          <p className="text-[#5d6043] mb-4">
             Once you delete your account, there is no going back. Please be certain.
           </p>
           
@@ -231,14 +231,14 @@ export default function AccountDetailsPage() {
                 <button
                   onClick={handleDeleteAccount}
                   disabled={isDeleting}
-                  className="px-6 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors disabled:bg-gray-400"
+                  className="px-6 py-2 bg-red-600 text-[#faf9f5] font-semibold rounded-lg hover:bg-red-700 transition-colors disabled:bg-[#b9aca2]"
                 >
                   {isDeleting ? "Deleting..." : "Yes, Delete My Account"}
                 </button>
                 <button
                   onClick={() => setShowDeleteConfirm(false)}
                   disabled={isDeleting}
-                  className="px-6 py-2 border border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors"
+                  className="px-6 py-2 border border-[#b9aca2] text-[#5d6043] font-semibold rounded-lg hover:bg-[#faf9f5] transition-colors"
                 >
                   Cancel
                 </button>

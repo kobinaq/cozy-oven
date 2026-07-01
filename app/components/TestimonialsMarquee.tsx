@@ -43,10 +43,10 @@ function MarqueeRow({
         {duplicated.map((testimonial, index) => (
           <article
             key={`${testimonial.id}-${index}`}
-            className="h-56 w-[360px] flex-shrink-0 rounded-[30px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/80 p-7 shadow-[0_12px_40px_rgba(48,23,15,0.10)]"
+            className="h-56 w-[360px] flex-shrink-0 rounded-[30px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/80 p-7 shadow-[0_12px_40px_rgba(34,34,34,0.10)]"
           >
-            <p className="font-editorial text-4xl leading-tight text-[#C97D35]">&quot;</p>
-            <p className="mt-2 line-clamp-5 text-lg font-semibold leading-8 text-[#30170F]">
+            <p className="font-editorial text-4xl leading-tight text-[#bd6325]">&quot;</p>
+            <p className="mt-2 line-clamp-5 text-lg font-semibold leading-8 text-[#222222]">
               {testimonial.message}
             </p>
           </article>

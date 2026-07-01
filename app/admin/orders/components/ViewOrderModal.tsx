@@ -213,13 +213,13 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
-          className="relative bg-white rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+          className="relative bg-[#faf9f5] rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full hover:bg-gray-100 transition z-10"
+            className="absolute top-4 right-4 p-2 rounded-full hover:bg-[#b9aca2] transition z-10"
           >
             <X className="w-5 h-5" />
           </button>
@@ -227,13 +227,13 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
           <div className="p-8">
             {/* Header */}
             <div className="mb-6">
-              <h2 className="text-2xl font-bold text-gray-900">Order Details</h2>
-              <p className="text-gray-600 mt-2">View complete order information</p>
+              <h2 className="text-2xl font-bold text-[#222222]">Order Details</h2>
+              <p className="text-[#5d6043] mt-2">View complete order information</p>
             </div>
             {/* Error and Loading States */}
             {loading && (
               <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin" />
+                <Loader2 className="w-8 h-8 text-[#5d6043] animate-spin" />
               </div>
             )}
 
@@ -246,10 +246,10 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
             {!loading && !error && orderDetails && (
               <div className="space-y-6">
                 {/* Order ID and Status */}
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-[#faf9f5] rounded-lg">
                   <div>
-                    <h4 className="text-sm font-medium text-gray-600">Order ID</h4>
-                    <p className="text-lg font-bold text-gray-900">{orderDetails.orderId}</p>
+                    <h4 className="text-sm font-medium text-[#5d6043]">Order ID</h4>
+                    <p className="text-lg font-bold text-[#222222]">{orderDetails.orderId}</p>
                   </div>
                   <div>
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -259,7 +259,7 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                         ? 'bg-yellow-100 text-yellow-700'
                         : orderDetails.orderStatus === 'preparing'
                         ? 'bg-blue-100 text-blue-700'
-                        : 'bg-gray-100 text-gray-700'
+                        : 'bg-[#b9aca2] text-[#5d6043]'
                     }`}>
                       {(orderDetails.orderStatus?.charAt(0) || "").toUpperCase() + (orderDetails.orderStatus?.slice(1) || "")}
                     </span>
@@ -267,33 +267,33 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                 </div>
 
                 {/* Customer Information */}
-                <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="p-4 bg-[#faf9f5] rounded-lg">
                   <div className="flex items-center gap-2 mb-3">
-                    <User className="w-5 h-5 text-gray-600" />
-                    <h4 className="text-sm font-semibold text-gray-900">Customer Information</h4>
+                    <User className="w-5 h-5 text-[#5d6043]" />
+                    <h4 className="text-sm font-semibold text-[#222222]">Customer Information</h4>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-xs text-gray-600">Name</p>
-                      <p className="text-sm font-medium text-gray-900">{orderDetails.customer.name}</p>
+                      <p className="text-xs text-[#5d6043]">Name</p>
+                      <p className="text-sm font-medium text-[#222222]">{orderDetails.customer.name}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-600">Email</p>
-                      <p className="text-sm font-medium text-gray-900">{orderDetails.customer.email}</p>
+                      <p className="text-xs text-[#5d6043]">Email</p>
+                      <p className="text-sm font-medium text-[#222222]">{orderDetails.customer.email}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-600">Contact Number</p>
-                      <p className="text-sm font-medium text-gray-900">{orderDetails.customer.contactNumber}</p>
+                      <p className="text-xs text-[#5d6043]">Contact Number</p>
+                      <p className="text-sm font-medium text-[#222222]">{orderDetails.customer.contactNumber}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-600">Delivery Address</p>
-                      <p className="text-sm font-medium text-gray-900">{orderDetails.customer.deliveryAddress}</p>
+                      <p className="text-xs text-[#5d6043]">Delivery Address</p>
+                      <p className="text-sm font-medium text-[#222222]">{orderDetails.customer.deliveryAddress}</p>
                     </div>
                    
                     {orderDetails.customer.city && (
                       <div>
-                        <p className="text-xs text-gray-600">City</p>
-                        <p className="text-sm font-medium text-gray-900">{orderDetails.customer.city}</p>
+                        <p className="text-xs text-[#5d6043]">City</p>
+                        <p className="text-sm font-medium text-[#222222]">{orderDetails.customer.city}</p>
                       </div>
                     )}
                   </div>
@@ -302,16 +302,16 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                 {/* Order Items */}
                 <div>
                   <div className="flex items-center gap-2 mb-3">
-                    <Package className="w-5 h-5 text-gray-600" />
-                    <h4 className="text-sm font-semibold text-gray-900">Order Items</h4>
+                    <Package className="w-5 h-5 text-[#5d6043]" />
+                    <h4 className="text-sm font-semibold text-[#222222]">Order Items</h4>
                   </div>
                   
                   {/* Display order items from orderDetails.orderItems if available */}
                   {orderDetails.orderDetails?.orderItems && orderDetails.orderDetails.orderItems.length > 0 ? (
                     <div className="space-y-2 mb-4">
                       {orderDetails.orderDetails.orderItems.map((item, index) => (
-                        <div key={`order-item-${index}-${item.substring(0, 20)}`} className="p-3 bg-gray-50 rounded-lg">
-                          <p className="text-sm text-gray-900">{item}</p>
+                        <div key={`order-item-${index}-${item.substring(0, 20)}`} className="p-3 bg-[#faf9f5] rounded-lg">
+                          <p className="text-sm text-[#222222]">{item}</p>
                         </div>
                       ))}
                     </div>
@@ -320,8 +320,8 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                   {/* Display detailed items with images and prices */}
                   <div className="space-y-3">
                     {orderDetails.items.map((item, index) => (
-                      <div key={`${item.productId}-${index}`} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
-                        <div className="w-16 h-16 bg-gray-200 rounded-lg relative overflow-hidden shrink-0">
+                      <div key={`${item.productId}-${index}`} className="flex items-center gap-4 p-3 bg-[#faf9f5] rounded-lg">
+                        <div className="w-16 h-16 bg-[#b9aca2] rounded-lg relative overflow-hidden shrink-0">
                           {item.thumbnail ? (
                             <Image
                               src={item.thumbnail}
@@ -331,17 +331,17 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
-                              <Package className="w-8 h-8 text-gray-400" />
+                              <Package className="w-8 h-8 text-[#b9aca2]" />
                             </div>
                           )}
                         </div>
                         <div className="flex-1">
-                          <h5 className="text-sm font-medium text-gray-900">{item.name}</h5>
+                          <h5 className="text-sm font-medium text-[#222222]">{item.name}</h5>
                           {item.size && (
-                            <p className="text-xs text-gray-500 mt-0.5">Size: {item.size}</p>
+                            <p className="text-xs text-[#5d6043] mt-0.5">Size: {item.size}</p>
                           )}
                           {item.packageSelections && item.packageSelections.length > 0 && (
-                            <div className="mt-1 text-xs text-gray-500">
+                            <div className="mt-1 text-xs text-[#5d6043]">
                               {item.packageSelections.map((selection) => (
                                 <p key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
                                   {selection.groupLabel ? `${selection.groupLabel}: ` : ""}
@@ -350,12 +350,12 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                               ))}
                             </div>
                           )}
-                          <p className="text-xs text-gray-600 mt-1">
+                          <p className="text-xs text-[#5d6043] mt-1">
                             GHS {item.unitPrice.toFixed(2)} x {item.quantity}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-bold text-gray-900">
+                          <p className="text-sm font-bold text-[#222222]">
                             GHS {item.total.toFixed(2)}
                           </p>
                         </div>
@@ -366,18 +366,18 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
 
                 {/* Pickup Details */}
                 {(orderDetails.orderDetails?.pickUpDetails || orderDetails.customer.deliveryAddress === "Pickup from store") && (
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="text-sm font-semibold text-gray-900 mb-3">Pickup Details</h4>
+                  <div className="p-4 bg-[#faf9f5] rounded-lg">
+                    <h4 className="text-sm font-semibold text-[#222222] mb-3">Pickup Details</h4>
                     <div className="space-y-2">
                       <div>
-                        <p className="text-xs text-gray-600">Pickup Date</p>
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-xs text-[#5d6043]">Pickup Date</p>
+                        <p className="text-sm font-medium text-[#222222]">
                           {orderDetails.orderDetails?.pickUpDetails?.pickupDate || "Not specified"}
                         </p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600">Special Instructions</p>
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-xs text-[#5d6043]">Special Instructions</p>
+                        <p className="text-sm font-medium text-[#222222]">
                           {orderDetails.orderDetails?.pickUpDetails?.specialInstructions || "None"}
                         </p>
                       </div>
@@ -386,12 +386,12 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                 )}
 
                 {/* Pricing */}
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <h4 className="text-sm font-semibold text-gray-900 mb-3">Pricing Summary</h4>
+                <div className="p-4 bg-[#faf9f5] rounded-lg">
+                  <h4 className="text-sm font-semibold text-[#222222] mb-3">Pricing Summary</h4>
                   <div className="space-y-2">
                     <div className="flex justify-between text-base font-bold">
-                      <span className="text-gray-900">Total Amount</span>
-                      <span className="text-[#2A2C22]">
+                      <span className="text-[#222222]">Total Amount</span>
+                      <span className="text-[#5d6043]">
                         GHS {orderDetails.pricing.subtotal.toFixed(2)}
                       </span>
                     </div>
@@ -399,14 +399,14 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                 </div>
 
                 {/* Payment Information */}
-                <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="p-4 bg-[#faf9f5] rounded-lg">
                   <div className="flex items-center gap-2 mb-3">
-                    <CreditCard className="w-5 h-5 text-gray-600" />
-                    <h4 className="text-sm font-semibold text-gray-900">Payment Information</h4>
+                    <CreditCard className="w-5 h-5 text-[#5d6043]" />
+                    <h4 className="text-sm font-semibold text-[#222222]">Payment Information</h4>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <p className="text-xs text-gray-600">Payment Status</p>
+                      <p className="text-xs text-[#5d6043]">Payment Status</p>
                       <span className={`inline-block mt-1 px-2 py-1 rounded-full text-xs font-medium ${
                         orderDetails.payment.status === 'paid'
                           ? 'bg-green-100 text-green-700'
@@ -416,23 +416,23 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                       </span>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-600">Payment Method</p>
-                      <p className="text-sm font-medium text-gray-900 capitalize">
+                      <p className="text-xs text-[#5d6043]">Payment Method</p>
+                      <p className="text-sm font-medium text-[#222222] capitalize">
                         {orderDetails.payment.method}
                       </p>
                     </div>
                     {orderDetails.payment.transactionRef && (
                       <div>
-                        <p className="text-xs text-gray-600">Transaction Reference</p>
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-xs text-[#5d6043]">Transaction Reference</p>
+                        <p className="text-sm font-medium text-[#222222]">
                           {orderDetails.payment.transactionRef}
                         </p>
                       </div>
                     )}
                     {orderDetails.payment.paidAt && (
                       <div>
-                        <p className="text-xs text-gray-600">Paid At</p>
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-xs text-[#5d6043]">Paid At</p>
+                        <p className="text-sm font-medium text-[#222222]">
                           {new Date(orderDetails.payment.paidAt).toLocaleString()}
                         </p>
                       </div>
@@ -442,8 +442,8 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
 
                 {/* Order Date */}
                 <div>
-                  <p className="text-xs text-gray-600">Order Placed</p>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-xs text-[#5d6043]">Order Placed</p>
+                  <p className="text-sm font-medium text-[#222222]">
                     {new Date(orderDetails.createdAt).toLocaleString()}
                   </p>
                 </div>
@@ -451,10 +451,10 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
             )}
 
             {/* Footer */}
-            <div className="flex justify-end gap-3 pt-6 mt-6 border-t border-gray-200">
+            <div className="flex justify-end gap-3 pt-6 mt-6 border-t border-[#b9aca2]/60">
               <button
                 onClick={onClose}
-                className="px-6 py-3 bg-[#2A2C22] text-white rounded-full font-semibold hover:bg-[#1a1c12] transition"
+                className="px-6 py-3 bg-[#5d6043] text-[#faf9f5] rounded-full font-semibold hover:bg-[#222222] transition"
               >
                 Close
               </button>

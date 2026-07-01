@@ -55,14 +55,14 @@ export default function InventoryForm({
     <form onSubmit={onSubmit} className="space-y-4">
       {/* Item Name */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-[#5d6043] mb-2">
           Item Name *
         </label>
         <input
           type="text"
           value={itemName}
           onChange={(e) => onItemNameChange(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+          className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
           placeholder="e.g., Bread Flour"
           required
         />
@@ -70,13 +70,13 @@ export default function InventoryForm({
 
       {/* Item Category */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-[#5d6043] mb-2">
           Item Category *
         </label>
         <select
           value={itemCategory}
           onChange={(e) => onItemCategoryChange(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+          className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
           required
         >
           <option value="">Select category</option>
@@ -91,7 +91,7 @@ export default function InventoryForm({
       {/* Quantity and Cost Price */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-[#5d6043] mb-2">
             Quantity Purchased *
           </label>
           <input
@@ -99,14 +99,14 @@ export default function InventoryForm({
             min="1"
             value={quantityPurchased}
             onChange={(e) => onQuantityPurchasedChange(Number(e.target.value))}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+            className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
             placeholder="10"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-[#5d6043] mb-2">
             Cost Price (GHS) *
           </label>
           <input
@@ -115,7 +115,7 @@ export default function InventoryForm({
             step="0.01"
             value={costPrice}
             onChange={(e) => onCostPriceChange(Number(e.target.value))}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+            className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
             placeholder="180.00"
             required
           />
@@ -125,28 +125,28 @@ export default function InventoryForm({
       {/* Vendor Information */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-[#5d6043] mb-2">
             Vendor Name *
           </label>
           <input
             type="text"
             value={vendorName}
             onChange={(e) => onVendorNameChange(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+            className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
             placeholder="e.g., Golden Mills Ltd"
             required
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-[#5d6043] mb-2">
             Vendor Contact *
           </label>
           <input
             type="text"
             value={vendorContact}
             onChange={(e) => onVendorContactChange(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+            className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
             placeholder="e.g., 0241234567"
             required
           />
@@ -155,13 +155,13 @@ export default function InventoryForm({
 
       {/* Purchase Purpose */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-[#5d6043] mb-2">
           Purchase Purpose *
         </label>
         <textarea
           value={purchasePurpose}
           onChange={(e) => onPurchasePurposeChange(e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+          className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
           placeholder="e.g., Weekly bread production"
           rows={3}
           required
@@ -170,10 +170,10 @@ export default function InventoryForm({
 
       {/* Total Cost Display */}
       {!isEdit && (
-        <div className="bg-gray-50 rounded-lg p-4">
+        <div className="bg-[#faf9f5] rounded-lg p-4">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-medium text-gray-700">Total Cost:</span>
-            <span className="text-lg font-bold text-gray-900">
+            <span className="text-sm font-medium text-[#5d6043]">Total Cost:</span>
+            <span className="text-lg font-bold text-[#222222]">
               GHS {(quantityPurchased * costPrice).toFixed(2)}
             </span>
           </div>
@@ -185,14 +185,14 @@ export default function InventoryForm({
         <button
           type="button"
           onClick={onCancel}
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+          className="flex-1 px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
           disabled={loading}
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="flex-1 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="flex-1 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           disabled={loading}
         >
           {loading && <Loader2 className="w-4 h-4 animate-spin" />}

@@ -43,7 +43,7 @@ export default function InventoryCards({
       case "out_of_stock":
         return "bg-red-100 text-red-700";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-[#b9aca2] text-[#5d6043]";
     }
   };
 
@@ -65,16 +65,16 @@ export default function InventoryCards({
       {items.map((item) => (
         <div
           key={item.id}
-          className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+          className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 p-4">
           {/* Header */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center">
-                <Package className="w-6 h-6 text-gray-500" />
+              <div className="w-12 h-12 bg-[#b9aca2] rounded-lg flex items-center justify-center">
+                <Package className="w-6 h-6 text-[#5d6043]" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900">{item.productName}</h3>
-                <p className="text-sm text-gray-500">{item.category}</p>
+                <h3 className="font-semibold text-[#222222]">{item.productName}</h3>
+                <p className="text-sm text-[#5d6043]">{item.category}</p>
               </div>
             </div>
             <span
@@ -94,28 +94,28 @@ export default function InventoryCards({
           {/* Info Grid */}
           <div className="grid grid-cols-2 gap-3 mb-3">
             <div>
-              <p className="text-xs text-gray-500 mb-1">SKU</p>
-              <p className="text-sm font-medium text-gray-900">{item.sku}</p>
+              <p className="text-xs text-[#5d6043] mb-1">SKU</p>
+              <p className="text-sm font-medium text-[#222222]">{item.sku}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Current Stock</p>
-              <p className="text-sm font-semibold text-gray-900">
-                {item.currentStock} <span className="text-xs text-gray-500">/ {item.maxStock}</span>
+              <p className="text-xs text-[#5d6043] mb-1">Current Stock</p>
+              <p className="text-sm font-semibold text-[#222222]">
+                {item.currentStock} <span className="text-xs text-[#5d6043]">/ {item.maxStock}</span>
               </p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Reorder Point</p>
-              <p className="text-sm font-medium text-gray-900">{item.reorderPoint}</p>
+              <p className="text-xs text-[#5d6043] mb-1">Reorder Point</p>
+              <p className="text-sm font-medium text-[#222222]">{item.reorderPoint}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Unit Cost</p>
-              <p className="text-sm font-semibold text-gray-900">GHS {item?.unitCost?.toFixed(2)}</p>
+              <p className="text-xs text-[#5d6043] mb-1">Unit Cost</p>
+              <p className="text-sm font-semibold text-[#222222]">GHS {item?.unitCost?.toFixed(2)}</p>
             </div>
           </div>
 
           {/* Actions */}
           {selectedItem === item.id ? (
-            <div className="border-t border-gray-100 pt-3">
+            <div className="border-t border-[#b9aca2]/40 pt-3">
               <div className="space-y-3">
                 <div className="flex gap-2">
                   <button
@@ -123,7 +123,7 @@ export default function InventoryCards({
                     className={`flex-1 px-3 py-2 rounded-lg border transition-colors ${
                       adjustmentType === "add"
                         ? "border-green-500 bg-green-50 text-green-700"
-                        : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                        : "border-[#b9aca2] text-[#5d6043] hover:bg-[#faf9f5]"
                     }`}
                   >
                     <Plus className="w-4 h-4 inline mr-1" /> Add
@@ -133,7 +133,7 @@ export default function InventoryCards({
                     className={`flex-1 px-3 py-2 rounded-lg border transition-colors ${
                       adjustmentType === "remove"
                         ? "border-red-500 bg-red-50 text-red-700"
-                        : "border-gray-300 text-gray-700 hover:bg-gray-50"
+                        : "border-[#b9aca2] text-[#5d6043] hover:bg-[#faf9f5]"
                     }`}
                   >
                     <Minus className="w-4 h-4 inline mr-1" /> Remove
@@ -145,7 +145,7 @@ export default function InventoryCards({
                   value={adjustmentAmount}
                   onChange={(e) => setAdjustmentAmount(parseInt(e.target.value) || 0)}
                   placeholder="Amount"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                 />
                 <div className="flex gap-2">
                   <button
@@ -153,13 +153,13 @@ export default function InventoryCards({
                       setSelectedItem(null);
                       setAdjustmentAmount(0);
                     }}
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex-1 px-3 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={() => onAdjustStock(item.id)}
-                    className="flex-1 px-3 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors"
+                    className="flex-1 px-3 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors"
                   >
                     Confirm
                   </button>
@@ -169,7 +169,7 @@ export default function InventoryCards({
           ) : (
             <button
               onClick={() => setSelectedItem(item.id)}
-              className="w-full flex items-center justify-center gap-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              className="w-full flex items-center justify-center gap-2 px-3 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
             >
               <Edit2 className="w-4 h-4" />
               Adjust Stock

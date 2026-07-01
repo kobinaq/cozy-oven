@@ -304,10 +304,10 @@ export default function CheckoutPage() {
       <Navbar />
       <main className="editorial-shell min-h-screen pb-16 pt-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-editorial mb-8 text-5xl tracking-[-0.055em] text-[#30170F] sm:text-6xl">Checkout</h1>
+          <h1 className="font-editorial mb-8 text-5xl tracking-[-0.055em] text-[#222222] sm:text-6xl">Checkout</h1>
 
           {!isAuthenticated && (
-            <div className="mb-6 rounded-[24px] border border-[#F3C667]/40 bg-[#FFFDF7]/86 p-4 shadow-[0_12px_40px_rgba(48,23,15,0.08)]">
+            <div className="mb-6 rounded-[24px] border border-[#b9aca2]/40 bg-[#faf9f5]/86 p-4 shadow-[0_12px_40px_rgba(34,34,34,0.08)]">
               <p className="text-sm text-red-800">
                The minimum delivery charge is GHS 30, and the final fee may vary depending on your location and other delivery factors..
               </p>
@@ -322,8 +322,8 @@ export default function CheckoutPage() {
                   <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
                       index <= currentStepIndex
-                        ? "bg-[#30170F] text-[#FFF8EC]"
-                        : "bg-[#F7EAD6] text-[#80634F]"
+                        ? "bg-[#222222] text-[#faf9f5]"
+                        : "bg-[#b9aca2] text-[#5d6043]"
                     }`}
                   >
                     {index < currentStepIndex ? <Check className="w-5 h-5" /> : index + 1}
@@ -334,7 +334,7 @@ export default function CheckoutPage() {
                 {index < steps.length - 1 && (
                   <div
                     className={`flex-1 h-1 mx-2 ${
-                      index < currentStepIndex ? "bg-[#C97D35]" : "bg-[#F7EAD6]"
+                      index < currentStepIndex ? "bg-[#bd6325]" : "bg-[#b9aca2]"
                     }`}
                   />
                 )}
@@ -343,7 +343,7 @@ export default function CheckoutPage() {
           </div>
 
           {/* Form Content */}
-          <div className="mb-8 rounded-[34px] border border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/86 p-6 shadow-[0_26px_80px_rgba(48,23,15,0.12)] md:p-8">
+          <div className="mb-8 rounded-[34px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-6 shadow-[0_26px_80px_rgba(34,34,34,0.12)] md:p-8">
             {/* Error Message at top of form */}
             {error && (
               <div className="mb-6 rounded-[22px] border border-red-200 bg-red-50 p-4">
@@ -354,12 +354,12 @@ export default function CheckoutPage() {
             {/* Customer Information */}
             {currentStep === "info" && (
               <div>
-                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#30170F]">
+                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#222222]">
                   Customer Information
                 </h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="mb-2 block text-sm font-black text-[#5B3322]">
+                    <label className="mb-2 block text-sm font-black text-[#5d6043]">
                       Full Name *
                     </label>
                     <input
@@ -374,7 +374,7 @@ export default function CheckoutPage() {
                     />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-black text-[#5B3322]">
+                    <label className="mb-2 block text-sm font-black text-[#5d6043]">
                       Email *
                     </label>
                     <input
@@ -389,7 +389,7 @@ export default function CheckoutPage() {
                     />
                   </div>
                   <div>
-                    <label className="mb-2 block text-sm font-black text-[#5B3322]">
+                    <label className="mb-2 block text-sm font-black text-[#5d6043]">
                       Phone Number *
                     </label>
                     <input
@@ -410,14 +410,14 @@ export default function CheckoutPage() {
             {/* Delivery/Pickup Details */}
             {currentStep === "delivery" && (
               <div>
-                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#30170F]">
+                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#222222]">
                   Delivery Details
                 </h2>
             
 
                 {/* Delivery/Pickup Toggle */}
                 <div className="mb-6">
-                  <label className="mb-3 block text-sm font-black text-[#5B3322]">
+                  <label className="mb-3 block text-sm font-black text-[#5d6043]">
                     Delivery Method *
                   </label>
                   <div className="flex gap-4">
@@ -425,8 +425,8 @@ export default function CheckoutPage() {
                       onClick={() => setDeliveryMethod("delivery")}
                       className={`flex-1 py-3 px-4 rounded-full border-2 font-semibold transition-colors ${
                         deliveryMethod === "delivery"
-                          ? "border-[#C97D35] bg-[#F7EAD6] text-[#30170F]"
-                          : "border-[rgba(48,23,15,0.12)] bg-[#FFFDF7] text-[#5B3322] hover:border-[#C97D35]"
+                          ? "border-[#bd6325] bg-[#b9aca2] text-[#222222]"
+                          : "border-[rgba(34,34,34,0.12)] bg-[#faf9f5] text-[#5d6043] hover:border-[#bd6325]"
                       }`}
                     >
                       Delivery
@@ -435,8 +435,8 @@ export default function CheckoutPage() {
                       onClick={() => setDeliveryMethod("pickup")}
                       className={`flex-1 py-3 px-4 rounded-full border-2 font-semibold transition-colors ${
                         deliveryMethod === "pickup"
-                          ? "border-[#C97D35] bg-[#F7EAD6] text-[#30170F]"
-                          : "border-[rgba(48,23,15,0.12)] bg-[#FFFDF7] text-[#5B3322] hover:border-[#C97D35]"
+                          ? "border-[#bd6325] bg-[#b9aca2] text-[#222222]"
+                          : "border-[rgba(34,34,34,0.12)] bg-[#faf9f5] text-[#5d6043] hover:border-[#bd6325]"
                       }`}
                     >
                       Pickup
@@ -452,7 +452,7 @@ export default function CheckoutPage() {
               </p>
                      </div> */}
                     <div>
-                      <label className="mb-2 block text-sm font-black text-[#5B3322]">
+                      <label className="mb-2 block text-sm font-black text-[#5d6043]">
                         Delivery Address *
                       </label>
                       <input
@@ -470,7 +470,7 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div>
-                      <label className="mb-2 block text-sm font-black text-[#5B3322]">
+                      <label className="mb-2 block text-sm font-black text-[#5d6043]">
                         City *
                       </label>
                       <input
@@ -494,7 +494,7 @@ export default function CheckoutPage() {
                 {deliveryMethod === "pickup" && (
                   <div className="grid grid-cols-2 gap-4 mt-4">
                     <div>
-                      <label className="mb-2 block text-sm font-black text-[#5B3322]">
+                      <label className="mb-2 block text-sm font-black text-[#5d6043]">
                         Pickup Date *
                       </label>
                       <input
@@ -511,7 +511,7 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div>
-                      <label className="mb-2 block text-sm font-black text-[#5B3322]">
+                      <label className="mb-2 block text-sm font-black text-[#5d6043]">
                         Preferred Time *
                       </label>
                       <input
@@ -530,7 +530,7 @@ export default function CheckoutPage() {
                 )}
 
                 <div className="mt-4">
-                  <label className="mb-2 block text-sm font-black text-[#5B3322]">
+                  <label className="mb-2 block text-sm font-black text-[#5d6043]">
                     Special Instructions (Optional)
                   </label>
                   <textarea
@@ -552,27 +552,27 @@ export default function CheckoutPage() {
             {/* Payment Details */}
             {currentStep === "payment" && (
               <div>
-                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#30170F]">
+                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#222222]">
                   Payment Method
                 </h2>
 
                 <div className="space-y-4">
                   <div>
-                    <label className="mb-3 block text-sm font-black text-[#5B3322]">
+                    <label className="mb-3 block text-sm font-black text-[#5d6043]">
                       Select Payment Method *
                     </label>
                     <div className="space-y-3">
                       <button
                         onClick={() => setPaymentMethod("paystack")}
-                        className="w-full rounded-[22px] border-2 border-[#C97D35] bg-[#F7EAD6] px-4 py-3 text-left font-black text-[#30170F] transition-colors"
+                        className="w-full rounded-[22px] border-2 border-[#bd6325] bg-[#b9aca2] px-4 py-3 text-left font-black text-[#222222] transition-colors"
                       >
                         Paystack Payment (Mobile Money, Cards, & More)
                       </button>
                     </div>
                   </div>
 
-                  <div className="mt-6 rounded-[22px] border border-[rgba(48,23,15,0.09)] bg-[#FFF8EC] p-4">
-                    <p className="text-sm text-[#80634F]">
+                  <div className="mt-6 rounded-[22px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-4">
+                    <p className="text-sm text-[#5d6043]">
                       <span className="font-semibold">Secure Payment:</span> You&apos;ll be redirected to Paystack&apos;s secure checkout page to complete your payment. Paystack supports Mobile Money, credit/debit cards, and other payment methods.
                     </p>
                   </div>
@@ -583,14 +583,14 @@ export default function CheckoutPage() {
             {/* Review & Confirm */}
             {currentStep === "review" && (
               <div>
-                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#30170F]">
+                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#222222]">
                   Review Your Order
                 </h2>
 
                 <div className="space-y-6">
                   {/* Order Items */}
                   <div>
-                    <h3 className="mb-3 text-lg font-black text-[#30170F]">
+                    <h3 className="mb-3 text-lg font-black text-[#222222]">
                       Order Items
                     </h3>
                     <div className="space-y-2">
@@ -600,7 +600,7 @@ export default function CheckoutPage() {
                         return (
                           <div
                             key={`${item.id}-${item.selectedSize}-${JSON.stringify(item.packageSelections || [])}`}
-                            className="flex justify-between gap-4 text-[#5B3322]"
+                            className="flex justify-between gap-4 text-[#5d6043]"
                           >
                             <div>
                               <span>
@@ -608,7 +608,7 @@ export default function CheckoutPage() {
                                 {item.quantity}
                               </span>
                               {item.packageSelections && item.packageSelections.length > 0 && (
-                                <div className="mt-1 text-xs text-[#80634F]">
+                                <div className="mt-1 text-xs text-[#5d6043]">
                                   {item.packageSelections.map((selection) => (
                                     <p key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
                                       {selection.groupLabel ? `${selection.groupLabel}: ` : ""}
@@ -627,10 +627,10 @@ export default function CheckoutPage() {
 
                   {/* Customer Info */}
                   <div>
-                    <h3 className="mb-3 text-lg font-black text-[#30170F]">
+                    <h3 className="mb-3 text-lg font-black text-[#222222]">
                       Customer Information
                     </h3>
-                    <div className="space-y-1 text-[#5B3322]">
+                    <div className="space-y-1 text-[#5d6043]">
                       <p>{customerInfo.name}</p>
                       <p>{customerInfo.email}</p>
                       <p>{customerInfo.phone}</p>
@@ -639,10 +639,10 @@ export default function CheckoutPage() {
 
                   {/* Delivery Details */}
                   <div>
-                    <h3 className="mb-3 text-lg font-black text-[#30170F]">
+                    <h3 className="mb-3 text-lg font-black text-[#222222]">
                       {deliveryMethod === "delivery" ? "Delivery" : "Pickup"} Details
                     </h3>
-                    <div className="space-y-1 text-[#5B3322]">
+                    <div className="space-y-1 text-[#5d6043]">
                       {deliveryMethod === "delivery" && (
                         <>
                           <p>{deliveryDetails.address}</p>
@@ -661,36 +661,36 @@ export default function CheckoutPage() {
 
                   {/* Payment Method */}
                   <div>
-                    <h3 className="mb-3 text-lg font-black text-[#30170F]">
+                    <h3 className="mb-3 text-lg font-black text-[#222222]">
                       Payment Method
                     </h3>
-                    <p className="capitalize text-[#5B3322]">
+                    <p className="capitalize text-[#5d6043]">
                       {paymentMethod.replace("-", " ")}
                     </p>
                   </div>
 
                   {/* Order Summary */}
-                  <div className="border-t border-[rgba(48,23,15,0.12)] pt-4">
-                    <h3 className="mb-3 text-lg font-black text-[#30170F]">
+                  <div className="border-t border-[rgba(34,34,34,0.12)] pt-4">
+                    <h3 className="mb-3 text-lg font-black text-[#222222]">
                       Order Total
                     </h3>
-                    <div className="space-y-2 text-[#5B3322]">
-                      <div className="flex justify-between pt-2 text-xl font-black text-[#30170F]">
+                    <div className="space-y-2 text-[#5d6043]">
+                      <div className="flex justify-between pt-2 text-xl font-black text-[#222222]">
                         <span>Total</span>
-                        <span className="text-[#C97D35]">
+                        <span className="text-[#bd6325]">
                           GHS {total.toFixed(2)}
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="rounded-[22px] bg-[#FFF8EC] p-4 text-xs text-[#80634F]">
+                  <div className="rounded-[22px] bg-[#faf9f5] p-4 text-xs text-[#5d6043]">
                     By placing this order, you agree to our{" "}
-                    <a href="#" className="text-[#C97D35] hover:underline">
+                    <a href="#" className="text-[#bd6325] hover:underline">
                       Terms and Conditions
                     </a>{" "}
                     and{" "}
-                    <a href="#" className="text-[#C97D35] hover:underline">
+                    <a href="#" className="text-[#bd6325] hover:underline">
                       Privacy Policy
                     </a>
                     .

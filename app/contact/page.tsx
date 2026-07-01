@@ -66,7 +66,7 @@ export default function ContactPage() {
             Contact
           </p>
           <h1 className="font-editorial text-6xl leading-[0.9] tracking-[-0.07em] sm:text-7xl">Get in Touch</h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#80634F]">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#5d6043]">
             Have questions about our products or want to place a custom order? We&apos;d love to hear from you!
           </p>
         </section>
@@ -84,8 +84,8 @@ export default function ContactPage() {
                   rel={isWhatsapp ? "noopener noreferrer" : undefined}
                   className={`flex items-start gap-4 rounded-2xl border p-5 transition ${
                     isWhatsapp
-                      ? "rounded-[26px] border-[#2F855A] bg-[#2F855A] text-white shadow-[0_12px_40px_rgba(48,23,15,0.10)] hover:bg-[#276749]"
-                      : "rounded-[26px] border-[rgba(48,23,15,0.09)] bg-[#FFFDF7]/82 text-[#30170F] shadow-[0_12px_40px_rgba(48,23,15,0.10)] hover:border-[#C97D35]"
+                      ? "rounded-[26px] border-[#2F855A] bg-[#2F855A] text-[#faf9f5] shadow-[0_12px_40px_rgba(34,34,34,0.10)] hover:bg-[#276749]"
+                      : "rounded-[26px] border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/82 text-[#222222] shadow-[0_12px_40px_rgba(34,34,34,0.10)] hover:border-[#bd6325]"
                   }`}
                 >
                   <Icon className="mt-1 h-5 w-5 shrink-0" />
@@ -102,7 +102,7 @@ export default function ContactPage() {
 
           <form onSubmit={handleSubmit} className="editorial-card p-6 sm:p-8">
             <div className="grid gap-5 sm:grid-cols-2">
-              <label className="grid gap-2 text-sm font-semibold text-[#5D4A3D]">
+              <label className="grid gap-2 text-sm font-semibold text-[#5d6043]">
                 Name
                 <input
                   type="text"
@@ -113,7 +113,7 @@ export default function ContactPage() {
                   required
                 />
               </label>
-              <label className="grid gap-2 text-sm font-semibold text-[#5D4A3D]">
+              <label className="grid gap-2 text-sm font-semibold text-[#5d6043]">
                 Email
                 <input
                   type="email"
@@ -125,7 +125,7 @@ export default function ContactPage() {
                 />
               </label>
             </div>
-            <label className="mt-5 grid gap-2 text-sm font-semibold text-[#5D4A3D]">
+            <label className="mt-5 grid gap-2 text-sm font-semibold text-[#5d6043]">
               Subject
               <input
                 type="text"
@@ -136,7 +136,7 @@ export default function ContactPage() {
                 required
               />
             </label>
-            <label className="mt-5 grid gap-2 text-sm font-semibold text-[#5D4A3D]">
+            <label className="mt-5 grid gap-2 text-sm font-semibold text-[#5d6043]">
               Message
               <textarea
                 name="message"
@@ -160,7 +160,7 @@ export default function ContactPage() {
               </div>
             )}
 
-            <button type="submit" disabled={isSubmitting} className="editorial-button mt-6 min-h-14 w-full px-8 disabled:bg-[#CAB9A5]">
+            <button type="submit" disabled={isSubmitting} className="editorial-button mt-6 min-h-14 w-full px-8 disabled:bg-[#b9aca2]">
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>

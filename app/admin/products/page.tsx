@@ -485,12 +485,12 @@ export default function ProductManagementPage() {
     <AdminLayout>
       {/* Toast Notifications */}
       {actionError && (
-        <div className="fixed top-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <div className="fixed top-4 right-4 z-50 bg-red-500 text-[#faf9f5] px-6 py-3 rounded-lg shadow-lg">
           {actionError}
         </div>
       )}
       {actionSuccess && (
-        <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <div className="fixed top-4 right-4 z-50 bg-green-500 text-[#faf9f5] px-6 py-3 rounded-lg shadow-lg">
           {actionSuccess}
         </div>
       )}
@@ -499,13 +499,13 @@ export default function ProductManagementPage() {
         {/* Header */}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Product Management</h1>
-            <p className="text-gray-600 mt-1">Manage your products and categories</p>
+            <h1 className="text-3xl font-bold text-[#222222]">Product Management</h1>
+            <p className="text-[#5d6043] mt-1">Manage your products and categories</p>
           </div>
           <div className="flex flex-wrap gap-3">
             {/* <button
               onClick={() => setShowComboModal(true)}
-              className="flex items-center gap-2 px-4 py-2 border border-[#2A2C22] text-[#2A2C22] rounded-lg hover:bg-[#f3f3f0] transition-colors"
+              className="flex items-center gap-2 px-4 py-2 border border-[#5d6043] text-[#5d6043] rounded-lg hover:bg-[#faf9f5] transition-colors"
               disabled={loading || actionLoading}
             >
               <Plus className="w-5 h-5" />
@@ -513,7 +513,7 @@ export default function ProductManagementPage() {
             </button> */}
             <button
               onClick={() => setShowAddModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors"
               disabled={loading || actionLoading}
             >
               <Plus className="w-5 h-5" />
@@ -525,22 +525,22 @@ export default function ProductManagementPage() {
         {/* Categories - Only show if there are categories with products */}
         {categories.length > 0 && (
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Categories</h2>
+            <h2 className="text-xl font-semibold text-[#222222] mb-4">Categories</h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-4">
               {categories.map((category) => (
                 <div
                   key={category}
                   onClick={() => setCategoryFilter(category === categoryFilter ? "" : category)}
-                  className={`bg-white rounded-xl shadow-sm p-4 border transition-all cursor-pointer ${
+                  className={`bg-[#faf9f5] rounded-xl shadow-sm p-4 border transition-all cursor-pointer ${
                     categoryFilter === category
-                      ? "border-[#2A2C22] ring-2 ring-[#2A2C22]/20"
-                      : "border-gray-100 hover:shadow-md"
+                      ? "border-[#5d6043] ring-2 ring-[#5d6043]/20"
+                      : "border-[#b9aca2]/40 hover:shadow-md"
                   }`}
                 >
-                  <div className="w-12 h-12 bg-[#2A2C22] rounded-full flex items-center justify-center mb-3">
-                    <Package className="w-6 h-6 text-white" />
+                  <div className="w-12 h-12 bg-[#5d6043] rounded-full flex items-center justify-center mb-3">
+                    <Package className="w-6 h-6 text-[#faf9f5]" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 text-sm">{category}</h3>
+                  <h3 className="font-semibold text-[#222222] text-sm">{category}</h3>
                 </div>
               ))}
             </div>
@@ -548,29 +548,29 @@ export default function ProductManagementPage() {
         )}
 
         {/* Search and Filters */}
-        <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+        <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#b9aca2]" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               />
             </div>
 
             {/* Sort By */}
             <div className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-gray-400" />
+              <Filter className="w-5 h-5 text-[#b9aca2]" />
               <select
                 value={sortBy}
                 onChange={(e) =>
                   setSortBy(e.target.value as "createdAt" | "price" | "productName")
                 }
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                className="px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
               >
                 <option value="createdAt">Sort by Date</option>
                 <option value="productName">Sort by Name</option>
@@ -582,7 +582,7 @@ export default function ProductManagementPage() {
             <select
               value={order}
               onChange={(e) => setOrder(e.target.value as "asc" | "desc")}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
             >
               <option value="desc">Descending</option>
               <option value="asc">Ascending</option>
@@ -593,7 +593,7 @@ export default function ProductManagementPage() {
         {/* Loading State */}
         {loading && (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 text-[#2A2C22] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#5d6043] animate-spin" />
           </div>
         )}
 
@@ -604,9 +604,9 @@ export default function ProductManagementPage() {
 
             {/* Empty State */}
             {filteredProducts.length === 0 && !loading && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
-                <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-500">No products found</p>
+              <div className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 p-12 text-center">
+                <Package className="w-16 h-16 text-[#b9aca2] mx-auto mb-4" />
+                <p className="text-[#5d6043]">No products found</p>
               </div>
             )}
 
@@ -616,17 +616,17 @@ export default function ProductManagementPage() {
                 <button
                   onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
-                  className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
-                <span className="text-sm text-gray-600">
+                <span className="text-sm text-[#5d6043]">
                   Page {currentPage} of {pagination.totalPages}
                 </span>
                 <button
                   onClick={() => setCurrentPage((p) => Math.min(pagination.totalPages, p + 1))}
                   disabled={currentPage === pagination.totalPages}
-                  className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="p-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </button>
@@ -635,10 +635,10 @@ export default function ProductManagementPage() {
 
             {/* Combo Products Overview - Commented out until feature is complete */}
             {/* {comboProducts.length > 0 && (
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mt-6">
+              <div className="bg-[#faf9f5] rounded-xl shadow-sm border border-[#b9aca2]/40 p-6 mt-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-xl font-semibold text-gray-900">Combo Products</h2>
-                  <p className="text-sm text-gray-500">
+                  <h2 className="text-xl font-semibold text-[#222222]">Combo Products</h2>
+                  <p className="text-sm text-[#5d6043]">
                     Configure how Flight Boxes / Gift Combos behave for customers.
                   </p>
                 </div>
@@ -646,20 +646,20 @@ export default function ProductManagementPage() {
                   {comboProducts.map((combo) => (
                     <div
                       key={combo.id}
-                      className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow bg-gray-50"
+                      className="border border-[#b9aca2]/60 rounded-xl p-4 hover:shadow-md transition-shadow bg-[#faf9f5]"
                     >
-                      <h3 className="font-semibold text-gray-900 mb-1">{combo.name}</h3>
-                      <p className="text-xs text-gray-600 mb-2 line-clamp-2">
+                      <h3 className="font-semibold text-[#222222] mb-1">{combo.name}</h3>
+                      <p className="text-xs text-[#5d6043] mb-2 line-clamp-2">
                         {combo.description || "No description provided."}
                       </p>
-                      <p className="text-sm font-medium text-gray-900 mb-1">
+                      <p className="text-sm font-medium text-[#222222] mb-1">
                         Base rule: choose any {combo.baseSelectionCount} for ₵{" "}
                         {combo.basePrice.toFixed(2)}
                       </p>
-                      <p className="text-xs text-gray-500 mb-2">
+                      <p className="text-xs text-[#5d6043] mb-2">
                         Extras {combo.allowExtras ? "allowed (charged per option)" : "not allowed"}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-[#5d6043]">
                         {combo.options.filter((o) => o.isActive).length} active options
                       </p>
                     </div>

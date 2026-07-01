@@ -84,10 +84,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-[#faf9f5] flex">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-64 bg-white border-r border-gray-200 fixed h-full">
-        <div className="p-6 border-b border-gray-200">
+      <aside className="hidden lg:flex lg:flex-col lg:w-64 bg-[#faf9f5] border-r border-[#b9aca2]/60 fixed h-full">
+        <div className="p-6 border-b border-[#b9aca2]/60">
           <Image src="/cozy3.png" alt="Cozy Oven" width={100} height={60} />
         </div>
 
@@ -103,14 +103,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     href={item.href}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors relative ${
                       isActive
-                        ? "bg-[#2A2C22] text-white"
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "bg-[#5d6043] text-[#faf9f5]"
+                        : "text-[#5d6043] hover:bg-[#b9aca2]"
                     }`}
                   >
                     <Icon className="w-5 h-5" />
                     <span className="font-medium">{item.name}</span>
                     {item.name === "Notifications" && notificationCount > 0 && (
-                      <span className="ml-auto bg-red-500 text-white text-xs font-bold rounded-full h-5 min-w-[20px] flex items-center justify-center px-1.5">
+                      <span className="ml-auto bg-red-500 text-[#faf9f5] text-xs font-bold rounded-full h-5 min-w-[20px] flex items-center justify-center px-1.5">
                         {notificationCount > 99 ? "99+" : notificationCount}
                       </span>
                     )}
@@ -121,10 +121,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </ul>
         </nav>
 
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-[#b9aca2]/60">
           <div className="mb-3 px-4">
-            <p className="text-sm font-semibold text-gray-900 truncate">{displayName}</p>
-            <p className="text-xs text-gray-600 truncate">{displayEmail}</p>
+            <p className="text-sm font-semibold text-[#222222] truncate">{displayName}</p>
+            <p className="text-xs text-[#5d6043] truncate">{displayEmail}</p>
           </div>
 
           <button
@@ -147,19 +147,19 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
       {/* Mobile Sidebar */}
       <aside
-        className={`fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 lg:hidden ${
+        className={`fixed left-0 top-0 h-full w-64 bg-[#faf9f5] border-r border-[#b9aca2]/60 z-50 transform transition-transform duration-300 lg:hidden ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Header */}
-        <div className="p-4 flex justify-between items-center border-b border-gray-200">
+        <div className="p-4 flex justify-between items-center border-b border-[#b9aca2]/60">
           <div>
-            <h1 className="text-xl font-bold text-[#2A2C22]">Cozy Oven</h1>
-            <p className="text-xs text-gray-600">Admin Panel</p>
+            <h1 className="text-xl font-bold text-[#5d6043]">Cozy Oven</h1>
+            <p className="text-xs text-[#5d6043]">Admin Panel</p>
           </div>
           <button
             onClick={() => setIsSidebarOpen(false)}
-            className="p-2 rounded-lg hover:bg-gray-100"
+            className="p-2 rounded-lg hover:bg-[#b9aca2]"
           >
             <X className="w-5 h-5" />
           </button>
@@ -178,14 +178,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     onClick={() => setIsSidebarOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors relative ${
                       isActive
-                        ? "bg-[#2A2C22] text-white"
-                        : "text-gray-700 hover:bg-gray-100"
+                        ? "bg-[#5d6043] text-[#faf9f5]"
+                        : "text-[#5d6043] hover:bg-[#b9aca2]"
                     }`}
                   >
                     <Icon className="w-5 h-5" />
                     <span className="font-medium">{item.name}</span>
                     {item.name === "Notifications" && notificationCount > 0 && (
-                      <span className="ml-auto bg-red-500 text-white text-xs font-bold rounded-full h-5 min-w-[20px] flex items-center justify-center px-1.5">
+                      <span className="ml-auto bg-red-500 text-[#faf9f5] text-xs font-bold rounded-full h-5 min-w-[20px] flex items-center justify-center px-1.5">
                         {notificationCount > 99 ? "99+" : notificationCount}
                       </span>
                     )}
@@ -196,10 +196,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </ul>
         </nav>
 
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-[#b9aca2]/60">
           <div className="mb-3 px-4">
-            <p className="text-sm font-semibold text-gray-900 truncate">{displayName}</p>
-            <p className="text-xs text-gray-600 truncate">{displayEmail}</p>
+            <p className="text-sm font-semibold text-[#222222] truncate">{displayName}</p>
+            <p className="text-xs text-[#5d6043] truncate">{displayEmail}</p>
           </div>
 
           <button
@@ -215,15 +215,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Page Content */}
       <div className="flex-1 lg:ml-64">
         {/* Mobile Top Bar */}
-        <header className="lg:hidden bg-white border-b border-gray-200 px-4 py-4 sticky top-0 z-30">
+        <header className="lg:hidden bg-[#faf9f5] border-b border-[#b9aca2]/60 px-4 py-4 sticky top-0 z-30">
           <div className="flex items-center justify-between">
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2 rounded-lg hover:bg-gray-100"
+              className="p-2 rounded-lg hover:bg-[#b9aca2]"
             >
               <Menu className="w-6 h-6" />
             </button>
-            <h1 className="text-lg font-bold text-[#2A2C22]">Cozy Oven</h1>
+            <h1 className="text-lg font-bold text-[#5d6043]">Cozy Oven</h1>
             <div className="w-10" />
           </div>
         </header>

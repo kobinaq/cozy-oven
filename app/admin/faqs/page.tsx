@@ -109,8 +109,8 @@ export default function AdminFaqsPage() {
     <AdminLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">FAQs</h1>
-          <p className="mt-1 text-gray-600">Manage the questions shown on the customer homepage.</p>
+          <h1 className="text-3xl font-bold text-[#222222]">FAQs</h1>
+          <p className="mt-1 text-[#5d6043]">Manage the questions shown on the customer homepage.</p>
         </div>
 
         {error && (
@@ -119,9 +119,9 @@ export default function AdminFaqsPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="rounded-lg bg-white p-6 shadow-sm">
+        <form onSubmit={handleSubmit} className="rounded-lg bg-[#faf9f5] p-6 shadow-sm">
           <div className="mb-5 flex items-center justify-between gap-4">
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-[#222222]">
               {editingId ? "Edit FAQ" : "Add FAQ"}
             </h2>
             {editingId ? (
@@ -130,7 +130,7 @@ export default function AdminFaqsPage() {
                 Cancel edit
               </button>
             ) : (
-              <span className="flex items-center gap-2 text-sm text-gray-500">
+              <span className="flex items-center gap-2 text-sm text-[#5d6043]">
                 <Plus className="h-4 w-4" />
                 New homepage question
               </span>
@@ -138,39 +138,39 @@ export default function AdminFaqsPage() {
           </div>
 
           <div className="grid gap-4">
-            <label className="grid gap-2 text-sm font-medium text-gray-700">
+            <label className="grid gap-2 text-sm font-medium text-[#5d6043]">
               Question
               <input
                 value={form.question}
                 onChange={(event) => setForm((prev) => ({ ...prev, question: event.target.value }))}
-                className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-[#2A2C22]"
+                className="rounded-lg border border-[#b9aca2] px-4 py-3 outline-none focus:border-[#5d6043]"
                 placeholder="When do you deliver?"
               />
             </label>
 
-            <label className="grid gap-2 text-sm font-medium text-gray-700">
+            <label className="grid gap-2 text-sm font-medium text-[#5d6043]">
               Answer
               <textarea
                 value={form.answer}
                 onChange={(event) => setForm((prev) => ({ ...prev, answer: event.target.value }))}
                 rows={4}
-                className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-[#2A2C22]"
+                className="rounded-lg border border-[#b9aca2] px-4 py-3 outline-none focus:border-[#5d6043]"
                 placeholder="Fresh banana bread is delivered on Tuesdays and Thursdays..."
               />
             </label>
 
             <div className="grid gap-4 sm:grid-cols-[160px_1fr] sm:items-end">
-              <label className="grid gap-2 text-sm font-medium text-gray-700">
+              <label className="grid gap-2 text-sm font-medium text-[#5d6043]">
                 Sort order
                 <input
                   type="number"
                   value={form.sortOrder}
                   onChange={(event) => setForm((prev) => ({ ...prev, sortOrder: Number(event.target.value) }))}
-                  className="rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-[#2A2C22]"
+                  className="rounded-lg border border-[#b9aca2] px-4 py-3 outline-none focus:border-[#5d6043]"
                 />
               </label>
 
-              <label className="flex items-center gap-3 rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700">
+              <label className="flex items-center gap-3 rounded-lg border border-[#b9aca2]/60 px-4 py-3 text-sm font-medium text-[#5d6043]">
                 <input
                   type="checkbox"
                   checked={form.isActive}
@@ -185,37 +185,37 @@ export default function AdminFaqsPage() {
           <button
             type="submit"
             disabled={saving}
-            className="mt-5 flex items-center gap-2 rounded-lg bg-[#2A2C22] px-5 py-3 font-semibold text-white disabled:opacity-60"
+            className="mt-5 flex items-center gap-2 rounded-lg bg-[#5d6043] px-5 py-3 font-semibold text-[#faf9f5] disabled:opacity-60"
           >
             <Save className="h-4 w-4" />
             {saving ? "Saving..." : editingId ? "Save changes" : "Add FAQ"}
           </button>
         </form>
 
-        <section className="rounded-lg bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-xl font-semibold text-gray-900">Current FAQs</h2>
+        <section className="rounded-lg bg-[#faf9f5] p-6 shadow-sm">
+          <h2 className="mb-4 text-xl font-semibold text-[#222222]">Current FAQs</h2>
           {loading ? (
-            <p className="text-gray-500">Loading FAQs...</p>
+            <p className="text-[#5d6043]">Loading FAQs...</p>
           ) : faqs.length === 0 ? (
-            <p className="text-gray-500">No FAQs yet. Add your first one above.</p>
+            <p className="text-[#5d6043]">No FAQs yet. Add your first one above.</p>
           ) : (
             <div className="space-y-3">
               {faqs.map((faq) => (
-                <article key={faq.id} className="rounded-lg border border-gray-200 p-4">
+                <article key={faq.id} className="rounded-lg border border-[#b9aca2]/60 p-4">
                   <div className="flex flex-col justify-between gap-4 md:flex-row md:items-start">
                     <div>
                       <div className="mb-2 flex flex-wrap items-center gap-2">
-                        <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-semibold text-gray-600">
+                        <span className="rounded-full bg-[#b9aca2] px-2 py-1 text-xs font-semibold text-[#5d6043]">
                           Order {faq.sortOrder || 0}
                         </span>
                         <span className={`rounded-full px-2 py-1 text-xs font-semibold ${
-                          faq.isActive ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"
+                          faq.isActive ? "bg-green-50 text-green-700" : "bg-[#b9aca2] text-[#5d6043]"
                         }`}>
                           {faq.isActive ? "Visible" : "Hidden"}
                         </span>
                       </div>
-                      <h3 className="font-semibold text-gray-900">{faq.question}</h3>
-                      <p className="mt-2 whitespace-pre-line text-sm leading-6 text-gray-600">{faq.answer}</p>
+                      <h3 className="font-semibold text-[#222222]">{faq.question}</h3>
+                      <p className="mt-2 whitespace-pre-line text-sm leading-6 text-[#5d6043]">{faq.answer}</p>
                     </div>
 
                     <div className="flex shrink-0 gap-2">

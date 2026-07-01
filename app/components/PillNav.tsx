@@ -28,9 +28,9 @@ const PillNav: React.FC<PillNavProps> = ({
   activeHref,
   className = '',
   ease = 'power3.easeOut',
-  baseColor = '#fff',
-  pillColor = '#060010',
-  hoveredPillTextColor = '#060010',
+  baseColor = '#faf9f5',
+  pillColor = '#222222',
+  hoveredPillTextColor = '#222222',
   pillTextColor,
   onMobileMenuClick,
   initialLoadAnimation = true
@@ -244,7 +244,7 @@ const PillNav: React.FC<PillNavProps> = ({
               const isActive = activeHref === item.href;
 
               const pillStyle: React.CSSProperties = {
-                background: 'var(--pill-bg, #fff)',
+                background: 'var(--pill-bg, #faf9f5)',
                 color: 'var(--pill-text, var(--base, #000))',
                 paddingLeft: 'var(--pill-pad-x)',
                 paddingRight: 'var(--pill-pad-x)'
@@ -273,7 +273,7 @@ const PillNav: React.FC<PillNavProps> = ({
                     <span
                       className="pill-label-hover absolute left-0 top-0 z-[3] inline-block"
                       style={{
-                        color: 'var(--hover-text, #fff)',
+                        color: 'var(--hover-text, #faf9f5)',
                         willChange: 'transform, opacity'
                       }}
                       aria-hidden="true"
@@ -341,11 +341,11 @@ const PillNav: React.FC<PillNavProps> = ({
         >
           <span
             className="hamburger-line w-4 h-0.5 rounded origin-center transition-all duration-[10ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]"
-            style={{ background: 'var(--pill-bg, #fff)' }}
+            style={{ background: 'var(--pill-bg, #faf9f5)' }}
           />
           <span
             className="hamburger-line w-4 h-0.5 rounded origin-center transition-all duration-[10ms] ease-[cubic-bezier(0.25,0.1,0.25,1)]"
-            style={{ background: 'var(--pill-bg, #fff)' }}
+            style={{ background: 'var(--pill-bg, #faf9f5)' }}
           />
         </button>
       </nav>
@@ -361,16 +361,16 @@ const PillNav: React.FC<PillNavProps> = ({
         <ul className="list-none m-0 p-[3px] flex flex-col gap-[3px]">
           {items.map(item => {
             const defaultStyle: React.CSSProperties = {
-              background: 'var(--pill-bg, #fff)',
-              color: 'var(--pill-text, #fff)'
+              background: 'var(--pill-bg, #faf9f5)',
+              color: 'var(--pill-text, #faf9f5)'
             };
             const hoverIn = (e: React.MouseEvent<HTMLAnchorElement>) => {
               e.currentTarget.style.background = 'var(--base)';
-              e.currentTarget.style.color = 'var(--hover-text, #fff)';
+              e.currentTarget.style.color = 'var(--hover-text, #faf9f5)';
             };
             const hoverOut = (e: React.MouseEvent<HTMLAnchorElement>) => {
-              e.currentTarget.style.background = 'var(--pill-bg, #fff)';
-              e.currentTarget.style.color = 'var(--pill-text, #fff)';
+              e.currentTarget.style.background = 'var(--pill-bg, #faf9f5)';
+              e.currentTarget.style.color = 'var(--pill-text, #faf9f5)';
             };
 
             const linkClasses =

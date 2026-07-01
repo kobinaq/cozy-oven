@@ -152,12 +152,12 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="bg-white rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-900">Add Manual Order</h2>
+            <div className="bg-[#faf9f5] rounded-2xl shadow-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="sticky top-0 bg-[#faf9f5] border-b border-[#b9aca2]/60 px-6 py-4 flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-[#222222]">Add Manual Order</h2>
                 <button
                   onClick={onClose}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-2 hover:bg-[#b9aca2] rounded-full transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -172,76 +172,76 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
 
                 {/* Customer Information */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Customer Information</h3>
+                  <h3 className="text-lg font-semibold text-[#222222] mb-4">Customer Information</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-[#5d6043] mb-2">
                         Full Name *
                       </label>
                       <input
                         type="text"
                         value={customerName}
                         onChange={(e) => setCustomerName(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-[#5d6043] mb-2">
                         Contact Number *
                       </label>
                       <input
                         type="tel"
                         value={contactNumber}
                         onChange={(e) => setContactNumber(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         required
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-[#5d6043] mb-2">
                         Email (Optional)
                       </label>
                       <input
                         type="email"
                         value={customerEmail}
                         onChange={(e) => setCustomerEmail(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         placeholder="customer@example.com"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-[#5d6043] mb-2">
                         Delivery Address (Optional)
                       </label>
                       <input
                         type="text"
                         value={deliveryAddress}
                         onChange={(e) => setDeliveryAddress(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         placeholder="In-person purchase if left empty"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-[#5d6043] mb-2">
                         City (Optional)
                       </label>
                       <input
                         type="text"
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                       />
                     </div>
                   </div>
                   <div className="mt-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-[#5d6043] mb-2">
                       Special Instructions (Optional)
                     </label>
                     <textarea
                       value={specialInstructions}
                       onChange={(e) => setSpecialInstructions(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                      className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                       rows={3}
                     />
                   </div>
@@ -249,18 +249,18 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
 
                 {/* Add Items */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Order Items</h3>
-                  <div className="bg-gray-50 p-4 rounded-lg space-y-4">
+                  <h3 className="text-lg font-semibold text-[#222222] mb-4">Order Items</h3>
+                  <div className="bg-[#faf9f5] p-4 rounded-lg space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Product</label>
+                        <label className="block text-sm font-medium text-[#5d6043] mb-2">Product</label>
                         <select
                           value={selectedProductId}
                           onChange={(e) => {
                             setSelectedProductId(e.target.value);
                             setSelectedSize("");
                           }}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                          className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         >
                           <option value="">Select product</option>
                           {products.map((product) => (
@@ -272,11 +272,11 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
                       </div>
                       {availableSizes.length > 0 && (
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Size</label>
+                          <label className="block text-sm font-medium text-[#5d6043] mb-2">Size</label>
                           <select
                             value={selectedSize}
                             onChange={(e) => setSelectedSize(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                            className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                           >
                             <option value="">Regular</option>
                             {availableSizes.map((opt) => (
@@ -288,20 +288,20 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
                         </div>
                       )}
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                        <label className="block text-sm font-medium text-[#5d6043] mb-2">Quantity</label>
                         <input
                           type="number"
                           min="1"
                           value={quantity}
                           onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                          className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                         />
                       </div>
                       <div className="flex items-end">
                         <button
                           type="button"
                           onClick={handleAddItem}
-                          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors"
+                          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors"
                         >
                           <Plus className="w-4 h-4" />
                           Add
@@ -316,11 +316,11 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
                       {orderItems.map((item, index) => (
                         <div
                           key={index}
-                          className="flex items-center justify-between bg-white p-3 rounded-lg border border-gray-200"
+                          className="flex items-center justify-between bg-[#faf9f5] p-3 rounded-lg border border-[#b9aca2]/60"
                         >
                           <div>
-                            <p className="font-medium text-gray-900">{item.productName}</p>
-                            <p className="text-sm text-gray-600">
+                            <p className="font-medium text-[#222222]">{item.productName}</p>
+                            <p className="text-sm text-[#5d6043]">
                               {item.size || "Regular"} × {item.quantity} = GHS {(item.unitPrice * item.quantity).toFixed(2)}
                             </p>
                           </div>
@@ -333,10 +333,10 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
                           </button>
                         </div>
                       ))}
-                      <div className="mt-4 pt-4 border-t border-gray-200">
+                      <div className="mt-4 pt-4 border-t border-[#b9aca2]/60">
                         <div className="flex items-center justify-between">
-                          <span className="text-lg font-semibold text-gray-900">Total:</span>
-                          <span className="text-xl font-bold text-[#2A2C22]">GHS {totalAmount.toFixed(2)}</span>
+                          <span className="text-lg font-semibold text-[#222222]">Total:</span>
+                          <span className="text-xl font-bold text-[#5d6043]">GHS {totalAmount.toFixed(2)}</span>
                         </div>
                       </div>
                     </div>
@@ -351,18 +351,18 @@ export default function AddOrderModal({ isOpen, onClose, onSuccess }: AddOrderMo
                 </div>
 
                 {/* Actions */}
-                <div className="flex gap-3 pt-4 border-t border-gray-200">
+                <div className="flex gap-3 pt-4 border-t border-[#b9aca2]/60">
                   <button
                     type="button"
                     onClick={onClose}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex-1 px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={isSubmitting || orderItems.length === 0}
-                    className="flex-1 px-4 py-2 bg-[#2A2C22] text-white rounded-lg hover:bg-[#1a1c12] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="flex-1 px-4 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? (
                       <>

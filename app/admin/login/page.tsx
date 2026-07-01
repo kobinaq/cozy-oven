@@ -50,15 +50,15 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#faf9f5] to-[#b9aca2]">
       <div className="w-full max-w-md p-8">
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <div className="bg-[#faf9f5] rounded-2xl shadow-xl p-8">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center">
               <Image src="/cozy3.png" alt="Cozy Oven Logo" width={80} height={50} />
             </div>
-            <p className="text-gray-600">Sign in to access your dashboard</p>
+            <p className="text-[#5d6043]">Sign in to access your dashboard</p>
           </div>
 
           {/* Error message */}
@@ -72,17 +72,17 @@ export default function AdminLoginPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                 Email Address
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
+                  <Mail className="h-5 w-5 text-[#b9aca2]" />
                 </div>
                 <input
                   type="email"
                   {...register("email")}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                   placeholder="admin@cozyoven.store"
                 />
               </div>
@@ -93,17 +93,17 @@ export default function AdminLoginPage() {
 
             {/* Password Field */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-[#5d6043] mb-2">
                 Password
               </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+                  <Lock className="h-5 w-5 text-[#b9aca2]" />
                 </div>
                 <input
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#2A2C22] focus:border-transparent"
+                  className="w-full pl-10 pr-12 py-3 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
                   placeholder="••••••••"
                 />
                 <button
@@ -112,9 +112,9 @@ export default function AdminLoginPage() {
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                 >
                   {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <EyeOff className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                   ) : (
-                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    <Eye className="h-5 w-5 text-[#b9aca2] hover:text-[#5d6043]" />
                   )}
                 </button>
               </div>
@@ -127,7 +127,7 @@ export default function AdminLoginPage() {
             <div className="flex items-center justify-between">
               <Link
                 href="/admin/forgot-password"
-                className="text-sm text-[#2A2C22] hover:underline font-medium"
+                className="text-sm text-[#5d6043] hover:underline font-medium"
               >
                 Forgot password?
               </Link>
@@ -137,7 +137,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#2A2C22] text-white py-3 rounded-full font-semibold hover:bg-[#1a1c12] transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#5d6043] text-[#faf9f5] py-3 rounded-full font-semibold hover:bg-[#222222] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>

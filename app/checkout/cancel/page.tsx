@@ -6,18 +6,18 @@ export default function CheckoutSuccessPage({
   searchParams: { checkoutid?: string };
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-zinc-50">
-      <div className="p-8 bg-white rounded-lg shadow-md text-center">
+    <div className="min-h-screen flex items-center justify-center bg-[#faf9f5]">
+      <div className="p-8 bg-[#faf9f5] rounded-lg shadow-md text-center">
         <h1 className="text-2xl font-bold mb-2">Payment Cancelled</h1>
 
-        <p className="text-zinc-600 mb-4">
+        <p className="text-[#5d6043] mb-4">
           Your payment was cancelled. If this was a mistake, please try again.
         </p>
 
         
         <Link
           href="/"
-          className="inline-block rounded-md bg-[#2A2C22] px-6 py-3 text-white font-semibold hover:bg-[#1F2118] transition-colors"
+          className="inline-block rounded-md bg-[#5d6043] px-6 py-3 text-[#faf9f5] font-semibold hover:bg-[#222222] transition-colors"
         >
           Go back home
         </Link>

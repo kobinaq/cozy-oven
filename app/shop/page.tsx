@@ -30,7 +30,7 @@ export default function ShopPage() {
             The Bakery Counter
           </p>
           <h1 className="prototype-heading text-6xl sm:text-7xl">Shop fresh bakes by category.</h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#80634F]">
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#5d6043]">
             Banana bread, creamy yoghurt, and gift-ready packages, grouped so you can browse with ease.
           </p>
 
@@ -46,21 +46,21 @@ export default function ShopPage() {
         </section>
 
         <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8">
-          {loading && <div className="editorial-card p-10 text-center text-[#5D4A3D]">Loading products...</div>}
+          {loading && <div className="editorial-card p-10 text-center text-[#5d6043]">Loading products...</div>}
           {error && <div className="editorial-card p-10 text-center text-red-700">{error}</div>}
 
           {!loading && !error && (
             <div className="space-y-20">
               {categories.map((category) => (
                 <section key={category} id={slugify(category)} className="scroll-mt-28">
-                  <div className="mb-8 flex flex-col justify-between gap-4 border-b border-[#E8DDD0] pb-5 sm:flex-row sm:items-end">
+                  <div className="mb-8 flex flex-col justify-between gap-4 border-b border-[#b9aca2] pb-5 sm:flex-row sm:items-end">
                     <div>
                       <p className="editorial-eyebrow mb-2">
                         Category
                       </p>
                       <h2 className="prototype-heading text-5xl">{category}</h2>
                     </div>
-                    <p className="rounded-full bg-[#FFFDF7] px-4 py-2 text-sm font-black text-[#80634F] shadow-[inset_0_0_0_1px_rgba(48,23,15,0.09)]">{groups[category].length} items</p>
+                    <p className="rounded-full bg-[#faf9f5] px-4 py-2 text-sm font-black text-[#5d6043] shadow-[inset_0_0_0_1px_rgba(34,34,34,0.09)]">{groups[category].length} items</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-6">
                     {groups[category].map((product) => (

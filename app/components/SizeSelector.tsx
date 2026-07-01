@@ -19,8 +19,8 @@ export default function SizeSelector({
           onClick={() => onSizeChange(size)}
           className={`px-6 py-2 rounded-full border-2 font-semibold transition-all ${
             selectedSize === size
-              ? "border-[#bd6325] bg-[#bd6325] text-white"
-              : "border-gray-300 bg-white text-gray-700 hover:border-[#bd6325]"
+              ? "border-[#bd6325] bg-[#bd6325] text-[#faf9f5]"
+              : "border-[#b9aca2] bg-[#faf9f5] text-[#5d6043] hover:border-[#bd6325]"
           }`}
         >
           {size}

@@ -23,14 +23,14 @@ export default function ComboSection() {
   }
 
   return (
-    <section className="py-16 bg-[#fff8f0]">
+    <section className="py-16 bg-[#faf9f5]">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
           <div>
-            <h2 className="text-3xl md:text-4xl font-bold text-[#2A2C22]">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#5d6043]">
               Flight Boxes &amp; Gift Combos
             </h2>
-            <p className="text-gray-700 mt-2 max-w-xl">
+            <p className="text-[#5d6043] mt-2 max-w-xl">
               Build a custom box by choosing multiple flavours. The base price covers the first
               selections, and any extras are added transparently.
             </p>
@@ -42,9 +42,9 @@ export default function ComboSection() {
             <button
               key={combo.id}
               onClick={() => setActiveCombo(combo)}
-              className="text-left bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+              className="text-left bg-[#faf9f5] rounded-2xl shadow-sm border border-[#b9aca2]/40 overflow-hidden hover:shadow-md transition-shadow"
             >
-              <div className="relative h-40 bg-gray-100">
+              <div className="relative h-40 bg-[#b9aca2]">
                 {combo.image ? (
                   <Image
                     src={combo.image}
@@ -53,21 +53,21 @@ export default function ComboSection() {
                     className="object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                  <div className="w-full h-full flex items-center justify-center text-[#b9aca2] text-sm">
                     Flight Box
                   </div>
                 )}
               </div>
               <div className="p-4 space-y-2">
-                <h3 className="text-lg font-semibold text-gray-900">{combo.name}</h3>
-                <p className="text-sm text-gray-600 line-clamp-2">
+                <h3 className="text-lg font-semibold text-[#222222]">{combo.name}</h3>
+                <p className="text-sm text-[#5d6043] line-clamp-2">
                   {combo.description || "Create your own signature combo."}
                 </p>
                 <p className="text-sm font-medium text-[#bd6325]">
                   Choose any {combo.baseSelectionCount} for ₵ {combo.basePrice.toFixed(2)}
                 </p>
                 {combo.allowExtras && (
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-[#5d6043]">
                     Extras beyond{" "}
                     <span className="font-semibold">{combo.baseSelectionCount}</span> are charged
                     per flavour.
@@ -160,17 +160,17 @@ function ComboBuilderModal({ combo, onClose }: ComboBuilderModalProps) {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative">
+      <div className="bg-[#faf9f5] rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto relative">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center z-10"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-[#b9aca2] hover:bg-[#b9aca2] flex items-center justify-center z-10"
         >
           <X className="w-4 h-4" />
         </button>
 
         <div className="grid md:grid-cols-2 gap-6 p-6 md:p-8">
           <div className="space-y-4">
-            <div className="relative h-52 rounded-2xl overflow-hidden bg-gray-100">
+            <div className="relative h-52 rounded-2xl overflow-hidden bg-[#b9aca2]">
               {combo.image ? (
                 <Image
                   src={combo.image}
@@ -179,14 +179,14 @@ function ComboBuilderModal({ combo, onClose }: ComboBuilderModalProps) {
                   className="object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+                <div className="w-full h-full flex items-center justify-center text-[#b9aca2] text-sm">
                   Flight Box
                 </div>
               )}
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-[#2A2C22] mb-1">{combo.name}</h2>
-              <p className="text-sm text-gray-700 mb-2">
+              <h2 className="text-2xl font-bold text-[#5d6043] mb-1">{combo.name}</h2>
+              <p className="text-sm text-[#5d6043] mb-2">
                 {combo.description ||
                   `Choose any ${combo.baseSelectionCount} flavours for a base price of ₵ ${combo.basePrice.toFixed(
                     2
@@ -196,7 +196,7 @@ function ComboBuilderModal({ combo, onClose }: ComboBuilderModalProps) {
                 Base: choose any {combo.baseSelectionCount} for ₵ {combo.basePrice.toFixed(2)}
               </p>
               {combo.allowExtras && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-[#5d6043] mt-1">
                   Extras beyond {combo.baseSelectionCount} add their flavour price to the total.
                 </p>
               )}
@@ -205,7 +205,7 @@ function ComboBuilderModal({ combo, onClose }: ComboBuilderModalProps) {
 
           <div className="space-y-4">
             <div>
-              <p className="text-sm font-semibold text-gray-800 mb-2">
+              <p className="text-sm font-semibold text-[#222222] mb-2">
                 Pick your flavours
               </p>
               <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
@@ -223,11 +223,11 @@ function ComboBuilderModal({ combo, onClose }: ComboBuilderModalProps) {
                       onClick={() => toggleSelect(opt.id)}
                       className={`w-full flex items-center justify-between px-3 py-2 rounded-lg border text-left transition-colors ${
                         isSelected
-                          ? "border-[#bd6325] bg-[#fff3e6]"
-                          : "border-gray-200 hover:bg-gray-50"
+                          ? "border-[#bd6325] bg-[#faf9f5]"
+                          : "border-[#b9aca2]/60 hover:bg-[#faf9f5]"
                       }`}
                     >
-                      <span className="text-sm font-medium text-gray-900">
+                      <span className="text-sm font-medium text-[#222222]">
                         {opt.name}
                       </span>
                       <span className="text-xs font-semibold">
@@ -242,7 +242,7 @@ function ComboBuilderModal({ combo, onClose }: ComboBuilderModalProps) {
                           </span>
                         )}
                         {!isSelected && (
-                          <span className="text-gray-500">
+                          <span className="text-[#5d6043]">
                             ₵ {opt.price.toFixed(2)}
                           </span>
                         )}
@@ -251,22 +251,22 @@ function ComboBuilderModal({ combo, onClose }: ComboBuilderModalProps) {
                   );
                 })}
               </div>
-              <p className="text-xs text-gray-500 mt-2">
+              <p className="text-xs text-[#5d6043] mt-2">
                 First {combo.baseSelectionCount} selections are covered by the base price. Any
                 extra selections show their additional cost.
               </p>
             </div>
 
-            <div className="border-t border-gray-200 pt-3 space-y-2">
+            <div className="border-t border-[#b9aca2]/60 pt-3 space-y-2">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Base price</span>
-                <span className="font-semibold text-gray-900">
+                <span className="text-[#5d6043]">Base price</span>
+                <span className="font-semibold text-[#222222]">
                   ₵ {combo.basePrice.toFixed(2)}
                 </span>
               </div>
               {extraOptions.length > 0 && (
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">
+                  <span className="text-[#5d6043]">
                     Extras ({extraOptions.length})
                   </span>
                   <span className="font-semibold text-[#bd6325]">
@@ -275,7 +275,7 @@ function ComboBuilderModal({ combo, onClose }: ComboBuilderModalProps) {
                 </div>
               )}
               <div className="flex items-center justify-between text-base font-bold mt-1">
-                <span className="text-gray-900">Total</span>
+                <span className="text-[#222222]">Total</span>
                 <span className="text-[#bd6325]">₵ {totalPrice.toFixed(2)}</span>
               </div>
 
@@ -285,8 +285,8 @@ function ComboBuilderModal({ combo, onClose }: ComboBuilderModalProps) {
                 disabled={!canAddToCart}
                 className={`mt-3 w-full py-3 rounded-full font-semibold transition-colors ${
                   canAddToCart
-                    ? "bg-[#bd6325] text-white hover:bg-[#a8551f]"
-                    : "bg-gray-300 text-gray-600 cursor-not-allowed"
+                    ? "bg-[#bd6325] text-[#faf9f5] hover:bg-[#bd6325]"
+                    : "bg-[#b9aca2] text-[#5d6043] cursor-not-allowed"
                 }`}
               >
                 {canAddToCart

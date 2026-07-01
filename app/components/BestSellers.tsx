@@ -82,13 +82,13 @@ export default function BestSellers() {
       >
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           <div className="lg:w-1/3 flex flex-col justify-center">
-            <p className="text-xs sm:text-sm font-medium text-gray-600 mb-2">
+            <p className="text-xs sm:text-sm font-medium text-[#5d6043] mb-2">
               What&apos;s Popular Now
             </p>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-[#222222] mb-4 md:mb-6 leading-tight">
               Best Sellers
             </h2>
-            <p className="text-base sm:text-lg text-gray-700">
+            <p className="text-base sm:text-lg text-[#5d6043]">
               Shop our most loved products.
             </p>
           </div>
@@ -118,7 +118,7 @@ export default function BestSellers() {
 
                       {/* Sold Out Badge - shown when product has variants and all are unavailable */}
                       {(product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter((opt: any) => opt.isAvailable !== false)?.length ?? 0) === 0 && (
-                        <div className="absolute top-4 right-4 z-20 bg-red-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                        <div className="absolute top-4 right-4 z-20 bg-red-500 text-[#faf9f5] px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
                           Sold Out
                         </div>
                       )}
@@ -126,16 +126,16 @@ export default function BestSellers() {
                       <div className={`absolute inset-0 bg-gradient-to-t ${((product.selectOptions?.length ?? 0) > 0 && (product.selectOptions?.filter((opt: any) => opt.isAvailable !== false)?.length ?? 0) === 0) ? "from-black/70" : "from-black/60"} via-transparent to-transparent flex flex-col justify-end p-6`}>
                         <div className="flex items-end justify-between">
                           <div>
-                            <h3 className="text-white text-xl sm:text-2xl font-bold mb-2">
+                            <h3 className="text-[#faf9f5] text-xl sm:text-2xl font-bold mb-2">
                               {product.productName}
                             </h3>
-                            <p className="text-white/80 text-xs sm:text-sm font-medium">
+                            <p className="text-[#faf9f5]/80 text-xs sm:text-sm font-medium">
                               GHS {product?.price?.toFixed(2)}
                             </p>
                           </div>
                           {/* Arrow icon */}
-                          <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 flex items-center justify-center group-hover:bg-white/30 transition-colors">
-                            <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform duration-300" />
+                          <div className="bg-[#faf9f5]/20 backdrop-blur-sm rounded-full p-3 flex items-center justify-center group-hover:bg-[#faf9f5]/30 transition-colors">
+                            <ArrowRight className="w-5 h-5 text-[#faf9f5] group-hover:translate-x-1 transition-transform duration-300" />
                           </div>
                         </div>
                       </div>

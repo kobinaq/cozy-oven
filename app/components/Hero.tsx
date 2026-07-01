@@ -95,7 +95,7 @@ export default function Hero() {
         initial={{ opacity: 0, y: 20 }} 
         animate={{ opacity: 1, y: 0 }} 
         transition={{ duration: 1 }}
-        className="relative z-10 text-white px-4 max-w-3xl mx-auto"
+        className="relative z-10 text-[#faf9f5] px-4 max-w-3xl mx-auto"
       >
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">Welcome to Cozy Oven! What&apos;s your banana bread craving for today?</h1>
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6">Discover the best banana bread in Ghana</p>
@@ -106,14 +106,14 @@ export default function Hero() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search for classic banana bread, yoghurt, gift box..."
-              className="w-full px-6 py-4 pr-12 rounded-full text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-[#bd6325] border border-white bg-white/20 backdrop-blur-sm"
+              className="w-full px-6 py-4 pr-12 rounded-full text-[#faf9f5] placeholder-[#faf9f5] focus:outline-none focus:ring-2 focus:ring-[#bd6325] border border-[#faf9f5] bg-[#faf9f5]/20 backdrop-blur-sm"
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-[#bd6325] rounded-full hover:bg-[#a8551f] transition-colors"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-[#bd6325] rounded-full hover:bg-[#bd6325] transition-colors"
               aria-label="Search"
             >
-              <Search className="w-5 h-5 text-white" />
+              <Search className="w-5 h-5 text-[#faf9f5]" />
             </button>
           </form>
 
@@ -122,16 +122,16 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="absolute left-1/2 -translate-x-1/2 mt-2 w-full max-w-2xl bg-white/95 backdrop-blur-lg rounded-lg shadow-lg overflow-hidden z-50"
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-full max-w-2xl bg-[#faf9f5]/95 backdrop-blur-lg rounded-lg shadow-lg overflow-hidden z-50"
             >
               {searchLoading && (
-                <div className="p-4 text-center text-sm text-gray-500">
+                <div className="p-4 text-center text-sm text-[#5d6043]">
                   Searching...
                 </div>
               )}
 
               {!searchLoading && searchQuery && searchResults?.length === 0 && (
-                <div className="p-4 text-center text-sm text-gray-500">
+                <div className="p-4 text-center text-sm text-[#5d6043]">
                   No products found
                 </div>
               )}
@@ -142,9 +142,9 @@ export default function Hero() {
                     <button
                       key={product.id}
                       onClick={() => handleSearchResultClick(product.id)}
-                      className="w-full p-3 hover:bg-gray-50 text-left flex items-center gap-3 border-b last:border-b-0"
+                      className="w-full p-3 hover:bg-[#faf9f5] text-left flex items-center gap-3 border-b last:border-b-0"
                     >
-                      <div className="w-12 h-12 bg-gray-200 rounded-lg relative overflow-hidden flex-shrink-0">
+                      <div className="w-12 h-12 bg-[#b9aca2] rounded-lg relative overflow-hidden flex-shrink-0">
                         {product.thumbnail && (
                           <Image
                             src={product.thumbnail}
@@ -155,10 +155,10 @@ export default function Hero() {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium text-gray-900 truncate">
+                        <h4 className="text-sm font-medium text-[#222222] truncate">
                           {product.productName}
                         </h4>
-                        <p className="text-xs text-gray-500">
+                        <p className="text-xs text-[#5d6043]">
                           GHS {product.price.toFixed(2)} • {product.productCategory}
                         </p>
                       </div>

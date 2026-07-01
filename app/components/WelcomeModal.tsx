@@ -45,10 +45,10 @@ export default function WelcomeModal() {
                 damping: 25,
                 stiffness: 300,
               }}
-              className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden pointer-events-auto"
+              className="relative bg-[#faf9f5] rounded-3xl shadow-2xl max-w-md w-full overflow-hidden pointer-events-auto"
             >
               {/* Decorative gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#bd6325]/10 via-[#b9aca2]/5 to-[#5d6043]/10" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#898c6d]/12 via-[#b9aca2]/5 to-[#5d6043]/10" />
               
               {/* Animated sparkles */}
               <div className="absolute top-4 right-4">
@@ -70,10 +70,10 @@ export default function WelcomeModal() {
               {/* Close button */}
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-[#b9aca2] hover:bg-[#b9aca2] transition-colors"
                 aria-label="Close modal"
               >
-                <X className="w-5 h-5 text-gray-600" />
+                <X className="w-5 h-5 text-[#5d6043]" />
               </button>
 
               {/* Content */}
@@ -92,8 +92,8 @@ export default function WelcomeModal() {
                 >
                   <div className="relative">
                     <div className="absolute inset-0 bg-[#bd6325]/20 rounded-full blur-xl animate-pulse" />
-                    <div className="relative bg-gradient-to-br from-[#bd6325] to-[#a8551f] p-6 rounded-full">
-                      <Gift className="w-12 h-12 text-white" />
+                    <div className="relative bg-gradient-to-br from-[#898c6d] to-[#5d6043] p-6 rounded-full">
+                      <Gift className="w-12 h-12 text-[#faf9f5]" />
                     </div>
                   </div>
                 </motion.div>
@@ -113,7 +113,7 @@ export default function WelcomeModal() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="text-gray-700 text-base md:text-lg mb-6 leading-relaxed"
+                  className="text-[#5d6043] text-base md:text-lg mb-6 leading-relaxed"
                 >
                   We appreciate you taking the time to explore Cozy Oven. As a special thank you, enjoy a{" "}
                   <span className="font-semibold text-[#bd6325]">complimentary mini</span> with your order!
@@ -125,11 +125,11 @@ export default function WelcomeModal() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 }}
                   onClick={handleClose}
-                  className="w-full bg-gradient-to-r from-[#bd6325] to-[#a8551f] text-white font-semibold py-4 px-8 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+                  className="w-full bg-gradient-to-r from-[#898c6d] to-[#5d6043] text-[#faf9f5] font-semibold py-4 px-8 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-300 relative overflow-hidden group"
                 >
                   <span className="relative z-10">Start Shopping</span>
                   <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-[#a8551f] to-[#bd6325]"
+                    className="absolute inset-0 bg-gradient-to-r from-[#898c6d] to-[#5d6043]"
                     initial={{ x: "-100%" }}
                     whileHover={{ x: 0 }}
                     transition={{ duration: 0.3 }}
@@ -139,7 +139,7 @@ export default function WelcomeModal() {
               </div>
 
               {/* Decorative bottom border */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#bd6325] via-[#b9aca2] to-[#5d6043]" />
+              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#898c6d] via-[#73765a] to-[#5d6043]" />
             </motion.div>
           </div>
         </>
