@@ -23,6 +23,7 @@ import AddOrderModal from "./components/AddOrderModal";
 const statusOptions = [
   { value: "all", label: "All Orders" },
   { value: "pending", label: "Pending" },
+  { value: "pending_verification", label: "Pending Verification" },
   { value: "preparing", label: "Preparing" },
   { value: "on-delivery", label: "On Delivery" },
   { value: "delivered", label: "Delivered" },
@@ -83,6 +84,7 @@ export default function OrdersPage() {
     pending: 0,
     preparing: 0,
     delivered: 0,
+    pendingVerification: 0,
   });
 
   useEffect(() => {
@@ -133,6 +135,7 @@ export default function OrdersPage() {
         pending: data.statistics.pending ?? 0,
         preparing: data.statistics.preparing ?? 0,
         delivered: data.statistics.delivered ?? 0,
+        pendingVerification: data.statistics.pendingVerification ?? 0,
       });
     } else {
       // fallback: compute from orders
@@ -141,6 +144,7 @@ export default function OrdersPage() {
         pending: ordersArray.filter((o) => o.status === "pending").length,
         preparing: ordersArray.filter((o) => o.status === "preparing").length,
         delivered: ordersArray.filter((o) => o.status === "delivered").length,
+        pendingVerification: ordersArray.filter((o) => o.manualPayment?.status === "pending_verification").length,
       });
     }
 
@@ -176,6 +180,43 @@ export default function OrdersPage() {
     }
   };
 
+  const handleConfirmManualPayment = async (orderId: string) => {
+    if (!confirm("Confirm this Mobile Money payment?")) {
+      return;
+    }
+
+    try {
+      const response = await orderService.confirmManualPayment(orderId);
+      if (response?.success) {
+        await fetchOrders();
+      } else {
+        alert(response?.message || "Failed to confirm payment");
+      }
+    } catch (error) {
+      console.error("Error confirming manual payment:", error);
+      alert("Failed to confirm payment");
+    }
+  };
+
+  const handleRejectManualPayment = async (orderId: string) => {
+    const rejectionReason = prompt("Optional reason for rejecting this Mobile Money payment") || undefined;
+    if (!confirm("Reject this Mobile Money payment?")) {
+      return;
+    }
+
+    try {
+      const response = await orderService.rejectManualPayment(orderId, rejectionReason);
+      if (response?.success) {
+        await fetchOrders();
+      } else {
+        alert(response?.message || "Failed to reject payment");
+      }
+    } catch (error) {
+      console.error("Error rejecting manual payment:", error);
+      alert("Failed to reject payment");
+    }
+  };
+
   const handleDeleteOrder = async (orderId: string) => {
     if (!confirm("Are you sure you want to delete this order? This action cannot be undone.")) {
       return;
@@ -205,7 +246,10 @@ export default function OrdersPage() {
       (order.customer?.toLowerCase().includes(q) ?? false) ||
       (order.email?.toLowerCase().includes(q) ?? false);
 
-    const matchesStatus = statusFilter === "all" || order.status === statusFilter;
+    const matchesStatus =
+      statusFilter === "all" ||
+      order.status === statusFilter ||
+      order.manualPayment?.status === statusFilter;
     const matchesPaymentMethod = paymentMethodFilter === "all" || order.paymentMethod === paymentMethodFilter;
 
     return matchesSearch && matchesStatus && matchesPaymentMethod;
@@ -246,6 +290,10 @@ export default function OrdersPage() {
           <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
             <p className="text-sm text-gray-600 font-medium">Delivered</p>
             <p className="text-2xl font-bold text-green-600 mt-1">{statistics.delivered}</p>
+          </div>
+          <div className="bg-white rounded-xl shadow-sm p-4 border border-gray-100">
+            <p className="text-sm text-gray-600 font-medium">Pending Verification</p>
+            <p className="text-2xl font-bold text-orange-600 mt-1">{statistics.pendingVerification}</p>
           </div>
         </div>
 
@@ -299,7 +347,7 @@ export default function OrdersPage() {
                 <option value="all">All Payment Methods</option>
                 <option value="cash">Cash</option>
                 <option value="paystack">Paystack</option>
-                <option value="mobile_money">Mobile Money</option>
+                <option value="mobile-money">Mobile Money</option>
               </select>
             </div>
           </div>
@@ -375,11 +423,23 @@ export default function OrdersPage() {
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                               order.paymentStatus === 'paid'
                                 ? 'bg-green-100 text-green-700'
+                                : order.manualPayment?.status === 'rejected'
+                                ? 'bg-red-100 text-red-700'
                                 : 'bg-yellow-100 text-yellow-700'
                             }`}
                           >
-                            {order.paymentStatus || 'N/A'}
+                            {order.manualPayment?.status === "pending_verification"
+                              ? "pending verification"
+                              : order.manualPayment?.status === "rejected"
+                              ? "rejected"
+                              : order.paymentStatus || 'N/A'}
                           </span>
+                          {order.paymentMethod && (
+                            <p className="text-xs text-gray-500 mt-1">{order.paymentMethod}</p>
+                          )}
+                          {order.manualPayment?.transactionId && (
+                            <p className="text-xs text-gray-500 mt-1">Txn: {order.manualPayment.transactionId}</p>
+                          )}
                           {order.paidAt && (
                             <p className="text-xs text-gray-500 mt-1">{order.paidAt}</p>
                           )}
@@ -446,6 +506,24 @@ export default function OrdersPage() {
                               >
                                 <Eye className="w-4 h-4" />
                               </button>
+                              {order.manualPayment?.status === "pending_verification" && (
+                                <>
+                                  <button
+                                    onClick={() => handleConfirmManualPayment(order.orderId)}
+                                    className="px-2 py-1 text-xs text-white bg-green-600 hover:bg-green-700 rounded transition-colors"
+                                    title="Confirm MoMo Payment"
+                                  >
+                                    Confirm
+                                  </button>
+                                  <button
+                                    onClick={() => handleRejectManualPayment(order.orderId)}
+                                    className="px-2 py-1 text-xs text-white bg-red-600 hover:bg-red-700 rounded transition-colors"
+                                    title="Reject MoMo Payment"
+                                  >
+                                    Reject
+                                  </button>
+                                </>
+                              )}
                               <button
                                 onClick={() => {
                                   setEditingOrderId(order.orderId);
@@ -518,6 +596,19 @@ export default function OrdersPage() {
                       <p className="text-sm text-gray-700">{order.deliveryAddress}</p>
                     </div>
 
+                    {(order.paymentMethod || order.manualPayment?.transactionId) && (
+                      <div className="mb-3">
+                        <p className="text-xs text-gray-500 mb-1">Payment</p>
+                        <p className="text-sm text-gray-700">{order.paymentMethod || order.paymentStatus}</p>
+                        {order.manualPayment?.status && (
+                          <p className="text-sm text-gray-700">Status: {order.manualPayment.status.replace("_", " ")}</p>
+                        )}
+                        {order.manualPayment?.transactionId && (
+                          <p className="text-sm text-gray-700">Txn: {order.manualPayment.transactionId}</p>
+                        )}
+                      </div>
+                    )}
+
                     {/* Action Buttons */}
                     {editingOrderId === order.orderId ? (
                       <div className="flex flex-col gap-2">
@@ -561,6 +652,22 @@ export default function OrdersPage() {
                           <Eye className="w-4 h-4" />
                           View Details
                         </button>
+                        {order.manualPayment?.status === "pending_verification" && (
+                          <>
+                            <button
+                              onClick={() => handleConfirmManualPayment(order.orderId)}
+                              className="flex-1 px-3 py-2 text-sm text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
+                            >
+                              Confirm
+                            </button>
+                            <button
+                              onClick={() => handleRejectManualPayment(order.orderId)}
+                              className="flex-1 px-3 py-2 text-sm text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+                            >
+                              Reject
+                            </button>
+                          </>
+                        )}
                         <button
                           onClick={() => {
                             setEditingOrderId(order.orderId);

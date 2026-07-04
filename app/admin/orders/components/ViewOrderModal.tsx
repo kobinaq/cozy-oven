@@ -54,6 +54,13 @@ interface OrderDetails {
     status: string;
     method: string;
     transactionRef?: string;
+    manualPayment?: {
+      status: string;
+      transactionId?: string;
+      submittedAt?: string;
+      reviewedAt?: string;
+      rejectionReason?: string;
+    };
     paidAt?: string;
   };
   orderStatus: string;
@@ -181,6 +188,7 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
             raw.payment?.transactionRef ||
             raw.transactionRef ||
             raw.reference,
+          manualPayment: raw.payment?.manualPayment || raw.manualPayment,
           paidAt: raw.payment?.paidAt || raw.paidAt,
         },
         orderStatus: raw.orderStatus || raw.status || "pending",
@@ -426,6 +434,30 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                         <p className="text-xs text-gray-600">Transaction Reference</p>
                         <p className="text-sm font-medium text-gray-900">
                           {orderDetails.payment.transactionRef}
+                        </p>
+                      </div>
+                    )}
+                    {orderDetails.payment.manualPayment?.status && (
+                      <div>
+                        <p className="text-xs text-gray-600">Manual Review Status</p>
+                        <p className="text-sm font-medium text-gray-900 capitalize">
+                          {orderDetails.payment.manualPayment.status.replace("_", " ")}
+                        </p>
+                      </div>
+                    )}
+                    {orderDetails.payment.manualPayment?.transactionId && (
+                      <div>
+                        <p className="text-xs text-gray-600">MoMo Transaction ID</p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {orderDetails.payment.manualPayment.transactionId}
+                        </p>
+                      </div>
+                    )}
+                    {orderDetails.payment.manualPayment?.rejectionReason && (
+                      <div>
+                        <p className="text-xs text-gray-600">Rejection Reason</p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {orderDetails.payment.manualPayment.rejectionReason}
                         </p>
                       </div>
                     )}

@@ -9,7 +9,7 @@ import AuthModal from "../components/AuthModal";
 import IncompleteOrderModal from "../components/IncompleteOrderModal";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
-import { orderService, type OrderItem } from "../services/orderService";
+import { orderService, type OrderItem, type PaymentConfig } from "../services/orderService";
 import { saveGuestOrderProfile } from "../utils/guestOrderProfile";
 
 type DeliveryMethod = "delivery" | "pickup";
@@ -41,6 +41,11 @@ export default function CheckoutPage() {
     notes: "",
   });
   const [paymentMethod, setPaymentMethod] = useState("paystack");
+  const [paymentConfig, setPaymentConfig] = useState<PaymentConfig>({
+    paymentMethod: "momo",
+    momoAccounts: [],
+  });
+  const [momoTransactionId, setMomoTransactionId] = useState("");
 
   const subtotal = getCartTotal();
   const total = subtotal; // Delivery fee not included in checkout
@@ -50,6 +55,33 @@ export default function CheckoutPage() {
       router.push("/cart");
     }
   }, [cart, router]);
+
+  useEffect(() => {
+    const fetchPaymentConfig = async () => {
+      try {
+        const response = await orderService.getPaymentConfig();
+        if (response.success && response.data) {
+          setPaymentConfig(response.data);
+          setPaymentMethod(response.data.paymentMethod === "momo" ? "mobile-money" : "paystack");
+        }
+      } catch (err) {
+        console.error("Payment config error:", err);
+        setPaymentConfig({
+          paymentMethod: "momo",
+          momoAccounts: [
+            {
+              network: "MTN",
+              number: "0249612035",
+              registeredName: "Anita Awuku",
+            },
+          ],
+        });
+        setPaymentMethod("mobile-money");
+      }
+    };
+
+    fetchPaymentConfig();
+  }, []);
 
   // Track when user starts checkout
   useEffect(() => {
@@ -133,6 +165,12 @@ export default function CheckoutPage() {
         return;
       }
       setError(null);
+    } else if (currentStep === "payment" && paymentConfig.paymentMethod === "momo") {
+      if (!momoTransactionId.trim()) {
+        setError("Please enter your Mobile Money transaction/reference ID");
+        return;
+      }
+      setError(null);
     }
 
     const stepOrder: CheckoutStep[] = ["info", "delivery", "payment", "review"];
@@ -199,6 +237,11 @@ export default function CheckoutPage() {
       return;
     }
 
+    if (paymentConfig.paymentMethod === "momo" && !momoTransactionId.trim()) {
+      setError("Please enter your Mobile Money transaction/reference ID");
+      return;
+    }
+
     // Validate minimum order amount (40 cedis) - disabled for testing
     // if (total < 40) {
     //   setError("Minimum order amount is GHS 40.00. Please add more items to your cart.");
@@ -237,7 +280,10 @@ export default function CheckoutPage() {
         contactNumber: customerInfo.phone.trim(),
         fullName: customerInfo.name.trim(),
         email: customerInfo.email.trim(),
-        paymentMethod,
+        paymentMethod: paymentConfig.paymentMethod === "momo" ? "mobile-money" : "paystack",
+        ...(paymentConfig.paymentMethod === "momo" && {
+          momoTransactionId: momoTransactionId.trim(),
+        }),
         ...(deliveryMethod === "pickup" && {
           orderDetails: {
             pickUpDetails: {
@@ -266,6 +312,11 @@ export default function CheckoutPage() {
           phoneNumber: customerInfo.phone.trim(),
           orderId,
         });
+      }
+
+      if (paymentConfig.paymentMethod === "momo") {
+        router.push(`/order-success?orderNumber=${encodeURIComponent(orderId)}&paymentStatus=pending_verification`);
+        return;
       }
 
       // Initiate payment
@@ -553,30 +604,76 @@ export default function CheckoutPage() {
             {currentStep === "payment" && (
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  Payment Method
+                  {paymentConfig.paymentMethod === "momo" ? "Pay via Mobile Money" : "Payment Method"}
                 </h2>
 
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
-                      Select Payment Method *
-                    </label>
+                {paymentConfig.paymentMethod === "momo" ? (
+                  <div className="space-y-5">
+                    <div className="rounded-lg border border-orange-200 bg-orange-50 p-4">
+                      <p className="text-sm font-semibold text-gray-900">Amount to send</p>
+                      <p className="mt-1 text-3xl font-bold text-[#bd6325]">GHS {total.toFixed(2)}</p>
+                    </div>
+
                     <div className="space-y-3">
-                      <button
-                        onClick={() => setPaymentMethod("paystack")}
-                        className="w-full py-3 px-4 rounded-lg border-2 text-left font-semibold transition-colors border-[#bd6325] bg-orange-50 text-[#bd6325]"
-                      >
-                        Paystack Payment (Mobile Money, Cards, & More)
-                      </button>
+                      <p className="text-sm font-semibold text-gray-700">Send payment to:</p>
+                      {(paymentConfig.momoAccounts.length > 0
+                        ? paymentConfig.momoAccounts
+                        : [{ network: "MTN", number: "0249612035", registeredName: "Anita Awuku" }]
+                      ).map((account) => (
+                        <div key={`${account.network}-${account.number}`} className="rounded-lg border border-gray-200 bg-white p-4">
+                          <div className="flex items-center justify-between gap-4">
+                            <p className="text-sm font-bold text-gray-900">{account.network}</p>
+                            <p className="text-lg font-bold text-[#2A2C22]">{account.number}</p>
+                          </div>
+                          <p className="mt-2 text-sm text-gray-600">
+                            Registered name: <span className="font-semibold text-gray-900">{account.registeredName}</span>
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+                      <p className="text-sm text-blue-900">
+                        Send this amount via Mobile Money, then enter the transaction/reference ID below.
+                      </p>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Mobile Money Transaction/Reference ID *
+                      </label>
+                      <input
+                        type="text"
+                        value={momoTransactionId}
+                        onChange={(e) => setMomoTransactionId(e.target.value)}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#bd6325] focus:border-transparent"
+                        placeholder="e.g. 1234567890"
+                      />
                     </div>
                   </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">
+                        Select Payment Method *
+                      </label>
+                      <div className="space-y-3">
+                        <button
+                          onClick={() => setPaymentMethod("paystack")}
+                          className="w-full py-3 px-4 rounded-lg border-2 text-left font-semibold transition-colors border-[#bd6325] bg-orange-50 text-[#bd6325]"
+                        >
+                          Paystack Payment (Mobile Money, Cards, & More)
+                        </button>
+                      </div>
+                    </div>
 
-                  <div className="mt-6 p-4 bg-red-50 rounded-lg border border-red-200">
-                    <p className="text-sm text-red-800">
-                      <span className="font-semibold">Secure Payment:</span> You&apos;ll be redirected to Paystack&apos;s secure checkout page to complete your payment. Paystack supports Mobile Money, credit/debit cards, and other payment methods.
-                    </p>
+                    <div className="mt-6 p-4 bg-red-50 rounded-lg border border-red-200">
+                      <p className="text-sm text-red-800">
+                        <span className="font-semibold">Secure Payment:</span> You&apos;ll be redirected to Paystack&apos;s secure checkout page to complete your payment. Paystack supports Mobile Money, credit/debit cards, and other payment methods.
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
 
@@ -665,8 +762,13 @@ export default function CheckoutPage() {
                       Payment Method
                     </h3>
                     <p className="text-gray-700 capitalize">
-                      {paymentMethod.replace("-", " ")}
+                      {paymentConfig.paymentMethod === "momo" ? "Mobile Money" : paymentMethod.replace("-", " ")}
                     </p>
+                    {paymentConfig.paymentMethod === "momo" && momoTransactionId && (
+                      <p className="mt-1 text-sm text-gray-600">
+                        Transaction ID: <span className="font-semibold">{momoTransactionId}</span>
+                      </p>
+                    )}
                   </div>
 
                   {/* Order Summary */}
@@ -722,7 +824,11 @@ export default function CheckoutPage() {
                 disabled={isProcessing}
                 className="flex-1 bg-[#bd6325] text-white font-bold py-3 px-6 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isProcessing ? "Processing..." : "Place Order & Pay"}
+                {isProcessing
+                  ? "Processing..."
+                  : paymentConfig.paymentMethod === "momo"
+                  ? "Submit Order"
+                  : "Place Order & Pay"}
               </button>
             ) : (
               <button

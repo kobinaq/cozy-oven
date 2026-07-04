@@ -24,6 +24,7 @@ export interface CheckoutRequest {
   specialInstruction?: string;
   contactNumber: string;
   paymentMethod: string;
+  momoTransactionId?: string;
   fullName?: string;
   email?: string;
   orderDetails?: {
@@ -32,6 +33,17 @@ export interface CheckoutRequest {
       specialInstructions?: string;
     };
   };
+}
+
+export interface MomoAccount {
+  network: string;
+  number: string;
+  registeredName: string;
+}
+
+export interface PaymentConfig {
+  paymentMethod: "momo" | "paystack";
+  momoAccounts: MomoAccount[];
 }
 
 // Order interface
@@ -47,6 +59,14 @@ export interface Order {
   amount?: string;        
   date?: string;
   paidAt?: string;          
+  transactionRef?: string;
+  manualPayment?: {
+    status: "not_required" | "pending_verification" | "confirmed" | "rejected";
+    transactionId?: string;
+    submittedAt?: string;
+    reviewedAt?: string;
+    rejectionReason?: string;
+  };
 
   // Existing fields
   userId?: string;
@@ -79,6 +99,7 @@ export interface Order {
     preparing: number;
     delivered: number;
     cancelled: number;
+    pendingVerification?: number;
     totalRevenue: number;
   };
 }
@@ -130,6 +151,7 @@ export interface OrderStatistics {
   preparing: number;
   delivered: number;
   cancelled?: number;
+  pendingVerification?: number;
   totalRevenue?: number;
 }
 
@@ -151,6 +173,11 @@ export interface GetAllOrdersResponse {
 }
 
 export const orderService = {
+  getPaymentConfig: async (): Promise<ApiResponse<PaymentConfig>> => {
+    const response = await apiClient.get("/api/v1/store/customer/payment/config");
+    return response.data;
+  },
+
   // Customer: Create a new order (checkout)
   checkout: async (data: CheckoutRequest): Promise<ApiResponse<Order>> => {
     const response = await apiClient.post("/api/v1/store/customer/orders/checkout/", data);
@@ -229,6 +256,22 @@ export const orderService = {
       }
       throw error;
     }
+  },
+
+  confirmManualPayment: async (orderId: string): Promise<ApiResponse<Order>> => {
+    const response = await apiClient.patch(`/api/v1/dashboard/admin/orders/${orderId}/manual-payment/confirm`);
+    return response.data;
+  },
+
+  rejectManualPayment: async (
+    orderId: string,
+    rejectionReason?: string
+  ): Promise<ApiResponse<Order>> => {
+    const response = await apiClient.patch(
+      `/api/v1/dashboard/admin/orders/${orderId}/manual-payment/reject`,
+      { rejectionReason }
+    );
+    return response.data;
   },
 
   createOfflineSale: async (data: CheckoutRequest): Promise<ApiResponse<Order>> => {
