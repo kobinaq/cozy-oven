@@ -73,7 +73,7 @@ export default function ApiWarmupBanner() {
               ? "Please give us a moment and try again."
               : isReady
               ? "Fresh data is available."
-              : "Our free backend may need a moment after being idle."}
+              : "We will be with you shortly."}
           </p>
         </div>
       </div>
