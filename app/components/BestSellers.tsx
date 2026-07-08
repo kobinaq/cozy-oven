@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from 'lucide-react';
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { useState, useEffect, useMemo } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 import { AnimatePresence } from "framer-motion";
 import customerProductService from "../services/customerProductService";
 
@@ -14,24 +14,27 @@ export default function BestSellers() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchBestSellers = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await customerProductService.getBestSellers();
+      if (response.success) {
+        setProducts(response.data);
+      }
+    } catch (error) {
+      console.error("Error fetching best sellers:", error);
+      setError("Best sellers are taking a moment to load.");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    const fetchBestSellers = async () => {
-      try {
-        setLoading(true);
-        const response = await customerProductService.getBestSellers();
-        if (response.success) {
-          setProducts(response.data);
-        }
-      } catch (error) {
-        console.error("Error fetching best sellers:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchBestSellers();
-  }, []);
+  }, [fetchBestSellers]);
 
   const CyclingImage = ({ images, defaultImage, alt }: { images?: string[], defaultImage: string, alt: string }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -95,8 +98,21 @@ export default function BestSellers() {
 
           <div className="lg:w-2/3 w-full">
             {loading ? (
-              <div className="flex items-center justify-center py-12">
+              <div className="flex flex-col items-center justify-center py-12 text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#bd6325]"></div>
+                <p className="mt-4 text-sm font-medium text-gray-700">Warming up best sellers...</p>
+                <p className="mt-1 text-xs text-gray-500">This may take a moment on our free backend.</p>
+              </div>
+            ) : error && products.length === 0 ? (
+              <div className="rounded-lg border border-orange-200 bg-orange-50 p-6 text-center">
+                <p className="font-semibold text-gray-900">Best sellers are still loading.</p>
+                <p className="mt-2 text-sm text-gray-600">{error}</p>
+                <button
+                  onClick={fetchBestSellers}
+                  className="mt-4 rounded-full bg-[#bd6325] px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#a9551f]"
+                >
+                  Try Again
+                </button>
               </div>
             ) : (
               <div className="flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>

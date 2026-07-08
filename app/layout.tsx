@@ -6,6 +6,7 @@ import { WishlistProvider } from "./context/WishlistContext";
 import CartToastWrapper from "./components/CartToastWrapper";
 import PurchaseToast from "./components/PurchaseToast";
 import DeliveryBanner from "./components/DeliveryBanner";
+import ApiWarmupBanner from "./components/ApiWarmupBanner";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://cozyoven.store"),
@@ -66,6 +67,7 @@ export default function RootLayout({
           <WishlistProvider>
             <CartProvider>
               <CartToastWrapper>
+                <ApiWarmupBanner />
                 <DeliveryBanner />
                 {children}
                 <PurchaseToast />
