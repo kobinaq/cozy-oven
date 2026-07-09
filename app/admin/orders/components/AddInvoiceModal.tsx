@@ -122,7 +122,12 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
 
       const orderId = response.data?.orderId || response.order?.orderId;
       if (orderId) {
-        await orderService.downloadInvoicePdf(orderId);
+        try {
+          await orderService.downloadInvoicePdf(orderId);
+        } catch (downloadError) {
+          console.error("Invoice created, but PDF download failed:", downloadError);
+          alert("Invoice created, but the PDF download failed. You can download it from the orders table.");
+        }
       }
 
       resetForm();

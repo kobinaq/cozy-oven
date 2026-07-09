@@ -11,8 +11,8 @@ const cozyReasons = [
 
 const values = ["Excellence", "Simplicity", "Thoughtfulness", "God-led creativity", "Serving our customers with joy"];
 
-const locationIconImage = "https://res.cloudinary.com/daljxj4yl/image/upload/v1782836487/ChatGPT_Image_Jun_30_2026_04_19_56_PM_dqpipy.png";
-const binocularsImage = "https://res.cloudinary.com/daljxj4yl/image/upload/v1782836487/ChatGPT_Image_Jun_30_2026_04_21_09_PM_pzhaav.png";
+const locationIconImage = "https://res.cloudinary.com/daljxj4yl/image/upload/v1783602095/ChatGPT_Image_Jul_9_2026_12_57_32_PM_ajo0cz.png";
+const binocularsImage = "https://res.cloudinary.com/daljxj4yl/image/upload/v1783602096/ChatGPT_Image_Jul_9_2026_12_55_18_PM_sqhhpo.png";
 
 export default function AboutPage() {
   return (
