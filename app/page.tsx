@@ -39,7 +39,7 @@ export default function Home() {
         <section className="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 lg:min-h-[calc(100vh-100px)] lg:grid-cols-[0.95fr_1fr] lg:px-8 lg:py-20">
           <div className="flex flex-col justify-center">
             <p className="editorial-eyebrow mb-5">
-              Tema-baked - Ghana-loved - Gift-ready
+              Tema-baked - Ghana-loved - Gift-ready 
             </p>
             <h1 className="prototype-heading max-w-3xl text-[clamp(3.8rem,8.5vw,7.6rem)] text-[#222222]">
               Moist banana bread, baked fresh by Anita.
