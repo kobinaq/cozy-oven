@@ -13,6 +13,7 @@ export const useCustomerProducts = (options: UseCustomerProductsOptions = {}) =>
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+  const [hasFetched, setHasFetched] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -29,13 +30,13 @@ export const useCustomerProducts = (options: UseCustomerProductsOptions = {}) =>
       setError(null);
       const response = await customerProductService.getAllProducts({ page, limit });
       setProducts(response.data);
+      setHasFetched(true);
       if (response.pagination) {
         setPagination(response.pagination);
       }
     } catch (err) {
       console.error("Error fetching customer products:", err);
-      setError("Failed to fetch products");
-      setProducts([]);
+      setError("The bakery is taking a moment to wake up. Products should appear shortly.");
     } finally {
       setLoading(false);
     }
@@ -50,6 +51,7 @@ export const useCustomerProducts = (options: UseCustomerProductsOptions = {}) =>
   return {
     products,
     loading,
+    hasFetched,
     error,
     pagination,
     refetch: fetchProducts,

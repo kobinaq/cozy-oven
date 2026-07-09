@@ -56,6 +56,14 @@ interface OrderDetails {
     transactionRef?: string;
     paidAt?: string;
   };
+  source?: string;
+  invoice?: {
+    invoiceId?: string;
+    status?: string;
+    currency?: string;
+    paymentLink?: string;
+    paidAt?: string;
+  };
   orderStatus: string;
   createdAt: string;
 }
@@ -183,6 +191,8 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
             raw.reference,
           paidAt: raw.payment?.paidAt || raw.paidAt,
         },
+        source: raw.source,
+        invoice: raw.invoice,
         orderStatus: raw.orderStatus || raw.status || "pending",
         createdAt: raw.createdAt || raw.date || new Date().toISOString(),
       };
@@ -435,6 +445,27 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                         <p className="text-sm font-medium text-[#222222]">
                           {new Date(orderDetails.payment.paidAt).toLocaleString()}
                         </p>
+                      </div>
+                    )}
+                    {orderDetails.source === "invoice" && orderDetails.invoice?.invoiceId && (
+                      <div>
+                        <p className="text-xs text-[#5d6043]">Invoice ID</p>
+                        <p className="text-sm font-medium text-[#222222]">
+                          {orderDetails.invoice.invoiceId}
+                        </p>
+                      </div>
+                    )}
+                    {orderDetails.source === "invoice" && orderDetails.invoice?.paymentLink && (
+                      <div className="col-span-2">
+                        <p className="text-xs text-[#5d6043]">Payment Link</p>
+                        <a
+                          href={orderDetails.invoice.paymentLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="break-all text-sm font-medium text-[#bd6325] hover:underline"
+                        >
+                          {orderDetails.invoice.paymentLink}
+                        </a>
                       </div>
                     )}
                   </div>

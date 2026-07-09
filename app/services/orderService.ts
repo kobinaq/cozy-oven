@@ -47,6 +47,14 @@ export interface Order {
   amount?: string;        
   date?: string;
   paidAt?: string;          
+  source?: string;
+  invoice?: {
+    invoiceId?: string;
+    status?: "unpaid" | "paid";
+    currency?: "GHS";
+    paymentLink?: string;
+    paidAt?: string;
+  };
 
   // Existing fields
   userId?: string;
@@ -120,6 +128,15 @@ export interface ApiResponse<T = unknown> {
     totalPages: number;
     totalItems: number;
     itemsPerPage: number;
+  };
+}
+
+export interface CreateInvoiceResponse extends ApiResponse<Order> {
+  data?: {
+    orderId: string;
+    invoiceId: string;
+    paymentLink: string;
+    pdfUrl: string;
   };
 }
 
@@ -234,6 +251,37 @@ export const orderService = {
   createOfflineSale: async (data: CheckoutRequest): Promise<ApiResponse<Order>> => {
     const response = await apiClient.post("/api/v1/dashboard/admin/orders/offline", data);
     return response.data;
+  },
+
+  createInvoice: async (data: CheckoutRequest): Promise<CreateInvoiceResponse> => {
+    const response = await apiClient.post("/api/v1/dashboard/admin/invoices", data);
+    return response.data;
+  },
+
+  markInvoicePaid: async (
+    orderId: string,
+    transactionRef?: string
+  ): Promise<ApiResponse<Order>> => {
+    const response = await apiClient.patch(
+      `/api/v1/dashboard/admin/invoices/${orderId}/mark-paid`,
+      { transactionRef }
+    );
+    return response.data;
+  },
+
+  downloadInvoicePdf: async (orderId: string): Promise<void> => {
+    const response = await apiClient.get(`/api/v1/dashboard/admin/invoices/${orderId}/pdf`, {
+      responseType: "blob",
+    });
+    const blob = new Blob([response.data], { type: "application/pdf" });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${orderId}-invoice.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
   },
 
   // Admin: Get single order details by orderId

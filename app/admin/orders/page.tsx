@@ -15,10 +15,14 @@ import {
   Trash2,
   Edit,
   Eye,
+  FileText,
+  Download,
+  CreditCard,
 } from "lucide-react";
 import { orderService, type Order } from "../../services/orderService";
 import ViewOrderModal from "./components/ViewOrderModal";
 import AddOrderModal from "./components/AddOrderModal";
+import AddInvoiceModal from "./components/AddInvoiceModal";
 
 const statusOptions = [
   { value: "all", label: "All Orders" },
@@ -78,6 +82,7 @@ export default function OrdersPage() {
   const [newStatus, setNewStatus] = useState<string>("");
   const [viewingOrderId, setViewingOrderId] = useState<string | null>(null);
   const [showAddOrderModal, setShowAddOrderModal] = useState(false);
+  const [showAddInvoiceModal, setShowAddInvoiceModal] = useState(false);
   const [statistics, setStatistics] = useState({
     total: 0,
     pending: 0,
@@ -194,6 +199,34 @@ export default function OrdersPage() {
     }
   };
 
+  const handleDownloadInvoice = async (orderId: string) => {
+    try {
+      await orderService.downloadInvoicePdf(orderId);
+    } catch (error) {
+      console.error("Error downloading invoice:", error);
+      alert("Failed to download invoice");
+    }
+  };
+
+  const handleMarkInvoicePaid = async (orderId: string) => {
+    const transactionRef = prompt("Payment reference (optional)") || undefined;
+    if (!confirm("Mark this invoice as paid and add it to order totals?")) {
+      return;
+    }
+
+    try {
+      const response = await orderService.markInvoicePaid(orderId, transactionRef);
+      if (response?.success) {
+        await fetchOrders();
+      } else {
+        alert(response?.message || "Failed to mark invoice as paid");
+      }
+    } catch (error) {
+      console.error("Error marking invoice paid:", error);
+      alert("Failed to mark invoice as paid");
+    }
+  };
+
   // Filtered orders (client-side)
   const filteredOrders = orders.filter((order) => {
     const q = searchQuery.trim().toLowerCase();
@@ -226,6 +259,13 @@ export default function OrdersPage() {
           >
             <Package className="w-5 h-5" />
             Add Order
+          </button>
+          <button
+            onClick={() => setShowAddInvoiceModal(true)}
+            className="flex items-center gap-2 rounded-lg border border-[#5d6043] px-4 py-2 text-[#5d6043] transition-colors hover:bg-[#5d6043] hover:text-[#faf9f5]"
+          >
+            <FileText className="w-5 h-5" />
+            Create Invoice
           </button>
         </div>
 
@@ -378,8 +418,13 @@ export default function OrdersPage() {
                                 : 'bg-yellow-100 text-yellow-700'
                             }`}
                           >
-                            {order.paymentStatus || 'N/A'}
+                            {order.source === "invoice" && order.paymentStatus !== "paid"
+                              ? "invoice unpaid"
+                              : order.paymentStatus || 'N/A'}
                           </span>
+                          {order.invoice?.invoiceId && (
+                            <p className="text-xs text-[#5d6043] mt-1">{order.invoice.invoiceId}</p>
+                          )}
                           {order.paidAt && (
                             <p className="text-xs text-[#5d6043] mt-1">{order.paidAt}</p>
                           )}
@@ -446,6 +491,24 @@ export default function OrdersPage() {
                               >
                                 <Eye className="w-4 h-4" />
                               </button>
+                              {order.source === "invoice" && (
+                                <button
+                                  onClick={() => handleDownloadInvoice(order.orderId)}
+                                  className="p-1 text-[#5d6043] hover:bg-[#b9aca2] rounded transition-colors"
+                                  title="Download Invoice"
+                                >
+                                  <Download className="w-4 h-4" />
+                                </button>
+                              )}
+                              {order.source === "invoice" && order.paymentStatus !== "paid" && (
+                                <button
+                                  onClick={() => handleMarkInvoicePaid(order.orderId)}
+                                  className="p-1 text-green-700 hover:bg-green-50 rounded transition-colors"
+                                  title="Mark Invoice Paid"
+                                >
+                                  <CreditCard className="w-4 h-4" />
+                                </button>
+                              )}
                               <button
                                 onClick={() => {
                                   setEditingOrderId(order.orderId);
@@ -518,6 +581,14 @@ export default function OrdersPage() {
                       <p className="text-sm text-[#5d6043]">{order.deliveryAddress}</p>
                     </div>
 
+                    {order.source === "invoice" && (
+                      <div className="mb-3 rounded-lg border border-[#b9aca2]/60 p-3">
+                        <p className="text-xs text-[#5d6043] mb-1">Invoice</p>
+                        <p className="text-sm text-[#222222]">{order.invoice?.invoiceId || order.orderId}</p>
+                        <p className="text-sm text-[#5d6043]">Status: {order.paymentStatus === "paid" ? "Paid" : "Unpaid"}</p>
+                      </div>
+                    )}
+
                     {/* Action Buttons */}
                     {editingOrderId === order.orderId ? (
                       <div className="flex flex-col gap-2">
@@ -561,6 +632,22 @@ export default function OrdersPage() {
                           <Eye className="w-4 h-4" />
                           View Details
                         </button>
+                        {order.source === "invoice" && (
+                          <button
+                            onClick={() => handleDownloadInvoice(order.orderId)}
+                            className="px-3 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] transition-colors"
+                          >
+                            <Download className="w-4 h-4" />
+                          </button>
+                        )}
+                        {order.source === "invoice" && order.paymentStatus !== "paid" && (
+                          <button
+                            onClick={() => handleMarkInvoicePaid(order.orderId)}
+                            className="px-3 py-2 border border-green-300 text-green-700 rounded-lg hover:bg-green-50 transition-colors"
+                          >
+                            <CreditCard className="w-4 h-4" />
+                          </button>
+                        )}
                         <button
                           onClick={() => {
                             setEditingOrderId(order.orderId);
@@ -633,6 +720,15 @@ export default function OrdersPage() {
         onSuccess={() => {
           fetchOrders();
           setShowAddOrderModal(false);
+        }}
+      />
+
+      <AddInvoiceModal
+        isOpen={showAddInvoiceModal}
+        onClose={() => setShowAddInvoiceModal(false)}
+        onSuccess={() => {
+          fetchOrders();
+          setShowAddInvoiceModal(false);
         }}
       />
     </AdminLayout>

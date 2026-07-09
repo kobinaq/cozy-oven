@@ -20,7 +20,7 @@ export default function Categories() {
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
   // Fetch products from backend
-  const { products: allProducts, loading } = useCustomerProducts({ limit: 100 });
+  const { products: allProducts, loading, error, hasFetched, refetch } = useCustomerProducts({ limit: 100 });
 
   // Get unique categories dynamically from products
   const availableCategories = useMemo(() => {
@@ -125,7 +125,6 @@ export default function Categories() {
       <div
         ref={sectionRef}
         className="flex flex-col items-center justify-center min-h-screen font-[Euclid-Circular-B] mt-12"
-        style={{ display: availableCategories.length === 0 ? "none" : "block" }}
       >
         <motion.div 
           className="w-full max-w-8xl px-4 md:py-8 "
@@ -162,15 +161,29 @@ export default function Categories() {
           )}
 
           {/* Loading State */}
-          {loading && (
+          {loading && availableCategories.length === 0 && (
             <div className="text-center py-12">
               <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#bd6325] border-r-transparent"></div>
-              <p className="mt-4 text-[#5d6043]">Loading products...</p>
+              <p className="mt-4 font-black text-[#222222]">Warming up the bakery...</p>
+              <p className="mt-1 text-sm text-[#5d6043]">Products will appear automatically in a moment.</p>
+            </div>
+          )}
+
+          {!loading && error && !hasFetched && availableCategories.length === 0 && (
+            <div className="mx-auto max-w-md rounded-[22px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-6 text-center">
+              <p className="font-black text-[#222222]">Products are taking a little longer to load.</p>
+              <p className="mt-2 text-sm text-[#5d6043]">{error}</p>
+              <button
+                onClick={() => refetch()}
+                className="mt-4 rounded-full bg-[#bd6325] px-5 py-2 text-sm font-black text-[#faf9f5] transition-colors hover:bg-[#a9551f]"
+              >
+                Try Again
+              </button>
             </div>
           )}
 
           {/* Cards Horizontal Scroll */}
-          {!loading && (
+          {(!loading || availableCategories.length > 0) && availableCategories.length > 0 && (
             <div className="overflow-x-auto pb-4 scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
               <motion.div
                 key={activeCategory}
