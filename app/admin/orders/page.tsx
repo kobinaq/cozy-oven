@@ -15,7 +15,6 @@ import {
   Trash2,
   Edit,
   Eye,
-  FileText,
   Download,
   CreditCard,
 } from "lucide-react";
@@ -264,7 +263,7 @@ export default function OrdersPage() {
             onClick={() => setShowAddInvoiceModal(true)}
             className="flex items-center gap-2 rounded-lg border border-[#5d6043] px-4 py-2 text-[#5d6043] transition-colors hover:bg-[#5d6043] hover:text-[#faf9f5]"
           >
-            <FileText className="w-5 h-5" />
+            <Package className="w-5 h-5" />
             Create Invoice
           </button>
         </div>

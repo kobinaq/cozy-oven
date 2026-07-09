@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Plus, Trash2, Loader2, FileText } from "lucide-react";
+import { X, Plus, Trash2, Loader2, Package } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { orderService } from "../../../services/orderService";
 import useCustomerProducts from "../../../hooks/useCustomerProducts";
@@ -330,7 +330,7 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
                       </>
                     ) : (
                       <>
-                        <FileText className="h-4 w-4" />
+                        <Package className="h-4 w-4" />
                         Create & Download
                       </>
                     )}

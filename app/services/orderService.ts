@@ -131,7 +131,10 @@ export interface ApiResponse<T = unknown> {
   };
 }
 
-export interface CreateInvoiceResponse extends ApiResponse<Order> {
+export interface CreateInvoiceResponse {
+  success: boolean;
+  message: string;
+  order?: Order;
   data?: {
     orderId: string;
     invoiceId: string;
