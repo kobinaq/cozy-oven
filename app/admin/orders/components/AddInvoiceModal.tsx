@@ -1,11 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { X, Plus, Trash2, Loader2, Package } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { orderService } from "../../../services/orderService";
 import useCustomerProducts from "../../../hooks/useCustomerProducts";
 import { calculatePaystackPaymentBreakdown } from "../../../utils/paymentBreakdown";
+import type { PackageGroup } from "../../../services/productService";
 
 interface AddInvoiceModalProps {
   isOpen: boolean;
@@ -19,6 +20,13 @@ interface InvoiceItem {
   quantity: number;
   unitPrice: number;
   size?: string;
+  packageSelections?: {
+    label: string;
+    quantity: number;
+    groupLabel?: string;
+    groupId?: string;
+    type?: "fixed" | "selection";
+  }[];
 }
 
 export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoiceModalProps) {
@@ -32,12 +40,75 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
   const [invoiceItems, setInvoiceItems] = useState<InvoiceItem[]>([]);
   const [selectedProductId, setSelectedProductId] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
+  const [packageSelectionCounts, setPackageSelectionCounts] = useState<Record<string, number>>({});
   const [quantity, setQuantity] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const selectedProduct = products.find((p) => p.id === selectedProductId);
   const availableSizes = selectedProduct?.selectOptions?.filter((opt) => opt.isAvailable !== false) || [];
+  const packageGroups = useMemo<PackageGroup[]>(() => {
+    const groups = selectedProduct?.packageConfig?.groups;
+    if (groups && groups.length > 0) {
+      return [...groups].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+    }
+
+    const legacyOptions = selectedProduct?.packageConfig?.options || [];
+    if (legacyOptions.length > 0) {
+      return [
+        {
+          id: "default",
+          label: selectedProduct?.packageConfig?.selectionLabel || "Choose your options",
+          type: "selection",
+          requiredSelectionCount: selectedProduct?.packageConfig?.requiredSelectionCount || 1,
+          allowRepeats: true,
+          options: legacyOptions,
+          sortOrder: 0,
+        },
+      ];
+    }
+
+    return [];
+  }, [selectedProduct]);
+  const selectablePackageGroups = packageGroups.filter((group) => group.type !== "fixed");
+  const isPackageProduct = selectedProduct?.productType === "package";
+  const packageSelections = [
+    ...packageGroups
+      .filter((group) => group.type === "fixed")
+      .flatMap((group) =>
+        (group.options || [])
+          .filter((option) => option.isAvailable !== false)
+          .map((option) => ({
+            label: option.label,
+            quantity: option.quantity || 1,
+            groupLabel: group.label,
+            groupId: group.id || group.label,
+            type: "fixed" as const,
+          }))
+      ),
+    ...selectablePackageGroups.flatMap((group) =>
+      (group.options || [])
+        .filter((option) => option.isAvailable !== false)
+        .map((option) => ({
+          label: option.label,
+          quantity: packageSelectionCounts[`${group.id || group.label}::${option.label}`] || 0,
+          groupLabel: group.label,
+          groupId: group.id || group.label,
+          type: "selection" as const,
+        }))
+        .filter((selection) => selection.quantity > 0)
+    ),
+  ];
+  const packageSelectionComplete =
+    !isPackageProduct ||
+    selectablePackageGroups.every((group) => {
+      const groupId = group.id || group.label;
+      const count = (group.options || []).reduce(
+        (sum, option) => sum + (packageSelectionCounts[`${groupId}::${option.label}`] || 0),
+        0
+      );
+      return count === group.requiredSelectionCount;
+    });
   const totalAmount = invoiceItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
   const paymentBreakdown = calculatePaystackPaymentBreakdown(totalAmount);
 
@@ -51,8 +122,31 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
     setInvoiceItems([]);
     setSelectedProductId("");
     setSelectedSize("");
+    setPackageSelectionCounts({});
     setQuantity(1);
     setError(null);
+  };
+
+  const updatePackageSelection = (
+    groupId: string,
+    optionLabel: string,
+    nextCount: number,
+    maxCount: number,
+    allowRepeats = true
+  ) => {
+    setPackageSelectionCounts((current) => {
+      const key = `${groupId}::${optionLabel}`;
+      const currentGroupCount = Object.entries(current)
+        .filter(([entryKey]) => entryKey.startsWith(`${groupId}::`) && entryKey !== key)
+        .reduce((sum, [, count]) => sum + count, 0);
+      const upperBound = allowRepeats === false ? 1 : Math.max(0, maxCount - currentGroupCount);
+      const safeCount = Math.max(0, Math.min(nextCount, upperBound));
+
+      return {
+        ...current,
+        [key]: safeCount,
+      };
+    });
   };
 
   const handleAddItem = () => {
@@ -63,6 +157,11 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
 
     const product = products.find((p) => p.id === selectedProductId);
     if (!product) return;
+
+    if (product.productType === "package" && !packageSelectionComplete) {
+      setError("Please complete the package selections before adding this item");
+      return;
+    }
 
     const sizeOption = selectedSize
       ? product.selectOptions?.find((opt) => opt.label === selectedSize && opt.isAvailable !== false)
@@ -78,10 +177,12 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
         quantity,
         unitPrice,
         ...(selectedSize && { size: selectedSize }),
+        ...(product.productType === "package" && { packageSelections }),
       },
     ]);
     setSelectedProductId("");
     setSelectedSize("");
+    setPackageSelectionCounts({});
     setQuantity(1);
     setError(null);
   };
@@ -108,6 +209,9 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
         quantity: item.quantity,
         unitPrice: item.unitPrice,
         ...(item.size && { size: item.size }),
+        ...(item.packageSelections && item.packageSelections.length > 0
+          ? { packageSelections: item.packageSelections }
+          : {}),
       }));
 
       const response = await orderService.createInvoice({
@@ -240,6 +344,7 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
                       onChange={(e) => {
                         setSelectedProductId(e.target.value);
                         setSelectedSize("");
+                        setPackageSelectionCounts({});
                       }}
                       className="rounded-lg border border-[#b9aca2] px-4 py-2 focus:border-transparent focus:ring-2 focus:ring-[#5d6043]"
                     >
@@ -281,6 +386,111 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
                     </button>
                   </div>
 
+                  {isPackageProduct && packageGroups.length > 0 && (
+                    <div className="mt-4 rounded-lg border border-[#b9aca2]/60 bg-[#faf9f5] p-4">
+                      <div className="mb-3">
+                        <p className="font-semibold text-[#222222]">
+                          {selectedProduct?.packageConfig?.selectionLabel || "Package selections"}
+                        </p>
+                        <p className="text-sm text-[#5d6043]">
+                          Choose the required items for this package before adding it to the invoice.
+                        </p>
+                      </div>
+
+                      <div className="space-y-4">
+                        {packageGroups.map((group) => {
+                          const groupId = group.id || group.label;
+                          const activeOptions = (group.options || [])
+                            .filter((option) => option.isAvailable !== false)
+                            .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+                          const groupSelectedCount = activeOptions.reduce(
+                            (sum, option) => sum + (packageSelectionCounts[`${groupId}::${option.label}`] || 0),
+                            0
+                          );
+
+                          return (
+                            <div key={groupId} className="space-y-2">
+                              <div>
+                                <p className="font-medium text-[#222222]">{group.label}</p>
+                                <p className="text-sm text-[#5d6043]">
+                                  {group.type === "fixed"
+                                    ? "Included in this package"
+                                    : `Select exactly ${group.requiredSelectionCount}. Chosen: ${groupSelectedCount}/${group.requiredSelectionCount}`}
+                                </p>
+                              </div>
+
+                              <div className="grid gap-2">
+                                {activeOptions.map((option) => {
+                                  const optionCount = packageSelectionCounts[`${groupId}::${option.label}`] || 0;
+
+                                  return (
+                                    <div
+                                      key={`${groupId}-${option.label}`}
+                                      className="flex items-center justify-between gap-3 rounded-lg border border-[#b9aca2]/60 bg-white/60 px-3 py-2"
+                                    >
+                                      <div>
+                                        <p className="font-medium text-[#222222]">
+                                          {option.label}
+                                          {group.type === "fixed" && (
+                                            <span className="ml-2 text-sm text-[#5d6043]">x {option.quantity || 1}</span>
+                                          )}
+                                        </p>
+                                        {option.description && (
+                                          <p className="text-sm text-[#5d6043]">{option.description}</p>
+                                        )}
+                                      </div>
+
+                                      {group.type === "selection" && (
+                                        <div className="flex shrink-0 items-center gap-2">
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              updatePackageSelection(
+                                                groupId,
+                                                option.label,
+                                                optionCount - 1,
+                                                group.requiredSelectionCount,
+                                                group.allowRepeats !== false
+                                              )
+                                            }
+                                            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#b9aca2] disabled:opacity-40"
+                                            disabled={optionCount === 0}
+                                          >
+                                            -
+                                          </button>
+                                          <span className="w-8 text-center font-semibold text-[#222222]">{optionCount}</span>
+                                          <button
+                                            type="button"
+                                            onClick={() =>
+                                              updatePackageSelection(
+                                                groupId,
+                                                option.label,
+                                                optionCount + 1,
+                                                group.requiredSelectionCount,
+                                                group.allowRepeats !== false
+                                              )
+                                            }
+                                            className="flex h-8 w-8 items-center justify-center rounded-full border border-[#b9aca2] disabled:opacity-40"
+                                            disabled={
+                                              groupSelectedCount >= group.requiredSelectionCount ||
+                                              (group.allowRepeats === false && optionCount >= 1)
+                                            }
+                                          >
+                                            +
+                                          </button>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
                   {invoiceItems.length > 0 && (
                     <div className="mt-4 space-y-2">
                       {invoiceItems.map((item, index) => (
@@ -293,6 +503,16 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
                             <p className="text-sm text-[#5d6043]">
                               {item.size || "Regular"} x {item.quantity} = GHS {(item.unitPrice * item.quantity).toFixed(2)}
                             </p>
+                            {item.packageSelections && item.packageSelections.length > 0 && (
+                              <div className="mt-1 text-xs text-[#5d6043]">
+                                {item.packageSelections.map((selection) => (
+                                  <p key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
+                                    {selection.groupLabel ? `${selection.groupLabel}: ` : ""}
+                                    {selection.label} x {selection.quantity}
+                                  </p>
+                                ))}
+                              </div>
+                            )}
                           </div>
                           <button
                             type="button"
