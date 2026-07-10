@@ -11,6 +11,7 @@ import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import { orderService, type OrderItem } from "../services/orderService";
 import { saveGuestOrderProfile } from "../utils/guestOrderProfile";
+import { calculatePaystackPaymentBreakdown } from "../utils/paymentBreakdown";
 
 type DeliveryMethod = "delivery" | "pickup";
 type CheckoutStep = "info" | "delivery" | "payment" | "review";
@@ -44,6 +45,7 @@ export default function CheckoutPage() {
 
   const subtotal = getCartTotal();
   const total = subtotal; // Delivery fee not included in checkout
+  const paymentBreakdown = calculatePaystackPaymentBreakdown(total);
 
   useEffect(() => {
     if (cart.length === 0) {
@@ -675,10 +677,18 @@ export default function CheckoutPage() {
                       Order Total
                     </h3>
                     <div className="space-y-2 text-[#5d6043]">
-                      <div className="flex justify-between pt-2 text-xl font-black text-[#222222]">
-                        <span>Total</span>
+                      <div className="flex justify-between">
+                        <span>Product total</span>
+                        <span>GHS {total.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Transaction fee (2%)</span>
+                        <span>GHS {paymentBreakdown.transactionFee.toFixed(2)}</span>
+                      </div>
+                      <div className="flex justify-between border-t border-[rgba(34,34,34,0.12)] pt-2 text-xl font-black text-[#222222]">
+                        <span>Total to pay</span>
                         <span className="text-[#bd6325]">
-                          GHS {total.toFixed(2)}
+                          GHS {paymentBreakdown.chargedAmount.toFixed(2)}
                         </span>
                       </div>
                     </div>

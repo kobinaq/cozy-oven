@@ -5,6 +5,7 @@ import { X, Plus, Trash2, Loader2, Package } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { orderService } from "../../../services/orderService";
 import useCustomerProducts from "../../../hooks/useCustomerProducts";
+import { calculatePaystackPaymentBreakdown } from "../../../utils/paymentBreakdown";
 
 interface AddInvoiceModalProps {
   isOpen: boolean;
@@ -38,6 +39,7 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
   const selectedProduct = products.find((p) => p.id === selectedProductId);
   const availableSizes = selectedProduct?.selectOptions?.filter((opt) => opt.isAvailable !== false) || [];
   const totalAmount = invoiceItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+  const paymentBreakdown = calculatePaystackPaymentBreakdown(totalAmount);
 
   const resetForm = () => {
     setCustomerName("");
@@ -302,9 +304,19 @@ export default function AddInvoiceModal({ isOpen, onClose, onSuccess }: AddInvoi
                         </div>
                       ))}
                       <div className="border-t border-[#b9aca2]/60 pt-4">
-                        <div className="flex items-center justify-between">
-                          <span className="text-lg font-semibold text-[#222222]">Total</span>
-                          <span className="text-xl font-bold text-[#5d6043]">GHS {totalAmount.toFixed(2)}</span>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-sm text-[#5d6043]">
+                            <span>Order total</span>
+                            <span>GHS {totalAmount.toFixed(2)}</span>
+                          </div>
+                          <div className="flex items-center justify-between text-sm text-[#5d6043]">
+                            <span>Transaction fee (2%)</span>
+                            <span>GHS {paymentBreakdown.transactionFee.toFixed(2)}</span>
+                          </div>
+                          <div className="flex items-center justify-between border-t border-[#b9aca2]/60 pt-2">
+                            <span className="text-lg font-semibold text-[#222222]">Total to pay</span>
+                            <span className="text-xl font-bold text-[#5d6043]">GHS {paymentBreakdown.chargedAmount.toFixed(2)}</span>
+                          </div>
                         </div>
                       </div>
                     </div>

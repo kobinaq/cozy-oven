@@ -1,4 +1,5 @@
 import apiClient from "./apiClient";
+import type { PaymentBreakdown } from "../utils/paymentBreakdown";
 
 // Order item interface
 export interface OrderItem {
@@ -47,6 +48,7 @@ export interface Order {
   amount?: string;        
   date?: string;
   paidAt?: string;          
+  paymentBreakdown?: PaymentBreakdown;
   source?: string;
   invoice?: {
     invoiceId?: string;
@@ -62,6 +64,7 @@ export interface Order {
   title?: string;
   subtotal?: number;
   deliveryFee?: number;
+  chargedAmount?: string;
   price?: number;
   deliveryAddress?: string;
   contactNumber?: string;
@@ -100,10 +103,12 @@ export interface PaymentInitiationResponse {
     authorizationUrl?: string;
     checkoutUrl?: string;
     reference?: string;
+    paymentBreakdown?: PaymentBreakdown;
   };
   authorizationUrl?: string;
   checkoutUrl?: string;
   reference?: string;
+  paymentBreakdown?: PaymentBreakdown;
 }
 
 // Payment verification response
@@ -114,6 +119,7 @@ export interface PaymentVerificationResponse {
     orderId: string;
     paymentStatus: string;
     transactionRef: string;
+    paymentBreakdown?: PaymentBreakdown;
   };
 }
 

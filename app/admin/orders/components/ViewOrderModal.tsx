@@ -5,6 +5,7 @@ import { X, Package, User, CreditCard, Loader2 } from "lucide-react";
 import { orderService } from "../../../services/orderService";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import type { PaymentBreakdown } from "../../../utils/paymentBreakdown";
 
 interface OrderItem {
   productId: string;
@@ -49,11 +50,13 @@ interface OrderDetails {
     subtotal: number;
     deliveryFee: number;
     totalAmount: number;
+    paymentBreakdown?: PaymentBreakdown;
   };
   payment: {
     status: string;
     method: string;
     transactionRef?: string;
+    paymentBreakdown?: PaymentBreakdown;
     paidAt?: string;
   };
   source?: string;
@@ -107,17 +110,27 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
       }
 
       // Normalise backend response into OrderDetails shape
+      const rawPricing = raw.pricing || {};
+      const rawPaymentBreakdown =
+        rawPricing.paymentBreakdown ||
+        raw.payment?.paymentBreakdown ||
+        raw.paymentBreakdown;
+
       const pricingSubtotal =
-        typeof raw.totalAmount === "number"
-          ? raw.totalAmount
+        typeof rawPricing.subtotal === "number"
+          ? rawPricing.subtotal
           : typeof raw.subtotal === "number"
           ? raw.subtotal
+          : typeof raw.totalAmount === "number"
+          ? raw.totalAmount
           : raw.amount && typeof raw.amount === "string" && raw.amount.startsWith("GHS")
           ? parseFloat(raw.amount.replace("GHS", "").trim())
           : 0;
 
       const deliveryFee =
-        typeof raw.deliveryFee === "number"
+        typeof rawPricing.deliveryFee === "number"
+          ? rawPricing.deliveryFee
+          : typeof raw.deliveryFee === "number"
           ? raw.deliveryFee
           : 0;
 
@@ -178,9 +191,12 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
           subtotal: pricingSubtotal,
           deliveryFee,
           totalAmount:
-            typeof raw.totalAmount === "number"
+            typeof rawPricing.totalAmount === "number"
+              ? rawPricing.totalAmount
+              : typeof raw.totalAmount === "number"
               ? raw.totalAmount
               : pricingSubtotal + deliveryFee,
+          paymentBreakdown: rawPaymentBreakdown,
         },
         payment: {
           status: raw.payment?.status || raw.paymentStatus || "pending",
@@ -189,6 +205,7 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
             raw.payment?.transactionRef ||
             raw.transactionRef ||
             raw.reference,
+          paymentBreakdown: rawPaymentBreakdown,
           paidAt: raw.payment?.paidAt || raw.paidAt,
         },
         source: raw.source,
@@ -399,12 +416,42 @@ export default function ViewOrderModal({ orderId, onClose }: ViewOrderModalProps
                 <div className="p-4 bg-[#faf9f5] rounded-lg">
                   <h4 className="text-sm font-semibold text-[#222222] mb-3">Pricing Summary</h4>
                   <div className="space-y-2">
-                    <div className="flex justify-between text-base font-bold">
-                      <span className="text-[#222222]">Total Amount</span>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-[#5d6043]">Order total</span>
                       <span className="text-[#5d6043]">
-                        GHS {orderDetails.pricing.subtotal.toFixed(2)}
+                        GHS {orderDetails.pricing.totalAmount.toFixed(2)}
                       </span>
                     </div>
+                    {orderDetails.pricing.paymentBreakdown && (
+                      <>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-[#5d6043]">Transaction fee (2%)</span>
+                          <span className="text-[#5d6043]">
+                            GHS {orderDetails.pricing.paymentBreakdown.transactionFee.toFixed(2)}
+                          </span>
+                        </div>
+                        <div className="flex justify-between border-t border-[#b9aca2]/50 pt-2 text-base font-bold">
+                          <span className="text-[#222222]">Paystack charge</span>
+                          <span className="text-[#bd6325]">
+                            GHS {orderDetails.pricing.paymentBreakdown.chargedAmount.toFixed(2)}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    {!orderDetails.pricing.paymentBreakdown && (
+                      <div className="flex justify-between border-t border-[#b9aca2]/50 pt-2 text-base font-bold">
+                        <span className="text-[#222222]">Total Amount</span>
+                        <span className="text-[#5d6043]">
+                          GHS {orderDetails.pricing.totalAmount.toFixed(2)}
+                        </span>
+                      </div>
+                    )}
+                    {orderDetails.pricing.paymentBreakdown && (
+                      <div className="rounded-lg bg-[#fff4e8] px-3 py-2 text-xs text-[#8f431b]">
+                        Stored charged amount: {orderDetails.pricing.paymentBreakdown.chargedAmountPesewas} pesewas
+                        {" "}({orderDetails.pricing.paymentBreakdown.currency})
+                      </div>
+                    )}
                   </div>
                 </div>
 
