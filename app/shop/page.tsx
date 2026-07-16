@@ -29,7 +29,7 @@ export default function ShopPage() {
           <p className="editorial-eyebrow mb-4">
             The Bakery Counter
           </p>
-          <h1 className="prototype-heading text-6xl sm:text-7xl">Shop fresh bakes by category.</h1>
+          <h1 className="prototype-heading text-3xl sm:text-4xl">Shop fresh bakes by category.</h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#5d6043]">
             Banana bread, creamy yoghurt, and gift-ready packages, grouped so you can browse with ease.
           </p>
@@ -58,7 +58,7 @@ export default function ShopPage() {
                       <p className="editorial-eyebrow mb-2">
                         Category
                       </p>
-                      <h2 className="prototype-heading text-5xl">{category}</h2>
+                      <h2 className="prototype-heading text-2xl sm:text-3xl">{category}</h2>
                     </div>
                     <p className="rounded-full bg-[#faf9f5] px-4 py-2 text-sm font-black text-[#5d6043] shadow-[inset_0_0_0_1px_rgba(34,34,34,0.09)]">{groups[category].length} items</p>
                   </div>

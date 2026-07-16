@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { Star, ArrowLeft, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ShoppingCart, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import QuantitySelector from "../../components/QuantitySelector";
@@ -347,30 +347,21 @@ export default function ProductDetails() {
 
             <div>
               <div className="mb-4 flex items-center gap-3">
-                <h1 className="font-editorial text-5xl leading-[0.92] tracking-[-0.055em] text-[#222222]">
+                <h1 className="font-editorial text-3xl tracking-[-0.03em] text-[#222222] sm:text-4xl">
                   {product.productName}
                 </h1>
                 {isSoldOut && (
-                  <span className="rounded-full bg-red-700 px-3 py-1 text-sm font-black text-[#faf9f5]">
+                  <span className="rounded-full bg-red-700 px-3 py-1 text-sm font-semibold text-[#faf9f5]">
                     Sold Out
                   </span>
                 )}
               </div>
 
-              <div className="flex items-center gap-1 mb-4">
-                {[1, 2, 3, 4, 5].map(star => (
-                  <Star
-                    key={star}
-                    className={`w-5 h-5 ${
-                      star <= Math.round(product.rating || 0)
-                        ? "fill-yellow-400 text-yellow-400"
-                        : "text-[#b9aca2]"
-                    }`}
-                  />
-                ))}
-              </div>
+              <p className="mb-4 text-sm text-[#5d6043]">
+                Fresh from Anita&apos;s oven in Tema · Loved across 1,300+ deliveries
+              </p>
 
-              <p className="mb-6 text-3xl font-black text-[#bd6325]">
+              <p className="mb-6 text-2xl font-semibold text-[#bd6325] sm:text-3xl">
                 GHS {currentPrice.toFixed(2)}
               </p>
 
@@ -407,17 +398,33 @@ export default function ProductDetails() {
 
                   {isPackageProduct && (
                     <div className="mb-6 rounded-[30px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-5 shadow-[0_12px_40px_rgba(34,34,34,0.10)]">
-                      <div className="flex items-start justify-between gap-4 mb-4">
-                        <div>
-                          <label className="block font-black text-[#222222]">
-                            {product.packageConfig?.selectionLabel || "Build your package"}
-                          </label>
-                          <p className="mt-1 text-sm text-[#5d6043]">
-                            {requiredPackageCount > 0
-                              ? `Chosen: ${selectedPackageCount}/${requiredPackageCount}`
-                              : "Included items are fixed for this package."}
-                          </p>
-                        </div>
+                      <div className="mb-5">
+                        <p className="editorial-eyebrow mb-2">Gift box</p>
+                        <label className="block text-lg font-semibold text-[#222222]">
+                          {product.packageConfig?.selectionLabel || "Build your gift box"}
+                        </label>
+                        <ol className="mt-3 flex flex-wrap gap-2 text-xs font-medium uppercase tracking-[0.08em] text-[#5d6043]">
+                          <li className="rounded-full bg-[#b9aca2]/50 px-3 py-1.5 text-[#222222]">
+                            1. Review size
+                          </li>
+                          <li
+                            className={`rounded-full px-3 py-1.5 ${
+                              packageSelectionComplete
+                                ? "bg-[#222222] text-[#faf9f5]"
+                                : "bg-[#bd6325]/15 text-[#bd6325]"
+                            }`}
+                          >
+                            2. Pick items
+                          </li>
+                          <li className="rounded-full border border-[rgba(34,34,34,0.12)] px-3 py-1.5">
+                            3. Add to cart
+                          </li>
+                        </ol>
+                        <p className="mt-3 text-sm text-[#5d6043]">
+                          {requiredPackageCount > 0
+                            ? `Chosen: ${selectedPackageCount}/${requiredPackageCount}`
+                            : "Included items are fixed for this package."}
+                        </p>
                       </div>
 
                       <div className="space-y-5">

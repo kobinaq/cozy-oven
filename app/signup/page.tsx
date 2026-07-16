@@ -146,7 +146,7 @@ function SignupContent() {
                   <input
                     type="text"
                     {...register("fullName")}
-                    className="w-full rounded-lg border border-[#b9aca2] py-3 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-[#5d6043]"
+                    className="editorial-input py-3 pl-10 pr-4"
                     placeholder="Jane Doe"
                   />
                 </div>
@@ -164,7 +164,7 @@ function SignupContent() {
                   <input
                     type="email"
                     {...register("email")}
-                    className="w-full rounded-lg border border-[#b9aca2] py-3 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-[#5d6043]"
+                    className="editorial-input py-3 pl-10 pr-4"
                     placeholder="you@example.com"
                   />
                 </div>
@@ -182,7 +182,7 @@ function SignupContent() {
                   <input
                     type="tel"
                     {...register("phoneNumber")}
-                    className="w-full rounded-lg border border-[#b9aca2] py-3 pl-10 pr-4 focus:border-transparent focus:ring-2 focus:ring-[#5d6043]"
+                    className="editorial-input py-3 pl-10 pr-4"
                     placeholder="0205345678"
                   />
                 </div>
@@ -200,7 +200,7 @@ function SignupContent() {
                   <input
                     type={showPassword ? "text" : "password"}
                     {...register("password")}
-                    className="w-full rounded-lg border border-[#b9aca2] py-3 pl-10 pr-12 focus:border-transparent focus:ring-2 focus:ring-[#5d6043]"
+                    className="editorial-input py-3 pl-10 pr-12"
                     placeholder="********"
                   />
                   <button
@@ -220,7 +220,7 @@ function SignupContent() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-full bg-[#5d6043] px-6 py-3 font-semibold text-[#faf9f5] transition hover:bg-[#222222] disabled:opacity-50"
+                className="editorial-button w-full px-6 py-3 disabled:opacity-50"
               >
                 {loading ? "Creating Account..." : "Create Account"}
               </button>
