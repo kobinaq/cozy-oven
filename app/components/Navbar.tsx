@@ -26,7 +26,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const searchRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -35,7 +34,7 @@ export default function Navbar() {
   const [searchResults, setSearchResults] = useState<Product[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
 
-  const { getCartCount } = useCart();
+  const { getCartCount, isCartOpen, openCart, closeCart } = useCart();
   const { isAuthenticated, user, logout } = useAuth();
 
   useEffect(() => {
@@ -92,7 +91,7 @@ export default function Navbar() {
       : navLinks;
 
   const handleCartClick = () => {
-    if (cartCount > 0) setCartDrawerOpen(true);
+    openCart();
   };
 
   const handleLogout = () => {
@@ -335,7 +334,7 @@ export default function Navbar() {
 
       {isMounted && (
         <>
-          <CartDrawer isOpen={cartDrawerOpen} onClose={() => setCartDrawerOpen(false)} />
+          <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
           <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
         </>
       )}

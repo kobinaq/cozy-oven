@@ -35,14 +35,14 @@ export default function CartPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <ShoppingBag className="mb-6 h-24 w-24 text-[#bd6325]" />
-              <h2 className="font-editorial mb-4 text-4xl tracking-[-0.055em] text-[#222222] sm:text-5xl">
+              <h2 className="font-editorial mb-4 text-3xl tracking-[-0.03em] text-[#222222] sm:text-4xl">
                 Your basket&apos;s feeling lonely. Add some treats!
               </h2>
               <p className="mb-8 max-w-md text-sm text-[#5d6043] sm:text-base">
                 Browse our delicious selection of fresh-baked banana bread and pastries
               </p>
               <button
-                onClick={() => router.push("/")}
+                onClick={() => router.push("/shop")}
                 className="editorial-button px-8 py-3"
               >
                 Shop Now
@@ -60,7 +60,7 @@ export default function CartPage() {
       <Navbar />
       <main className="editorial-shell min-h-screen pb-16 pt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-editorial mb-8 text-5xl tracking-[-0.055em] text-[#222222] sm:text-6xl">
+          <h1 className="font-editorial mb-8 text-3xl tracking-[-0.03em] text-[#222222] sm:text-4xl">
             Shopping Cart
           </h1>
 
@@ -169,16 +169,19 @@ export default function CartPage() {
             {/* Cart Summary - Right Side (Sticky on desktop) */}
             <div className="lg:col-span-1">
               <div className="sticky top-24 rounded-[30px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-6 shadow-[0_12px_40px_rgba(34,34,34,0.10)]">
-                <h2 className="font-editorial mb-6 text-3xl tracking-[-0.05em] text-[#222222]">
+                <h2 className="font-editorial mb-6 text-2xl tracking-[-0.03em] text-[#222222]">
                   Order Summary
                 </h2>
 
-                <div className="space-y-3 mb-6">
+                <div className="mb-6 space-y-3">
                   <div className="flex justify-between text-[#5d6043]">
                     <span>Subtotal</span>
                     <span>GHS {subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between border-t border-[rgba(34,34,34,0.12)] pt-3 text-lg font-black text-[#222222]">
+                  <p className="text-xs leading-5 text-[#5d6043]">
+                    Delivery from GHS 30, paid on delivery.
+                  </p>
+                  <div className="flex justify-between border-t border-[rgba(34,34,34,0.12)] pt-3 text-lg font-semibold text-[#222222]">
                     <span>Total</span>
                     <span className="text-[#bd6325]">GHS {total.toFixed(2)}</span>
                   </div>
@@ -186,14 +189,14 @@ export default function CartPage() {
 
                 <button
                   onClick={() => router.push("/checkout")}
-                  className="editorial-button mb-3 w-full px-6 py-3 hover:cursor-pointer"
+                  className="editorial-button mb-3 w-full px-6 py-3"
                 >
                   Proceed to Checkout
                 </button>
 
                 <button
-                  onClick={() => router.push("/")}
-                  className="editorial-button-outline w-full px-6 py-3 hover:cursor-pointer"
+                  onClick={() => router.push("/shop")}
+                  className="editorial-button-outline w-full px-6 py-3"
                 >
                   Continue Shopping
                 </button>

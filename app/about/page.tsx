@@ -23,7 +23,7 @@ export default function AboutPage() {
           <p className="editorial-eyebrow mb-4">
             Our Story
           </p>
-          <h1 className="font-editorial text-6xl leading-[0.9] tracking-[-0.07em] sm:text-7xl">
+          <h1 className="font-editorial text-3xl tracking-[-0.03em] sm:text-4xl">
             We&apos;re so glad you&apos;re here.
           </h1>
           <div className="mx-auto mt-8 max-w-[680px] space-y-5 text-lg leading-8 text-[#5d6043]">
@@ -53,7 +53,7 @@ export default function AboutPage() {
             <p className="editorial-eyebrow mb-3">
               How It Started
             </p>
-            <h2 className="font-editorial text-5xl leading-[0.95] tracking-[-0.055em] sm:text-6xl">How It Started</h2>
+            <h2 className="font-editorial text-2xl tracking-[-0.03em] sm:text-3xl">How It Started</h2>
             <div className="mt-7 space-y-4 text-lg leading-8 text-[#5d6043]">
               <p>Cozy Oven was born in a season that tested everything.</p>
               <p>
@@ -75,7 +75,7 @@ export default function AboutPage() {
               <p className="mb-3 text-xs font-black uppercase tracking-[0.24em] text-[#faf9f5]">
                 Why Cozy?
               </p>
-              <h2 className="font-editorial text-5xl tracking-[-0.055em] sm:text-6xl">Because comfort is powerful.</h2>
+              <h2 className="font-editorial text-2xl tracking-[-0.03em] sm:text-3xl">Because comfort is powerful.</h2>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               {cozyReasons.map((reason) => (
@@ -95,7 +95,7 @@ export default function AboutPage() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#bd6325]">
               The Vision
             </p>
-            <h2 className="font-editorial text-4xl leading-tight sm:text-5xl">The Vision</h2>
+            <h2 className="font-editorial text-2xl tracking-[-0.03em] sm:text-3xl">The Vision</h2>
             <div className="mt-7 space-y-4 text-lg leading-8 text-[#5d6043]">
               <p className="font-semibold text-[#222222]">Our mission is simple:</p>
               <p>
