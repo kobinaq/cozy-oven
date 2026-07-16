@@ -65,7 +65,7 @@ export default function ContactPage() {
           <p className="editorial-eyebrow mb-4">
             Contact
           </p>
-          <h1 className="font-editorial text-6xl leading-[0.9] tracking-[-0.07em] sm:text-7xl">Get in Touch</h1>
+          <h1 className="font-editorial text-3xl tracking-[-0.03em] sm:text-4xl">Get in Touch</h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#5d6043]">
             Have questions about our products or want to place a custom order? We&apos;d love to hear from you!
           </p>

@@ -42,6 +42,9 @@ interface CartContextType {
   getCartTotal: () => number;
   toastMessage: string | null;
   clearToast: () => void;
+  isCartOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -56,6 +59,10 @@ const packageSelectionKey = (selections?: PackageSelection[]) =>
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const openCart = useCallback(() => setIsCartOpen(true), []);
+  const closeCart = useCallback(() => setIsCartOpen(false), []);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
     if (typeof window !== "undefined") {
@@ -114,6 +121,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setToastMessage("Item added to cart!");
       return [...prevCart, { ...product, quantity, selectedSize: size, packageSelections }];
     });
+    setIsCartOpen(true);
   };
 
   const clearToast = () => {
@@ -191,6 +199,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
         getCartTotal,
         toastMessage,
         clearToast,
+        isCartOpen,
+        openCart,
+        closeCart,
       }}
     >
       {children}

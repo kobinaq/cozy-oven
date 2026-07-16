@@ -319,15 +319,13 @@ export default function CheckoutPage() {
       <Navbar />
       <main className="editorial-shell min-h-screen pb-16 pt-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-editorial mb-8 text-5xl tracking-[-0.055em] text-[#222222] sm:text-6xl">Checkout</h1>
+          <h1 className="font-editorial mb-8 text-3xl tracking-[-0.03em] text-[#222222] sm:text-4xl">Checkout</h1>
 
-          {!isAuthenticated && (
-            <div className="mb-6 rounded-[24px] border border-[#b9aca2]/40 bg-[#faf9f5]/86 p-4 shadow-[0_12px_40px_rgba(34,34,34,0.08)]">
-              <p className="text-sm text-red-800">
-               The minimum delivery charge is GHS 30, and the final fee may vary depending on your location and other delivery factors..
-              </p>
-            </div>
-          )}
+          <div className="mb-6 rounded-[24px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-4 shadow-[0_12px_40px_rgba(34,34,34,0.08)]">
+            <p className="text-sm leading-6 text-[#5d6043]">
+              Delivery from GHS 30, paid on delivery. The final fee may vary by location.
+            </p>
+          </div>
 
           {/* Progress Indicator */}
           <div className="mb-8 flex items-center justify-between">
@@ -373,7 +371,7 @@ export default function CheckoutPage() {
             {/* Customer Information */}
             {currentStep === "info" && (
               <div>
-                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#222222]">
+                <h2 className="font-editorial mb-6 text-2xl tracking-[-0.03em] text-[#222222] sm:text-3xl">
                   Customer Information
                 </h2>
                 <div className="space-y-4">
@@ -429,7 +427,7 @@ export default function CheckoutPage() {
             {/* Delivery/Pickup Details */}
             {currentStep === "delivery" && (
               <div>
-                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#222222]">
+                <h2 className="font-editorial mb-6 text-2xl tracking-[-0.03em] text-[#222222] sm:text-3xl">
                   Delivery Details
                 </h2>
             
@@ -571,7 +569,7 @@ export default function CheckoutPage() {
             {/* Payment Details */}
             {currentStep === "payment" && (
               <div>
-                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#222222]">
+                <h2 className="font-editorial mb-6 text-2xl tracking-[-0.03em] text-[#222222] sm:text-3xl">
                   Payment Method
                 </h2>
 
@@ -590,9 +588,13 @@ export default function CheckoutPage() {
                     </div>
                   </div>
 
-                  <div className="mt-6 rounded-[22px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-4">
-                    <p className="text-sm text-[#5d6043]">
-                      <span className="font-semibold">Secure Payment:</span> You&apos;ll be redirected to Paystack&apos;s secure checkout page to complete your payment. Paystack supports Mobile Money, credit/debit cards, and other payment methods.
+                  <div className="mt-6 space-y-3 rounded-[22px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-4">
+                    <p className="text-sm leading-6 text-[#5d6043]">
+                      <span className="font-semibold text-[#222222]">Secure payment via Paystack.</span>{" "}
+                      Mobile Money, cards, and more — you&apos;ll complete payment on Paystack&apos;s checkout page.
+                    </p>
+                    <p className="text-sm leading-6 text-[#5d6043]">
+                      Need a hand after paying? We&apos;ll confirm on WhatsApp if anything needs clarifying.
                     </p>
                   </div>
                 </div>
@@ -602,7 +604,7 @@ export default function CheckoutPage() {
             {/* Review & Confirm */}
             {currentStep === "review" && (
               <div>
-                <h2 className="font-editorial mb-6 text-4xl tracking-[-0.05em] text-[#222222]">
+                <h2 className="font-editorial mb-6 text-2xl tracking-[-0.03em] text-[#222222] sm:text-3xl">
                   Review Your Order
                 </h2>
 

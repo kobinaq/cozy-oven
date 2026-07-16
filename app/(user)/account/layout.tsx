@@ -2,13 +2,13 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
-import { 
-  Package, 
-  Heart, 
-  MapPin, 
-  User, 
-  Lock, 
-  LogOut 
+import {
+  Package,
+  Heart,
+  MapPin,
+  User,
+  Lock,
+  LogOut,
 } from "lucide-react";
 import { useAuth } from "@/app/context/AuthContext";
 import Navbar from "@/app/components/Navbar";
@@ -46,12 +46,11 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-[#faf9f5] pt-24 pb-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row gap-6">
-            {/* Sidebar */}
+      <div className="editorial-shell min-h-screen pb-16 pt-24">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-6 md:flex-row">
             <aside className="md:w-64 flex-shrink-0">
-              <div className="bg-[#faf9f5] rounded-lg shadow-sm p-4 sticky top-28">
+              <div className="sticky top-28 rounded-[28px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-4 shadow-[0_12px_40px_rgba(34,34,34,0.10)]">
                 <nav className="space-y-1">
                   {sidebarLinks.map((link) => {
                     const Icon = link.icon;
@@ -60,31 +59,31 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
                       <Link
                         key={link.href}
                         href={link.href}
-                        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
+                        className={`flex items-center gap-3 rounded-full px-4 py-3 transition-colors ${
                           isActive
-                            ? "bg-[#5d6043] text-[#faf9f5]"
-                            : "text-[#5d6043] hover:bg-[#b9aca2]"
+                            ? "bg-[#222222] text-[#faf9f5]"
+                            : "text-[#5d6043] hover:bg-[#b9aca2]/50"
                         }`}
                       >
-                        <Icon className="w-5 h-5" />
+                        <Icon className="h-5 w-5" />
                         <span className="font-medium">{link.label}</span>
                       </Link>
                     );
                   })}
                   <button
+                    type="button"
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition-colors"
+                    className="flex w-full items-center gap-3 rounded-full px-4 py-3 text-red-600 transition-colors hover:bg-red-50"
                   >
-                    <LogOut className="w-5 h-5" />
+                    <LogOut className="h-5 w-5" />
                     <span className="font-medium">Logout</span>
                   </button>
                 </nav>
               </div>
             </aside>
 
-            {/* Main Content */}
             <main className="flex-1">
-              <div className="bg-[#faf9f5] rounded-lg shadow-sm p-6 md:p-8">
+              <div className="rounded-[28px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-6 shadow-[0_12px_40px_rgba(34,34,34,0.10)] md:p-8">
                 {children}
               </div>
             </main>
