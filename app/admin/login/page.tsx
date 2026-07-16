@@ -31,14 +31,14 @@ export default function AdminLoginPage() {
     setError("");
     try {
       const response = await authService.login(data);
-      if (response.success && response.accessToken && response.data) {
-        // Check if user is admin
+      if (response.success && response.data) {
         if (response.data.role !== "Admin") {
           setError("Access denied. Admin credentials required.");
+          await authService.logout();
           setLoading(false);
           return;
         }
-        login(response.data, response.accessToken);
+        await login(response.data);
         router.push("/admin/dashboard");
       }
     } catch (err: unknown) {

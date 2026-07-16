@@ -2,13 +2,33 @@
 
 import { useState } from "react";
 import { Send } from "lucide-react";
+import subscriberService from "../services/subscriberService";
 
 export default function Newsletter() {
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement newsletter subscription
+    setLoading(true);
+    setStatus(null);
+    try {
+      const fullName = email.split("@")[0] || "Subscriber";
+      await subscriberService.addSubscriber({
+        fullName,
+        email: email.trim(),
+      });
+      setStatus("Thanks for subscribing!");
+      setEmail("");
+    } catch (err: unknown) {
+      const typed = err as { response?: { data?: { message?: string } } };
+      setStatus(
+        typed.response?.data?.message || "Could not subscribe. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -22,7 +42,11 @@ export default function Newsletter() {
         </p>
         
         <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+          <label htmlFor="newsletter-email" className="sr-only">
+            Email address
+          </label>
           <input
+            id="newsletter-email"
             type="email"
             placeholder="Enter your email address"
             value={email}
@@ -32,12 +56,18 @@ export default function Newsletter() {
           />
           <button
             type="submit"
-            className="bg-[#5d6043] text-[#faf9f5] px-8 py-4 rounded-full font-semibold hover:bg-[#222222] transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+            disabled={loading}
+            className="bg-[#5d6043] text-[#faf9f5] px-8 py-4 rounded-full font-semibold hover:bg-[#222222] transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 disabled:opacity-60"
           >
             <Send className="w-5 h-5" />
-            Subscribe
+            {loading ? "Subscribing..." : "Subscribe"}
           </button>
         </form>
+        {status && (
+          <p className="mt-4 text-sm text-[#5d6043]" role="status" aria-live="polite">
+            {status}
+          </p>
+        )}
       </div>
     </section>
   );

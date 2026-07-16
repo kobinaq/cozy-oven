@@ -46,7 +46,6 @@ function SignupContent() {
       email: "",
       phoneNumber: "",
       password: "",
-      role: "Customer",
     },
   });
 
@@ -59,7 +58,6 @@ function SignupContent() {
       email: guestProfile.email || "",
       phoneNumber: guestProfile.phoneNumber || "",
       password: "",
-      role: "Customer",
     });
   }, [reset]);
 
@@ -68,10 +66,7 @@ function SignupContent() {
     setError("");
     setSuccess("");
 
-    const signupData = {
-      ...data,
-      role: "Customer" as const,
-    };
+    const signupData = { ...data };
 
     try {
       const signupResponse = await authService.signup(signupData);
@@ -81,18 +76,18 @@ function SignupContent() {
       }
 
       if (signupResponse.accessToken && signupResponse.data) {
-        login(signupResponse.data, signupResponse.accessToken);
+        await login(signupResponse.data, signupResponse.accessToken);
       } else {
         const loginResponse = await authService.login({
           email: signupData.email,
           password: signupData.password,
         });
 
-        if (!loginResponse.success || !loginResponse.accessToken || !loginResponse.data) {
+        if (!loginResponse.success || !loginResponse.data) {
           throw new Error("Account created. Please sign in to view your orders.");
         }
 
-        login(loginResponse.data, loginResponse.accessToken);
+        await login(loginResponse.data);
       }
 
       clearGuestOrderProfile();

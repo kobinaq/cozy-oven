@@ -4,12 +4,11 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import AdminLayout from "../components/AdminLayout";
 import { useAuth } from "../../context/AuthContext";
+import accountService from "../../services/accountService";
 import {
   UserCircle,
   Mail,
   Phone,
-  MapPin,
-  Building,
   Edit2,
   Save,
   X,
@@ -19,7 +18,7 @@ import {
 } from "lucide-react";
 
 export default function ProfilePage() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, updateUser } = useAuth();
   const router = useRouter();
   const [isEditing, setIsEditing] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -27,14 +26,13 @@ export default function ProfilePage() {
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
+  const [saving, setSaving] = useState(false);
 
   // Profile form state
   const [profileData, setProfileData] = useState({
     fullName: user?.fullName || "",
     email: user?.email || "",
-    phoneNumber: "",
-    address: "",
-    city: "",
+    phoneNumber: user?.phoneNumber || "",
     role: user?.role || "Admin",
   });
 
@@ -51,44 +49,90 @@ export default function ProfilePage() {
     }
   }, [isAuthenticated, user, router]);
 
+  useEffect(() => {
+    if (user) {
+      setProfileData({
+        fullName: user.fullName || "",
+        email: user.email || "",
+        phoneNumber: user.phoneNumber || "",
+        role: user.role || "Admin",
+      });
+    }
+  }, [user]);
+
   if (!isAuthenticated || user?.role !== "Admin") {
     return null;
   }
 
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with API to update profile
-    setIsEditing(false);
-    setSuccess("Profile updated successfully!");
-    setTimeout(() => setSuccess(""), 3000);
+    setSaving(true);
+    setError("");
+    try {
+      const response = await accountService.updateProfile({
+        fullName: profileData.fullName,
+        email: profileData.email,
+        phoneNumber: profileData.phoneNumber,
+      });
+      if (!response.success) {
+        throw new Error(response.message || "Failed to update profile");
+      }
+      updateUser({
+        ...user!,
+        fullName: profileData.fullName,
+        email: profileData.email,
+        phoneNumber: profileData.phoneNumber,
+      });
+      setIsEditing(false);
+      setSuccess("Profile updated successfully!");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err: unknown) {
+      const typed = err as { response?: { data?: { message?: string } }; message?: string };
+      setError(typed.response?.data?.message || typed.message || "Failed to update profile");
+      setTimeout(() => setError(""), 5000);
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    // Reset form to original values
     setProfileData({
       fullName: user?.fullName || "",
       email: user?.email || "",
-      phoneNumber: "",
-      address: "",
-      city: "",
+      phoneNumber: user?.phoneNumber || "",
       role: user?.role || "Admin",
     });
   };
 
-  const handleChangePassword = (e: React.FormEvent) => {
+  const handleChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with API to change password
     if (passwordData.newPassword !== passwordData.confirmPassword) {
       setError("Passwords do not match!");
       setTimeout(() => setError(""), 5000);
       return;
     }
-    // Reset form and show success message
-    setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
-    setShowPasswordForm(false);
-    setSuccess("Password changed successfully!");
-    setTimeout(() => setSuccess(""), 3000);
+    setSaving(true);
+    setError("");
+    try {
+      const response = await accountService.updatePassword({
+        oldPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword,
+      });
+      if (!response.success) {
+        throw new Error(response.message || "Failed to change password");
+      }
+      setPasswordData({ currentPassword: "", newPassword: "", confirmPassword: "" });
+      setShowPasswordForm(false);
+      setSuccess("Password changed successfully!");
+      setTimeout(() => setSuccess(""), 3000);
+    } catch (err: unknown) {
+      const typed = err as { response?: { data?: { message?: string } }; message?: string };
+      setError(typed.response?.data?.message || typed.message || "Failed to change password");
+      setTimeout(() => setError(""), 5000);
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -220,66 +264,12 @@ export default function ProfilePage() {
                   <div>
                     <label className="block text-sm font-medium text-[#5d6043] mb-2">Role</label>
                     <div className="flex items-center gap-2 px-4 py-2 bg-[#faf9f5] rounded-lg">
-                      <Building className="w-5 h-5 text-[#b9aca2]" />
+                      <UserCircle className="w-5 h-5 text-[#b9aca2]" />
                       <span className="text-[#222222]">{profileData.role}</span>
                     </div>
                   </div>
                 </div>
               </div>
-
-              {/* Address Information */}
-              <div>
-                <h3 className="text-lg font-semibold text-[#222222] mb-4">
-                  Address Information
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-[#5d6043] mb-2">
-                      Address
-                    </label>
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={profileData.address}
-                        onChange={(e) =>
-                          setProfileData({ ...profileData, address: e.target.value })
-                        }
-                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
-                        placeholder="123 Main St"
-                      />
-                    ) : (
-                      <div className="flex items-center gap-2 px-4 py-2 bg-[#faf9f5] rounded-lg">
-                        <MapPin className="w-5 h-5 text-[#b9aca2]" />
-                        <span className="text-[#222222]">
-                          {profileData.address || "Not provided"}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-[#5d6043] mb-2">City</label>
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={profileData.city}
-                        onChange={(e) =>
-                          setProfileData({ ...profileData, city: e.target.value })
-                        }
-                        className="w-full px-4 py-2 border border-[#b9aca2] rounded-lg focus:ring-2 focus:ring-[#5d6043] focus:border-transparent"
-                        placeholder="Accra"
-                      />
-                    ) : (
-                      <div className="flex items-center gap-2 px-4 py-2 bg-[#faf9f5] rounded-lg">
-                        <Building className="w-5 h-5 text-[#b9aca2]" />
-                        <span className="text-[#222222]">{profileData.city || "Not provided"}</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-
 
               {/* Action Buttons */}
               {isEditing && (
@@ -294,10 +284,11 @@ export default function ProfilePage() {
                   </button>
                   <button
                     type="submit"
-                    className="flex items-center gap-2 px-6 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors"
+                    disabled={saving}
+                    className="flex items-center gap-2 px-6 py-2 bg-[#5d6043] text-[#faf9f5] rounded-lg hover:bg-[#222222] transition-colors disabled:opacity-60"
                   >
                     <Save className="w-4 h-4" />
-                    Save Changes
+                    {saving ? "Saving..." : "Save Changes"}
                   </button>
                 </div>
               )}

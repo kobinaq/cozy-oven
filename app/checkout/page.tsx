@@ -12,6 +12,7 @@ import { useAuth } from "../context/AuthContext";
 import { orderService, type OrderItem } from "../services/orderService";
 import { saveGuestOrderProfile } from "../utils/guestOrderProfile";
 import { calculatePaystackPaymentBreakdown } from "../utils/paymentBreakdown";
+import { isAllowedPaymentRedirectUrl } from "../utils/paymentRedirect";
 
 type DeliveryMethod = "delivery" | "pickup";
 type CheckoutStep = "info" | "delivery" | "payment" | "review";
@@ -79,15 +80,25 @@ export default function CheckoutPage() {
     
     window.addEventListener("popstate", handlePopState);
 
-    // Intercept link clicks
+    // Soft leave confirmation: only intercept same-origin nav links, use confirm dialog
     const handleLinkClick = (e: MouseEvent) => {
+      if (isProcessing) return;
       const target = e.target as HTMLElement;
       const link = target.closest("a");
-      if (link && link.href && !link.href.includes("#")) {
+      if (!link?.href || link.href.includes("#") || link.target === "_blank") return;
+      try {
+        const url = new URL(link.href, window.location.origin);
+        if (url.origin !== window.location.origin) return;
+        if (url.pathname.startsWith("/checkout")) return;
+      } catch {
+        return;
+      }
+      const leave = window.confirm(
+        "You have an incomplete order. Leave checkout anyway?"
+      );
+      if (!leave) {
         e.preventDefault();
         e.stopPropagation();
-        setIncompleteOrderModalOpen(true);
-        return false;
       }
     };
 
@@ -201,11 +212,11 @@ export default function CheckoutPage() {
       return;
     }
 
-    // Validate minimum order amount (40 cedis) - disabled for testing
-    // if (total < 40) {
-    //   setError("Minimum order amount is GHS 40.00. Please add more items to your cart.");
-    //   return;
-    // }
+    // Validate minimum order amount (40 cedis)
+    if (total < 40) {
+      setError("Minimum order amount is GHS 40.00. Please add more items to your cart.");
+      return;
+    }
 
     setIsProcessing(true);
     setError(null);
@@ -287,7 +298,9 @@ export default function CheckoutPage() {
       const checkoutUrl = extractPaymentUrl(paymentResponse);
       
       if (paymentResponse.success && checkoutUrl) {
-        // Redirect to payment provider's checkout page
+        if (!isAllowedPaymentRedirectUrl(checkoutUrl)) {
+          throw new Error("Invalid payment redirect URL. Please contact support.");
+        }
         window.location.href = checkoutUrl;
       } else {
         throw new Error("Failed to initiate payment. Please try again or contact support.");
@@ -348,7 +361,11 @@ export default function CheckoutPage() {
           <div className="mb-8 rounded-[34px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-6 shadow-[0_26px_80px_rgba(34,34,34,0.12)] md:p-8">
             {/* Error Message at top of form */}
             {error && (
-              <div className="mb-6 rounded-[22px] border border-red-200 bg-red-50 p-4">
+              <div
+                className="mb-6 rounded-[22px] border border-red-200 bg-red-50 p-4"
+                role="alert"
+                aria-live="polite"
+              >
                 <p className="text-sm text-red-800">{error}</p>
               </div>
             )}

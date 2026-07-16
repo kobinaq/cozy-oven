@@ -25,36 +25,50 @@ export interface AuthResponse {
 }
 
 export const authService = {
-  // Signup
   signup: async (data: SignupFormData): Promise<AuthResponse> => {
     const response = await apiClient.post("/api/v1/auth/signup", data);
     return response.data;
   },
 
-  // Login
+  /** BFF login — sets httpOnly cookie; does not return accessToken to the client. */
   login: async (data: LoginFormData): Promise<AuthResponse> => {
-    const response = await apiClient.post("/api/v1/auth/login", data);
-    return response.data;
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(data),
+    });
+    const json = await response.json();
+    if (!response.ok) {
+      const err: any = new Error(json.message || "Login failed");
+      err.response = { data: json, status: response.status };
+      throw err;
+    }
+    return json;
   },
 
-  // Forgot Password
   forgotPassword: async (data: ForgotPasswordFormData): Promise<AuthResponse> => {
     const response = await apiClient.post("/api/v1/auth/forgot-password", data);
     return response.data;
   },
 
-  // Verify OTP
   verifyOtp: async (data: VerifyOtpFormData, tempToken: string): Promise<AuthResponse> => {
-    const response = await apiClient.post("/api/v1/auth/forgot-password/verify-otp", data, {
-      headers: {
-        Authorization: `Bearer ${tempToken}`,
-      },
-    });
+    const response = await apiClient.post(
+      "/api/v1/auth/forgot-password/verify-otp",
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${tempToken}`,
+        },
+      }
+    );
     return response.data;
   },
 
-  // Reset Password
-  resetPassword: async (data: ResetPasswordFormData, resetToken: string): Promise<AuthResponse> => {
+  resetPassword: async (
+    data: ResetPasswordFormData,
+    resetToken: string
+  ): Promise<AuthResponse> => {
     const response = await apiClient.put("/api/v1/auth/otp/reset", data, {
       headers: {
         Authorization: `Bearer ${resetToken}`,
@@ -63,14 +77,18 @@ export const authService = {
     return response.data;
   },
 
-  // Resend OTP
   resendOtp: async (email: string): Promise<AuthResponse> => {
-    const response = await apiClient.post("/api/v1/auth/forgot-password/otp/resend", { email });
+    const response = await apiClient.post("/api/v1/auth/forgot-password/otp/resend", {
+      email,
+    });
     return response.data;
   },
 
-  // Logout
-  logout: () => {
+  logout: async () => {
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
     if (typeof window !== "undefined") {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user");

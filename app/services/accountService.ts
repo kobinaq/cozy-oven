@@ -16,9 +16,8 @@ export interface UpdateProfileData {
 }
 
 export interface UpdatePasswordData {
-  currentPassword: string;
+  oldPassword: string;
   newPassword: string;
-  confirmPassword: string;
 }
 
 export interface ApiResponse<T = unknown> {

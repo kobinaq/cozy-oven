@@ -42,7 +42,7 @@ const menuItems = [
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, logout } = useAuth();
+  const { user, logout, isLoading, isAuthenticated } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
@@ -50,6 +50,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (isLoading) return;
+    if (!isAuthenticated || user?.role !== "Admin") {
+      router.replace("/admin/login");
+    }
+  }, [isAuthenticated, isLoading, user, router]);
 
   useEffect(() => {
     // Fetch notification count when user is authenticated
@@ -78,10 +85,18 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const displayName = mounted && user?.fullName ? user.fullName : "Loading...";
   const displayEmail = mounted && user?.email ? user.email : "Loading...";
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     router.push("/admin/login");
   };
+
+  if (isLoading || !isAuthenticated || user?.role !== "Admin") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#faf9f5] text-[#5d6043]">
+        Checking admin access...
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#faf9f5] flex">

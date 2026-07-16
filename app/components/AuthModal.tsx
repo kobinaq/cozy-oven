@@ -51,7 +51,10 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
   const signupForm = useForm<SignupFormData>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
-      role: "Customer",
+      fullName: "",
+      email: "",
+      phoneNumber: "",
+      password: "",
     },
   });
 
@@ -91,8 +94,8 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
     setError("");
     try {
       const response = await authService.login(data);
-      if (response.success && response.accessToken && response.data) {
-        login(response.data, response.accessToken);
+      if (response.success && response.data) {
+        await login(response.data);
         clearGuestOrderProfile();
         setSuccess(response.message);
         setTimeout(() => {

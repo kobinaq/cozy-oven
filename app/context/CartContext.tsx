@@ -58,10 +58,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
-    // Load from localStorage initially
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("cart");
-      return saved ? JSON.parse(saved) : [];
+      try {
+        const saved = localStorage.getItem("cart");
+        if (!saved) return [];
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        localStorage.removeItem("cart");
+        return [];
+      }
     }
     return [];
   });

@@ -67,7 +67,10 @@ export default function PasswordPage() {
     setSuccess(null);
     
     try {
-      const response = await accountService.updatePassword(formData);
+      const response = await accountService.updatePassword({
+        oldPassword: formData.currentPassword,
+        newPassword: formData.newPassword,
+      });
       if (response.success) {
         setSuccess("Password updated successfully!");
         setFormData({

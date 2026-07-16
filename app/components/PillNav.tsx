@@ -4,6 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { gsap } from 'gsap';
 
+// GSAP is loaded with this component; import PillNav via next/dynamic where used
+// to keep it off the critical path.
+
 export type PillNavItem = {
   label: string;
   href: string;

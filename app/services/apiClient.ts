@@ -1,10 +1,5 @@
 import axios from "axios";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  (process.env.NODE_ENV === "production"
-    ? "https://cozy-oven-bakery-backend.onrender.com"
-    : "http://localhost:5000");
 const RETRYABLE_METHODS = new Set(["get", "head", "options"]);
 const RETRYABLE_STATUS_CODES = new Set([408, 425, 429, 500, 502, 503, 504]);
 const MAX_GET_RETRIES = 2;
@@ -33,30 +28,13 @@ const isRetryableApiError = (error: any) => {
   );
 };
 
-// Create axios instance with default config
+/** Same-origin BFF proxy — injects httpOnly session JWT as Bearer on the server. */
 export const apiClient = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: "/api/proxy",
   timeout: 75000,
+  withCredentials: true,
 });
 
-// Request interceptor to add auth token
-apiClient.interceptors.request.use(
-  (config) => {
-    // Get token from localStorage
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      }
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
-
-// Response interceptor to handle errors
 apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -69,15 +47,32 @@ apiClient.interceptors.response.use(
       return apiClient(config);
     }
 
-    if (error.response?.status === 401) {
-      if (typeof window !== "undefined") {
-        // Clear all auth-related data from localStorage
-        localStorage.removeItem("accessToken");
+    if (error.response?.status === 401 && typeof window !== "undefined") {
+      const url = String(config.url || "");
+      const isAuthProbe =
+        url.includes("/auth/login") ||
+        url.includes("/auth/signup") ||
+        url.includes("/auth/forgot-password");
+
+      if (!isAuthProbe && !config.__skipAuthRedirect) {
         localStorage.removeItem("user");
-        localStorage.removeItem("cart");
-        
-        // Redirect to home page (not logged in)
-        window.location.href = "/";
+        localStorage.removeItem("accessToken");
+        // Do not clear cart
+        try {
+          await fetch("/api/auth/logout", {
+            method: "POST",
+            credentials: "include",
+          });
+        } catch {
+          // ignore
+        }
+
+        const path = window.location.pathname;
+        if (path.startsWith("/admin")) {
+          window.location.href = "/admin/login";
+        } else if (path.startsWith("/account")) {
+          window.location.href = "/";
+        }
       }
     }
 
