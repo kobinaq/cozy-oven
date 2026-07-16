@@ -5,7 +5,7 @@ import {
   getAuthCookieOptions,
   getBackendApiBaseUrl,
   getJwtSecret,
-} from "../../lib/authCookie";
+} from "../../../lib/authCookie";
 
 export async function POST(request: NextRequest) {
   try {

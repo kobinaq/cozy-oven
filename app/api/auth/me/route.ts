@@ -4,7 +4,7 @@ import {
   getAccessTokenFromCookies,
   getBackendApiBaseUrl,
   getJwtSecret,
-} from "../../lib/authCookie";
+} from "../../../lib/authCookie";
 
 export async function GET() {
   try {

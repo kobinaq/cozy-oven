@@ -4,7 +4,7 @@ import {
   AUTH_COOKIE_NAME,
   getAuthCookieOptions,
   getJwtSecret,
-} from "../../lib/authCookie";
+} from "../../../lib/authCookie";
 
 /** Establish httpOnly session from a token already returned by the API (e.g. signup). */
 export async function POST(request: NextRequest) {

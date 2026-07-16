@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { Lock, Eye, EyeOff } from "lucide-react";
-import accountService, { UpdatePasswordData } from "@/app/services/accountService";
+import accountService from "@/app/services/accountService";
+
+type PasswordFormState = {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};
 
 export default function PasswordPage() {
   const [showPasswords, setShowPasswords] = useState({
@@ -14,7 +20,7 @@ export default function PasswordPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   
-  const [formData, setFormData] = useState<UpdatePasswordData>({
+  const [formData, setFormData] = useState<PasswordFormState>({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",

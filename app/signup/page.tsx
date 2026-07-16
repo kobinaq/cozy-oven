@@ -137,8 +137,6 @@ function SignupContent() {
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              <input type="hidden" {...register("role")} value="Customer" />
-
               <div>
                 <label className="mb-2 block text-sm font-semibold text-[#5d6043]">
                   Full Name
