@@ -195,7 +195,7 @@ export default function CheckoutPage() {
     // Validate delivery details if delivery method is selected
     if (deliveryMethod === "delivery") {
       if (!deliveryDetails.address.trim() || !deliveryDetails.city.trim()) {
-        setError("Please fill in delivery address and city");
+        setError("Please fill in delivery address and city.");
         return;
       }
     }
@@ -323,7 +323,7 @@ export default function CheckoutPage() {
 
           <div className="mb-6 rounded-[24px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-4 shadow-[0_12px_40px_rgba(34,34,34,0.08)]">
             <p className="text-sm leading-6 text-[#5d6043]">
-              Delivery from GHS 30, paid on delivery. The final fee may vary by location.
+              Delivery from GHS 30, paid on delivery. The delivery address should be on visible on google maps.
             </p>
           </div>
 
