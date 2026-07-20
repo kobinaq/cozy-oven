@@ -39,7 +39,7 @@ export const customerProductService = {
     const data = response.data;
     return {
       ...data,
-      data: normalizeProductList(data.data),
+      data: normalizeProductList(data.data).filter((p) => p.isAvailable !== false),
     };
   },
 
@@ -59,7 +59,7 @@ export const customerProductService = {
     const data = response.data;
     return {
       ...data,
-      data: normalizeProductList(data.data),
+      data: normalizeProductList(data.data || []).filter((p) => p.isAvailable !== false),
     };
   },
 
@@ -69,7 +69,7 @@ export const customerProductService = {
     const data = response.data;
     return {
       ...data,
-      data: normalizeProductList(data.data),
+      data: normalizeProductList(data.data || []).filter((p) => p.isAvailable !== false),
     };
   },
 };

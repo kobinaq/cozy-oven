@@ -18,7 +18,9 @@ export async function fetchHomeProducts(): Promise<Product[]> {
     );
     if (!res.ok) return [];
     const json = await res.json();
-    return normalizeProductList(Array.isArray(json.data) ? json.data : []);
+    return normalizeProductList(Array.isArray(json.data) ? json.data : []).filter(
+      (p) => p.isAvailable !== false
+    );
   } catch {
     return [];
   }

@@ -95,6 +95,7 @@ export default function ProductGrid({ products, onEdit, onDelete, onToggleAvaila
             <div className="mb-3 flex items-center justify-between">
               <span className="text-sm text-[#5d6043]">Status:</span>
               <button
+                type="button"
                 onClick={() => onToggleAvailable?.(product)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                   product.isAvailable !== false ? "bg-green-500" : "bg-[#b9aca2]"
