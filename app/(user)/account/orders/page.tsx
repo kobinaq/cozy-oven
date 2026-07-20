@@ -48,9 +48,6 @@ export default function OrdersPage() {
   return (
     <div className="text-[#222222]">
       <div className="mb-10 text-center">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#bd6325]">
-          Order Tracking
-        </p>
         <h1 className="font-editorial text-5xl leading-tight">Track Your Order</h1>
         <p className="mx-auto mt-4 max-w-xl text-[#5d6043]">
           Track and manage your orders.
@@ -95,7 +92,7 @@ export default function OrdersPage() {
               <article key={order.orderId} className="editorial-card p-6 sm:p-8">
                 <div className="flex flex-col justify-between gap-5 border-b border-[#b9aca2] pb-6 sm:flex-row sm:items-start">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#bd6325]">
+                    <p className="text-sm font-medium text-[#bd6325]">
                       Order #{order.orderId}
                     </p>
                     <h3 className="font-editorial mt-2 text-3xl">{order.title || "Order Items"}</h3>
@@ -142,15 +139,15 @@ export default function OrdersPage() {
 
                 <div className="mt-8 grid gap-4 rounded-2xl border border-[#b9aca2] bg-[#faf9f5] p-5 sm:grid-cols-3">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#5d6043]">Item</p>
+                    <p className="text-sm font-medium text-[#5d6043]">Item</p>
                     <p className="mt-1 font-semibold">{order.title || "Order Items"}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#5d6043]">Status</p>
+                    <p className="text-sm font-medium text-[#5d6043]">Status</p>
                     <p className="mt-1 font-semibold capitalize">{order.status?.replace("-", " ")}</p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#5d6043]">Delivery</p>
+                    <p className="text-sm font-medium text-[#5d6043]">Delivery</p>
                     <p className="mt-1 font-semibold">{order.deliveryAddress || "Scheduled with Cozy Oven"}</p>
                   </div>
                 </div>

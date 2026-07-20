@@ -20,9 +20,6 @@ export default function AboutPage() {
       <Navbar />
       <main className="editorial-shell">
         <section className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-28">
-          <p className="editorial-eyebrow mb-4">
-            Our Story
-          </p>
           <h1 className="font-editorial text-3xl tracking-[-0.03em] sm:text-4xl">
             We&apos;re so glad you&apos;re here.
           </h1>
@@ -50,9 +47,6 @@ export default function AboutPage() {
             />
           </div>
           <div className="flex flex-col justify-center">
-            <p className="editorial-eyebrow mb-3">
-              How It Started
-            </p>
             <h2 className="font-editorial text-2xl tracking-[-0.03em] sm:text-3xl">How It Started</h2>
             <div className="mt-7 space-y-4 text-lg leading-8 text-[#5d6043]">
               <p>Cozy Oven was born in a season that tested everything.</p>
@@ -72,9 +66,6 @@ export default function AboutPage() {
         <section className="bg-gradient-to-br from-[#222222] via-[#5d6043] to-[#73765a] px-4 py-20 text-[#faf9f5] sm:px-6 lg:px-8">
           <div className="mx-auto max-w-6xl">
             <div className="mb-10 text-center">
-              <p className="mb-3 text-xs font-black uppercase tracking-[0.24em] text-[#faf9f5]">
-                Why Cozy?
-              </p>
               <h2 className="font-editorial text-2xl tracking-[-0.03em] sm:text-3xl">Because comfort is powerful.</h2>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
@@ -92,9 +83,6 @@ export default function AboutPage() {
 
         <section className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-24">
           <div className="flex flex-col justify-center">
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#bd6325]">
-              The Vision
-            </p>
             <h2 className="font-editorial text-2xl tracking-[-0.03em] sm:text-3xl">The Vision</h2>
             <div className="mt-7 space-y-4 text-lg leading-8 text-[#5d6043]">
               <p className="font-semibold text-[#222222]">Our mission is simple:</p>
@@ -131,9 +119,6 @@ export default function AboutPage() {
 
         <section className="mx-auto max-w-4xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-28">
           <div className="editorial-card p-8 sm:p-12">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.24em] text-[#bd6325]">
-              From the Baker
-            </p>
             <h2 className="font-editorial text-4xl">From the Baker</h2>
             <div className="font-editorial mx-auto mt-8 max-w-2xl space-y-5 text-xl italic leading-9 text-[#5d6043]">
               <p>Thank you for being here.</p>

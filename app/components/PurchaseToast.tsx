@@ -165,9 +165,6 @@ export default function PurchaseToast() {
 
             {/* Text Content */}
             <div className="flex-1 min-w-0">
-              <p className="mb-1 text-[11px] font-black uppercase tracking-[0.14em] text-[#bd6325]">
-                Fresh order
-              </p>
               <p className="text-sm font-semibold leading-tight text-[#5d6043]">
                 <span className="font-black text-[#222222]">{currentNotification.name}</span> just purchased{" "}
                 <span className="font-black text-[#222222]">{currentNotification.productName}</span>

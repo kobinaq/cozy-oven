@@ -100,14 +100,6 @@ body {
   color: var(--ink);
 }
 
-.editorial-eyebrow {
-  color: var(--accent);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
 .editorial-input {
   width: 100%;
   border: 1px solid rgba(34, 34, 34, 0.12);

@@ -399,11 +399,10 @@ export default function ProductDetails() {
                   {isPackageProduct && (
                     <div className="mb-6 rounded-[30px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-5 shadow-[0_12px_40px_rgba(34,34,34,0.10)]">
                       <div className="mb-5">
-                        <p className="editorial-eyebrow mb-2">Gift box</p>
                         <label className="block text-lg font-semibold text-[#222222]">
                           {product.packageConfig?.selectionLabel || "Build your gift box"}
                         </label>
-                        <ol className="mt-3 flex flex-wrap gap-2 text-xs font-medium uppercase tracking-[0.08em] text-[#5d6043]">
+                        <ol className="mt-3 flex flex-wrap gap-2 text-xs font-medium text-[#5d6043]">
                           <li className="rounded-full bg-[#b9aca2]/50 px-3 py-1.5 text-[#222222]">
                             1. Review size
                           </li>

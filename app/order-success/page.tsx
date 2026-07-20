@@ -46,7 +46,7 @@ function OrderSuccessContent() {
             </p>
 
             <div className="mb-8 rounded-[26px] bg-[#b9aca2] p-6">
-              <p className="editorial-eyebrow mb-2">Order Number</p>
+              <p className="mb-2 text-sm font-medium text-[#5d6043]">Order Number</p>
               <p className="text-2xl font-black text-[#bd6325]">{orderNumber}</p>
             </div>
 

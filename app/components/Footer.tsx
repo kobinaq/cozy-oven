@@ -22,7 +22,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="editorial-eyebrow mb-5">Explore</h3>
+          <h3 className="mb-5 text-sm font-semibold text-[#222222]">Explore</h3>
           <div className="grid gap-3 text-sm font-black text-[#5d6043]">
             <Link href="/" className="hover:text-[#bd6325]">Home</Link>
             <Link href="/shop" className="hover:text-[#bd6325]">Shop</Link>
@@ -32,7 +32,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="editorial-eyebrow mb-5">Contact</h3>
+          <h3 className="mb-5 text-sm font-semibold text-[#222222]">Contact</h3>
           <div className="grid gap-3 text-sm text-[#5d6043]">
             <a href="mailto:info@cozyoven.store" className="font-black text-[#5d6043] hover:text-[#bd6325]">
               info@cozyoven.store

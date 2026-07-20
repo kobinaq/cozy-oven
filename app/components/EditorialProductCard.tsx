@@ -84,9 +84,6 @@ export default function EditorialProductCard({ product, compact = false }: Edito
         </div>
       </Link>
       <div className={compact ? "p-4" : "p-5"}>
-        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#bd6325]">
-          {product.productCategory}
-        </p>
         <Link href={`/product/${product.id}`}>
           <h3 className="text-lg font-semibold leading-tight tracking-[-0.02em] text-[#222222] transition-colors group-hover:text-[#bd6325] sm:text-xl">
             {product.productName}

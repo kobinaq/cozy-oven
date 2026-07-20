@@ -92,9 +92,6 @@ export default function HomeClient({
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#222222]/78 via-[#222222]/55 to-[#222222]/25" />
           <div className="relative z-10 mx-auto flex min-h-[calc(100vh-100px)] max-w-7xl flex-col justify-center px-4 py-20 sm:px-6 lg:px-8">
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-[#faf9f5]/85">
-              Tema-baked · Ghana-loved · Gift-ready
-            </p>
             <h1 className="prototype-heading max-w-2xl text-[clamp(2.5rem,6vw,4.5rem)] text-[#faf9f5]">
               Cozy Oven
             </h1>
@@ -129,7 +126,6 @@ export default function HomeClient({
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div className="max-w-2xl">
-              <p className="editorial-eyebrow mb-3">Best Sellers</p>
               <h2 className="prototype-heading text-3xl sm:text-4xl">
                 Customer favourites, freshly baked.
               </h2>
@@ -161,9 +157,6 @@ export default function HomeClient({
         <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <div className="relative grid overflow-hidden rounded-[36px] bg-gradient-to-br from-[#222222] via-[#5d6043] to-[#73765a] text-[#faf9f5] shadow-[0_26px_80px_rgba(34,34,34,0.16)] md:grid-cols-[1.1fr_0.9fr]">
             <div className="relative z-10 p-7 md:p-12 lg:p-14">
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#faf9f5]/85">
-                Not just a loaf. A thoughtful gesture.
-              </p>
               <h2 className="prototype-heading text-3xl sm:text-4xl">
                 Send a Cozy Oven gift box.
               </h2>
@@ -203,7 +196,6 @@ export default function HomeClient({
           <section className="border-y border-[rgba(34,34,34,0.1)] bg-[#faf9f5]/60">
             <div className="mx-auto grid max-w-7xl gap-8 px-4 py-14 sm:px-6 lg:grid-cols-[0.7fr_1.3fr] lg:px-8">
               <div>
-                <p className="editorial-eyebrow mb-3">Creamy & delicious</p>
                 <h2 className="prototype-heading text-3xl sm:text-4xl">Yoghurt</h2>
                 <p className="mt-4 leading-7 text-[#5d6043]">
                   Made with real fruit, live cultures and absolutely no preservatives.
@@ -225,7 +217,6 @@ export default function HomeClient({
 
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20">
           <div className="mb-8 max-w-2xl">
-            <p className="editorial-eyebrow mb-3">Real customer voice</p>
             <h2 className="prototype-heading text-3xl sm:text-4xl">
               WhatsApp praise from Tema and beyond.
             </h2>
@@ -289,7 +280,6 @@ export default function HomeClient({
               <span className="text-7xl font-semibold text-[#faf9f5]">A</span>
             </div>
             <div>
-              <p className="editorial-eyebrow mb-3">Meet the baker</p>
               <h2 className="prototype-heading text-3xl sm:text-4xl">
                 Baked by Anita, trusted by repeat customers.
               </h2>
@@ -306,7 +296,6 @@ export default function HomeClient({
         {previewFaqs.length > 0 && (
           <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
             <div className="mb-6 max-w-2xl">
-              <p className="editorial-eyebrow mb-3">Before you order</p>
               <h2 className="prototype-heading text-3xl sm:text-4xl">
                 Delivery, freshness and gifting.
               </h2>
@@ -330,9 +319,6 @@ export default function HomeClient({
 
         <section className="bg-gradient-to-br from-[#222222] via-[#5d6043] to-[#73765a] px-4 py-16 text-[#faf9f5] sm:px-6 lg:px-8">
           <div className="mx-auto flex max-w-4xl flex-col gap-6 text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#faf9f5]/85">
-              Stay in the loop
-            </p>
             <h2 className="prototype-heading text-3xl sm:text-4xl">
               New flavours, fresh bakes and special offers.
             </h2>

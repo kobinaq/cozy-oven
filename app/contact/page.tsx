@@ -62,9 +62,6 @@ export default function ContactPage() {
       <Navbar />
       <main className="editorial-shell">
         <section className="mx-auto max-w-5xl px-4 py-20 text-center sm:px-6 lg:px-8 lg:py-24">
-          <p className="editorial-eyebrow mb-4">
-            Contact
-          </p>
           <h1 className="font-editorial text-3xl tracking-[-0.03em] sm:text-4xl">Get in Touch</h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-[#5d6043]">
             Have questions about our products or want to place a custom order? We&apos;d love to hear from you!
@@ -90,7 +87,7 @@ export default function ContactPage() {
                 >
                   <Icon className="mt-1 h-5 w-5 shrink-0" />
                   <span>
-                    <span className="block text-xs font-semibold uppercase tracking-[0.18em] opacity-75">
+                    <span className="block text-sm font-medium opacity-75">
                       {row.label}
                     </span>
                     <span className="mt-1 block font-semibold">{row.value}</span>
