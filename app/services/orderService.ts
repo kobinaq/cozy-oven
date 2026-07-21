@@ -156,6 +156,8 @@ export interface OrderStatistics {
   preparing: number;
   delivered: number;
   cancelled?: number;
+  pendingVerification?: number;
+  awaitingPayment?: number;
   totalRevenue?: number;
 }
 

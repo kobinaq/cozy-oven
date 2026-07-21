@@ -87,6 +87,7 @@ export default function OrdersPage() {
     pending: 0,
     preparing: 0,
     delivered: 0,
+    awaitingPayment: 0,
   });
 
   useEffect(() => {
@@ -137,6 +138,7 @@ export default function OrdersPage() {
         pending: data.statistics.pending ?? 0,
         preparing: data.statistics.preparing ?? 0,
         delivered: data.statistics.delivered ?? 0,
+        awaitingPayment: data.statistics.awaitingPayment ?? 0,
       });
     } else {
       // fallback: compute from orders
@@ -145,6 +147,7 @@ export default function OrdersPage() {
         pending: ordersArray.filter((o) => o.status === "pending").length,
         preparing: ordersArray.filter((o) => o.status === "preparing").length,
         delivered: ordersArray.filter((o) => o.status === "delivered").length,
+        awaitingPayment: ordersArray.filter((o) => o.paymentStatus === "pending").length,
       });
     }
 
@@ -269,10 +272,14 @@ export default function OrdersPage() {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
             <p className="text-sm text-[#5d6043] font-medium">Total Orders</p>
             <p className="text-2xl font-bold text-[#222222] mt-1">{statistics.total}</p>
+          </div>
+          <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
+            <p className="text-sm text-[#5d6043] font-medium">Awaiting Payment</p>
+            <p className="text-2xl font-bold text-orange-600 mt-1">{statistics.awaitingPayment}</p>
           </div>
           <div className="bg-[#faf9f5] rounded-xl shadow-sm p-4 border border-[#b9aca2]/40">
             <p className="text-sm text-[#5d6043] font-medium">Pending</p>
@@ -414,12 +421,14 @@ export default function OrdersPage() {
                             className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                               order.paymentStatus === 'paid'
                                 ? 'bg-green-100 text-green-700'
-                                : 'bg-yellow-100 text-yellow-700'
+                                : 'bg-orange-100 text-orange-700'
                             }`}
                           >
                             {order.source === "invoice" && order.paymentStatus !== "paid"
                               ? "invoice unpaid"
-                              : order.paymentStatus || 'N/A'}
+                              : order.paymentStatus === "pending"
+                                ? "awaiting payment"
+                                : order.paymentStatus || 'N/A'}
                           </span>
                           {order.invoice?.invoiceId && (
                             <p className="text-xs text-[#5d6043] mt-1">{order.invoice.invoiceId}</p>
