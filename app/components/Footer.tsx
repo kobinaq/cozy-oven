@@ -1,8 +1,11 @@
 "use client";
 
-import { Instagram, Mail } from "lucide-react";
+import { Instagram, Mail, MessageCircle, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
+const PHONE = "0558288424";
+const WHATSAPP_URL = "https://api.whatsapp.com/message/QAOMJAY7KI7WP1";
 
 export default function Footer() {
   return (
@@ -37,8 +40,27 @@ export default function Footer() {
             <a href="mailto:info@cozyoven.store" className="font-black text-[#5d6043] hover:text-[#bd6325]">
               info@cozyoven.store
             </a>
+            <a href={`tel:${PHONE}`} className="font-black text-[#5d6043] hover:text-[#bd6325]">
+              {PHONE}
+            </a>
             <p>Tema Community 22, Nhmf Estates</p>
-            <div className="mt-3 flex gap-3">
+            <div className="mt-3 flex flex-wrap gap-3">
+              <a
+                href={`tel:${PHONE}`}
+                className="grid h-11 w-11 place-items-center rounded-full bg-[#faf9f5] text-[#222222] shadow-[inset_0_0_0_1px_rgba(34,34,34,0.09)] transition hover:text-[#bd6325]"
+                aria-label="Call Cozy Oven"
+              >
+                <Phone className="h-5 w-5" />
+              </a>
+              <a
+                href={WHATSAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="grid h-11 w-11 place-items-center rounded-full bg-[#2F855A] text-[#faf9f5] shadow-[0_8px_20px_rgba(47,133,90,0.28)] transition hover:bg-[#276749]"
+                aria-label="WhatsApp Cozy Oven"
+              >
+                <MessageCircle className="h-5 w-5" />
+              </a>
               <a
                 href="https://www.tiktok.com/@cozyovengh?_r=1&_t=ZM-933sQOzBXiK"
                 target="_blank"

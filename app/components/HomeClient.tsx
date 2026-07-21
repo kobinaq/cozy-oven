@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MessageCircle } from "lucide-react";
+import { Heart, MessageCircle } from "lucide-react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import EditorialProductCard from "./EditorialProductCard";
@@ -304,17 +304,17 @@ export default function HomeClient({
         <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-20">
           <div className="grid items-center gap-8 rounded-[36px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/78 p-7 shadow-[0_12px_40px_rgba(34,34,34,0.10)] md:grid-cols-[260px_1fr] md:p-10">
             <div className="grid aspect-square w-full max-w-[220px] place-items-center rounded-[32px] bg-gradient-to-br from-[#b9aca2] via-[#73765a] to-[#5d6043] shadow-[0_26px_80px_rgba(34,34,34,0.16)] md:-rotate-2">
-              <span className="text-7xl font-semibold text-[#faf9f5]">A</span>
+              <Heart className="h-16 w-16 fill-[#faf9f5] text-[#faf9f5]" aria-hidden="true" />
             </div>
             <div>
               <h2 className="prototype-heading text-3xl sm:text-4xl">
-                Baked by Anita, trusted by repeat customers.
+                Baked with love, trusted by repeat customers.
               </h2>
               <p className="mt-4 max-w-3xl leading-7 text-[#5d6043]">
                 A small Tema team — warm, creative, and committed to fresh banana bread that makes the day better.
               </p>
               <Link href="/about" className="editorial-button-outline mt-6 px-6 py-3">
-                Meet Anita
+                Our story
               </Link>
             </div>
           </div>

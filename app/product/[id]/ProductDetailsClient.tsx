@@ -358,7 +358,7 @@ export default function ProductDetails() {
               </div>
 
               <p className="mb-4 text-sm text-[#5d6043]">
-                Fresh from Anita&apos;s oven in Tema · Loved across 1,300+ deliveries
+                Baked with love in Tema · Loved across 1,300+ deliveries
               </p>
 
               <p className="mb-6 text-2xl font-semibold text-[#bd6325] sm:text-3xl">
