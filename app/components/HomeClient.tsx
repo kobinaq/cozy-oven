@@ -86,7 +86,7 @@ export default function HomeClient({
               Tema-baked · Ghana-loved · Gift-ready
             </p>
             <h1 className="prototype-heading max-w-3xl text-[clamp(2.5rem,6vw,4.5rem)] text-[#222222]">
-              Moist banana bread, baked fresh by Anita.
+              Moist banana bread, freshly baked.
             </h1>
             <p className="mt-5 max-w-xl text-[clamp(1.15rem,2.4vw,1.65rem)] font-medium leading-snug text-[#5d6043]">
               Homemade loaves and gift boxes for cravings, family tables, and moments worth remembering.
