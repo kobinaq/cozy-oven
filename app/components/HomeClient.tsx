@@ -48,7 +48,6 @@ export default function HomeClient({
       product.packageConfig?.groups?.some((group) => group.type === "selection")
     ) || packageProducts[0];
   const heroImage =
-    signature?.thumbnail ||
     "https://res.cloudinary.com/daljxj4yl/image/upload/v1782461961/cozyoven/products_thumbnails/urzdqfzt92jqdnhx0mef.jpg";
   const giftImage = giftPackage?.thumbnail || "/gift.png";
   const previewFaqs = faqs.slice(0, 4);
@@ -81,45 +80,73 @@ export default function HomeClient({
     <>
       <Navbar />
       <main className="editorial-shell">
-        <section className="relative min-h-[calc(100vh-100px)] overflow-hidden">
-          <Image
-            src={heroImage}
-            alt={signature?.productName || "Cozy Oven banana bread"}
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#222222]/78 via-[#222222]/55 to-[#222222]/25" />
-          <div className="relative z-10 mx-auto flex min-h-[calc(100vh-100px)] max-w-7xl flex-col justify-center px-4 py-20 sm:px-6 lg:px-8">
-            <h1 className="prototype-heading max-w-2xl text-[clamp(2.5rem,6vw,4.5rem)] text-[#faf9f5]">
-              Cozy Oven
-            </h1>
-            <p className="mt-4 max-w-xl text-[clamp(1.15rem,2.4vw,1.65rem)] font-medium leading-snug text-[#faf9f5]">
-              Moist banana bread, baked fresh by Anita.
+        <section className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-14 sm:px-6 lg:min-h-[calc(100vh-100px)] lg:grid-cols-[0.95fr_1fr] lg:gap-12 lg:px-8 lg:py-20">
+          <div className="flex flex-col justify-center">
+            <p className="mb-4 text-sm font-medium text-[#bd6325]">
+              Tema-baked · Ghana-loved · Gift-ready
             </p>
-            <p className="mt-4 max-w-lg text-base leading-7 text-[#faf9f5]/85">
+            <h1 className="prototype-heading max-w-3xl text-[clamp(2.5rem,6vw,4.5rem)] text-[#222222]">
+              Moist banana bread, baked fresh by Anita.
+            </h1>
+            <p className="mt-5 max-w-xl text-[clamp(1.15rem,2.4vw,1.65rem)] font-medium leading-snug text-[#5d6043]">
               Homemade loaves and gift boxes for cravings, family tables, and moments worth remembering.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/shop" className="editorial-button bg-[#faf9f5] px-7 py-3.5 text-[#222222] hover:bg-[#faf9f5]">
+              <Link href="/shop" className="editorial-button px-7 py-3.5">
                 Shop now
               </Link>
               <Link
                 href={giftPackage ? `/product/${giftPackage.id}` : "/shop#package"}
-                className="inline-flex items-center justify-center rounded-full border border-[#faf9f5]/40 px-7 py-3.5 font-semibold text-[#faf9f5] transition hover:bg-[#faf9f5]/10"
+                className="editorial-button-outline px-7 py-3.5"
               >
                 Send a gift box
               </Link>
             </div>
-            {signature && (
-              <Link
-                href={`/product/${signature.id}`}
-                className="mt-6 text-sm font-medium text-[#faf9f5]/80 underline-offset-4 transition hover:text-[#faf9f5] hover:underline"
-              >
-                Shop {signature.productName}
-              </Link>
-            )}
+          </div>
+
+          <div className="relative grid min-h-[480px] place-items-center sm:min-h-[560px] lg:min-h-[620px] lg:-translate-y-6">
+            <div className="soft-glow absolute h-[88%] w-[88%] rounded-full" />
+            <article className="float-card relative w-[min(440px,88vw)] overflow-hidden rounded-[44px] border border-[rgba(34,34,34,0.1)] bg-gradient-to-b from-[#faf9f5]/95 to-[#b9aca2]/95 p-5 shadow-[0_26px_80px_rgba(34,34,34,0.16)]">
+              <span className="absolute left-6 top-6 z-10 rounded-full bg-[#222222] px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-[#faf9f5]">
+                Best seller
+              </span>
+              <div className="relative h-[300px] overflow-hidden rounded-[34px] sm:h-[360px]">
+                <Image
+                  src={heroImage}
+                  alt={signature?.productName || "Cozy Oven banana bread"}
+                  fill
+                  priority
+                  className="scale-[1.08] object-cover drop-shadow-[0_34px_34px_rgba(34,34,34,0.3)]"
+                  sizes="(max-width: 1024px) 88vw, 440px"
+                />
+              </div>
+              <div className="px-2 pb-2 pt-4">
+                <h2 className="text-xl font-semibold tracking-[-0.02em] text-[#222222] sm:text-2xl">
+                  {signature?.productName || "Chocolate Banana Bread"}
+                </h2>
+                <p className="mt-2 text-sm leading-6 text-[#5d6043]">
+                  Soft, rich, moist and baked in small batches.
+                </p>
+                <Link
+                  href={signature ? `/product/${signature.id}` : "/shop"}
+                  className="mt-5 inline-flex rounded-full bg-[#bd6325] px-5 py-3 font-semibold text-[#faf9f5] transition hover:bg-[#222222]"
+                >
+                  Shop now
+                </Link>
+              </div>
+            </article>
+            <aside className="absolute right-0 top-14 hidden max-w-[220px] rounded-[22px_22px_22px_6px] border border-[rgba(34,34,34,0.08)] bg-[#faf9f5] p-4 shadow-[0_12px_40px_rgba(34,34,34,0.10)] md:block">
+              <strong className="block text-sm leading-5 text-[#222222]">
+                &quot;The bread melts in your mouth.&quot;
+              </strong>
+              <span className="mt-2 block text-xs text-[#5d6043]">Family order review</span>
+            </aside>
+            <aside className="absolute bottom-40 left-0 hidden max-w-[220px] rounded-[22px_22px_22px_6px] border border-[rgba(34,34,34,0.08)] bg-[#faf9f5] p-4 shadow-[0_12px_40px_rgba(34,34,34,0.10)] md:block lg:bottom-48">
+              <strong className="block text-sm leading-5 text-[#222222]">
+                &quot;Saved the day, Anita.&quot;
+              </strong>
+              <span className="mt-2 block text-xs text-[#5d6043]">Customer message</span>
+            </aside>
           </div>
         </section>
 
