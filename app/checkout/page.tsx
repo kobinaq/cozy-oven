@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import AuthModal from "../components/AuthModal";
@@ -42,7 +42,7 @@ export default function CheckoutPage() {
     time: "",
     notes: "",
   });
-  const [paymentMethod, setPaymentMethod] = useState("paystack");
+  const paymentMethod = "paystack";
 
   const subtotal = getCartTotal();
   const total = subtotal; // Delivery fee not included in checkout
@@ -307,57 +307,96 @@ export default function CheckoutPage() {
       }
     } catch (err) {
       console.error("Order creation error:", err);
+      const axiosMessage = (err as { response?: { data?: { message?: string } } })
+        ?.response?.data?.message;
       setError(
-        err instanceof Error ? err.message : "Failed to place order. Please try again."
+        axiosMessage ||
+          (err instanceof Error ? err.message : "Failed to place order. Please try again.")
       );
       setIsProcessing(false);
     }
   };
+
+  const deliveryPolicy = (
+    <div className="rounded-[22px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-5">
+      <h3 className="mb-2 text-sm font-semibold text-[#222222]">Delivery policy</h3>
+      <div className="space-y-2 text-sm leading-6 text-[#5d6043]">
+        <p className="font-medium text-[#222222]">Your Cozy Oven order is on the way!</p>
+        <p>
+          Please keep your phone nearby. If the rider cannot reach you within 10 minutes, they
+          will continue with other deliveries. Any redelivery may incur an additional delivery fee.
+        </p>
+        <p>Thank you</p>
+      </div>
+    </div>
+  );
 
   return (
     <>
       <Navbar />
       <main className="editorial-shell min-h-screen pb-16 pt-24">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-editorial mb-8 text-3xl tracking-[-0.03em] text-[#222222] sm:text-4xl">Checkout</h1>
+          {!isProcessing && (
+            <>
+              <h1 className="font-editorial mb-8 text-3xl tracking-[-0.03em] text-[#222222] sm:text-4xl">
+                Checkout
+              </h1>
 
-          <div className="mb-6 rounded-[24px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-4 shadow-[0_12px_40px_rgba(34,34,34,0.08)]">
-            <p className="text-sm leading-6 text-[#5d6043]">
-              Delivery from GHS 30, paid on delivery. The delivery address should be on visible on google maps.
-            </p>
-          </div>
-
-          {/* Progress Indicator */}
-          <div className="mb-8 flex items-center justify-between">
-            {steps.map((step, index) => (
-              <div key={step.id} className="flex-1 flex items-center">
-                <div className="flex flex-col items-center flex-1">
-                  <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-                      index <= currentStepIndex
-                        ? "bg-[#222222] text-[#faf9f5]"
-                        : "bg-[#b9aca2] text-[#5d6043]"
-                    }`}
-                  >
-                    {index < currentStepIndex ? <Check className="w-5 h-5" /> : index + 1}
-                  </div>
-                  <span className="text-xs mt-2 text-center block sm:hidden">{step.label.split(' ')[0]}</span>
-                  <span className="text-xs mt-2 text-center hidden sm:block">{step.label}</span>
-                </div>
-                {index < steps.length - 1 && (
-                  <div
-                    className={`flex-1 h-1 mx-2 ${
-                      index < currentStepIndex ? "bg-[#bd6325]" : "bg-[#b9aca2]"
-                    }`}
-                  />
-                )}
+              <div className="mb-6 rounded-[24px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-4 shadow-[0_12px_40px_rgba(34,34,34,0.08)]">
+                <p className="text-sm leading-6 text-[#5d6043]">
+                  Delivery from GHS 30, paid on delivery. The delivery address should be visible on Google Maps.
+                </p>
               </div>
-            ))}
-          </div>
+
+              {/* Progress Indicator */}
+              <div className="mb-8 flex items-center justify-between">
+                {steps.map((step, index) => (
+                  <div key={step.id} className="flex-1 flex items-center">
+                    <div className="flex flex-col items-center flex-1">
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                          index <= currentStepIndex
+                            ? "bg-[#222222] text-[#faf9f5]"
+                            : "bg-[#b9aca2] text-[#5d6043]"
+                        }`}
+                      >
+                        {index < currentStepIndex ? <Check className="w-5 h-5" /> : index + 1}
+                      </div>
+                      <span className="text-xs mt-2 text-center block sm:hidden">
+                        {step.label.split(" ")[0]}
+                      </span>
+                      <span className="text-xs mt-2 text-center hidden sm:block">{step.label}</span>
+                    </div>
+                    {index < steps.length - 1 && (
+                      <div
+                        className={`flex-1 h-1 mx-2 ${
+                          index < currentStepIndex ? "bg-[#bd6325]" : "bg-[#b9aca2]"
+                        }`}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
 
           {/* Form Content */}
           <div className="mb-8 rounded-[34px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5]/86 p-6 shadow-[0_26px_80px_rgba(34,34,34,0.12)] md:p-8">
-            {/* Error Message at top of form */}
+            {isProcessing ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center">
+                <Loader2 className="mb-6 h-10 w-10 animate-spin text-[#bd6325]" />
+                <h2 className="font-editorial text-2xl tracking-[-0.03em] text-[#222222] sm:text-3xl">
+                  Redirecting to Paystack
+                </h2>
+                <p className="mt-3 max-w-sm text-sm leading-6 text-[#5d6043]">
+                  Opening a secure payment page. Please don&apos;t refresh or close this tab.
+                </p>
+                <p className="mt-6 text-sm font-medium text-[#222222]">
+                  Total: GHS {paymentBreakdown.chargedAmount.toFixed(2)}
+                </p>
+              </div>
+            ) : (
+              <>
             {error && (
               <div
                 className="mb-6 rounded-[22px] border border-red-200 bg-red-50 p-4"
@@ -504,6 +543,7 @@ export default function CheckoutPage() {
                         autoComplete="address-level2"
                       />
                     </div>
+                    {deliveryPolicy}
                   </div>
                 )}
 
@@ -570,32 +610,30 @@ export default function CheckoutPage() {
             {currentStep === "payment" && (
               <div>
                 <h2 className="font-editorial mb-6 text-2xl tracking-[-0.03em] text-[#222222] sm:text-3xl">
-                  Payment Method
+                  Payment
                 </h2>
 
-                <div className="space-y-4">
-                  <div>
-                    <label className="mb-3 block text-sm font-black text-[#5d6043]">
-                      Select Payment Method *
-                    </label>
-                    <div className="space-y-3">
-                      <button
-                        onClick={() => setPaymentMethod("paystack")}
-                        className="w-full rounded-[22px] border-2 border-[#bd6325] bg-[#b9aca2] px-4 py-3 text-left font-black text-[#222222] transition-colors"
-                      >
-                        Paystack Payment (Mobile Money, Cards, & More)
-                      </button>
-                    </div>
-                  </div>
+                <div className="rounded-[22px] border-2 border-[#bd6325] bg-[#faf9f5] px-5 py-5">
+                  <p className="font-semibold text-[#222222]">Paystack</p>
+                  <p className="mt-2 text-sm leading-6 text-[#5d6043]">
+                    Pay securely with Mobile Money, card, or other options on Paystack&apos;s checkout page.
+                  </p>
+                </div>
 
-                  <div className="mt-6 space-y-3 rounded-[22px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-4">
-                    <p className="text-sm leading-6 text-[#5d6043]">
-                      <span className="font-semibold text-[#222222]">Secure payment via Paystack.</span>{" "}
-                      Mobile Money, cards, and more — you&apos;ll complete payment on Paystack&apos;s checkout page.
-                    </p>
-                    <p className="text-sm leading-6 text-[#5d6043]">
-                      Need a hand after paying? We&apos;ll confirm on WhatsApp if anything needs clarifying.
-                    </p>
+                <div className="mt-5 space-y-2 text-sm text-[#5d6043]">
+                  <div className="flex justify-between">
+                    <span>Product total</span>
+                    <span>GHS {total.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Transaction fee (2%)</span>
+                    <span>GHS {paymentBreakdown.transactionFee.toFixed(2)}</span>
+                  </div>
+                  <div className="flex justify-between border-t border-[rgba(34,34,34,0.1)] pt-3 text-base font-semibold text-[#222222]">
+                    <span>Total to pay</span>
+                    <span className="text-[#bd6325]">
+                      GHS {paymentBreakdown.chargedAmount.toFixed(2)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -609,93 +647,73 @@ export default function CheckoutPage() {
                 </h2>
 
                 <div className="space-y-6">
-                  {/* Order Items */}
                   <div>
-                    <h3 className="mb-3 text-lg font-black text-[#222222]">
-                      Order Items
-                    </h3>
-                    <div className="space-y-2">
+                    <h3 className="mb-3 text-base font-semibold text-[#222222]">Order items</h3>
+                    <div className="space-y-3">
                       {cart.map((item) => {
                         const itemPrice = parseFloat(item.price.replace("GHS ", ""));
                         const itemTotal = itemPrice * item.quantity;
                         return (
                           <div
                             key={`${item.id}-${item.selectedSize}-${JSON.stringify(item.packageSelections || [])}`}
-                            className="flex justify-between gap-4 text-[#5d6043]"
+                            className="flex justify-between gap-4 text-sm text-[#5d6043]"
                           >
                             <div>
-                              <span>
-                                {item.name} {item.selectedSize && `(${item.selectedSize})`} x{" "}
-                                {item.quantity}
-                              </span>
+                              <p className="font-medium text-[#222222]">
+                                {item.name}
+                                {item.selectedSize ? ` (${item.selectedSize})` : ""} × {item.quantity}
+                              </p>
                               {item.packageSelections && item.packageSelections.length > 0 && (
                                 <div className="mt-1 text-xs text-[#5d6043]">
                                   {item.packageSelections.map((selection) => (
                                     <p key={`${selection.groupId || selection.groupLabel || "package"}-${selection.label}`}>
                                       {selection.groupLabel ? `${selection.groupLabel}: ` : ""}
-                                      {selection.label} x {selection.quantity}
+                                      {selection.label} × {selection.quantity}
                                     </p>
                                   ))}
                                 </div>
                               )}
                             </div>
-                            <span>GHS {itemTotal.toFixed(2)}</span>
+                            <span className="shrink-0 font-medium text-[#222222]">
+                              GHS {itemTotal.toFixed(2)}
+                            </span>
                           </div>
                         );
                       })}
                     </div>
                   </div>
 
-                  {/* Customer Info */}
-                  <div>
-                    <h3 className="mb-3 text-lg font-black text-[#222222]">
-                      Customer Information
-                    </h3>
-                    <div className="space-y-1 text-[#5d6043]">
-                      <p>{customerInfo.name}</p>
-                      <p>{customerInfo.email}</p>
-                      <p>{customerInfo.phone}</p>
+                  <div className="grid gap-5 border-t border-[rgba(34,34,34,0.08)] pt-5 sm:grid-cols-2">
+                    <div>
+                      <h3 className="mb-2 text-base font-semibold text-[#222222]">Customer</h3>
+                      <div className="space-y-1 text-sm text-[#5d6043]">
+                        <p>{customerInfo.name}</p>
+                        <p>{customerInfo.email}</p>
+                        <p>{customerInfo.phone}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="mb-2 text-base font-semibold text-[#222222]">
+                        {deliveryMethod === "delivery" ? "Delivery" : "Pickup"}
+                      </h3>
+                      <div className="space-y-1 text-sm text-[#5d6043]">
+                        {deliveryMethod === "delivery" ? (
+                          <>
+                            <p>{deliveryDetails.address}</p>
+                            <p>{deliveryDetails.city}</p>
+                          </>
+                        ) : (
+                          <p>
+                            {deliveryDetails.date} at {deliveryDetails.time}
+                          </p>
+                        )}
+                        {deliveryDetails.notes && <p>Notes: {deliveryDetails.notes}</p>}
+                      </div>
                     </div>
                   </div>
 
-                  {/* Delivery Details */}
-                  <div>
-                    <h3 className="mb-3 text-lg font-black text-[#222222]">
-                      {deliveryMethod === "delivery" ? "Delivery" : "Pickup"} Details
-                    </h3>
-                    <div className="space-y-1 text-[#5d6043]">
-                      {deliveryMethod === "delivery" && (
-                        <>
-                          <p>{deliveryDetails.address}</p>
-                          <p>{deliveryDetails.city}</p>
-                          
-                        </>
-                      )}
-                      {deliveryMethod === "pickup" && (
-                        <p>
-                          Date: {deliveryDetails.date} at {deliveryDetails.time}
-                        </p>
-                      )}
-                      {deliveryDetails.notes && <p>Notes: {deliveryDetails.notes}</p>}
-                    </div>
-                  </div>
-
-                  {/* Payment Method */}
-                  <div>
-                    <h3 className="mb-3 text-lg font-black text-[#222222]">
-                      Payment Method
-                    </h3>
-                    <p className="capitalize text-[#5d6043]">
-                      {paymentMethod.replace("-", " ")}
-                    </p>
-                  </div>
-
-                  {/* Order Summary */}
-                  <div className="border-t border-[rgba(34,34,34,0.12)] pt-4">
-                    <h3 className="mb-3 text-lg font-black text-[#222222]">
-                      Order Total
-                    </h3>
-                    <div className="space-y-2 text-[#5d6043]">
+                  <div className="rounded-[22px] border border-[rgba(34,34,34,0.08)] bg-[#faf9f5] p-5">
+                    <div className="space-y-2 text-sm text-[#5d6043]">
                       <div className="flex justify-between">
                         <span>Product total</span>
                         <span>GHS {total.toFixed(2)}</span>
@@ -704,68 +722,49 @@ export default function CheckoutPage() {
                         <span>Transaction fee (2%)</span>
                         <span>GHS {paymentBreakdown.transactionFee.toFixed(2)}</span>
                       </div>
-                      <div className="flex justify-between border-t border-[rgba(34,34,34,0.12)] pt-2 text-xl font-black text-[#222222]">
+                      <div className="flex justify-between border-t border-[rgba(34,34,34,0.1)] pt-3 text-base font-semibold text-[#222222]">
                         <span>Total to pay</span>
                         <span className="text-[#bd6325]">
                           GHS {paymentBreakdown.chargedAmount.toFixed(2)}
                         </span>
                       </div>
                     </div>
+                    <p className="mt-4 text-xs leading-5 text-[#5d6043]">
+                      You&apos;ll complete payment securely on Paystack (Mobile Money, cards, and more).
+                    </p>
                   </div>
 
-                  <div className="rounded-[22px] bg-[#faf9f5] p-4 text-xs text-[#5d6043]">
-                    By placing this order, you agree to our{" "}
-                    <a href="#" className="text-[#bd6325] hover:underline">
-                      Terms and Conditions
-                    </a>{" "}
-                    and{" "}
-                    <a href="#" className="text-[#bd6325] hover:underline">
-                      Privacy Policy
-                    </a>
-                    .
-                  </div>
-
-                  {/* Error Message */}
-                  {error && (
-                    <div className="rounded-[22px] border border-red-200 bg-red-50 p-4">
-                      <p className="text-sm text-red-800">{error}</p>
-                    </div>
-                  )}
+                  {deliveryMethod === "delivery" && deliveryPolicy}
                 </div>
               </div>
             )}
-          </div>
-
-          {/* Navigation Buttons */}
-          <div className="flex gap-4">
-            <button
-              onClick={handleBack}
-              disabled={isProcessing}
-              className="editorial-button-outline flex-1 px-6 py-3 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Back
-            </button>
-            {currentStep === "review" ? (
-              <button
-                onClick={handlePlaceOrder}
-                disabled={isProcessing}
-                className="editorial-button flex-1 px-6 py-3 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                {isProcessing ? "Processing..." : "Place Order & Pay"}
-              </button>
-            ) : (
-              <button
-                onClick={handleNext}
-                className="editorial-button flex-1 px-6 py-3"
-              >
-                Continue
-              </button>
+              </>
             )}
           </div>
 
-          {error && (
-            <div className="mt-4 rounded-[22px] border border-red-200 bg-red-50 p-4">
-              <p className="text-sm text-red-800">{error}</p>
+          {!isProcessing && (
+            <div className="flex gap-4">
+              <button
+                onClick={handleBack}
+                className="editorial-button-outline flex-1 px-6 py-3"
+              >
+                Back
+              </button>
+              {currentStep === "review" ? (
+                <button
+                  onClick={handlePlaceOrder}
+                  className="editorial-button flex-1 px-6 py-3"
+                >
+                  Place Order & Pay
+                </button>
+              ) : (
+                <button
+                  onClick={handleNext}
+                  className="editorial-button flex-1 px-6 py-3"
+                >
+                  Continue
+                </button>
+              )}
             </div>
           )}
         </div>

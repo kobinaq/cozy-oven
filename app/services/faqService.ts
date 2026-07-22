@@ -42,7 +42,8 @@ const fallbackFaqs: Faq[] = [
   {
     id: "default-4",
     question: "How do I keep it fresh?",
-    answer: "Keep your treats sealed and stored in a cool place or refrigerated. For the best experience, enjoy them fresh or gently warm before serving.",
+    answer:
+      "For plain loafs, store in a cool, dry place for up to 3 days.\nFor all other flavours, refrigerate for up to 7 days for longer freshness.\nTo enjoy later, freeze for up to 3 months.\nWarm for 10–15 seconds in the microwave for that fresh-from-the-oven taste.",
     isActive: true,
     sortOrder: 4,
   },

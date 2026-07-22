@@ -341,7 +341,7 @@ export default function HomeClient({
                   <summary className="cursor-pointer text-base font-semibold text-[#222222]">
                     {faq.question}
                   </summary>
-                  <p className="mt-3 leading-7 text-[#5d6043]">{faq.answer}</p>
+                  <p className="mt-3 whitespace-pre-line leading-7 text-[#5d6043]">{faq.answer}</p>
                 </details>
               ))}
             </div>
