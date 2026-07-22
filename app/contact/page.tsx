@@ -52,7 +52,7 @@ export default function ContactPage() {
 
   const contactRows = [
     { icon: Mail, label: "Email", value: "info@cozyoven.store", href: "mailto:info@cozyoven.store" },
-    { icon: Phone, label: "Phone", value: "0558288424", href: "tel:0558288424" },
+    { icon: Phone, label: "Phone", value: "0249612035", href: "tel:0249612035" },
     { icon: MessageCircle, label: "WhatsApp", value: "Message us directly", href: "https://api.whatsapp.com/message/QAOMJAY7KI7WP1" },
     { icon: MapPin, label: "Location", value: "Tema community 22 Nhmf Estates", href: "#" },
   ];

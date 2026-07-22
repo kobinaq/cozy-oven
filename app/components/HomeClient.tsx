@@ -37,11 +37,15 @@ export default function HomeClient({
   const yogurtProducts = resolvedProducts.filter((product) =>
     product.productCategory?.toLowerCase().includes("yog")
   );
-  const packageProducts = resolvedProducts.filter(
-    (product) =>
+  const packageProducts = resolvedProducts.filter((product) => {
+    const category = product.productCategory?.toLowerCase() || "";
+    return (
       product.productType === "package" ||
-      product.productCategory?.toLowerCase().includes("package")
-  );
+      category.includes("package") ||
+      category.includes("gift") ||
+      category.includes("flight")
+    );
+  });
   const signature = bananaProducts[0] || resolvedProducts[0];
   const giftPackage =
     packageProducts.find((product) =>

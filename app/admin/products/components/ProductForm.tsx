@@ -75,8 +75,13 @@ export default function ProductForm({
   submitLabel,
   isEdit = false,
 }: ProductFormProps) {
-  const isPackageCategory = productCategory.trim().toLowerCase() === "package";
-  const categorySuggestions = Array.from(new Set(["Package", ...categories])).sort();
+  const isPackageCategory = (() => {
+    const normalized = productCategory.trim().toLowerCase();
+    return normalized === "package" || normalized === "gifts and flight boxes";
+  })();
+  const categorySuggestions = Array.from(
+    new Set(["Gifts and Flight Boxes", ...categories.filter((c) => c.trim().toLowerCase() !== "package")])
+  ).sort();
 
   const updatePackageGroup = (index: number, updates: Partial<PackageGroup>) => {
     onPackageConfigChange({

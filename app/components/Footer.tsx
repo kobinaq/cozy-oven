@@ -4,7 +4,7 @@ import { Instagram, Mail, MessageCircle, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const PHONE = "0558288424";
+const PHONE = "0249612035";
 const WHATSAPP_URL = "https://api.whatsapp.com/message/QAOMJAY7KI7WP1";
 
 export default function Footer() {

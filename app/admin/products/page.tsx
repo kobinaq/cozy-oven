@@ -69,20 +69,28 @@ export default function ProductManagementPage() {
     order,
   });
 
+  const PACKAGE_CATEGORY_LABEL = "Gifts and Flight Boxes";
+
   // Get unique categories dynamically from products
   const categories = React.useMemo(() => {
     const categoriesSet = new Set<string>();
-    categoriesSet.add("Package");
+    categoriesSet.add(PACKAGE_CATEGORY_LABEL);
     products.forEach(product => {
       if (product.productCategory) {
-        categoriesSet.add(product.productCategory);
+        const category =
+          product.productCategory.trim().toLowerCase() === "package"
+            ? PACKAGE_CATEGORY_LABEL
+            : product.productCategory;
+        categoriesSet.add(category);
       }
     });
     return Array.from(categoriesSet).sort();
   }, [products]);
 
-  const isPackageCategory = (category: string) =>
-    category.trim().toLowerCase() === "package";
+  const isPackageCategory = (category: string) => {
+    const normalized = category.trim().toLowerCase();
+    return normalized === "package" || normalized === "gifts and flight boxes";
+  };
 
   const {
     loading: actionLoading,
@@ -423,7 +431,11 @@ export default function ProductManagementPage() {
     setSelectedProduct(product);
     setNewProduct({
       productName: product.productName,
-      productCategory: product.productType === "package" ? "Package" : product.productCategory,
+      productCategory:
+        product.productType === "package" ||
+        product.productCategory?.trim().toLowerCase() === "package"
+          ? PACKAGE_CATEGORY_LABEL
+          : product.productCategory,
       price: product.price,
       productDetails: product.productDetails,
     });

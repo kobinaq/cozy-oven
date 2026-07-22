@@ -11,10 +11,15 @@ const slugify = (value: string) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
 
+const displayCategory = (category: string) => {
+  if (category.trim().toLowerCase() === "package") return "Gifts and Flight Boxes";
+  return category;
+};
+
 export default function ShopPage() {
   const { products, loading, error } = useCustomerProducts({ limit: 200 });
   const groups = products.reduce<Record<string, typeof products>>((acc, product) => {
-    const category = product.productCategory || "Bakery";
+    const category = displayCategory(product.productCategory || "Bakery");
     acc[category] = acc[category] || [];
     acc[category].push(product);
     return acc;
@@ -28,7 +33,7 @@ export default function ShopPage() {
         <section className="mx-auto max-w-7xl px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
           <h1 className="prototype-heading text-3xl sm:text-4xl">Shop fresh bakes by category.</h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#5d6043]">
-            Banana bread, creamy yoghurt, and gift-ready packages, grouped so you can browse with ease.
+            Banana bread, creamy yoghurt, and gifts and flight boxes, grouped so you can browse with ease.
           </p>
 
           {categories.length > 0 && (
