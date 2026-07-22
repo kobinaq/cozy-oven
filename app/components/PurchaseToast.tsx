@@ -33,12 +33,7 @@ const formatTimeAgo = (dateString: string): string => {
     return `${diffInMinutes} minute${diffInMinutes > 1 ? 's' : ''} ago`;
   } else {
     const hours = Math.floor(diffInMinutes / 60);
-    if (hours < 24) {
-      return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-    } else {
-      const days = Math.floor(hours / 24);
-      return `${days} day${days > 1 ? 's' : ''} ago`;
-    }
+    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
   }
 };
 
@@ -58,7 +53,15 @@ export default function PurchaseToast() {
       try {
         setIsLoading(true);
         const data = await purchaseToastService.getRecentPurchases();
-        setPurchases(data);
+        const oneDayMs = 24 * 60 * 60 * 1000;
+        const now = Date.now();
+        // Only keep purchases from the last 24 hours
+        setPurchases(
+          data.filter((purchase) => {
+            const purchasedAt = new Date(purchase.purchasedAt).getTime();
+            return Number.isFinite(purchasedAt) && now - purchasedAt <= oneDayMs;
+          })
+        );
       } catch (error) {
         console.error("Error fetching purchases:", error);
         setPurchases([]);
