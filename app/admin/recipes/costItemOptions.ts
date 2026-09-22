@@ -39,36 +39,6 @@ export function costItemLabel(item: RecipeCostItem): string {
   return `${item.name} (${item.unit})`;
 }
 
-export function selectableCostItems(items: RecipeCostItem[], selectedId: string, takenIds: string[]): RecipeCostItem[] {
-  const taken = new Set(takenIds);
-  return items.filter((item) => item._id === selectedId || !taken.has(item._id));
-}
-
-export function matchingCostItems(items: RecipeCostItem[], query: string): RecipeCostItem[] {
-  const needle = query.trim().toLowerCase();
-  if (!needle) return items;
-  return items.filter((item) =>
-    item.name.toLowerCase().includes(needle) ||
-    item.categoryName.toLowerCase().includes(needle) ||
-    item.unit.toLowerCase().includes(needle)
-  );
-}
-
-export function groupCostItems(items: RecipeCostItem[]): { category: string; items: RecipeCostItem[] }[] {
-  const grouped = new Map<string, RecipeCostItem[]>();
-  for (const item of items) {
-    const bucket = grouped.get(item.categoryName) ?? [];
-    bucket.push(item);
-    grouped.set(item.categoryName, bucket);
-  }
-  return [...grouped.entries()]
-    .sort(([left], [right]) => left.localeCompare(right, "en"))
-    .map(([category, groupItems]) => ({
-      category,
-      items: [...groupItems].sort((left, right) => left.name.localeCompare(right.name, "en")),
-    }));
-}
-
 export type CostItemListPage = {
   items: RecipeCostItem[];
   totalPages: number;
