@@ -13,14 +13,17 @@ import AdminIcon from "../components/AdminIcon";
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import AdminLayout from "../components/AdminLayout";
 import productService from "../../services/productService";
-import { CostItem, costingService } from "../../services/costingService";
+import { costingService } from "../../services/costingService";
+import CostItemPicker from "./CostItemPicker";
+import type { RecipeCostItem } from "./costItemOptions";
+import { loadAllCostItems } from "./loadAllCostItems";
 
 type ComponentRow = { costItemId: string; quantity: string };
 const field = "w-full rounded-md border border-[#b9aca2] bg-white px-3 py-2";
 
 export default function RecipesPage() {
   const [products, setProducts] = useState<any[]>([]);
-  const [items, setItems] = useState<CostItem[]>([]);
+  const [items, setItems] = useState<RecipeCostItem[]>([]);
   const [recipes, setRecipes] = useState<any[]>([]);
   const [productId, setProductId] = useState("");
   const [variantId, setVariantId] = useState("");
@@ -31,13 +34,13 @@ export default function RecipesPage() {
   const [saving, setSaving] = useState(false);
 
   const load = async () => {
-    const [productRows, costRows, recipeRows] = await Promise.all([
+    const [productRows, costItems, recipeRows] = await Promise.all([
       productService.getProducts({ limit: 100 }),
-      costingService.items(),
+      loadAllCostItems(),
       costingService.recipes(),
     ]);
     setProducts(productRows.data || []);
-    setItems(costRows.data || []);
+    setItems(costItems);
     setRecipes(recipeRows.data || []);
   };
   useEffect(() => { load().catch(() => setMessage("Could not load recipes.")); }, []);
@@ -66,6 +69,10 @@ export default function RecipesPage() {
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
+    if (components.some((row) => !row.costItemId)) {
+      setMessage("Choose a cost item for each component.");
+      return;
+    }
     setSaving(true);
     setMessage("");
     const payload = {
@@ -130,8 +137,9 @@ export default function RecipesPage() {
             <div className="mb-2 flex items-center justify-between"><h2 className="font-semibold">Cost components</h2><button type="button" onClick={() => setComponents([...components, { costItemId: "", quantity: "" }])} className="inline-flex items-center gap-1 text-sm text-[#5d6043]"><AdminIcon icon={Add01Icon} size={16} />Add component</button></div>
             <div className="space-y-2">{components.map((row, index) => {
               const selected = items.find((item) => item._id === row.costItemId);
+              const takenIds = components.flatMap((candidate, candidateIndex) => candidateIndex !== index && candidate.costItemId ? [candidate.costItemId] : []);
               return <div key={index} className="grid grid-cols-[1fr_130px_40px] gap-2">
-                <select className={field} value={row.costItemId} onChange={(e) => setComponents(components.map((candidate, candidateIndex) => candidateIndex === index ? { ...candidate, costItemId: e.target.value } : candidate))} required><option value="">Select cost item</option>{items.filter((item) => item._id === row.costItemId || !components.some((candidate) => candidate.costItemId === item._id)).map((item) => <option key={item._id} value={item._id}>{item.name} ({item.unit})</option>)}</select>
+                <CostItemPicker items={items} value={row.costItemId} takenIds={takenIds} onChange={(costItemId) => setComponents(components.map((candidate, candidateIndex) => candidateIndex === index ? { ...candidate, costItemId } : candidate))} />
                 <input className={field} type="number" min="0.000001" step="any" placeholder={selected ? `Qty in ${selected.unit}` : "Quantity"} value={row.quantity} onChange={(e) => setComponents(components.map((candidate, candidateIndex) => candidateIndex === index ? { ...candidate, quantity: e.target.value } : candidate))} required />
                 <button type="button" title="Remove component" disabled={components.length === 1} onClick={() => setComponents(components.filter((_, candidateIndex) => candidateIndex !== index))} className="p-2 text-red-700 disabled:opacity-30"><AdminIcon icon={Delete02Icon} size={17} /></button>
               </div>;
