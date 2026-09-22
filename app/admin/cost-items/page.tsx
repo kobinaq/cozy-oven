@@ -9,7 +9,7 @@ import {
 } from "@hugeicons/core-free-icons";
 import AdminIcon from "../components/AdminIcon";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import AdminLayout from "../components/AdminLayout";
 import { CostCategory, CostItem, costingService } from "../../services/costingService";
 
@@ -41,6 +41,7 @@ const emptyForm = {
   openingStock: "",
 };
 const field = "w-full rounded-md border border-[#b9aca2] bg-white px-3 py-2";
+const PAGE_SIZE = 30;
 
 export default function CostItemsPage() {
   const [items, setItems] = useState<CostItem[]>([]);
@@ -51,16 +52,26 @@ export default function CostItemsPage() {
   const [historyName, setHistoryName] = useState("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const load = async () => {
+  const load = useCallback(async (page: number) => {
     const [itemRows, categoryRows] = await Promise.all([
-      costingService.items(),
+      costingService.items({ page, limit: PAGE_SIZE }),
       costingService.categories("directProductCost"),
     ]);
+    const pages = Number(itemRows.pagination?.totalPages) || 1;
+    if (page > pages) {
+      setCurrentPage(pages);
+      return;
+    }
     setItems(itemRows.data || []);
+    setTotalPages(pages);
     setCategories(categoryRows.data || []);
-  };
-  useEffect(() => { load().catch(() => setMessage("Could not load costing data.")); }, []);
+  }, []);
+  useEffect(() => {
+    load(currentPage).catch(() => setMessage("Could not load costing data."));
+  }, [currentPage, load]);
 
   const derivedRate = useMemo(() => {
     const quantity = Number(form.quantity);
@@ -89,10 +100,16 @@ export default function CostItemsPage() {
       openingStock: form.openingStock === "" ? undefined : Number(form.openingStock),
     };
     try {
-      if (editing) await costingService.updateItem(editing._id, payload);
-      else await costingService.createItem(payload);
-      reset();
-      await load();
+      if (editing) {
+        await costingService.updateItem(editing._id, payload);
+        reset();
+        await load(currentPage);
+      } else {
+        await costingService.createItem(payload);
+        reset();
+        if (currentPage === 1) await load(1);
+        else setCurrentPage(1);
+      }
     } catch (error: unknown) {
       setMessage(requestMessage(error, "Could not save cost item."));
     } finally {
@@ -115,6 +132,20 @@ export default function CostItemsPage() {
       openingStock: "",
     });
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const archive = async (item: CostItem) => {
+    if (!confirm(`Archive ${item.name}?`)) return;
+    try {
+      await costingService.archiveItem(item._id);
+      if (items.length === 1 && currentPage > 1) {
+        setCurrentPage((page) => Math.max(1, page - 1));
+        return;
+      }
+      await load(currentPage);
+    } catch (error: unknown) {
+      setMessage(requestMessage(error, "Could not archive cost item."));
+    }
   };
 
   const showHistory = async (item: CostItem) => {
@@ -173,10 +204,34 @@ export default function CostItemsPage() {
               <td>{item.purchaseBatch.quantity} {item.unit} · GHS {Number(item.purchaseBatch.cost).toFixed(2)}</td>
               <td>GHS {item.costPerUnit.toFixed(6)} / {item.unit}</td>
               <td>{new Date(item.lastUpdated).toLocaleDateString("en-GB")}</td>
-              <td><div className="flex justify-end gap-1"><button title="Price history" onClick={() => showHistory(item)} className="p-2"><AdminIcon icon={AlertCircleIcon} size={17} /></button><button title="Edit cost item" onClick={() => beginEdit(item)} className="p-2"><AdminIcon icon={PencilEdit02Icon} size={17} /></button><button title="Archive cost item" onClick={async () => { if (confirm(`Archive ${item.name}?`)) { await costingService.archiveItem(item._id); await load(); } }} className="p-2 text-red-700"><AdminIcon icon={Delete02Icon} size={17} /></button></div></td>
+              <td><div className="flex justify-end gap-1"><button title="Price history" onClick={() => showHistory(item)} className="p-2"><AdminIcon icon={AlertCircleIcon} size={17} /></button><button title="Edit cost item" onClick={() => beginEdit(item)} className="p-2"><AdminIcon icon={PencilEdit02Icon} size={17} /></button><button title="Archive cost item" onClick={() => archive(item)} className="p-2 text-red-700"><AdminIcon icon={Delete02Icon} size={17} /></button></div></td>
             </tr>)}</tbody>
           </table>
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex justify-center gap-2">
+            <button
+              type="button"
+              onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Previous
+            </button>
+            <span className="px-4 py-2 text-[#5d6043]">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              type="button"
+              onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 border border-[#b9aca2] rounded-lg hover:bg-[#faf9f5] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Next
+            </button>
+          </div>
+        )}
 
         {history && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"><section className="max-h-[80vh] w-full max-w-xl overflow-auto rounded-md bg-[#faf9f5] p-5"><div className="flex items-center justify-between"><h2 className="text-lg font-semibold">{historyName} price history</h2><button title="Close" onClick={() => setHistory(null)} className="p-2"><AdminIcon icon={Cancel01Icon} size={20} /></button></div><div className="mt-4 space-y-2">{history.length ? history.map((row) => <div key={row._id} className="flex justify-between border-b py-2 text-sm"><span>{new Date(row.effectiveFrom).toLocaleDateString("en-GB")}</span><span>GHS {Number(row.costPerUnit).toFixed(6)} / unit</span></div>) : <p className="text-sm text-[#5d6043]">No history available.</p>}</div></section></div>}
       </main>
