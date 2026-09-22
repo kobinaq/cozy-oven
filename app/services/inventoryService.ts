@@ -35,7 +35,7 @@ export interface PurchaseInput {
 export const inventoryService = {
   createInventory: async (data: PurchaseInput) =>
     (await apiClient.post("/api/v1/dashboard/admin/inventory", data)).data,
-  getAllInventory: async (params?: { category?: string; search?: string; page?: number; limit?: number }) =>
+  getAllInventory: async (params?: { category?: string; vendor?: string; month?: string; search?: string; page?: number; limit?: number }) =>
     (await apiClient.get("/api/v1/dashboard/admin/inventory", { params })).data,
   getInventoryItem: async (id: string) =>
     (await apiClient.get(`/api/v1/dashboard/admin/inventory/${id}`)).data,

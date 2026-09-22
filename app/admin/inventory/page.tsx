@@ -11,11 +11,12 @@ import {
 } from "@hugeicons/core-free-icons";
 import AdminIcon from "../components/AdminIcon";
 
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import AdminLayout from "../components/AdminLayout";
 import { CostItem, costingService } from "../../services/costingService";
 import inventoryService, { InventoryItem, PurchaseInput } from "../../services/inventoryService";
+import { purchaseDetail, readPurchaseList } from "./purchaseList";
 
 const categories = ["Raw Materials", "Packaging", "Equipment", "Supplies", "Other"];
 const paymentLabels: Record<string, string> = {
@@ -42,6 +43,15 @@ const emptyForm: PurchaseInput = {
   costItemId: "",
 };
 const field = "w-full rounded-md border border-[#b9aca2]/70 bg-white px-3 py-2";
+const filterField = "rounded-md border border-[#b9aca2]/70 bg-white px-3 py-2 text-sm";
+const PAGE_SIZE = 30;
+
+const purchaseDateLabel = (value?: string) => {
+  if (!value) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return date.toLocaleDateString("en-GB", { timeZone: "UTC" });
+};
 
 export default function PurchasesPage() {
   const [rows, setRows] = useState<InventoryItem[]>([]);
@@ -50,6 +60,13 @@ export default function PurchasesPage() {
   const [showForm, setShowForm] = useState(false);
   const [search, setSearch] = useState("");
   const [appliedSearch, setAppliedSearch] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [vendorFilter, setVendorFilter] = useState("");
+  const [monthFilter, setMonthFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [matchingTotal, setMatchingTotal] = useState(0);
+  const [vendors, setVendors] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -58,19 +75,29 @@ export default function PurchasesPage() {
   const load = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await inventoryService.getAllInventory({
+      const response = readPurchaseList(await inventoryService.getAllInventory({
         search: appliedSearch || undefined,
-        page: 1,
-        limit: 100,
-      });
-      setRows(response.data || []);
+        category: categoryFilter || undefined,
+        vendor: vendorFilter || undefined,
+        month: monthFilter || undefined,
+        page: currentPage,
+        limit: PAGE_SIZE,
+      }));
+      if (currentPage > response.totalPages) {
+        setCurrentPage(response.totalPages);
+        return;
+      }
+      setRows(response.data);
+      setTotalPages(response.totalPages);
+      setMatchingTotal(response.matchingTotal);
+      setVendors(response.vendors);
       setError("");
     } catch {
       setError("Could not load purchases.");
     } finally {
       setLoading(false);
     }
-  }, [appliedSearch]);
+  }, [appliedSearch, categoryFilter, vendorFilter, monthFilter, currentPage]);
   useEffect(() => { load(); }, [load]);
   useEffect(() => {
     costingService.items({ tracksStock: true, limit: 100 })
@@ -78,10 +105,9 @@ export default function PurchasesPage() {
       .catch(() => setSupplyItems([]));
   }, []);
 
-  const total = useMemo(
-    () => rows.reduce((sum, row) => sum + Number(row.totalCost || 0), 0),
-    [rows]
-  );
+  const totalLabel = monthFilter
+    ? `${new Date(`${monthFilter}-01T00:00:00.000Z`).toLocaleDateString("en-GB", { month: "long", year: "numeric", timeZone: "UTC" })} purchases`
+    : "All matching purchases";
 
   const reset = () => {
     setEditingId(null);
@@ -93,10 +119,12 @@ export default function PurchasesPage() {
     event.preventDefault();
     setSaving(true);
     try {
+      const created = !editingId;
       if (editingId) await inventoryService.updateInventory(editingId, form);
       else await inventoryService.createInventory(form);
       reset();
-      await load();
+      if (created && currentPage !== 1) setCurrentPage(1);
+      else await load();
     } catch (requestError: unknown) {
       setError(requestMessage(requestError, "Could not save purchase."));
     } finally {
@@ -140,13 +168,81 @@ export default function PurchasesPage() {
           </div>
         </section>
 
-        <section className="flex flex-wrap items-center justify-between gap-3">
-          <form onSubmit={(event) => { event.preventDefault(); setAppliedSearch(search.trim()); }} className="relative w-full max-w-md"><AdminIcon icon={Search01Icon} size={20} className="absolute left-3 top-2.5 text-[#5d6043]" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search item, reference, or category" className={`${field} pl-10`} /></form>
-          <div className="text-right"><p className="text-xs text-[#5d6043]">Visible purchase total</p><p className="text-xl font-semibold">GHS {total.toFixed(2)}</p></div>
+        <section className="flex flex-wrap items-end justify-between gap-3">
+          <form onSubmit={(event) => { event.preventDefault(); setAppliedSearch(search.trim()); setCurrentPage(1); }} className="relative w-full max-w-md">
+            <AdminIcon icon={Search01Icon} size={20} className="absolute left-3 top-2.5 text-[#5d6043]" />
+            <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search item, supplier, category, or reference" className={`${field} pl-10`} />
+          </form>
+          <div className="flex flex-wrap gap-2">
+            <select aria-label="Category" value={categoryFilter} onChange={(event) => { setCategoryFilter(event.target.value); setCurrentPage(1); }} className={filterField}>
+              <option value="">All categories</option>
+              {categories.map((category) => <option key={category}>{category}</option>)}
+            </select>
+            <select aria-label="Supplier" value={vendorFilter} onChange={(event) => { setVendorFilter(event.target.value); setCurrentPage(1); }} className={filterField}>
+              <option value="">All suppliers</option>
+              {vendors.map((vendor) => <option key={vendor}>{vendor}</option>)}
+            </select>
+            <input aria-label="Month" type="month" value={monthFilter} onChange={(event) => { setMonthFilter(event.target.value); setCurrentPage(1); }} className={filterField} />
+          </div>
+          <div className="text-right">
+            <p className="text-xs text-[#5d6043]">{totalLabel}</p>
+            <p className="text-xl font-semibold">GHS {matchingTotal.toFixed(2)}</p>
+          </div>
         </section>
 
         {error && <p className="text-sm text-red-700">{error}</p>}
-        {loading ? <p className="flex items-center gap-2 text-sm text-[#5d6043]"><AdminIcon icon={Loading03Icon} size={17} className="animate-spin" />Loading purchases...</p> : rows.length === 0 ? <p className="text-sm text-[#5d6043]">No purchases found.</p> : <div className="overflow-x-auto"><table className="w-full min-w-[820px] text-sm"><thead><tr className="border-b text-left"><th className="py-3">Purchase date</th><th>Item</th><th>Category</th><th>Supplier</th><th>Quantity</th><th>Unit price</th><th>Payment</th><th className="text-right">Total</th><th /></tr></thead><tbody>{rows.map((row) => <tr key={row._id} className="border-b"><td className="py-3">{new Date(row.purchasedAt || row.createdAt || Date.now()).toLocaleDateString("en-GB")}</td><td className="font-medium">{row.itemName}<span className="block text-xs font-normal text-[#5d6043]">{row.purchasePurpose}</span></td><td>{row.itemCategory}</td><td>{row.vendorName}</td><td>{row.quantityPurchased}</td><td>GHS {Number(row.costPrice).toFixed(2)}</td><td>{paymentLabels[row.paymentMethod || ""] || "—"}{row.paymentReference && <span className="block text-xs text-[#5d6043]">{row.paymentReference}</span>}</td><td className="text-right font-semibold">GHS {Number(row.totalCost).toFixed(2)}</td><td><div className="flex justify-end"><button title="Edit purchase" onClick={() => edit(row)} className="p-2"><AdminIcon icon={PencilEdit02Icon} size={17} /></button><button title="Delete purchase" onClick={async () => { if (confirm("Delete this purchase?")) { await inventoryService.deleteInventory(row._id); await load(); } }} className="p-2 text-red-700"><AdminIcon icon={Delete02Icon} size={17} /></button></div></td></tr>)}</tbody></table></div>}
+        {loading ? <p className="flex items-center gap-2 text-sm text-[#5d6043]"><AdminIcon icon={Loading03Icon} size={17} className="animate-spin" />Loading purchases...</p> : rows.length === 0 ? <p className="text-sm text-[#5d6043]">No purchases found.</p> : (
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[640px] text-sm">
+              <thead>
+                <tr className="border-b text-left">
+                  <th className="py-3">Date</th>
+                  <th>Item</th>
+                  <th>Supplier</th>
+                  <th>Quantity</th>
+                  <th className="text-right">Total</th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row) => {
+                  const detail = purchaseDetail(row, paymentLabels);
+                  return (
+                    <tr key={row._id} className="border-b align-top">
+                      <td className="py-3">{purchaseDateLabel(row.purchasedAt || row.createdAt)}</td>
+                      <td className="py-3 font-medium">
+                        {row.itemName}
+                        {detail && <span className="block text-xs font-normal text-[#5d6043]">{detail}</span>}
+                        <span className="mt-1 flex flex-wrap items-center gap-2 text-xs font-normal">
+                          <span className="text-[#5d6043]">{row.itemCategory}</span>
+                          <span className={row.costItemId ? "rounded-full bg-[#5d6043]/10 px-2 py-0.5 text-[#5d6043]" : "rounded-full bg-[#b9aca2]/40 px-2 py-0.5 text-[#5d6043]"}>
+                            {row.costItemId ? "Stock linked" : "Not linked"}
+                          </span>
+                        </span>
+                      </td>
+                      <td className="py-3">{row.vendorName}</td>
+                      <td className="py-3">{row.quantityPurchased}</td>
+                      <td className="py-3 text-right font-semibold">GHS {Number(row.totalCost).toFixed(2)}</td>
+                      <td className="py-3">
+                        <div className="flex justify-end">
+                          <button title="Edit purchase" onClick={() => edit(row)} className="p-2"><AdminIcon icon={PencilEdit02Icon} size={17} /></button>
+                          <button title="Delete purchase" onClick={async () => { if (confirm("Delete this purchase?")) { await inventoryService.deleteInventory(row._id); await load(); } }} className="p-2 text-red-700"><AdminIcon icon={Delete02Icon} size={17} /></button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+        {!loading && totalPages > 1 && (
+          <div className="flex justify-center gap-2">
+            <button onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))} disabled={currentPage === 1} className="rounded-lg border border-[#b9aca2] px-4 py-2 hover:bg-[#faf9f5] disabled:cursor-not-allowed disabled:opacity-50">Previous</button>
+            <span className="px-4 py-2 text-[#5d6043]">Page {currentPage} of {totalPages}</span>
+            <button onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))} disabled={currentPage === totalPages} className="rounded-lg border border-[#b9aca2] px-4 py-2 hover:bg-[#faf9f5] disabled:cursor-not-allowed disabled:opacity-50">Next</button>
+          </div>
+        )}
 
         {showForm && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"><section className="max-h-[90vh] w-full max-w-2xl overflow-auto rounded-md bg-[#faf9f5] p-5"><div className="flex items-center justify-between"><div><h2 className="text-xl font-semibold">{editingId ? "Edit purchase" : "Record purchase"}</h2><p className="text-sm text-[#5d6043]">Cost price is the price of one purchased unit.</p></div><button title="Close" onClick={reset} className="p-2"><AdminIcon icon={Cancel01Icon} size={20} /></button></div><form onSubmit={submit} className="mt-5 grid gap-3 md:grid-cols-2">
           <label className="text-sm font-medium">Item name<input className={`${field} mt-1`} value={form.itemName} onChange={(event) => setForm({ ...form, itemName: event.target.value })} required /></label>
