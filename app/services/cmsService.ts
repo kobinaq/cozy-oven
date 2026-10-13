@@ -918,6 +918,7 @@ export const FALLBACK_SITE_SETTINGS: SiteSettings = {
       { label: "Shop", href: "/shop" },
       { label: "Cozy Kart", href: "/cozy-kart" },
       { label: "Our Story", href: "/about" },
+      { label: "Policies", href: "/policies" },
       { label: "Contact", href: "/contact" },
     ],
   },

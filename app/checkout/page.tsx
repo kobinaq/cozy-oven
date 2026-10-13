@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Check, Loader2 } from "lucide-react";
 import Navbar from "../components/Navbar";
@@ -20,6 +21,7 @@ import { calculatePaystackPaymentBreakdown } from "../utils/paymentBreakdown";
 import { isAllowedPaymentRedirectUrl } from "../utils/paymentRedirect";
 import PromotionCodeField from "../components/PromotionCodeField";
 import { usePromotion } from "../context/PromotionContext";
+import { checkoutDeliveryPolicyPoints } from "../lib/policiesContent";
 
 type DeliveryMethod = "delivery" | "pickup";
 type CheckoutStep = "info" | "delivery" | "payment" | "review";
@@ -37,6 +39,7 @@ export default function CheckoutPage() {
   const [pendingCheckoutAvailable, setPendingCheckoutAvailable] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasStartedCheckout, setHasStartedCheckout] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const [customerInfo, setCustomerInfo] = useState({
     name: user?.fullName || "",
@@ -105,6 +108,8 @@ export default function CheckoutPage() {
         const url = new URL(link.href, window.location.origin);
         if (url.origin !== window.location.origin) return;
         if (url.pathname.startsWith("/checkout")) return;
+        // Allow reading terms without abandoning checkout.
+        if (url.pathname.startsWith("/policies")) return;
       } catch {
         return;
       }
@@ -283,6 +288,11 @@ export default function CheckoutPage() {
       return;
     }
 
+    if (!acceptedTerms) {
+      setError("Please accept the terms and conditions before placing your order.");
+      return;
+    }
+
     // Validate minimum order amount (40 cedis)
     if (subtotal < 40) {
       setError("Minimum order amount is GHS 40.00. Please add more items to your cart.");
@@ -381,21 +391,26 @@ export default function CheckoutPage() {
     }
   };
 
-  const deliveryPolicy = (
+  const orderPolicy = (
     <div className="rounded-[22px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-5">
-      <h3 className="mb-2 text-sm font-semibold text-[#222222]">Delivery policy</h3>
-      <div className="space-y-2 text-sm leading-6 text-[#5d6043]">
-        <p>
-          Kindly note that your order will be delivered on Tuesday or Thursday unless otherwise
-          specified. Deliveries start at 12pm and the courier will call the number indicated during
-          checkout when it&apos;s your turn.
-        </p>
-        <p>
-          Please keep your phone nearby. If the rider cannot reach you within 10 minutes, they
-          will continue with other deliveries. Any redelivery may incur an additional delivery fee.
-        </p>
-        <p>Thank you</p>
-      </div>
+      <h3 className="mb-2 text-sm font-semibold text-[#222222]">Ordering & delivery policy</h3>
+      <ul className="list-disc space-y-2 pl-5 text-sm leading-6 text-[#5d6043]">
+        {checkoutDeliveryPolicyPoints.map((point) => (
+          <li key={point}>{point}</li>
+        ))}
+      </ul>
+      <p className="mt-3 text-sm leading-6 text-[#5d6043]">
+        Read the full{" "}
+        <Link
+          href="/policies"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="font-semibold text-[#bd6325] underline-offset-2 hover:underline"
+        >
+          ordering & delivery policies
+        </Link>
+        .
+      </p>
     </div>
   );
 
@@ -855,6 +870,32 @@ export default function CheckoutPage() {
                   </div>
 
                   {deliveryMethod === "delivery" && deliveryPolicy}
+
+                  <label className="flex cursor-pointer items-start gap-3 rounded-[22px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-5">
+                    <input
+                      type="checkbox"
+                      checked={acceptedTerms}
+                      onChange={(e) => {
+                        setAcceptedTerms(e.target.checked);
+                        if (e.target.checked) setError(null);
+                      }}
+                      className="mt-1 h-4 w-4 shrink-0 accent-[#bd6325]"
+                      required
+                    />
+                    <span className="text-sm leading-6 text-[#5d6043]">
+                      I accept the{" "}
+                      <Link
+                        href="/policies"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-[#bd6325] underline-offset-2 hover:underline"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        terms and conditions
+                      </Link>
+                      .
+                    </span>
+                  </label>
                 </div>
               </div>
             )}
@@ -873,7 +914,8 @@ export default function CheckoutPage() {
               {currentStep === "review" ? (
                 <button
                   onClick={handlePlaceOrder}
-                  className="editorial-button flex-1 px-6 py-3"
+                  disabled={!acceptedTerms}
+                  className="editorial-button flex-1 px-6 py-3 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   Place Order & Pay
                 </button>
