@@ -5,6 +5,9 @@ export type SaleWindow = {
 };
 
 export const isSaleActive = (sale: SaleWindow, now: Date = new Date()): boolean => {
+  // Blank sale fields are stored as null. Number(null) is 0, so treat missing
+  // values as "no sale" before converting.
+  if (sale.salePrice == null) return false;
   const salePrice = Number(sale.salePrice);
   if (!Number.isFinite(salePrice) || salePrice < 0) return false;
 
