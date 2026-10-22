@@ -16,6 +16,12 @@ import AdminPageHeader from "../components/AdminPageHeader";
 import { useAuth } from "../../context/AuthContext";
 import Image from "next/image";
 import { useDashboardOverview, usePopularProducts } from "../../hooks/useDashboard";
+import type { QuantityBreakdown } from "../../services/dashboardService";
+
+const packageBreakdownNote = (breakdown?: QuantityBreakdown) => {
+  if (!breakdown || breakdown.fromPackages <= 0) return null;
+  return `${breakdown.direct} direct · ${breakdown.fromPackages} in packages`;
+};
 
 export default function AdminDashboardPage() {
   const { user, isAuthenticated } = useAuth();
@@ -36,6 +42,8 @@ export default function AdminDashboardPage() {
   }
 
   const loading = dashboardLoading || productsLoading;
+  const weekBreakdownNote = packageBreakdownNote(dashboardData?.bestSellerThisWeek?.breakdown);
+  const monthBreakdownNote = packageBreakdownNote(dashboardData?.bestSellerThisMonth?.breakdown);
 
   return (
     <AdminLayout>
@@ -104,6 +112,11 @@ export default function AdminDashboardPage() {
                     <p className="text-xs text-[#5d6043] mt-1">
                       {dashboardData.bestSellerThisWeek?.quantitySold || 0} sold
                     </p>
+                    {weekBreakdownNote ? (
+                      <p className="mt-0.5 text-[11px] leading-4 text-[#5d6043]/80">
+                        {weekBreakdownNote}
+                      </p>
+                    ) : null}
                   </div>
                   <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
                     <AdminIcon icon={Award01Icon} size={24} className="text-orange-600" />
@@ -122,6 +135,11 @@ export default function AdminDashboardPage() {
                     <p className="text-xs text-[#5d6043] mt-1">
                       {dashboardData.bestSellerThisMonth?.quantitySold || 0} sold
                     </p>
+                    {monthBreakdownNote ? (
+                      <p className="mt-0.5 text-[11px] leading-4 text-[#5d6043]/80">
+                        {monthBreakdownNote}
+                      </p>
+                    ) : null}
                   </div>
                   <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center">
                     <AdminIcon icon={Award01Icon} size={24} className="text-yellow-600" />
@@ -174,6 +192,11 @@ export default function AdminDashboardPage() {
                           {dashboardData.bestSellerThisMonth.quantitySold}
                         </p>
                         <p className="text-xs text-[#5d6043] mt-1">units this month</p>
+                        {monthBreakdownNote ? (
+                          <p className="mt-1 text-[11px] leading-4 text-[#5d6043]/80">
+                            {monthBreakdownNote}
+                          </p>
+                        ) : null}
                       </div>
                       <div className="bg-blue-50 rounded-lg p-4">
                         <p className="text-sm text-[#5d6043] mb-1">Revenue</p>
@@ -202,7 +225,10 @@ export default function AdminDashboardPage() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {popularProducts.map((product) => (
+                {popularProducts.map((product) => {
+                  const sold = product.totalQuantitySold ?? product.totalSold ?? 0;
+                  const breakdownNote = packageBreakdownNote(product.breakdown);
+                  return (
                   <div
                     key={product.id || product._id}
                     className="border border-[#b9aca2]/60 rounded-xl p-4 hover:shadow-md transition-shadow"
@@ -216,16 +242,22 @@ export default function AdminDashboardPage() {
                       />
                     </div>
                     <h3 className="font-semibold text-[#222222] mb-2">{product.productName}</h3>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-2">
                       <span className="text-lg font-bold text-[#5d6043]">
                         GHS {product?.price?.toFixed(2)}
                       </span>
                       <span className="text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-700">
-                        {product.totalQuantitySold} sold
+                        {sold} sold
                       </span>
                     </div>
+                    {breakdownNote ? (
+                      <p className="mt-2 text-[11px] leading-4 text-[#5d6043]/80">
+                        {breakdownNote}
+                      </p>
+                    ) : null}
                   </div>
-                ))}
+                  );
+                })}
               </div>
 
               {/* Show placeholder if no products */}

@@ -11,6 +11,11 @@ export interface MonthlyStats {
   orders: number;
 }
 
+export interface QuantityBreakdown {
+  direct: number;
+  fromPackages: number;
+}
+
 export interface PopularProduct {
   name: string;
   productId: string;
@@ -18,6 +23,7 @@ export interface PopularProduct {
   revenue: number;
   productThumbnail?: string;
   thumbnail?: string;
+  breakdown?: QuantityBreakdown;
 }
 
 export interface DashboardOverview {
@@ -41,8 +47,12 @@ export interface PopularProductItem {
   productThumbnail?: string;
   thumbnail?: string;
   price: number;
-  totalQuantitySold: number;
-  totalRevenue: number;
+  /** Preferred field from the API */
+  totalQuantitySold?: number;
+  /** Legacy alias returned by older API versions */
+  totalSold?: number;
+  totalRevenue?: number;
+  breakdown?: QuantityBreakdown;
 }
 
 export interface PopularProductsResponse {
