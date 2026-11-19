@@ -6,6 +6,20 @@ import { todayInputValue } from "../format";
 
 const field = "mt-1 w-full rounded-md border border-[#b9aca2]/70 bg-white px-3 py-2";
 
+/** API fields are `null` when empty; omitted form fields are `undefined`. Both mean blank. */
+export type LoanFormInitial = {
+  lender?: string | null;
+  lenderPhone?: string | null;
+  principal?: number | null;
+  startDate?: string | null;
+  dueDate?: string | null;
+  notes?: string | null;
+};
+
+function blank(value: string | null | undefined): string {
+  return value ?? "";
+}
+
 export default function LoanForm({
   initial,
   submitLabel,
@@ -13,20 +27,20 @@ export default function LoanForm({
   onSubmit,
   onCancel,
 }: {
-  initial?: Partial<LoanInput>;
+  initial?: LoanFormInitial;
   submitLabel: string;
   saving: boolean;
   onSubmit: (input: LoanInput) => void;
   onCancel?: () => void;
 }) {
-  const [lender, setLender] = useState(initial?.lender ?? "");
-  const [lenderPhone, setLenderPhone] = useState(initial?.lenderPhone ?? "");
+  const [lender, setLender] = useState(blank(initial?.lender));
+  const [lenderPhone, setLenderPhone] = useState(blank(initial?.lenderPhone));
   const [principal, setPrincipal] = useState(
     initial?.principal != null && initial.principal > 0 ? String(initial.principal) : ""
   );
-  const [startDate, setStartDate] = useState(initial?.startDate || todayInputValue());
-  const [dueDate, setDueDate] = useState(initial?.dueDate ?? "");
-  const [notes, setNotes] = useState(initial?.notes ?? "");
+  const [startDate, setStartDate] = useState(blank(initial?.startDate) || todayInputValue());
+  const [dueDate, setDueDate] = useState(blank(initial?.dueDate));
+  const [notes, setNotes] = useState(blank(initial?.notes));
   const [formError, setFormError] = useState("");
 
   const submit = (event: FormEvent) => {

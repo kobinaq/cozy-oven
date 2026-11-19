@@ -7,6 +7,19 @@ import { REPAYMENT_METHOD_LABELS, formatGhs, todayInputValue } from "../format";
 const field = "mt-1 w-full rounded-md border border-[#b9aca2]/70 bg-white px-3 py-2";
 const METHODS = Object.keys(REPAYMENT_METHOD_LABELS) as RepaymentMethod[];
 
+/** API fields are `null` when empty; omitted form fields are `undefined`. Both mean blank. */
+export type RepaymentFormInitial = {
+  amount?: number | null;
+  date?: string | null;
+  method?: RepaymentMethod | null;
+  reference?: string | null;
+  notes?: string | null;
+};
+
+function blank(value: string | null | undefined): string {
+  return value ?? "";
+}
+
 export default function RepaymentForm({
   initial,
   available,
@@ -15,7 +28,7 @@ export default function RepaymentForm({
   onSubmit,
   onCancel,
 }: {
-  initial?: Partial<RepaymentInput>;
+  initial?: RepaymentFormInitial;
   available: number;
   submitLabel: string;
   saving: boolean;
@@ -25,10 +38,10 @@ export default function RepaymentForm({
   const [amount, setAmount] = useState(
     initial?.amount != null && initial.amount > 0 ? String(initial.amount) : ""
   );
-  const [date, setDate] = useState(initial?.date || todayInputValue());
+  const [date, setDate] = useState(blank(initial?.date) || todayInputValue());
   const [method, setMethod] = useState<RepaymentMethod>(initial?.method ?? "cash");
-  const [reference, setReference] = useState(initial?.reference ?? "");
-  const [notes, setNotes] = useState(initial?.notes ?? "");
+  const [reference, setReference] = useState(blank(initial?.reference));
+  const [notes, setNotes] = useState(blank(initial?.notes));
   const [formError, setFormError] = useState("");
 
   const submit = (event: FormEvent) => {
