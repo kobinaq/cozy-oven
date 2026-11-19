@@ -657,7 +657,7 @@ export default function CheckoutPage() {
                         autoComplete="address-level2"
                       />
                     </div>
-                    {deliveryPolicy}
+                    {orderPolicy}
                   </div>
                 )}
 
@@ -869,7 +869,7 @@ export default function CheckoutPage() {
                     </p>
                   </div>
 
-                  {deliveryMethod === "delivery" && deliveryPolicy}
+                  {deliveryMethod === "delivery" && orderPolicy}
 
                   <label className="flex cursor-pointer items-start gap-3 rounded-[22px] border border-[rgba(34,34,34,0.09)] bg-[#faf9f5] p-5">
                     <input
