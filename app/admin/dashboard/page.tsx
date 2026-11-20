@@ -17,6 +17,7 @@ import { useAuth } from "../../context/AuthContext";
 import Image from "next/image";
 import { useDashboardOverview, usePopularProducts } from "../../hooks/useDashboard";
 import type { QuantityBreakdown } from "../../services/dashboardService";
+import LoanSummaryCard from "../loans/components/LoanSummaryCard";
 
 const packageBreakdownNote = (breakdown?: QuantityBreakdown) => {
   if (!breakdown || breakdown.fromPackages <= 0) return null;
@@ -24,7 +25,7 @@ const packageBreakdownNote = (breakdown?: QuantityBreakdown) => {
 };
 
 export default function AdminDashboardPage() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
   // Fetch real dashboard data
@@ -32,13 +33,18 @@ export default function AdminDashboardPage() {
   const { products: popularProducts, loading: productsLoading } = usePopularProducts(1, 4);
 
   useEffect(() => {
+    if (isLoading) return;
     if (!isAuthenticated || user?.role !== "Admin") {
       router.push("/admin/login");
     }
-  }, [isAuthenticated, user, router]);
+  }, [isAuthenticated, isLoading, user, router]);
 
-  if (!isAuthenticated || user?.role !== "Admin") {
-    return null;
+  if (isLoading || !isAuthenticated || user?.role !== "Admin") {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#faf9f5] text-[#5d6043]">
+        Checking admin access...
+      </div>
+    );
   }
 
   const loading = dashboardLoading || productsLoading;
@@ -147,6 +153,8 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
             </div>
+
+            <LoanSummaryCard />
 
             {/* Best Seller of the Month - Detailed Card */}
             {dashboardData.bestSellerThisMonth && (

@@ -11,6 +11,7 @@ import {
   HelpCircleIcon,
   InboxIcon,
   MailSend01Icon,
+  BankIcon,
   ChartHistogramIcon,
   MoneyBag01Icon,
   Notification03Icon,
@@ -106,6 +107,12 @@ export const menuItems: AdminNavItem[] = [
     name: "Overhead Costs",
     icon: MoneyBag01Icon,
     href: "/admin/expenses",
+  },
+  {
+    section: "Finance",
+    name: "Loans",
+    icon: BankIcon,
+    href: "/admin/loans",
   },
   {
     section: "Finance",
