@@ -188,10 +188,7 @@ export default function AdminLoanDetailPage() {
             </div>
 
             <p className="text-sm text-[#5d6043]">
-              Started {formatLoanDate(loan.startDate)}
-              {loan.dueDate
-                ? ". SMS reminders go to the admin numbers 3 days before this date and on the due date."
-                : ". Set a due date to text the admin numbers 3 days before and on the due date."}
+              Started {formatLoanDate(loan.startDate)}.
             </p>
             {loan.notes ? (
               <p className="rounded-xl border border-[#b9aca2]/40 bg-white/60 px-4 py-3 text-sm text-[#222222]">

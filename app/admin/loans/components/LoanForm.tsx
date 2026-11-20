@@ -125,9 +125,6 @@ export default function LoanForm({
           onChange={(event) => setDueDate(event.target.value)}
           className={field}
         />
-        <span className="mt-1 block text-xs font-normal text-[#5d6043]">
-          SMS reminders go to the admin numbers 3 days before this date and on the due date.
-        </span>
       </label>
       <label className="text-sm font-medium text-[#222222]">
         Notes (optional)
