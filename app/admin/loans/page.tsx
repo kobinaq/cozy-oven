@@ -67,7 +67,7 @@ export default function AdminLoansPage() {
       <div className="space-y-6">
         <AdminPageHeader
           title="Loans"
-          description="Money the bakery has borrowed. Balance is the principal minus repayments, with no interest. When a due date is set, SMS reminders go to the admin numbers 3 days before and on the due date."
+          description="Money the bakery has borrowed. Balance is the principal minus repayments, with no interest."
           actions={
             <button
               type="button"
